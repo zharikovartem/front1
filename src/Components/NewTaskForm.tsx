@@ -62,7 +62,6 @@ const NewTaskForm: React.FC<PropsType> = () => {
             <Form.Item
                 label="Description"
                 name="description"
-                // rules={[{ required: false, message: 'Please input your password!' }]}
             >
                 <TextArea rows={2} />
             </Form.Item>
