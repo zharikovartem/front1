@@ -77,7 +77,7 @@ const ToDoList: React.FC = () => {
                     closable={false}
                     onClose={onClose}
                     visible={visible}
-                    // width="80%"
+                    width="80%"
                 >
                     <NewTaskForm selectedDate={selectedDate}/>
                 </Drawer>
