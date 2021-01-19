@@ -22,7 +22,7 @@ const ToDoList: React.FC = (props: any) => {
                 },
             };
 
-            fetch('http://81.90.181.175/api/tasks', requestOptions)
+            fetch('https://81.90.181.175/api/tasks', requestOptions)
                 .then(response => response.json())
                 .then(data => console.log(data))
                 .catch(() => console.log("Can’t access  response. Blocked by browser?"))
