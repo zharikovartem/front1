@@ -18,9 +18,10 @@ const { TextArea } = Input;
 
 const timeFormat: string = 'HH:mm';
 
-const NewTaskForm: React.FC<PropsType> = () => {
+const NewTaskForm: React.FC<PropsType> = (props:any) => {
     const onFinish = (values: any) => {
         console.log('Success:', values);
+        props.newTask(values)
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -30,6 +31,8 @@ const NewTaskForm: React.FC<PropsType> = () => {
     const onTimeChange = (value: moment.Moment | null, dateString: string):void => {
         console.log(value, dateString);
     }
+
+    console.log(props)
 
     return (
         <Form

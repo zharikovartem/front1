@@ -1,13 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DatePicker, Card, Divider, Button, Drawer } from 'antd'
 import { FileAddOutlined } from '@ant-design/icons'
 import moment from 'moment'
-import NewTaskForm from './NewTaskForm'
+import NewTaskForm from './NewTaskFormContainer'
 
-const ToDoList: React.FC = () => {
+const ToDoList: React.FC = (props: any) => {
     const [selectedDate, setselectedDate] = useState<moment.Moment>(moment())
     const [visible, setVisible] = useState(false)
     const [isAddActive, setIsAddActive] = useState(false)
+
+    useEffect(() => {
+        console.log('useEffect', props)
+        if (props.taskList === null) {
+            console.log('getTaskList')
+
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+                },
+            };
+
+            fetch('http://81.90.181.175/api/tasks', requestOptions)
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(() => console.log("Can’t access  response. Blocked by browser?"))
+        }
+
+        // props.getTaskList()
+
+    }, [props.taskList]);
 
     const onDateChange = (value: moment.Moment | null, dateString: string): void => {
         if (value !== null) {
@@ -19,13 +42,13 @@ const ToDoList: React.FC = () => {
         }
     }
 
-    const showDrawer = ():void => {
+    const showDrawer = (): void => {
         setVisible(true);
-      }
+    }
 
-      const onClose = ():void => {
+    const onClose = (): void => {
         setVisible(false);
-      }
+    }
 
     type timeScaleItemType = React.ReactElement<string>
     const timeScale = (): Array<timeScaleItemType> => {
@@ -53,12 +76,12 @@ const ToDoList: React.FC = () => {
                                 format='DD-MM-YYYY'
                                 style={{ marginLeft: 10 }}
                             />
-                            <Button 
-                                type="primary" 
-                                shape="round" 
-                                icon={<FileAddOutlined />} 
-                                style={{ marginLeft: 10 }} 
-                                size="small" 
+                            <Button
+                                type="primary"
+                                shape="round"
+                                icon={<FileAddOutlined />}
+                                style={{ marginLeft: 10 }}
+                                size="small"
                                 onClick={showDrawer}
                                 disabled={isAddActive}
                             >
@@ -79,7 +102,7 @@ const ToDoList: React.FC = () => {
                     visible={visible}
                     width="80%"
                 >
-                    <NewTaskForm selectedDate={selectedDate}/>
+                    <NewTaskForm selectedDate={selectedDate} />
                 </Drawer>
             </div>
 
