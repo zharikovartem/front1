@@ -12,23 +12,21 @@ const ToDoList: React.FC = (props: any) => {
     useEffect(() => {
         console.log('useEffect', props)
         if (props.taskList === null) {
-            console.log('getTaskList')
+            // const requestOptions: RequestInit = {
+            //     method: 'GET',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            // }
+            // const url = 'https://81.90.181.175/api/tasks?date=' + selectedDate.format('YYYY-MM-DD')
 
-            const requestOptions = {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-                },
-            };
+            // fetch(url, requestOptions)
+            //     .then( response => response.json() )
+            //     .then(data => console.log('response: ', data))
+            //     .catch((e) => console.log("Can’t access  Error:.", e))
 
-            fetch('https://81.90.181.175/api/tasks', requestOptions)
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(() => console.log("Can’t access  response. Blocked by browser?"))
+            props.getTaskList(selectedDate.format('YYYY-MM-DD'))
         }
-
-        // props.getTaskList()
 
     }, [props.taskList]);
 

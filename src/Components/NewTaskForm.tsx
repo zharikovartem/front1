@@ -1,6 +1,6 @@
 import * as React from 'react'
 import moment from 'moment'
-import { Form, Input, Button, Checkbox, TimePicker } from 'antd'
+import { Form, Input, Button, TimePicker } from 'antd'
 
 const layout = {
     labelCol: { span: 8 },
