@@ -30,7 +30,7 @@ export const getTaskList = (date: string) => {
             headers: { 'Content-Type': 'application/json'},
         }
         // const url = 'http://127.0.0.1:8000/api/tasks?date=' + date
-        const url = 'http://81.90.181.175/api/tasks?date=' + date
+        const url = 'https://81.90.181.175/api/tasks?date=' + date
         fetch(url, requestOptions)
             .then( response => response.json() )
             .then(data => {
