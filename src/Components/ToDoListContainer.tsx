@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import ToDoList from './ToDoList'
-import {getTaskList} from './../redux/taskReducer'
+import {getTaskList, getTaskListForGap} from './../redux/taskReducer'
 
 let mapStateToProps = (state:any) => {
     return {
@@ -9,7 +9,7 @@ let mapStateToProps = (state:any) => {
 }
 
 export default connect(mapStateToProps, 
-    {getTaskList}) 
+    {getTaskList, getTaskListForGap}) 
     (ToDoList);
     
 

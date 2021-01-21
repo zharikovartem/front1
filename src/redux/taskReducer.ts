@@ -1,4 +1,4 @@
-import { taskAPI } from '../api/api'
+// import { taskAPI } from '../api/api'
 
 const SET_TASK_LIST = "SET_TASK_LIST"
 
@@ -29,13 +29,29 @@ export const getTaskList = (date: string) => {
             method: 'GET',
             headers: { 'Content-Type': 'application/json'},
         }
-        // const url = 'http://127.0.0.1:8000/api/tasks?date=' + date
         const url = 'https://81.90.181.175/api/tasks?date=' + date
         fetch(url, requestOptions)
             .then( response => response.json() )
             .then(data => {
-                console.log('response: ', data)
-                // return data
+                console.log('response getTaskList: ', data)
+                dispatch(setTaskList(data));
+            })
+            .catch((e) => console.log("Can’t access  Error:.", e))
+    }
+}
+
+export const getTaskListForGap = (start_date: string, end_date:string) => {
+    return (dispatch: any) => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({start_date, end_date})
+        }
+        const url = 'https://81.90.181.175/api/tasks/part'
+        fetch(url, requestOptions)
+            .then( response => response.json() )
+            .then(data => {
+                console.log('response getTaskListForGap: ', data)
                 dispatch(setTaskList(data));
             })
             .catch((e) => console.log("Can’t access  Error:.", e))

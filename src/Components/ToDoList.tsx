@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { DatePicker, Card, Divider, Button, Drawer, Tooltip } from 'antd'
-import { FileAddOutlined } from '@ant-design/icons'
 import moment from 'moment'
 import NewTaskForm from './NewTaskFormContainer'
+import ToDoHeader from './ToDoHeader'
 
 const ToDoList: React.FC = (props: any) => {
     const [selectedDate, setselectedDate] = useState<moment.Moment>(moment())
@@ -15,35 +15,44 @@ const ToDoList: React.FC = (props: any) => {
     }, [selectedDate]);
 
     useEffect(() => {
-        let timeScaleArrey: Array<React.ReactElement<string>> = []
-
-        for (let index: number = 0; index < 24; index++) {
-            timeScaleArrey.push(
-                <Divider key={index} orientation="left">
-                    {index <= 9 ? '0' : null}{index}:00
-                </Divider>
-            )
-
+        const getTimeScaleArrey = ():Array<React.ReactElement<string>> => {
+            let timeScaleArrey: Array<React.ReactElement<string>> = []
             if (props.taskList !== null) {
-                for (let i = 0; i < props.taskList.length; i++) {
-                    const element = props.taskList[i];
-                    const timeVal = Number(element.time.split(':', 1))
-                    const nextHour = index + 1
-                    if (timeVal >= index && timeVal < nextHour) {
-                        timeScaleArrey.push(
-                            <Tooltip placement="topLeft" title={element.descriptions}>
-                                <p>{element.time.split(':', 2).join(':')} - {element.name}</p>
-                            </Tooltip>
-                        )
+                timeScaleArrey.push(
+                    <h3>{moment(props.taskList[0].date).format('DD-MMMM')}:</h3>
+                )
+            }
+
+            for (let index: number = 0; index < 24; index++) {
+                timeScaleArrey.push(
+                    <Divider key={index} orientation="left">
+                        {index <= 9 ? '0' : null}{index}:00
+                    </Divider>
+                )
+
+                if (props.taskList !== null) {
+                    for (let i = 0; i < props.taskList.length; i++) {
+                        const element = props.taskList[i];
+                        const timeVal = Number(element.time.split(':', 1))
+                        const nextHour = index + 1
+                        if (timeVal >= index && timeVal < nextHour) {
+                            timeScaleArrey.push(
+                                <Tooltip key={index+'-'+i} placement="topLeft" title={element.descriptions}>
+                                    <p className="ml-5">{element.time.split(':', 2).join(':')} - {element.name}</p>
+                                </Tooltip>
+                            )
+                        }
                     }
                 }
             }
+            return timeScaleArrey
         }
 
-        setTimeScaleBlock(timeScaleArrey);
+        setTimeScaleBlock(getTimeScaleArrey());
     }, [props.taskList]);
 
     const onDateChange = (value: moment.Moment | null, dateString: string): void => {
+        console.log('onDateChange value:', value)
         if (value !== null) {
             setselectedDate(value)
             setIsAddActive(false)
@@ -51,6 +60,11 @@ const ToDoList: React.FC = (props: any) => {
             setselectedDate(moment(null))
             setIsAddActive(true)
         }
+    }
+
+    const onGapDateChange = (value: Array<moment.Moment> ): void => {
+        console.log('onGapDateChange value', value)
+        props.getTaskListForGap(value[0].format('YYYY-MM-DD'), value[1].format('YYYY-MM-DD'))
     }
 
     const showDrawer = (): void => {
@@ -66,28 +80,7 @@ const ToDoList: React.FC = (props: any) => {
         <>
             <div className="site-card-border-less-wrapper">
                 <Card
-                    title={
-                        <>
-                            <label>Select date:</label>
-                            <DatePicker
-                                onChange={onDateChange}
-                                defaultValue={selectedDate}
-                                format='DD-MM-YYYY'
-                                style={{ marginLeft: 10 }}
-                            />
-                            <Button
-                                type="primary"
-                                shape="round"
-                                icon={<FileAddOutlined />}
-                                style={{ marginLeft: 10 }}
-                                size="small"
-                                onClick={showDrawer}
-                                disabled={isAddActive}
-                            >
-                                Add
-                            </Button>
-                        </>
-                    }
+                    title={ <ToDoHeader onDateChange={onDateChange} selectedDate={selectedDate} showDrawer={showDrawer} isAddActive={isAddActive} onGapDateChange={onGapDateChange} />}
                     bordered={false}
                 >
                     {timeScaleBlock}
