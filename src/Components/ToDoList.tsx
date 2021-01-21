@@ -31,7 +31,7 @@ const ToDoList: React.FC = (props: any) => {
 
     useEffect(() => {
         console.log('props in useEffect', props.taskList)
-        const getTimeScaleArrey = ():Array<React.ReactElement<string>> => {
+        const getTimeScaleArrey = (taskList:Array<taskType>):Array<React.ReactElement<string>> => {
             let timeScaleArrey: Array<React.ReactElement<string>> = []
             let tomorowTasks: Array<taskType> = []
             const getHeadline = (task:taskType) => {
@@ -39,14 +39,14 @@ const ToDoList: React.FC = (props: any) => {
             }
 
             let headlineDate: string|null = null;
-            if (props.taskList !== null) {
-                headlineDate = getHeadline(props.taskList[0])
+            if (taskList !== null) {
+                headlineDate = getHeadline(taskList[0])
                 timeScaleArrey.push(
                     <h3>{headlineDate}:</h3>
                 )
             }
             
-
+            console.log('headlineDate: ',headlineDate)
             for (let index: number = 0; index < 24; index++) {
                 timeScaleArrey.push(
                     <Divider key={index} orientation="left">
@@ -54,34 +54,40 @@ const ToDoList: React.FC = (props: any) => {
                     </Divider>
                 )
 
-                if (props.taskList !== null) {
-                    for (let i = 0; i < props.taskList.length; i++) {
-                        const element: taskType = props.taskList[i];
+                if (taskList !== null) {
+                    for (let i = 0; i < taskList.length; i++) {
+                        const element: taskType = taskList[i];
                         const timeVal = Number(element.time.split(':', 1))
                         const nextHour = index + 1
                         if (timeVal >= index && timeVal < nextHour) {
                             // console.log(headlineDate)
                             // console.log(element.name,' for ',getHeadline(element.date))
-                            // console.log(getHeadline(element.date) === headlineDate)
-                            // if (getHeadline(element.date) == headlineDate) {
+                            console.log(element.name, getHeadline(element) === headlineDate)
+                            if (getHeadline(element) === headlineDate) {
                                 timeScaleArrey.push(
                                     <Tooltip key={index+'-'+i} placement="topLeft" title={element.descriptions}>
                                         <p className="ml-5">{element.time.split(':', 2).join(':')} - {element.name} date: {element.date}</p>
                                     </Tooltip>
                                 )
-                            // }
-                            // else {
-                            //     tomorowTasks.push(element)
-                            // }
+                            }
+                            else {
+                                console.log('push')
+                                tomorowTasks.push(element)
+                            }
                         }
                     }
                 }
             }
             console.log(tomorowTasks)
+            // if (tomorowTasks.length > 0) {
+            //     timeScaleArrey.concat(timeScaleArrey)
+            // } else {
+            //     return timeScaleArrey
+            // }
             return timeScaleArrey
         }
 
-        setTimeScaleBlock(getTimeScaleArrey);
+        setTimeScaleBlock(getTimeScaleArrey(props.taskList));
     }, [props.taskList]);
 
     const onDateChange = (value: moment.Moment | null, dateString: string): void => {
