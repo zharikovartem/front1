@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/epam-app/static/css/main.7d180cbf.chunk.css",
-    "main.js": "/epam-app/static/js/main.04a6f6c9.chunk.js",
-    "main.js.map": "/epam-app/static/js/main.04a6f6c9.chunk.js.map",
+    "main.css": "/epam-app/static/css/main.8ef4d7e4.chunk.css",
+    "main.js": "/epam-app/static/js/main.71ba9910.chunk.js",
+    "main.js.map": "/epam-app/static/js/main.71ba9910.chunk.js.map",
     "runtime-main.js": "/epam-app/static/js/runtime-main.85950063.js",
     "runtime-main.js.map": "/epam-app/static/js/runtime-main.85950063.js.map",
     "static/css/2.cc6972a9.chunk.css": "/epam-app/static/css/2.cc6972a9.chunk.css",
-    "static/js/2.bd22459e.chunk.js": "/epam-app/static/js/2.bd22459e.chunk.js",
-    "static/js/2.bd22459e.chunk.js.map": "/epam-app/static/js/2.bd22459e.chunk.js.map",
+    "static/js/2.ea9dbc5e.chunk.js": "/epam-app/static/js/2.ea9dbc5e.chunk.js",
+    "static/js/2.ea9dbc5e.chunk.js.map": "/epam-app/static/js/2.ea9dbc5e.chunk.js.map",
     "static/js/3.91e86e5b.chunk.js": "/epam-app/static/js/3.91e86e5b.chunk.js",
     "static/js/3.91e86e5b.chunk.js.map": "/epam-app/static/js/3.91e86e5b.chunk.js.map",
     "index.html": "/epam-app/index.html",
     "static/css/2.cc6972a9.chunk.css.map": "/epam-app/static/css/2.cc6972a9.chunk.css.map",
-    "static/css/main.7d180cbf.chunk.css.map": "/epam-app/static/css/main.7d180cbf.chunk.css.map",
-    "static/js/2.bd22459e.chunk.js.LICENSE.txt": "/epam-app/static/js/2.bd22459e.chunk.js.LICENSE.txt"
+    "static/css/main.8ef4d7e4.chunk.css.map": "/epam-app/static/css/main.8ef4d7e4.chunk.css.map",
+    "static/js/2.ea9dbc5e.chunk.js.LICENSE.txt": "/epam-app/static/js/2.ea9dbc5e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.85950063.js",
     "static/css/2.cc6972a9.chunk.css",
-    "static/js/2.bd22459e.chunk.js",
-    "static/css/main.7d180cbf.chunk.css",
-    "static/js/main.04a6f6c9.chunk.js"
+    "static/js/2.ea9dbc5e.chunk.js",
+    "static/css/main.8ef4d7e4.chunk.css",
+    "static/js/main.71ba9910.chunk.js"
   ]
 }
