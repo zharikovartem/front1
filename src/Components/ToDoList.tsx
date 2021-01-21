@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { DatePicker, Card, Divider, Button, Drawer } from 'antd'
+import { DatePicker, Card, Divider, Button, Drawer, Tooltip } from 'antd'
 import { FileAddOutlined } from '@ant-design/icons'
 import moment from 'moment'
 import NewTaskForm from './NewTaskFormContainer'
@@ -8,26 +8,39 @@ const ToDoList: React.FC = (props: any) => {
     const [selectedDate, setselectedDate] = useState<moment.Moment>(moment())
     const [visible, setVisible] = useState(false)
     const [isAddActive, setIsAddActive] = useState(false)
+    const [timeScaleBlock, setTimeScaleBlock] = useState<Array<React.ReactElement<string>> | null>(null)
 
     useEffect(() => {
-        console.log('useEffect', props)
-        if (props.taskList === null) {
-            // const requestOptions: RequestInit = {
-            //     method: 'GET',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            // }
-            // const url = 'https://81.90.181.175/api/tasks?date=' + selectedDate.format('YYYY-MM-DD')
+        props.getTaskList(selectedDate.format('YYYY-MM-DD'))
+    }, [selectedDate]);
 
-            // fetch(url, requestOptions)
-            //     .then( response => response.json() )
-            //     .then(data => console.log('response: ', data))
-            //     .catch((e) => console.log("Can’t access  Error:.", e))
+    useEffect(() => {
+        let timeScaleArrey: Array<React.ReactElement<string>> = []
 
-            props.getTaskList(selectedDate.format('YYYY-MM-DD'))
+        for (let index: number = 0; index < 24; index++) {
+            timeScaleArrey.push(
+                <Divider key={index} orientation="left">
+                    {index <= 9 ? '0' : null}{index}:00
+                </Divider>
+            )
+
+            if (props.taskList !== null) {
+                for (let i = 0; i < props.taskList.length; i++) {
+                    const element = props.taskList[i];
+                    const timeVal = Number(element.time.split(':', 1))
+                    const nextHour = index + 1
+                    if (timeVal >= index && timeVal < nextHour) {
+                        timeScaleArrey.push(
+                            <Tooltip placement="topLeft" title={element.descriptions}>
+                                <p>{element.time.split(':', 2).join(':')} - {element.name}</p>
+                            </Tooltip>
+                        )
+                    }
+                }
+            }
         }
 
+        setTimeScaleBlock(timeScaleArrey);
     }, [props.taskList]);
 
     const onDateChange = (value: moment.Moment | null, dateString: string): void => {
@@ -48,19 +61,7 @@ const ToDoList: React.FC = (props: any) => {
         setVisible(false);
     }
 
-    type timeScaleItemType = React.ReactElement<string>
-    const timeScale = (): Array<timeScaleItemType> => {
-        let timeScaleArrey: Array<timeScaleItemType> = []
-        for (let index: number = 0; index < 24; index++) {
-
-            timeScaleArrey.push(
-                <Divider key={index} orientation="left">
-                    {index <= 9 ? '0' : null}{index}:00
-                </Divider>)
-        }
-        return timeScaleArrey
-    }
-
+    // console.log('ToDoList props: ', props)
     return (
         <>
             <div className="site-card-border-less-wrapper">
@@ -89,7 +90,7 @@ const ToDoList: React.FC = (props: any) => {
                     }
                     bordered={false}
                 >
-                    {timeScale()}
+                    {timeScaleBlock}
                 </Card>
 
                 <Drawer

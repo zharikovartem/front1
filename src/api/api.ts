@@ -9,7 +9,7 @@ export const taskAPI = {
             }
             const url = 'https://81.90.181.175/api/tasks?date=' + selectedDate
 
-            console.log('url: ', url)
+            // console.log('url: ', url)
 
             fetch(url, requestOptions)
                 .then( response => {
