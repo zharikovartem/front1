@@ -34,22 +34,24 @@ const ToDoList: React.FC = (props: any) => {
         const getTimeScaleArrey = (taskList:Array<taskType>):Array<React.ReactElement<string>> => {
             let timeScaleArrey: Array<React.ReactElement<string>> = []
             let tomorowTasks: Array<taskType> = []
+
             const getHeadline = (task:taskType) => {
                 return moment(task.date).format('DD-MMMM')
             }
 
             let headlineDate: string|null = null;
-            if (taskList !== null) {
+
+            if (taskList !== null && taskList.length > 0) {
                 headlineDate = getHeadline(taskList[0])
                 timeScaleArrey.push(
                     <h3>{headlineDate}:</h3>
                 )
             }
-            
             console.log('headlineDate: ',headlineDate)
+
             for (let index: number = 0; index < 24; index++) {
                 timeScaleArrey.push(
-                    <Divider key={index} orientation="left">
+                    <Divider key={index+'to'+headlineDate} orientation="left">
                         {index <= 9 ? '0' : null}{index}:00
                     </Divider>
                 )
@@ -62,7 +64,7 @@ const ToDoList: React.FC = (props: any) => {
                         if (timeVal >= index && timeVal < nextHour) {
                             // console.log(headlineDate)
                             // console.log(element.name,' for ',getHeadline(element.date))
-                            console.log(element.name, getHeadline(element) === headlineDate)
+                            // console.log(element.name, getHeadline(element) === headlineDate)
                             if (getHeadline(element) === headlineDate) {
                                 timeScaleArrey.push(
                                     <Tooltip key={index+'-'+i} placement="topLeft" title={element.descriptions}>
@@ -71,19 +73,23 @@ const ToDoList: React.FC = (props: any) => {
                                 )
                             }
                             else {
-                                console.log('push')
+                                // console.log('push')
                                 tomorowTasks.push(element)
                             }
                         }
                     }
                 }
             }
-            console.log(tomorowTasks)
-            // if (tomorowTasks.length > 0) {
-            //     timeScaleArrey.concat(timeScaleArrey)
-            // } else {
+            console.log('tomorowTasks count: ',tomorowTasks.length)
+            if (tomorowTasks.length > 0) {
+                const nextArr = getTimeScaleArrey(tomorowTasks)
+                // console.log('nextArr', nextArr)
+                timeScaleArrey = timeScaleArrey.concat(nextArr)
+            }
+            // else {
             //     return timeScaleArrey
             // }
+            // console.log('timeScaleArrey', timeScaleArrey)
             return timeScaleArrey
         }
 
