@@ -4,6 +4,21 @@ import moment from 'moment'
 import NewTaskForm from './NewTaskFormContainer'
 import ToDoHeader from './ToDoHeader'
 
+type tasktype = {
+    created_at: string,
+    date: string,
+    deleted_at: string | null,
+    descriptions: string | null,
+    id: number,
+    name: string,
+    order_id: number | null,
+    tado_id: number | null, //////////////////////////// Опечатка
+    time: string,
+    type: string | null,
+    updated_at: string | null,
+    user_id: number | null
+}
+
 const ToDoList: React.FC = (props: any) => {
     const [selectedDate, setselectedDate] = useState<moment.Moment>(moment())
     const [visible, setVisible] = useState(false)
@@ -17,9 +32,16 @@ const ToDoList: React.FC = (props: any) => {
     useEffect(() => {
         const getTimeScaleArrey = ():Array<React.ReactElement<string>> => {
             let timeScaleArrey: Array<React.ReactElement<string>> = []
+            let tomorowTasks: Array<tasktype> = []
+            const getHeadline = (task:tasktype) => {
+                return moment(task.date).format('DD-MMMM')
+            }
+
+            let headlineDate: string|null = null;
             if (props.taskList !== null) {
+                headlineDate = getHeadline(props.taskList[0])
                 timeScaleArrey.push(
-                    <h3>{moment(props.taskList[0].date).format('DD-MMMM')}:</h3>
+                    <h3>{headlineDate}:</h3>
                 )
             }
 
