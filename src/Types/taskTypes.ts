@@ -1,4 +1,8 @@
-export type taskType = {
+import { AppStateType } from './../redux/store'
+
+export type GetStateType = ()=>AppStateType
+
+export type TaskType = {
     created_at: string,
     date: string,
     deleted_at: string | null,

@@ -37,4 +37,29 @@ export const taskAPI = {
         //         console.log(data);
         //     })
     },
+
+    test(date:string) {
+        // return (dispatch:any) => {
+            // dispatch(itemsIsLoading(true));
+    
+            fetch('https://81.90.181.175/api/tasks?date=' + date)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw Error(response.statusText);
+                    }
+                    console.log(response)
+                    // dispatch(itemsIsLoading(false));
+    
+                    return response;
+                })
+                .then((response) => response.json())
+                .then((items) => {
+                    console.log(items)
+                    // dispatch(itemsFetchDataSuccess(items))
+                })
+                .catch(() => {
+                    // dispatch(itemsHasErrored(true))
+                });
+        }
+    // }
 }

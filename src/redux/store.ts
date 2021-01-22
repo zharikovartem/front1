@@ -3,10 +3,13 @@ import thunkMiddleware from "redux-thunk";
 import taskReducer from './taskReducer';
 
 
-let redusers = combineReducers({
+let rootReducer = combineReducers({
     task: taskReducer
 });
 
-let store = createStore(redusers, applyMiddleware(thunkMiddleware));
+type rootReducerType = typeof rootReducer
+export type AppStateType = ReturnType<rootReducerType>
+
+let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 export default store;

@@ -1,12 +1,16 @@
-// import { taskAPI } from '../api/api'
+import { Dispatch } from 'redux'
+import { ThunkAction } from 'redux-thunk'
+import { taskAPI } from '../api/api'
+import { GetStateType } from '../Types/reduxTypes'
+import { TaskType } from './../Types/taskTypes'
+import { AppStateType } from './store'
 
-import { taskType } from "../Types/taskTypes"
 
 const SET_TASK_LIST = "SET_TASK_LIST"
 const SET_TASK_SAVE_STATUS = 'SET_TASK_SAVE_STATUS'
 
 type initialStateType = {
-    taskList: null | Array<taskType>,
+    taskList: null | Array<TaskType>,
     taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error'
 }
 let initialState:initialStateType = {
@@ -14,7 +18,7 @@ let initialState:initialStateType = {
     taskSaveStatus: 'no'
 }
 
-const taskReducer = (state = initialState, action: any) => {
+const taskReducer = (state = initialState, action: TaskActionsTypes) => {
     let stateCopy = { ...state }
     switch (action.type) {
         case SET_TASK_LIST:
@@ -31,14 +35,29 @@ const taskReducer = (state = initialState, action: any) => {
     }
 }
 
-export const setTaskList = (taskList: any) => ({ type: SET_TASK_LIST, taskList })
-export const setTaskSaveStatus = (taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error') => ({ type: SET_TASK_SAVE_STATUS, taskSaveStatus })
-// export const setTest = (toDoData) => ({ type: TEST_CONSTANT, testData })
-// export const setTest = (toDoData) => ({ type: TEST_CONSTANT, testData })
-// export const setTest = (toDoData) => ({ type: TEST_CONSTANT, testData })
+type TaskActionsTypes = SetTaskListActionType | SetTaskSaveStatusActionType
+
+type TaskListType = {
+    Tasks: Array<TaskType>
+}
+type SetTaskListActionType = {
+    type: typeof SET_TASK_LIST,
+    taskList: TaskListType
+}
+export const setTaskList = (taskList: TaskListType):SetTaskListActionType => ({ type: SET_TASK_LIST, taskList })
+type SetTaskSaveStatusActionType = {
+    type: typeof SET_TASK_SAVE_STATUS,
+    taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error'
+}
+export const setTaskSaveStatus = (taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error'):SetTaskSaveStatusActionType => ({ type: SET_TASK_SAVE_STATUS, taskSaveStatus })
+
+
+
+
+export type DispatchType = Dispatch<TaskActionsTypes>
 
 export const getTaskList = (date: string) => {
-    return (dispatch: any) => {
+    return (dispatch: DispatchType, getState: GetStateType) => {
         const requestOptions = {
             method: 'GET',
             headers: { 'Content-Type': 'application/json'},
@@ -55,7 +74,7 @@ export const getTaskList = (date: string) => {
 }
 
 export const getTaskListForGap = (start_date: string, end_date:string) => {
-    return (dispatch: any) => {
+    return (dispatch: DispatchType, getState: GetStateType) => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -79,10 +98,9 @@ type newTaskDataType = {
     date: string
     description?: string
 }
-export const newTask = (data: newTaskDataType, reload:boolean=true) => {
+export const newTask = (data: newTaskDataType, reload:boolean = true) => {
     console.log('setTaskSaveStatus inProgress ')
-    
-    return (dispatch: any) => {
+    return (dispatch: DispatchType, getState: GetStateType) => {
         dispatch(setTaskSaveStatus('inProgress'))
         const requestOptions = {
             method: 'POST',
@@ -115,7 +133,12 @@ export const newTask = (data: newTaskDataType, reload:boolean=true) => {
     }
 }
 
-export const editTask = (data: any) => {
+export const test = (date: any):ThunkAction< Promise<void>, AppStateType, unknown, TaskActionsTypes> => {
+    let data2 = taskAPI.test(date)
+    console.log(data2)
+    return async (dispatch) => {
+        let data = await taskAPI.test(date)
+    }
 }
 
 export const deleteTask = (data: any) => {

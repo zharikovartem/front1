@@ -4,38 +4,24 @@ import moment from 'moment'
 import NewTaskForm from './NewTaskFormContainer'
 import ToDoHeader from './ToDoHeader'
 import SettingsModal from './Settings/SettingsModal'
+import { TaskType } from './../Types/taskTypes'
+import { ToDoListPropsType } from './ToDoListContainer'
 
-
-export type taskType = {
-    created_at: string,
-    date: string,
-    deleted_at: string | null,
-    descriptions: string | null,
-    id: number,
-    name: string,
-    order_id: number | null,
-    todo_id: number | null,
-    time: string,
-    type: string | null,
-    updated_at: string | null,
-    user_id: number | null
-}
-
-const getTimeScaleArrey = (taskList: Array<taskType>): Array<React.ReactElement<string>> => {
+const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<string>> => {
     const sortByParams = (field: 'date' | 'time') => {
         if (field === 'date') {
-            return (a: taskType, b: taskType) => a['date'] > b['date'] ? 1 : -1;
+            return (a: TaskType, b: TaskType) => a['date'] > b['date'] ? 1 : -1;
         } else {
-            return (a: taskType, b: taskType) => a['time'] > b['time'] ? -1 : 1;
+            return (a: TaskType, b: TaskType) => a['time'] > b['time'] ? -1 : 1;
         }
     }
 
     taskList.sort(sortByParams('time')).sort(sortByParams('date'))
 
     let timeScaleArrey: Array<React.ReactElement<string>> = []
-    let tomorowTasks: Array<taskType> = []
+    let tomorowTasks: Array<TaskType> = []
 
-    const getHeadline = (task: taskType) => {
+    const getHeadline = (task: TaskType) => {
         return moment(task.date).format('DD MMMM')
     }
 
@@ -57,7 +43,7 @@ const getTimeScaleArrey = (taskList: Array<taskType>): Array<React.ReactElement<
 
         if (taskList !== null) {
             for (let i = 0; i < taskList.length; i++) {
-                const element: taskType = taskList[i];
+                const element: TaskType = taskList[i];
                 const timeVal = Number(element.time.split(':', 1))
                 const nextHour = index + 1
                 if (timeVal >= index && timeVal < nextHour) {
@@ -83,7 +69,7 @@ const getTimeScaleArrey = (taskList: Array<taskType>): Array<React.ReactElement<
     return timeScaleArrey
 }
 
-const ToDoList: React.FC = (props: any) => {
+const ToDoList: React.FC<ToDoListPropsType> = (props) => {
     const [selectedDate, setSelectedDate] = useState<moment.Moment>(moment())
     const [visible, setVisible] = useState(false)
     const [isAddActive, setIsAddActive] = useState(false)
@@ -94,6 +80,7 @@ const ToDoList: React.FC = (props: any) => {
     useEffect(() => {
         console.log('selectedDate changet to ', selectedDate.format('YYYY-MM-DD'))
         props.getTaskList(selectedDate.format('YYYY-MM-DD'))
+        props.test('2021-01-19')
     }, [selectedDate]);
 
     useEffect(() => {
