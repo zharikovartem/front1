@@ -1,9 +1,17 @@
 // import { taskAPI } from '../api/api'
 
-const SET_TASK_LIST = "SET_TASK_LIST"
+import { taskType } from "../Types/taskTypes"
 
-let initialState = {
+const SET_TASK_LIST = "SET_TASK_LIST"
+const SET_TASK_SAVE_STATUS = 'SET_TASK_SAVE_STATUS'
+
+type initialStateType = {
+    taskList: null | Array<taskType>,
+    taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error'
+}
+let initialState:initialStateType = {
     taskList: null,
+    taskSaveStatus: 'no'
 }
 
 const taskReducer = (state = initialState, action: any) => {
@@ -13,12 +21,18 @@ const taskReducer = (state = initialState, action: any) => {
             stateCopy.taskList = action.taskList.Tasks
             return stateCopy
 
+        case SET_TASK_SAVE_STATUS:
+            stateCopy.taskSaveStatus = action.taskSaveStatus
+            console.log('SET_TASK_SAVE_STATUS: ', action.taskSaveStatus)
+            return stateCopy
+
         default:
             return state
     }
 }
 
 export const setTaskList = (taskList: any) => ({ type: SET_TASK_LIST, taskList })
+export const setTaskSaveStatus = (taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error') => ({ type: SET_TASK_SAVE_STATUS, taskSaveStatus })
 // export const setTest = (toDoData) => ({ type: TEST_CONSTANT, testData })
 // export const setTest = (toDoData) => ({ type: TEST_CONSTANT, testData })
 // export const setTest = (toDoData) => ({ type: TEST_CONSTANT, testData })
@@ -33,7 +47,7 @@ export const getTaskList = (date: string) => {
         fetch(url, requestOptions)
             .then( response => response.json() )
             .then(data => {
-                console.log('response getTaskList: ', data)
+                // console.log('response getTaskList: ', data)
                 dispatch(setTaskList(data));
             })
             .catch((e) => console.log("Can’t access  Error:.", e))
@@ -65,26 +79,39 @@ type newTaskDataType = {
     date: string
     description?: string
 }
-export const newTask = (data: newTaskDataType) => {
+export const newTask = (data: newTaskDataType, reload:boolean=true) => {
+    console.log('setTaskSaveStatus inProgress ')
+    
     return (dispatch: any) => {
+        dispatch(setTaskSaveStatus('inProgress'))
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(data)
         }
         const url = 'https://81.90.181.175/api/tasks'
-        console.log('requestOptions: ', requestOptions)
+        // console.log('requestOptions: ', requestOptions)
         fetch(url, requestOptions)
             .then( response => {
-                console.log('response: ',response)
+                // console.log('response: ',response)
                 return response.json()
             } )
             .then(data => {
-                console.log('response: ', data)
+                console.log('newTask response: ', data)
+                console.log('reload: ', reload)
                 // return data
-                dispatch(setTaskList(data));
+                if (reload) {
+                    console.log('dispatch(setTaskList)')
+                    dispatch(setTaskList(data));
+                }
+                
+                console.log('setTaskSaveStatus success')
+                dispatch(setTaskSaveStatus('success'))
             })
-            .catch((e) => console.log("Can’t access  Error:.", e))
+            .catch((e) => {
+                console.log("Can’t access  Error:.", e)
+                dispatch(setTaskSaveStatus('error'))
+            })
     }
 }
 
