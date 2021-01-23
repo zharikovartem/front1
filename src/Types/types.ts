@@ -16,3 +16,11 @@ export type TaskType = {
     updated_at: string | null,
     user_id: number | null
 }
+
+export type NewTaskDataType = {
+    taskName: string,
+    user_id: number,
+    taskTime: string,
+    date: string
+    description?: string
+}

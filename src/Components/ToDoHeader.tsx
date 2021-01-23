@@ -1,14 +1,27 @@
 import React, { useState } from 'react'
 import { DatePicker, Checkbox, Button } from 'antd'
 import { FileAddOutlined, SettingOutlined } from '@ant-design/icons'
+import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 
 const { RangePicker } = DatePicker
 
-const ToDoHeader = (props: any) => {
+
+export type OwnToDoHeaderPropsType = {
+    onDateChange: (value: moment.Moment | null, dateString: string) => void,
+    getTaskList: (date: string) => void,
+    selectedDate: moment.Moment,
+    setSelectedDate: React.Dispatch<React.SetStateAction<moment.Moment>>,
+    showDrawer: () => void,
+    isAddActive: boolean,
+    onGapDateChange: (values:any, formatString: [string, string])=>void,
+    showModal: () => void,
+}
+
+const ToDoHeader: React.FC<OwnToDoHeaderPropsType> = (props) => {
     const [isGap, setIsGap] = useState(false)
     const [label, setLabel] = useState<'date' | 'interval'>('date')
 
-    const onChange = (e: any) => {
+    const onChange = (e: CheckboxChangeEvent) => {
         setIsGap(e.target.checked)
         if (e.target.checked) {
             setLabel('interval')
@@ -22,7 +35,6 @@ const ToDoHeader = (props: any) => {
     return (
         <div className="row" >
             <div className="col-12 col-md-8 col-lg-6">
-                {/* d-inline */}
                 <div className="d-none d-sm-inline">
                     <label >Select {label}:</label>
                 </div>
@@ -55,11 +67,9 @@ const ToDoHeader = (props: any) => {
                     icon={
                         <div className="d-flex flex-wrap align-content-start">
                             <FileAddOutlined style={{ fontSize: '18px' }} />
-                            {/* d-none d-sm-inline */}
                             <span className="ml-1" style={{ fontSize: '14px' }}>Add</span>
                         </div>}
                     style={{ marginLeft: 10 }}
-                    // size="small"
                     onClick={props.showDrawer}
                     disabled={props.isAddActive}
                 />

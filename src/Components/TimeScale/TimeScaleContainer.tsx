@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import TimeScale from './TimeScale'
-import {newTask} from './../../redux/taskReducer'
+import {createNewTask} from './../../redux/taskReducer'
 
 let mapStateToProps = (state:any) => {
     return {
@@ -10,7 +10,7 @@ let mapStateToProps = (state:any) => {
 }
 
 export default connect(mapStateToProps, 
-    {newTask}) 
+    {createNewTask}) 
     (TimeScale);
 
 

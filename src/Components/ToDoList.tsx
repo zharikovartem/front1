@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Spin, Card, Divider, Modal, Tooltip } from 'antd'
+import { Spin, Card, Divider, Tooltip } from 'antd'
 import moment from 'moment'
 import NewTaskForm from './NewTaskFormContainer'
 import ToDoHeader from './ToDoHeader'
 import SettingsModal from './Settings/SettingsModal'
-import { TaskType } from './../Types/taskTypes'
+import { TaskType } from './../Types/types'
 import { ToDoListPropsType } from './ToDoListContainer'
 
 const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<string>> => {
@@ -68,19 +68,20 @@ const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<
 
     return timeScaleArrey
 }
+export type OwnToDoListPropsType = {}
 
 const ToDoList: React.FC<ToDoListPropsType> = (props) => {
     const [selectedDate, setSelectedDate] = useState<moment.Moment>(moment())
     const [visible, setVisible] = useState(false)
     const [isAddActive, setIsAddActive] = useState(false)
     const [timeScaleBlock, setTimeScaleBlock] = useState<Array<React.ReactElement<string>> | null>(null)
-    const [showingMode, setShowingMode] = useState<'date' | 'interval'>('date')
+    // const [showingMode, setShowingMode] = useState<'date' | 'interval'>('date')
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
         console.log('selectedDate changet to ', selectedDate.format('YYYY-MM-DD'))
         props.getTaskList(selectedDate.format('YYYY-MM-DD'))
-        props.test('2021-01-19')
+        // props.test('2021-01-19')
     }, [selectedDate]);
 
     useEffect(() => {
@@ -104,12 +105,11 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
         }
     }
 
-    const onGapDateChange = (value: Array<moment.Moment>): void => {
-        console.log('3) onGapDateChange value', value)
+    // const onGapDateChange = (values: Array<moment.Moment>): void => {
+    const onGapDateChange = (values: Array<moment.Moment>, formatString: [string, string]): void => {
+        console.log('3) onGapDateChange value', values)
         setTimeScaleBlock([<Spin key="spin" size="large" />])
-        // console.log(selectedDate === value[0])
-        // setSelectedDate(value[0])
-        props.getTaskListForGap(value[0].format('YYYY-MM-DD'), value[1].format('YYYY-MM-DD'))
+        props.getTaskListForGap(values[0].format('YYYY-MM-DD'), values[1].format('YYYY-MM-DD'))
     }
 
     const showDrawer = (): void => {

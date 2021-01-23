@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import { Form, Input, Button, TimePicker, DatePicker, Drawer, Spin, message } from 'antd'
+import { NewTaskFormPropsType } from './NewTaskFormContainer'
 
 const layout = {
     labelCol: { span: 8 },
@@ -10,34 +11,33 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 }
 
-// type PropsType = {
-//     selectedDate: moment.Moment,
-//     onSaveIt?: any,
-//     newTask: any
-// }
-type PropsType = any
+export type NewTaskFormOwnPropsType = {
+    selectedDate: moment.Moment,
+    onClose: ()=>void
+    visible: boolean,
+    setVisible: (visible: boolean)=>void
+}
 
 const { TextArea } = Input;
 
 const timeFormat: string = 'HH:mm';
 
-const NewTaskForm: React.FC<PropsType> = (props) => {
-    const [selectedDate, setSelectedDate] = useState(props.selectedDate)
-    const [saveStatus, setSaveStatus] = useState<string>('')
+const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
+    const [selectedDate, setSelectedDate] = useState<moment.Moment>(props.selectedDate)
+    const [saveStatus, setSaveStatus] = useState<string>(props.taskSaveStatus)
 
     useEffect(() => {
-        console.log('taskSaveStatus useEffect: ', props.taskSaveStatus)
         switch (props.taskSaveStatus) {
             case 'inProgress':
                 setSaveStatus(props.taskSaveStatus)
                 break;
             case 'success':
-                message.info('The task was successfully created');
+                message.success('The task was successfully created');
                 props.onClose()
                 setSaveStatus('')
                 break;
             case 'error':
-                message.error('Error!');
+                message.error('Error: '+ props.errorMessage);
                 setSaveStatus(props.taskSaveStatus)
                 break;
 
@@ -46,24 +46,36 @@ const NewTaskForm: React.FC<PropsType> = (props) => {
         }
     }, [props.taskSaveStatus]);
 
-    const onFinish = (values: any) => {
-        // console.log('Success:', values);
-        values.user_id = '1'
-        values.taskTime = values.taskTime.format('HH:mm');
-        values.date = values.date.format('YYYY-MM-DD');
-        if (selectedDate !== props.selectedDate) {
-            props.newTask(values, true)
-        } else {
-            props.newTask(values, false)
+    type OnFinishType = {
+        taskName: string,
+        date: moment.Moment,
+        taskTime: moment.Moment,
+        description?: string
+    }
+    const onFinish = (values: OnFinishType) => {
+        console.log('onFinish, reload: ', selectedDate !== props.selectedDate)
+        const data = {
+            date: values.date.format('YYYY-MM-DD'),
+            taskTime: values.taskTime.format('HH:mm'),
+            taskName: values.taskName,
+            user_id: 1,
+            description: values.description
         }
-        
-        // props.onClose()
+
+        if (selectedDate.format('YYYY-MM-DD') !== props.selectedDate.format('YYYY-MM-DD')) {
+            console.log('ПЕРЕРИСОВКИ НЕТ')
+            props.createNewTask(data, false)
+        } else {
+            
+            props.createNewTask(data, true)
+            console.log('ПЕРЕРИСОВКА')
+        }
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-
-    };
+    type ErrorItem = {
+        errors: string
+        name: string
+    }
 
     const onTimeChange = (value: moment.Moment | null, dateString: string): void => {
         // console.log(value, dateString);
@@ -71,14 +83,9 @@ const NewTaskForm: React.FC<PropsType> = (props) => {
 
     const onDateChange = (value: moment.Moment | null, dateString: string): void => {
         if (value !== null) {
-            if( value.format('YYYY-MM-DD') === selectedDate.format('YYYY-MM-DD') ) {
-                setSelectedDate(value)
-                console.log('Дата совпадает, необходимо перерисовать таблицу')
-            }
+            setSelectedDate(value)
         }
     }
-
-    console.log('NewTaskForm props:', props)
 
     return (
         <Drawer
@@ -87,7 +94,6 @@ const NewTaskForm: React.FC<PropsType> = (props) => {
             closable={true}
             onClose={props.onClose}
             visible={props.visible}
-            // setVisible={setVisible}
             width="80%"
         >
             <Form
@@ -95,7 +101,6 @@ const NewTaskForm: React.FC<PropsType> = (props) => {
                 name="basic"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
             >
                 <Form.Item
                     label="Task name"
@@ -109,7 +114,7 @@ const NewTaskForm: React.FC<PropsType> = (props) => {
                     label="Task date"
                     name="date"
                     initialValue={props.selectedDate}
-                // rules={[{ required: true, message: 'Please input time!' }]}
+                rules={[{ required: true, message: 'Please input task date!' }]}
                 >
                     <DatePicker
                         // defaultValue={props.selectedDate}
@@ -121,7 +126,7 @@ const NewTaskForm: React.FC<PropsType> = (props) => {
                 <Form.Item
                     label="Task time"
                     name="taskTime"
-                    rules={[{ required: true, message: 'Please input time!' }]}
+                    rules={[{ required: true, message: 'Please input task time!' }]}
                 >
                     <TimePicker
                         onChange={onTimeChange}
@@ -144,6 +149,7 @@ const NewTaskForm: React.FC<PropsType> = (props) => {
                         <Button type="primary" htmlType="submit">
                             Create
                         </Button>
+                        
                     }
                 </Form.Item>
             </Form>
