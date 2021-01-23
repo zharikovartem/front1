@@ -10,7 +10,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <div className="container">
+      <div className="container-fluid">
         <ToDoList />
       </div>
     </Provider>

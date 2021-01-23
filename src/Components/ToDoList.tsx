@@ -5,7 +5,9 @@ import NewTaskForm from './NewTaskFormContainer'
 import ToDoHeader from './ToDoHeader'
 import SettingsModal from './Settings/SettingsModal'
 import { TaskType } from './../Types/types'
+import { RangeValue, EventValue } from './../Types/types'
 import { ToDoListPropsType } from './ToDoListContainer'
+import TaskItem from './TimeScale/TaskItem/TaskItem'
 
 const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<string>> => {
     const sortByParams = (field: 'date' | 'time') => {
@@ -50,7 +52,8 @@ const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<
                     if (getHeadline(element) === headlineDate) {
                         timeScaleArrey.push(
                             <Tooltip key={index + '-' + element.id} placement="topLeft" title={element.descriptions}>
-                                <p className="ml-5">{element.time.split(':', 2).join(':')} - {element.name} date: {element.date}; id=<b>{element.id}</b></p>
+                                {/* <p className="ml-5">{element.time.split(':', 2).join(':')} - {element.name} date: {element.date}; id=<b>{element.id}</b></p> */}
+                                <TaskItem element={element}/>
                             </Tooltip>
                         )
                     }
@@ -106,10 +109,12 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
     }
 
     // const onGapDateChange = (values: Array<moment.Moment>): void => {
-    const onGapDateChange = (values: Array<moment.Moment>, formatString: [string, string]): void => {
+    const onGapDateChange = (values: RangeValue<moment.Moment>, formatString: [string, string]): void => {
         console.log('3) onGapDateChange value', values)
         setTimeScaleBlock([<Spin key="spin" size="large" />])
-        props.getTaskListForGap(values[0].format('YYYY-MM-DD'), values[1].format('YYYY-MM-DD'))
+        if (values !== null && values[0] !== null && values[1] !== null) {
+            props.getTaskListForGap(values[0].format('YYYY-MM-DD'), values[1].format('YYYY-MM-DD'))
+        }
     }
 
     const showDrawer = (): void => {
@@ -122,15 +127,15 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
 
     const showModal = () => {
         setIsModalVisible(true);
-      };
-    
-      const handleOk = () => {
+    };
+
+    const handleOk = () => {
         setIsModalVisible(false);
-      };
-    
-      const handleCancel = () => {
+    };
+
+    const handleCancel = () => {
         setIsModalVisible(false);
-      };
+    };
 
     return (
         <>

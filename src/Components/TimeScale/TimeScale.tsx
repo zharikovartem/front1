@@ -1,6 +1,9 @@
 import React from 'react'
 
-const TimeScale = (props:any) => {
+export type OwnTaskTimeScaleType = {
+
+}
+const TimeScale: React.FC<OwnTaskTimeScaleType> = (props) => {
 
     return (
         <>

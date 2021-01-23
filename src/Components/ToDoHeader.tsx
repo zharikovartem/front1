@@ -2,9 +2,15 @@ import React, { useState } from 'react'
 import { DatePicker, Checkbox, Button } from 'antd'
 import { FileAddOutlined, SettingOutlined } from '@ant-design/icons'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
+import {RangeValue, EventValue} from './../Types/types'
 
 const { RangePicker } = DatePicker
 
+type test = typeof RangePicker
+type testProps = React.ComponentProps<typeof RangePicker>
+
+// export declare type RangeValue<DateType> = [EventValue<DateType>, EventValue<DateType>] | null;
+// export declare type EventValue<DateType> = DateType | null;
 
 export type OwnToDoHeaderPropsType = {
     onDateChange: (value: moment.Moment | null, dateString: string) => void,
@@ -13,7 +19,7 @@ export type OwnToDoHeaderPropsType = {
     setSelectedDate: React.Dispatch<React.SetStateAction<moment.Moment>>,
     showDrawer: () => void,
     isAddActive: boolean,
-    onGapDateChange: (values:any, formatString: [string, string])=>void,
+    onGapDateChange: (values: RangeValue<moment.Moment>, formatString: [string, string]) => void,
     showModal: () => void,
 }
 

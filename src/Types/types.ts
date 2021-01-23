@@ -24,3 +24,6 @@ export type NewTaskDataType = {
     date: string
     description?: string
 }
+
+export declare type RangeValue<DateType> = [EventValue<DateType>, EventValue<DateType>] | null;
+export declare type EventValue<DateType> = DateType | null;
