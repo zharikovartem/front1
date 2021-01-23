@@ -1,4 +1,4 @@
-# Github page:
+# GitHub Page:
 [https://zharikovartem.github.io/epam-app/](https://zharikovartem.github.io/epam-app/)
 
 # Getting Started with Create React App
