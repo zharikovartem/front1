@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import { Form, Input, Button, TimePicker, DatePicker, Drawer, Spin, message } from 'antd'
 import { NewTaskFormPropsType } from './NewTaskFormContainer'
+import { combineReducers } from 'redux'
 
 const layout = {
     labelCol: { span: 8 },
@@ -13,18 +14,35 @@ const tailLayout = {
 
 export type NewTaskFormOwnPropsType = {
     selectedDate: moment.Moment,
-    onClose: ()=>void
+    onClose: () => void
     visible: boolean,
-    setVisible: (visible: boolean)=>void
+    setVisible: (visible: boolean) => void
 }
 
 const { TextArea } = Input;
 
 const timeFormat: string = 'HH:mm';
 
+type FormValuesType = {
+    taskName: string | number | readonly string[] | undefined,
+    taskTime: moment.Moment | null,
+    date: moment.Moment | null,
+    description: string | null,
+}
+const initialFormValues: FormValuesType = {
+    taskName: undefined,
+    taskTime: null,
+    date: null,
+    description: null,
+}
+
 const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
+    const [form] = Form.useForm()
     const [selectedDate, setSelectedDate] = useState<moment.Moment>(props.selectedDate)
     const [saveStatus, setSaveStatus] = useState<string>(props.taskSaveStatus)
+    // const [formValues, setFormValues] = useState<FormValuesType>(initialFormValues)
+
+
 
     useEffect(() => {
         console.log('status changed: ', props.taskSaveStatus)
@@ -36,9 +54,10 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
                 message.success('The task was successfully created');
                 props.onClose()
                 setSaveStatus('')
+                onReset()
                 break;
             case 'error':
-                message.error('Error: '+ props.errorMessage);
+                message.error('Error: ' + props.errorMessage);
                 setSaveStatus(props.taskSaveStatus)
                 break;
 
@@ -62,31 +81,55 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
             user_id: 1,
             description: values.description
         }
+        console.log(selectedDate.format('DD'), '<', props.dateInterval.startDate.format('DD'), '>'
+            , props.dateInterval.startDate.format('DD'))
+        console.log(
+            moment(selectedDate.format('YYYY-MM-DD')).isBetween(
+                props.dateInterval.startDate.format('YYYY-MM-DD'),
+                props.dateInterval.endDate.format('YYYY-MM-DD'),
+                undefined, '[]'
+            )
+        )
+        console.log('selectedDate', selectedDate.format('YYYY-MM-DD HH:MM:SS'))
+        console.log('startDate', props.dateInterval.startDate.format('YYYY-MM-DD HH:MM:SS'))
+        console.log('endDate', props.dateInterval.endDate.format('YYYY-MM-DD HH:MM:SS'))
 
-        if (selectedDate.format('YYYY-MM-DD') !== props.selectedDate.format('YYYY-MM-DD')) {
+        if (!moment(selectedDate.format('YYYY-MM-DD')).isBetween(
+            props.dateInterval.startDate.format('YYYY-MM-DD'),
+            props.dateInterval.endDate.format('YYYY-MM-DD'),
+            undefined, '[]'
+        )) {
             console.log('ПЕРЕРИСОВКИ НЕТ')
             props.createNewTask(data, false)
         } else {
-            
+
             props.createNewTask(data, true)
             console.log('ПЕРЕРИСОВКА')
         }
     };
 
-    type ErrorItem = {
-        errors: string
-        name: string
-    }
-
-    const onTimeChange = (value: moment.Moment | null, dateString: string): void => {
-        // console.log(value, dateString);
+    const onReset = () => {
+        form.resetFields()
     }
 
     const onDateChange = (value: moment.Moment | null, dateString: string): void => {
+        // setFormValues({ ...formValues, date: value })
         if (value !== null) {
             setSelectedDate(value)
         }
     }
+
+    // const onTaskNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    //     setFormValues({ ...formValues, taskName: e.target.value })
+    // }
+    // const onDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    //     setFormValues({ ...formValues, description: e.target.value })
+    // }
+    // const onTimrChange = (e: moment.Moment | null, dateString: string): void => {
+    //     setFormValues({ ...formValues, taskTime: e })
+    // }
+
+    // console.log('formValues',formValues)
 
     return (
         <Drawer
@@ -99,7 +142,8 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
         >
             <Form
                 {...layout}
-                name="basic"
+                form={form}
+                name="control-hooks"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
             >
@@ -115,10 +159,11 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
                     label="Task date"
                     name="date"
                     initialValue={props.selectedDate}
-                rules={[{ required: true, message: 'Please input task date!' }]}
+                    rules={[{ required: true, message: 'Please input task date!' }]}
                 >
                     <DatePicker
                         // defaultValue={props.selectedDate}
+                        // value = {formValues.date}
                         onChange={onDateChange}
                         format='DD-MM-YYYY'
                     />
@@ -130,7 +175,7 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
                     rules={[{ required: true, message: 'Please input task time!' }]}
                 >
                     <TimePicker
-                        onChange={onTimeChange}
+                        // onChange={onTimrChange}
                         // defaultValue={moment('12:08', timeFormat)} 
                         format={timeFormat}
                     />
@@ -146,11 +191,15 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
                 <Form.Item {...tailLayout}>
                     {saveStatus === 'inProgress' ?
                         <Spin></Spin>
-                    :
-                        <Button type="primary" htmlType="submit">
-                            Create
-                        </Button>
-                        
+                        :
+                        <>
+                            <Button type="primary" htmlType="submit">
+                                Create
+                            </Button>
+                            <Button className="ml-3" type="primary" onClick={onReset}>
+                                Reset
+                            </Button>
+                        </>
                     }
                 </Form.Item>
             </Form>

@@ -40,12 +40,14 @@ export const taskAPI = {
     },
 
     getTaskListForGap(values: getTaskListForGapValuesType) {
-        console.log('getTaskListForGap API')
+        console.log('getTaskListForGap API', values)
         return instance.post<TaskListType>(`tasks/part`, values).then(response => {
+            console.log('response', response)
             return response.status === 200 ? response : null;
         })
         .catch(err => {
             if (err.response) {
+                console.log('err')
                 return err.response
             } else if (err.request) {
                 console.log('request', err.request)
@@ -63,7 +65,7 @@ export const taskAPI = {
     }
 }
 
-type getTaskListForGapValuesType = {
+export type getTaskListForGapValuesType = {
     start_date: string, 
     end_date: string
 }

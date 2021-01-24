@@ -7,7 +7,7 @@ import { OwnTaskTimeScaleType } from './TimeScale'
 export type MapPropsType = ReturnType<typeof mapStateToProps>
 
 type DispatchPropsType = {
-    getTaskListForGap: (start_date: string, end_date: string) => void
+    getTaskListForGap: (startDate: string, endDate: string) => void
 }
 
 export type TimeScalePropsType = MapPropsType & DispatchPropsType & OwnTaskTimeScaleType
@@ -17,7 +17,8 @@ let mapStateToProps = (state:AppStateType) => {
         taskList: state.task.taskList,
         taskSaveStatus: state.task.taskSaveStatus,
         taskListIsFetching: state.task.taskListIsFetching,
-        dateInterval: state.task.dateInterval
+        dateInterval: state.task.dateInterval,
+        errorMessage: state.task.errorMessage
     }
 }
 

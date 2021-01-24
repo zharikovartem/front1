@@ -20,9 +20,9 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
     // const [showingMode, setShowingMode] = useState<'date' | 'interval'>('date')
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    useEffect(() => {
-        props.getTaskList(selectedDate.format('YYYY-MM-DD'))
-    }, [selectedDate]);
+    // useEffect(() => {
+    //     props.getTaskList(selectedDate.format('YYYY-MM-DD'))
+    // }, [selectedDate]);
 
     const onDateChange = (value: moment.Moment | null, dateString: string): void => {
         console.log('2) onDateChange value:', value)
@@ -62,6 +62,7 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
         setIsModalVisible(false);
     };
 
+    // console.log('ToDoList props: ', props)
     return (
         <>
             <div className="site-card-border-less-wrapper">

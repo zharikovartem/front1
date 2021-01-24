@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col, Row, Checkbox, Tooltip, Button } from 'antd'
+import { Col, Row, Checkbox, Tooltip, Button, Spin } from 'antd'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import { ListGroup } from 'react-bootstrap'
 import { TaskType } from '../../../Types/types'
@@ -11,7 +11,9 @@ export type OwnTaskItemPropsType = {
 }
 
 const TaskItem: React.FC<TaskItemPropsType> = (props) => {
-    const [status, setStetus] = useState(props.element.type)
+    type PropsElementType = typeof props.element.type
+    const [status, setStetus] = useState<PropsElementType>(props.element.type)
+    const [deleteingInProgess, setDeleteingInProgess] = useState(false)
 
     const onStatusChange = (e: CheckboxChangeEvent) => {
         console.log(e.target.checked)
@@ -24,7 +26,8 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
 
     const deleteTask: (taskid: number) => void = (taskid) => {
         console.log(taskid)
-        props.deleteTask(taskid)
+        setDeleteingInProgess(true)
+        props.deleteTask(taskid, props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
     }
 
     return (
@@ -46,6 +49,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                     </Tooltip>
                 </Col>
                 <Col className="mr-0 ml-auto">
+                    {!deleteingInProgess ? 
                     <Button className=""
                         type="primary"
                         shape="circle"
@@ -58,6 +62,9 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                             </div>
                         }
                     />
+                    :
+                    <Spin key="spin" size="small" />
+                    }
                 </Col>
             </Row>
 

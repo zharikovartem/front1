@@ -45,13 +45,13 @@ const taskReducer = (state = initialState, action: ActionsTypes): initialStateTy
             return {...state, taskListIsFetching: action.isFetchingValue}
 
         case 'SN/TASK/SET_IS_INTERVAL':
-            console.log(action)
             const dateInterval = {
                 startDate: action.date.startDate,
                 endDate: action.date.endDate
             }
-            console.log(dateInterval.startDate.format('DD'),'-',dateInterval.endDate.format('DD'))
-            console.log({...state, isInterval: action.isInterval, dateInterval })
+
+            console.log('in Reducer: ',dateInterval.startDate.format('DD'),'-',dateInterval.endDate.format('DD'))
+            // console.log({...state, isInterval: action.isInterval, dateInterval })
             return {...state, isInterval: action.isInterval, dateInterval }
 
         default:
@@ -109,12 +109,14 @@ export const createNewTask = (values: NewTaskDataType, reload:boolean = true): T
     }
 }
 
-export const getTaskListForGap = (start_date: string, end_date:string): ThunkType => {
-    console.log('getTaskListForGap')
+export const getTaskListForGap = (startDate: string, endDate:string): ThunkType => {
+    console.log('getTaskListForGap', startDate, '-', endDate)
     return async (dispatch, getState) => {
         dispatch(actions.setTaskListIsFetching(true))
 
-        let response = await taskAPI.getTaskListForGap({start_date, end_date})
+        const values = {start_date: startDate, end_date: endDate}
+        let response = await taskAPI.getTaskListForGap(values)
+        console.log(response)
         if (response !== null) {
             dispatch(actions.setTaskList(response.data))
         } else {
@@ -124,14 +126,14 @@ export const getTaskListForGap = (start_date: string, end_date:string): ThunkTyp
     }
 }
 
-export const deleteTask = (taskid: number): ThunkType => {
+export const deleteTask = (taskid: number, startDate: string, endDate:string): ThunkType => {
     return async (dispatch, getState) => {
         let response = await taskAPI.deleteTask(taskid)
         console.log(response)
         if (response !== null) {
-            // dispatch(actions.setTaskList(response.data))
-
-            // dispatch(getTaskListForGap('2021-01-19', '2021-01-23'))
+            dispatch(actions.setErrorMessage('Task deletion was successful'))
+            dispatch(getTaskListForGap(startDate, endDate))
+            dispatch( actions.setErrorMessage(null) )
         }
     }
 }

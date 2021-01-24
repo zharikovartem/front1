@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import {useDispatch} from 'react-redux'
 import { DatePicker, Checkbox, Button } from 'antd'
 import { FileAddOutlined, SettingOutlined } from '@ant-design/icons'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
@@ -24,20 +23,34 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
     const [isInterval, setIsInterval] = useState(false)
     const [dates, setDates] = useState<{startDate: moment.Moment, endDate: moment.Moment}>({startDate: moment(), endDate: moment()})
 
-    const dispatch = useDispatch();
-
     useEffect(() => {
-        console.log('useEffect: ', isInterval)
-        console.log(dates)
+        console.log(
+            'useEffect setIsInterval in ToDoHeader: ', 
+            'p-s',props.dateInterval.startDate.format('DD'),
+            'p-e',props.dateInterval.endDate.format('DD')
+        )
+        console.log()
         props.setIsInterval(isInterval, dates)
     }, [isInterval, dates]);
 
+
     const onDateTypeChange = (e: CheckboxChangeEvent) => {
+        if (!e.target.checked) {
+            console.log('Необходимо вернуть одну дату если они разные startDate: ', dates.startDate.format('DD'), 
+            ' ?== ',props.dateInterval.startDate.format('DD'))
+            console.log('Необходимо вернуть одну дату если они разные endDate: ', dates.endDate.format('DD'), 
+            ' ?== ',props.dateInterval.endDate.format('DD'))
+            setDates({
+                startDate: dates.startDate,
+                endDate: dates.startDate
+            })
+            console.log('setDates runing')
+        }
         setIsInterval(e.target.checked)
     }
 
     const onDateRangeChange = (values: RangeValue<moment.Moment>, formatString: [string, string]): void => {
-        console.log(values)
+        // console.log(values)
         if (values !== null && values[0] !== null && values[1] !== null ) {
             setDates({
                 startDate: values[0],
@@ -56,8 +69,6 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
         }
     }
 
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!', props)
-
     return (
         <div className="row" >
             <div className="col-12 col-md-8 col-lg-6">
@@ -70,13 +81,14 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
                         <RangePicker
                             onChange={onDateRangeChange}
                             defaultValue={[props.selectedDate, props.selectedDate]}
+                            value = {[props.dateInterval.startDate, props.dateInterval.endDate]}
                             format='DD-MM-YYYY'
                             style={{ marginLeft: 10 }}
                         />
                         :
                         <DatePicker
                             onChange={onDateChange}
-                            defaultValue={props.selectedDate}
+                            defaultValue={props.dateInterval.startDate}
                             format='DD-MM-YYYY'
                             style={{ marginLeft: 10 }}
                         />
