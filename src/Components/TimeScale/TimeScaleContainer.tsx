@@ -16,6 +16,7 @@ let mapStateToProps = (state:AppStateType) => {
     return {
         taskList: state.task.taskList,
         taskSaveStatus: state.task.taskSaveStatus,
+        taskListIsFetching: state.task.taskListIsFetching
     }
 }
 

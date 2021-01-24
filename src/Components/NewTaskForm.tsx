@@ -27,6 +27,7 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
     const [saveStatus, setSaveStatus] = useState<string>(props.taskSaveStatus)
 
     useEffect(() => {
+        console.log('status changed: ', props.taskSaveStatus)
         switch (props.taskSaveStatus) {
             case 'inProgress':
                 setSaveStatus(props.taskSaveStatus)

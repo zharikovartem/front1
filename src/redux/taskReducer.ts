@@ -6,12 +6,14 @@ import {BaseThunkType, InferActionsTypes} from './store'
 
 type initialStateType = {
     taskList: null | Array<TaskType>,
+    taskListIsFetching: boolean,
     taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error'
     errorMessage: null | string
 }
 
 let initialState:initialStateType = {
     taskList: null,
+    taskListIsFetching: false,
     taskSaveStatus: 'no',
     errorMessage: null
 }
@@ -28,6 +30,9 @@ const taskReducer = (state = initialState, action: ActionsTypes): initialStateTy
         case 'SN/TASK/SET_ERROR_MESSAGE':
             return {...state, errorMessage: action.message}
 
+        case 'SN/TASK/SET_TASK_LIST_IS_FETCHING':
+            return {...state, taskListIsFetching: action.isFetchingValue}
+
         default:
             return state
     }
@@ -36,35 +41,36 @@ const taskReducer = (state = initialState, action: ActionsTypes): initialStateTy
 export const actions = {
     setTaskList: (taskList: TaskListType) => ({ type: 'SN/TASK/SET_TASK_LIST', taskList } as const),
     setTaskSaveStatus: (taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error') => ({ type: 'SN/TASK/SET_TASK_SAVE_STATUS', taskSaveStatus } as const),
-    setErrorMessage: (message: string | null) => ({type: 'SN/TASK/SET_ERROR_MESSAGE', message} as const)
+    setErrorMessage: (message: string | null) => ({type: 'SN/TASK/SET_ERROR_MESSAGE', message} as const),
+    setTaskListIsFetching: (isFetchingValue: boolean) => ({type: 'SN/TASK/SET_TASK_LIST_IS_FETCHING', isFetchingValue} as const)
 }
 
 export const getTaskList = (date: string): ThunkType => {
     return async (dispatch, getState) => {
-        let taskList = await taskAPI.getTaskList(date)
-        if (taskList !== null) {
-            dispatch(actions.setTaskList(taskList.data))
+        dispatch(actions.setTaskListIsFetching(true))
+        console.log('setTaskListIsFetching true')
+        let response = await taskAPI.getTaskList(date)
+        if (response !== null) {
+            dispatch(actions.setTaskList(response.data))
+            dispatch(actions.setTaskListIsFetching(false))
+            console.log('setTaskListIsFetching false')
         } else {
-            console.log('taskList === null')
+            // add error message
         }
     }
 }
 export const createNewTask = (values: NewTaskDataType, reload:boolean = true): ThunkType => {
     return async (dispatch, getState) => {
         dispatch(actions.setTaskSaveStatus('inProgress'))
-        console.log('setTaskSaveStatus inProgress')
 
         let taskList = await taskAPI.createNewTask(values)
 
-        console.log('taskList: ', taskList)
-
         if (taskList.status === 200) {
-            console.log('RESPONSE: ', taskList)
             if (reload) {
                 dispatch(actions.setTaskList(taskList.data));
-                dispatch(actions.setTaskSaveStatus('success'))
-                dispatch(actions.setTaskSaveStatus('no'))
             }
+            dispatch(actions.setTaskSaveStatus('success'))
+            dispatch(actions.setTaskSaveStatus('no'))
         } else {
             dispatch(actions.setErrorMessage(taskList.data.message))
             dispatch(actions.setTaskSaveStatus('error'))
@@ -76,8 +82,15 @@ export const createNewTask = (values: NewTaskDataType, reload:boolean = true): T
 
 export const getTaskListForGap = (start_date: string, end_date:string): ThunkType => {
     return async (dispatch, getState) => {
+        dispatch(actions.setTaskListIsFetching(true))
+
         let response = await taskAPI.getTaskListForGap({start_date, end_date})
-        dispatch(actions.setTaskList(response.data))
+        if (response !== null) {
+            dispatch(actions.setTaskList(response.data))
+        } else {
+            // add error message
+        }
+        dispatch(actions.setTaskListIsFetching(false))
     }
 }
 

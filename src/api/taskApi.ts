@@ -8,8 +8,6 @@ export type TaskListType = {
 export const taskAPI = {
     getTaskList(date: string) {
         return instance.get<TaskListType>(`tasks?date=${date}` ).then(response => {
-            // return response.data
-            console.log(response.status)
             return response.status === 200 ? response : null;
         })
         .catch(err => {
