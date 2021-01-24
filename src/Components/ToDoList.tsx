@@ -82,7 +82,7 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
-        console.log('selectedDate changet to ', selectedDate.format('YYYY-MM-DD'))
+        // console.log('selectedDate changet to ', selectedDate.format('YYYY-MM-DD'))
         props.getTaskList(selectedDate.format('YYYY-MM-DD'))
         // props.test('2021-01-19')
     }, [selectedDate]);

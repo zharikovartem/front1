@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import { taskAPI, TaskListType } from '../api/taskApi'
 import { NewTaskDataType, TaskType } from '../Types/types'
+import { sortTaskArrayByParams } from '../utils/array-helpers'
 import {BaseThunkType, InferActionsTypes} from './store'
 
 type initialStateType = {
@@ -19,7 +20,7 @@ const taskReducer = (state = initialState, action: ActionsTypes): initialStateTy
     let stateCopy = { ...state }
     switch (action.type) {
         case 'SN/TASK/SET_TASK_LIST':
-            return {...state, taskList: action.taskList.Tasks}
+            return {...state, taskList: action.taskList.Tasks.sort(sortTaskArrayByParams('time')).sort(sortTaskArrayByParams('date'))}
 
         case 'SN/TASK/SET_TASK_SAVE_STATUS':
             return {...state, taskSaveStatus: action.taskSaveStatus}
@@ -41,7 +42,11 @@ export const actions = {
 export const getTaskList = (date: string): ThunkType => {
     return async (dispatch, getState) => {
         let taskList = await taskAPI.getTaskList(date)
-        dispatch(actions.setTaskList(taskList))
+        if (taskList !== null) {
+            dispatch(actions.setTaskList(taskList.data))
+        } else {
+            console.log('taskList === null')
+        }
     }
 }
 export const createNewTask = (values: NewTaskDataType, reload:boolean = true): ThunkType => {

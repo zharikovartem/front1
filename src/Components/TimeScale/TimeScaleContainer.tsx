@@ -10,6 +10,8 @@ type DispatchPropsType = {
     // createNewTask: (values:NewTaskDataType, reload:boolean)=> void
 }
 
+export type TimeScalePropsType = MapPropsType & DispatchPropsType & OwnTaskTimeScaleType
+
 let mapStateToProps = (state:AppStateType) => {
     return {
         taskList: state.task.taskList,
