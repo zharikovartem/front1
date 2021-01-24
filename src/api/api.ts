@@ -8,3 +8,14 @@ export const instance = axios.create({
     //     "API-KEY": "b1775b2f-c3a5-4509-8dc9-90b5629de7c3"
     // }
 });
+
+export enum ResultCodesEnum {
+    Success = 0,
+    Error = 1
+}
+
+export type APIResponseType<D = {}, RC = ResultCodesEnum> = {
+    data: D
+    messages: Array<string>
+    resultCode: RC
+}

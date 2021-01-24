@@ -3,23 +3,34 @@ import { taskAPI, TaskListType } from '../api/taskApi'
 import { NewTaskDataType, TaskType } from '../Types/types'
 import { sortTaskArrayByParams } from '../utils/array-helpers'
 import {BaseThunkType, InferActionsTypes} from './store'
+import moment from 'moment'
 
 type initialStateType = {
     taskList: null | Array<TaskType>,
     taskListIsFetching: boolean,
     taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error'
-    errorMessage: null | string
+    errorMessage: null | string,
+    isInterval: boolean,
+    dateInterval: {
+        startDate: moment.Moment,
+        endDate: moment.Moment
+    }
 }
 
 let initialState:initialStateType = {
     taskList: null,
     taskListIsFetching: false,
     taskSaveStatus: 'no',
-    errorMessage: null
+    errorMessage: null,
+    isInterval: false,
+    dateInterval: {
+        startDate: moment(),
+        endDate: moment()
+    }
 }
 
 const taskReducer = (state = initialState, action: ActionsTypes): initialStateType => {
-    let stateCopy = { ...state }
+    
     switch (action.type) {
         case 'SN/TASK/SET_TASK_LIST':
             return {...state, taskList: action.taskList.Tasks.sort(sortTaskArrayByParams('time')).sort(sortTaskArrayByParams('date'))}
@@ -33,6 +44,16 @@ const taskReducer = (state = initialState, action: ActionsTypes): initialStateTy
         case 'SN/TASK/SET_TASK_LIST_IS_FETCHING':
             return {...state, taskListIsFetching: action.isFetchingValue}
 
+        case 'SN/TASK/SET_IS_INTERVAL':
+            console.log(action)
+            const dateInterval = {
+                startDate: action.date.startDate,
+                endDate: action.date.endDate
+            }
+            console.log(dateInterval.startDate.format('DD'),'-',dateInterval.endDate.format('DD'))
+            console.log({...state, isInterval: action.isInterval, dateInterval })
+            return {...state, isInterval: action.isInterval, dateInterval }
+
         default:
             return state
     }
@@ -42,11 +63,19 @@ export const actions = {
     setTaskList: (taskList: TaskListType) => ({ type: 'SN/TASK/SET_TASK_LIST', taskList } as const),
     setTaskSaveStatus: (taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error') => ({ type: 'SN/TASK/SET_TASK_SAVE_STATUS', taskSaveStatus } as const),
     setErrorMessage: (message: string | null) => ({type: 'SN/TASK/SET_ERROR_MESSAGE', message} as const),
-    setTaskListIsFetching: (isFetchingValue: boolean) => ({type: 'SN/TASK/SET_TASK_LIST_IS_FETCHING', isFetchingValue} as const)
+    setTaskListIsFetching: (isFetchingValue: boolean) => ({type: 'SN/TASK/SET_TASK_LIST_IS_FETCHING', isFetchingValue} as const),
+    setIsInterval: (isInterval: boolean, date: {startDate: moment.Moment, endDate: moment.Moment}) => ({type: 'SN/TASK/SET_IS_INTERVAL', isInterval, date} as const)
+}
+
+export const setIsIntervalAC = (isInterval: boolean): ThunkType => {
+    return async (dispatch, getState) => {
+        // dispatch(actions.setIsInterval(true))
+    }
 }
 
 export const getTaskList = (date: string): ThunkType => {
     return async (dispatch, getState) => {
+        // console.log(getState())
         dispatch(actions.setTaskListIsFetching(true))
         console.log('setTaskListIsFetching true')
         let response = await taskAPI.getTaskList(date)
@@ -63,16 +92,16 @@ export const createNewTask = (values: NewTaskDataType, reload:boolean = true): T
     return async (dispatch, getState) => {
         dispatch(actions.setTaskSaveStatus('inProgress'))
 
-        let taskList = await taskAPI.createNewTask(values)
+        let response = await taskAPI.createNewTask(values)
 
-        if (taskList.status === 200) {
+        if (response.status === 200) {
             if (reload) {
-                dispatch(actions.setTaskList(taskList.data));
+                dispatch(actions.setTaskList(response.data));
             }
             dispatch(actions.setTaskSaveStatus('success'))
             dispatch(actions.setTaskSaveStatus('no'))
         } else {
-            dispatch(actions.setErrorMessage(taskList.data.message))
+            dispatch(actions.setErrorMessage(response.data.message))
             dispatch(actions.setTaskSaveStatus('error'))
             dispatch(actions.setTaskSaveStatus('no'))
             dispatch( actions.setErrorMessage(null) )
@@ -81,6 +110,7 @@ export const createNewTask = (values: NewTaskDataType, reload:boolean = true): T
 }
 
 export const getTaskListForGap = (start_date: string, end_date:string): ThunkType => {
+    console.log('getTaskListForGap')
     return async (dispatch, getState) => {
         dispatch(actions.setTaskListIsFetching(true))
 
@@ -91,6 +121,18 @@ export const getTaskListForGap = (start_date: string, end_date:string): ThunkTyp
             // add error message
         }
         dispatch(actions.setTaskListIsFetching(false))
+    }
+}
+
+export const deleteTask = (taskid: number): ThunkType => {
+    return async (dispatch, getState) => {
+        let response = await taskAPI.deleteTask(taskid)
+        console.log(response)
+        if (response !== null) {
+            // dispatch(actions.setTaskList(response.data))
+
+            // dispatch(getTaskListForGap('2021-01-19', '2021-01-23'))
+        }
     }
 }
 

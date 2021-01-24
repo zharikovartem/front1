@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import TimeScale from './TimeScale'
-// import {createNewTask} from './../../redux/taskReducer'
+import {getTaskListForGap} from './../../redux/taskReducer'
 import { AppStateType } from '../../redux/store'
 import { OwnTaskTimeScaleType } from './TimeScale'
 
@@ -16,12 +16,13 @@ let mapStateToProps = (state:AppStateType) => {
     return {
         taskList: state.task.taskList,
         taskSaveStatus: state.task.taskSaveStatus,
-        taskListIsFetching: state.task.taskListIsFetching
+        taskListIsFetching: state.task.taskListIsFetching,
+        dateInterval: state.task.dateInterval
     }
 }
 
 export default connect<MapPropsType, DispatchPropsType, OwnTaskTimeScaleType, AppStateType>(mapStateToProps, 
-    {}) 
+    {getTaskListForGap}) 
     (TimeScale);
 
 

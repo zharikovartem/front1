@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Spin, Card, Divider, Tooltip } from 'antd'
 import moment from 'moment'
 import NewTaskForm from './NewTaskFormContainer'
-import ToDoHeader from './ToDoHeader'
+import ToDoHeader from './ToDoHeaderContainer'
 import SettingsModal from './Settings/SettingsModal'
 import { TaskType } from './../Types/types'
 import { RangeValue, EventValue } from './../Types/types'
@@ -36,6 +36,7 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
     }
 
     const onGapDateChange = (values: RangeValue<moment.Moment>, formatString: [string, string]): void => {
+        console.log('onGapDateChange')
         if (values !== null && values[0] !== null && values[1] !== null) {
             props.getTaskListForGap(values[0].format('YYYY-MM-DD'), values[1].format('YYYY-MM-DD'))
         }

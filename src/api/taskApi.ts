@@ -1,5 +1,5 @@
 import { NewTaskDataType, TaskType } from '../Types/types'
-import {instance} from './api'
+import {instance, APIResponseType} from './api'
 
 export type TaskListType = {
     Tasks: Array<TaskType>
@@ -40,6 +40,7 @@ export const taskAPI = {
     },
 
     getTaskListForGap(values: getTaskListForGapValuesType) {
+        console.log('getTaskListForGap API')
         return instance.post<TaskListType>(`tasks/part`, values).then(response => {
             return response.status === 200 ? response : null;
         })
@@ -52,6 +53,12 @@ export const taskAPI = {
                 console.log('anything else: ', err)
             }
             return null
+        })
+    },
+
+    deleteTask(taskId: number) {
+        return instance.delete<TaskListType>(`tasks/${taskId}`).then(response => {
+            return response.status === 200 ? response : null;
         })
     }
 }

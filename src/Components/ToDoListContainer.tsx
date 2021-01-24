@@ -14,7 +14,7 @@ export type ToDoListPropsType = MapPropsType & MapDispatchPropsType & OwnToDoLis
 
 let mapStateToProps = (state:AppStateType) => {
     return {
-        taskList: state.task.taskList
+        taskList: state.task.taskList,
     }
 }
 

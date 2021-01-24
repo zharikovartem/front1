@@ -3,7 +3,7 @@ import { TaskType } from '../../Types/types'
 import moment from 'moment'
 import { TimeScalePropsType } from './TimeScaleContainer'
 import { Divider, Spin, Tooltip } from 'antd'
-import TaskItem from './TaskItem/TaskItem'
+import TaskItem from './TaskItem/TaskItemContainer'
 
 const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<string>> => {
     const sortByParams = (field: 'date' | 'time') => {
@@ -72,8 +72,11 @@ export type OwnTaskTimeScaleType = {}
 const TimeScale: React.FC<TimeScalePropsType> = (props) => {
 
     useEffect(() => {
-        console.log('props.taskListIsFetching', props.taskListIsFetching)
-    }, [props.taskListIsFetching]);
+        if (props.dateInterval.startDate !== null && props.dateInterval.startDate !== null) {
+            // props.getTaskListForGap(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
+        }
+        
+    }, [props.dateInterval]);
 
     if (props.taskList !== null) {
         return (
