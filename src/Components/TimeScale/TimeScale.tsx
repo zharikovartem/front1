@@ -73,7 +73,7 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
 
     useEffect(() => {
         if (props.dateInterval.startDate !== null && props.dateInterval.startDate !== null) {
-            // props.getTaskListForGap(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
+            props.getTaskListForGap(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
         }
         
     }, [props.dateInterval]);
