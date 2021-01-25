@@ -4,6 +4,7 @@ import moment from 'moment'
 import { TimeScalePropsType } from './TimeScaleContainer'
 import { Divider, Spin, Tooltip, message } from 'antd'
 import TaskItem from './TaskItem/TaskItemContainer'
+import { sortTaskArrayByParams } from '../../utils/array-helpers'
 
 export type OwnTaskTimeScaleType = {}
 const TimeScale: React.FC<TimeScalePropsType> = (props) => {
@@ -50,6 +51,8 @@ export default TimeScale
 const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<string>> => {
     let timeScaleArrey: Array<React.ReactElement<string>> = []
     let tomorowTasks: Array<TaskType> = []
+
+    taskList.sort(sortTaskArrayByParams('time')).sort(sortTaskArrayByParams('date'))
 
     const getHeadlineLabel = (task: TaskType) => {
         return moment(task.date).format('DD MMMM')

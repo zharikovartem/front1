@@ -33,7 +33,7 @@ const taskReducer = (state = initialState, action: ActionsTypes): initialStateTy
     
     switch (action.type) {
         case 'SN/TASK/SET_TASK_LIST':
-            return {...state, taskList: action.taskList.Tasks.sort(sortTaskArrayByParams('time')).sort(sortTaskArrayByParams('date'))}
+            return {...state, taskList: action.taskList.Tasks}
 
         case 'SN/TASK/SET_TASK_SAVE_STATUS':
             return {...state, taskSaveStatus: action.taskSaveStatus}
