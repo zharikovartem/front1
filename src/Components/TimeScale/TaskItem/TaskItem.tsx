@@ -43,6 +43,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                     <Tooltip key={props.element.id} placement="topLeft" title={props.element.descriptions}>
                         <span
                             style={{ textDecoration: status === 'completed' ? 'line-through' : '' }}
+                            className="text-break"
                         >
                             {props.element.name}
                         </span>

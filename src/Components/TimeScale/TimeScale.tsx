@@ -43,7 +43,7 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
     if (props.taskList !== null) {
         return (
             <>
-                {props.taskListIsFetching ? <Spin key="spin" size="large" /> : null}
+                {/* {props.taskListIsFetching ? <Spin key="spin" size="large" /> : null} */}
                 {getTimeScaleArrey(props.taskList)}
             </>
         )
