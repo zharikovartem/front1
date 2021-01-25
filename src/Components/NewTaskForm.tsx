@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
-import { Form, Input, Button, TimePicker, DatePicker as DatePickerDesk , Drawer, Spin, message } from 'antd'
+import { Form, Input, Button, TimePicker, DatePicker as DatePickerDesk, Drawer, Spin, message } from 'antd'
 import { NewTaskFormPropsType } from './NewTaskFormContainer'
 import './style.css'
-import { DatePicker as DatePickerMobile, List } from 'antd-mobile'
+import { DatePicker as DatePickerMobile, List, InputItem } from 'antd-mobile'
 import enUs from 'antd-mobile/lib/date-picker/locale/en_US';
 
 const layout = {
@@ -94,7 +94,7 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
             closable={true}
             onClose={props.onClose}
             visible={props.visible}
-            width="80%"
+            width="90%"
         >
             <Form
                 {...layout}
@@ -154,20 +154,34 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
                         </>
                     }
                 </Form.Item>
+                
+                <List 
+                    // renderHeader={() => 'Not editable / Disabled'}
+                >
+                    <InputItem
+                        value=""
+                        editable={true}
+                    >Task name</InputItem>
+                    {/* <InputItem
+                        value="style of disabled `InputItem`"
+                        disabled
+                    >姓名</InputItem> */}
+                </List>
                 <List className="date-picker-list" style={{ backgroundColor: 'white' }}>
-                    <DatePickerMobile 
+                    <DatePickerMobile
                         locale={enUs}
                         mode="date"
                         title="Select Date"
                         extra="click to choose"
-                        value={new Date ('2017-1-1')}
-                        onChange={(date)=>{console.log(date)}}
+                        value={new Date('2017-1-1')}
+                        onChange={(date) => { console.log(date) }}
                     >
                         <List.Item arrow="horizontal">Datetime</List.Item>
                     </DatePickerMobile>
                 </List>
+                
             </Form>
-            
+
         </Drawer>
     )
 }
