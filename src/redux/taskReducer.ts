@@ -1,11 +1,10 @@
 import { Dispatch } from 'redux'
 import { taskAPI, TaskListType } from '../api/taskApi'
 import { NewTaskDataType, TaskType } from '../Types/types'
-import { sortTaskArrayByParams } from '../utils/array-helpers'
 import {BaseThunkType, InferActionsTypes} from './store'
 import moment from 'moment'
 
-type initialStateType = {
+export type InitialStateType = {
     taskList: null | Array<TaskType>,
     taskListIsFetching: boolean,
     taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error'
@@ -17,7 +16,7 @@ type initialStateType = {
     }
 }
 
-let initialState:initialStateType = {
+let initialState:InitialStateType = {
     taskList: null,
     taskListIsFetching: false,
     taskSaveStatus: 'no',
@@ -29,7 +28,7 @@ let initialState:initialStateType = {
     }
 }
 
-const taskReducer = (state = initialState, action: ActionsTypes): initialStateType => {
+const taskReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     
     switch (action.type) {
         case 'SN/TASK/SET_TASK_LIST':
@@ -70,7 +69,7 @@ export const createNewTask = (values: NewTaskDataType, reload:boolean = true): T
 
         let response = await taskAPI.createNewTask(values)
 
-        if (response.status === 200) {
+        if (response && response.status && response.status === 200) {
             if (reload) {
                 const state = getState()
                 const startDate = state.task.dateInterval.startDate.format('YYYY-MM-DD')
@@ -80,10 +79,12 @@ export const createNewTask = (values: NewTaskDataType, reload:boolean = true): T
             dispatch(actions.setTaskSaveStatus('success'))
             dispatch(actions.setTaskSaveStatus('no'))
         } else {
-            dispatch(actions.setErrorMessage(response.data.message))
-            dispatch(actions.setTaskSaveStatus('error'))
-            dispatch(actions.setTaskSaveStatus('no'))
-            dispatch( actions.setErrorMessage(null) )
+            if (response && response.data) {
+                dispatch(actions.setErrorMessage(response.data.message))
+                dispatch(actions.setTaskSaveStatus('error'))
+                dispatch(actions.setTaskSaveStatus('no'))
+                dispatch( actions.setErrorMessage(null) )
+            }
         }
     }
 }
@@ -95,7 +96,7 @@ export const getTaskList = (startDate: string, endDate:string): ThunkType => {
         const values = {start_date: startDate, end_date: endDate}
         let response = await taskAPI.getTaskList(values)
 
-        if (response !== null) {
+        if (response !== undefined && response !== null) {
             dispatch(actions.setTaskList(response.data))
         } else {
             // add error message
