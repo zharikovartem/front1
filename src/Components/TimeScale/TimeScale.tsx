@@ -13,19 +13,19 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
     type SelestedDatesType = typeof props.dateInterval
     const [selestedDates, setSelectedDates] = useState<SelestedDatesType>({ startDate: moment(null), endDate: moment() })
     useEffect(() => {
-        // console.log('dateInterval in TimeScale: ', props)
+        // // console.log('dateInterval in TimeScale: ', props)
         if (
             props.dateInterval.startDate.format('YYYY-MM-DD') === selestedDates.startDate.format('YYYY-MM-DD') &&
             props.dateInterval.endDate.format('YYYY-MM-DD') === selestedDates.endDate.format('YYYY-MM-DD')
         ) {
-            // console.log('startDate', props.dateInterval.startDate.format('DD'), ' === ', selestedDates.startDate.format('DD'))
-            // console.log('endDate', props.dateInterval.endDate.format('DD'), ' === ', selestedDates.endDate.format('DD'))
+            // // console.log('startDate', props.dateInterval.startDate.format('DD'), ' === ', selestedDates.startDate.format('DD'))
+            // // console.log('endDate', props.dateInterval.endDate.format('DD'), ' === ', selestedDates.endDate.format('DD'))
         } else {
-            // console.log('startDate', props.dateInterval.startDate.format('DD'), ' !== ', selestedDates.startDate.format('DD'))
-            // console.log('endDate', props.dateInterval.endDate.format('DD'), ' !== ', selestedDates.endDate.format('DD'))
+            // // console.log('startDate', props.dateInterval.startDate.format('DD'), ' !== ', selestedDates.startDate.format('DD'))
+            // // console.log('endDate', props.dateInterval.endDate.format('DD'), ' !== ', selestedDates.endDate.format('DD'))
             if (props.dateInterval.startDate !== null && props.dateInterval.startDate !== null) {
-                console.log(props.dateInterval.startDate.format('YYYY-MM-DD'),' - ', props.dateInterval.endDate.format('YYYY-MM-DD'))
-                props.getTaskListForGap(
+                // console.log(props.dateInterval.startDate.format('YYYY-MM-DD'),' - ', props.dateInterval.endDate.format('YYYY-MM-DD'))
+                props.getTaskList(
                     props.dateInterval.startDate.format('YYYY-MM-DD'), 
                     props.dateInterval.endDate.format('YYYY-MM-DD')
                 )

@@ -1,28 +1,11 @@
 import { NewTaskDataType, TaskType } from '../Types/types'
-import {instance, APIResponseType} from './api'
+import {instance} from './api'
 
 export type TaskListType = {
     Tasks: Array<TaskType>
 }
 
 export const taskAPI = {
-    getTaskList(date: string) {
-        return instance.get<TaskListType>(`tasks?date=${date}` ).then(response => {
-            return response.status === 200 ? response : null;
-        })
-        .catch(err => {
-            if (err.response) {
-                console.log('err', err.response)
-                return err.response
-            } else if (err.request) {
-                console.log('request', err.request)
-            } else {
-                console.log('anything else: ', err)
-            }
-            return null
-        })
-    },
-
     createNewTask(values: NewTaskDataType) {
         return instance.post<TaskListType>(`tasks`, values).then(response => {
             return response.status === 200 ? response : null;
@@ -31,28 +14,28 @@ export const taskAPI = {
             if (err.response) {
                 return err.response
             } else if (err.request) {
-                console.log('request', err.request)
+                // console.log('request', err.request)
             } else {
-                console.log('anything else: ', err)
+                // console.log('anything else: ', err)
             }
             return null
         })
     },
 
-    getTaskListForGap(values: getTaskListForGapValuesType) {
-        console.log('getTaskListForGap API', values)
+    getTaskList(values: getTaskListValuesType) {
+        // console.log('getTaskList API', values)
         return instance.post<TaskListType>(`tasks/part`, values).then(response => {
-            console.log('response', response)
+            // console.log('response', response)
             return response.status === 200 ? response : null;
         })
         .catch(err => {
             if (err.response) {
-                console.log('err')
+                // console.log('err')
                 return err.response
             } else if (err.request) {
-                console.log('request', err.request)
+                // console.log('request', err.request)
             } else {
-                console.log('anything else: ', err)
+                // console.log('anything else: ', err)
             }
             return null
         })
@@ -65,7 +48,7 @@ export const taskAPI = {
     }
 }
 
-export type getTaskListForGapValuesType = {
+export type getTaskListValuesType = {
     start_date: string, 
     end_date: string
 }

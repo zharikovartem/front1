@@ -1,14 +1,12 @@
 import {connect} from 'react-redux'
 import ToDoHeader, { OwnToDoHeaderPropsType } from './ToDoHeader'
-import {setIsIntervalAC, getTaskList, actions} from './../redux/taskReducer'
+import {actions} from './../redux/taskReducer'
 import { AppStateType } from '../redux/store'
 // import { Action } from 'redux'
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 
 type MapDispatchPropsType = {
-    setIsIntervalAC: (isInterval: boolean) => void,
-    getTaskList: (date: string) => void
     setIsInterval: (isInterval: boolean, date: {startDate: moment.Moment, endDate: moment.Moment}) => {
         type: "SN/TASK/SET_IS_INTERVAL",
         isInterval: boolean,
@@ -25,7 +23,7 @@ let mapStateToProps = (state:AppStateType) => {
 }
 
 export default connect<MapPropsType, MapDispatchPropsType, OwnToDoHeaderPropsType, AppStateType>(mapStateToProps, 
-    {setIsIntervalAC, getTaskList, setIsInterval: actions.setIsInterval}) 
+    {setIsInterval: actions.setIsInterval}) 
     (ToDoHeader);
     
 

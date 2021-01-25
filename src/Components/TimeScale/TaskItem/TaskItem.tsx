@@ -16,7 +16,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
     const [deleteingInProgess, setDeleteingInProgess] = useState(false)
 
     const onStatusChange = (e: CheckboxChangeEvent) => {
-        console.log(e.target.checked)
+        // console.log(e.target.checked)
         if (e.target.checked) {
             setStetus('completed')
         } else {
@@ -25,14 +25,14 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
     }
 
     const deleteTask: (taskid: number) => void = (taskid) => {
-        console.log(taskid)
+        // console.log(taskid)
         setDeleteingInProgess(true)
         props.deleteTask(taskid, props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
     }
 
     return (
         <ListGroup.Item action className="py-1">
-            <Row>
+            <Row className="px-0 ml-0 ml-sm-5">
                 <Col className="mx-2">
                     <Checkbox onChange={onStatusChange} />
                 </Col>
@@ -49,7 +49,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                         </span>
                     </Tooltip>
                 </Col>
-                <Col className="mr-0 ml-auto">
+                <Col className="mr-auto ml-0 mr-sm-2 ml-sm-auto">
                     {!deleteingInProgess ? 
                     <Button className=""
                         type="primary"

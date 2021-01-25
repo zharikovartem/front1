@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import { Form, Input, Button, TimePicker, DatePicker, Drawer, Spin, message } from 'antd'
 import { NewTaskFormPropsType } from './NewTaskFormContainer'
-import { combineReducers } from 'redux'
 
 const layout = {
     labelCol: { span: 8 },
@@ -13,7 +12,7 @@ const tailLayout = {
 }
 
 export type NewTaskFormOwnPropsType = {
-    selectedDate: moment.Moment,
+    // selectedDate: moment.Moment,
     onClose: () => void
     visible: boolean,
     setVisible: (visible: boolean) => void
@@ -23,29 +22,13 @@ const { TextArea } = Input;
 
 const timeFormat: string = 'HH:mm';
 
-type FormValuesType = {
-    taskName: string | number | readonly string[] | undefined,
-    taskTime: moment.Moment | null,
-    date: moment.Moment | null,
-    description: string | null,
-}
-const initialFormValues: FormValuesType = {
-    taskName: undefined,
-    taskTime: null,
-    date: null,
-    description: null,
-}
-
 const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
     const [form] = Form.useForm()
-    const [selectedDate, setSelectedDate] = useState<moment.Moment>(props.selectedDate)
+    const [selectedDate, setSelectedDate] = useState<moment.Moment>(moment())
     const [saveStatus, setSaveStatus] = useState<string>(props.taskSaveStatus)
-    // const [formValues, setFormValues] = useState<FormValuesType>(initialFormValues)
-
-
 
     useEffect(() => {
-        console.log('status changed: ', props.taskSaveStatus)
+        // console.log('status changed: ', props.taskSaveStatus)
         switch (props.taskSaveStatus) {
             case 'inProgress':
                 setSaveStatus(props.taskSaveStatus)
@@ -73,7 +56,6 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
         description?: string
     }
     const onFinish = (values: OnFinishType) => {
-        console.log('onFinish, reload: ', selectedDate !== props.selectedDate)
         const data = {
             date: values.date.format('YYYY-MM-DD'),
             taskTime: values.taskTime.format('HH:mm'),
@@ -81,30 +63,30 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
             user_id: 1,
             description: values.description
         }
-        console.log(selectedDate.format('DD'), '<', props.dateInterval.startDate.format('DD'), '>'
-            , props.dateInterval.startDate.format('DD'))
-        console.log(
-            moment(selectedDate.format('YYYY-MM-DD')).isBetween(
-                props.dateInterval.startDate.format('YYYY-MM-DD'),
-                props.dateInterval.endDate.format('YYYY-MM-DD'),
-                undefined, '[]'
-            )
-        )
-        console.log('selectedDate', selectedDate.format('YYYY-MM-DD HH:MM:SS'))
-        console.log('startDate', props.dateInterval.startDate.format('YYYY-MM-DD HH:MM:SS'))
-        console.log('endDate', props.dateInterval.endDate.format('YYYY-MM-DD HH:MM:SS'))
+        // // console.log(selectedDate.format('DD'), '<', props.dateInterval.startDate.format('DD'), '>'
+        //     , props.dateInterval.startDate.format('DD'))
+        // // console.log(
+        //     moment(selectedDate.format('YYYY-MM-DD')).isBetween(
+        //         props.dateInterval.startDate.format('YYYY-MM-DD'),
+        //         props.dateInterval.endDate.format('YYYY-MM-DD'),
+        //         undefined, '[]'
+        //     )
+        // )
+        // // console.log('selectedDate', selectedDate.format('YYYY-MM-DD HH:MM:SS'))
+        // // console.log('startDate', props.dateInterval.startDate.format('YYYY-MM-DD HH:MM:SS'))
+        // // console.log('endDate', props.dateInterval.endDate.format('YYYY-MM-DD HH:MM:SS'))
 
         if (!moment(selectedDate.format('YYYY-MM-DD')).isBetween(
             props.dateInterval.startDate.format('YYYY-MM-DD'),
             props.dateInterval.endDate.format('YYYY-MM-DD'),
             undefined, '[]'
         )) {
-            console.log('ПЕРЕРИСОВКИ НЕТ')
+            // // console.log('ПЕРЕРИСОВКИ НЕТ')
             props.createNewTask(data, false)
         } else {
 
             props.createNewTask(data, true)
-            console.log('ПЕРЕРИСОВКА')
+            // // console.log('ПЕРЕРИСОВКА')
         }
     };
 
@@ -129,7 +111,7 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
     //     setFormValues({ ...formValues, taskTime: e })
     // }
 
-    // console.log('formValues',formValues)
+    // console.log('render TaskForm',props)
 
     return (
         <Drawer
@@ -144,7 +126,6 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
                 {...layout}
                 form={form}
                 name="control-hooks"
-                initialValues={{ remember: true }}
                 onFinish={onFinish}
             >
                 <Form.Item
@@ -158,7 +139,7 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
                 <Form.Item
                     label="Task date"
                     name="date"
-                    initialValue={props.selectedDate}
+                    initialValue={selectedDate}
                     rules={[{ required: true, message: 'Please input task date!' }]}
                 >
                     <DatePicker

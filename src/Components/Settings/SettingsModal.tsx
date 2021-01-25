@@ -1,10 +1,15 @@
 import React from 'react'
 import { Modal } from 'antd'
 
-const SettingsModal = (props:any) => {
-    // console.log('SettingsModal props', props)
+export type OwmSettingsModalPropsType = {
+    isModalVisible: boolean,
+    handleOk: () => void,
+    handleCancel: () => void
+}
+
+const SettingsModal = (props:OwmSettingsModalPropsType) => {
     return (
-        <Modal title="Basic Modal" visible={props.isModalVisible} onOk={props.handleOk} onCancel={props.handleCancel}>
+        <Modal title="Task display settings" visible={props.isModalVisible} onOk={props.handleOk} onCancel={props.handleCancel}>
             <p>Some contents...</p>
             <p>Some contents...</p>
             <p>Some contents...</p>

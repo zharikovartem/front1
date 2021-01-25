@@ -2,20 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { DatePicker, Checkbox, Button } from 'antd'
 import { FileAddOutlined, SettingOutlined } from '@ant-design/icons'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
-import {RangeValue, EventValue} from './../Types/types'
+import {RangeValue} from './../Types/types'
 import { ToDoHeaderPropsType } from './ToDoHeaderContainer'
 import moment from 'moment'
 
 const { RangePicker } = DatePicker
 
 export type OwnToDoHeaderPropsType = {
-    onDateChange: (value: moment.Moment | null, dateString: string) => void,
-    getTaskList: (date: string) => void,
-    selectedDate: moment.Moment,
-    setSelectedDate: React.Dispatch<React.SetStateAction<moment.Moment>>,
     showDrawer: () => void,
-    isAddActive: boolean,
-    onGapDateChange: (values: RangeValue<moment.Moment>, formatString: [string, string]) => void,
     showModal: () => void,
 }
 
@@ -24,33 +18,33 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
     const [dates, setDates] = useState<{startDate: moment.Moment, endDate: moment.Moment}>({startDate: moment(), endDate: moment()})
 
     useEffect(() => {
-        console.log(
-            'useEffect setIsInterval in ToDoHeader: ', 
-            'p-s',props.dateInterval.startDate.format('DD'),
-            'p-e',props.dateInterval.endDate.format('DD')
-        )
-        console.log()
-        props.setIsInterval(isInterval, dates)
-    }, [isInterval, dates]);
+        if ( 
+            props.dateInterval.startDate.format('YYYY-MM-DD') !== dates.startDate.format('YYYY-MM-DD') ||
+            props.dateInterval.endDate.format('YYYY-MM-DD') !== dates.endDate.format('YYYY-MM-DD') 
+        ) {
+            props.setIsInterval(isInterval, dates)
+        }
+        
+    }, [isInterval, dates, props]);
 
 
     const onDateTypeChange = (e: CheckboxChangeEvent) => {
         if (!e.target.checked) {
-            console.log('Необходимо вернуть одну дату если они разные startDate: ', dates.startDate.format('DD'), 
-            ' ?== ',props.dateInterval.startDate.format('DD'))
-            console.log('Необходимо вернуть одну дату если они разные endDate: ', dates.endDate.format('DD'), 
-            ' ?== ',props.dateInterval.endDate.format('DD'))
+            // console.log('Необходимо вернуть одну дату если они разные startDate: ', dates.startDate.format('DD'), 
+            // ' ?== ',props.dateInterval.startDate.format('DD'))
+            // console.log('Необходимо вернуть одну дату если они разные endDate: ', dates.endDate.format('DD'), 
+            // ' ?== ',props.dateInterval.endDate.format('DD'))
             setDates({
                 startDate: dates.startDate,
                 endDate: dates.startDate
             })
-            console.log('setDates runing')
+            // console.log('setDates runing')
         }
         setIsInterval(e.target.checked)
     }
 
     const onDateRangeChange = (values: RangeValue<moment.Moment>, formatString: [string, string]): void => {
-        // console.log(values)
+        // // console.log(values)
         if (values !== null && values[0] !== null && values[1] !== null ) {
             setDates({
                 startDate: values[0],
@@ -80,7 +74,7 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
                     {isInterval ?
                         <RangePicker
                             onChange={onDateRangeChange}
-                            defaultValue={[props.selectedDate, props.selectedDate]}
+                            defaultValue={[props.dateInterval.startDate, props.dateInterval.endDate]}
                             value = {[props.dateInterval.startDate, props.dateInterval.endDate]}
                             format='DD-MM-YYYY'
                             style={{ marginLeft: 10 }}
@@ -109,7 +103,6 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
                         </div>}
                     style={{ marginLeft: 10 }}
                     onClick={props.showDrawer}
-                    disabled={props.isAddActive}
                 />
 
                 <Button className=""
