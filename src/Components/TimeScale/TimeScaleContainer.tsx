@@ -24,6 +24,6 @@ let mapStateToProps = (state:AppStateType) => {
 
 export default connect<MapPropsType, DispatchPropsType, OwnTaskTimeScaleType, AppStateType>(mapStateToProps, 
     {getTaskList}) 
-    (TimeScale);
+    (TimeScale)
 
 

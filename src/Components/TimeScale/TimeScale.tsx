@@ -5,45 +5,35 @@ import { TimeScalePropsType } from './TimeScaleContainer'
 import { Divider, Spin, Tooltip, message } from 'antd'
 import TaskItem from './TaskItem/TaskItemContainer'
 
-
-// const compareMoments
-
 export type OwnTaskTimeScaleType = {}
 const TimeScale: React.FC<TimeScalePropsType> = (props) => {
     type SelestedDatesType = typeof props.dateInterval
     const [selestedDates, setSelectedDates] = useState<SelestedDatesType>({ startDate: moment(null), endDate: moment() })
     useEffect(() => {
-        // // console.log('dateInterval in TimeScale: ', props)
         if (
             props.dateInterval.startDate.format('YYYY-MM-DD') === selestedDates.startDate.format('YYYY-MM-DD') &&
             props.dateInterval.endDate.format('YYYY-MM-DD') === selestedDates.endDate.format('YYYY-MM-DD')
-        ) {
-            // // console.log('startDate', props.dateInterval.startDate.format('DD'), ' === ', selestedDates.startDate.format('DD'))
-            // // console.log('endDate', props.dateInterval.endDate.format('DD'), ' === ', selestedDates.endDate.format('DD'))
-        } else {
-            // // console.log('startDate', props.dateInterval.startDate.format('DD'), ' !== ', selestedDates.startDate.format('DD'))
-            // // console.log('endDate', props.dateInterval.endDate.format('DD'), ' !== ', selestedDates.endDate.format('DD'))
+        ) { }
+        else {
             if (props.dateInterval.startDate !== null && props.dateInterval.startDate !== null) {
-                // console.log(props.dateInterval.startDate.format('YYYY-MM-DD'),' - ', props.dateInterval.endDate.format('YYYY-MM-DD'))
                 props.getTaskList(
-                    props.dateInterval.startDate.format('YYYY-MM-DD'), 
+                    props.dateInterval.startDate.format('YYYY-MM-DD'),
                     props.dateInterval.endDate.format('YYYY-MM-DD')
                 )
                 setSelectedDates(props.dateInterval)
             }
         }
-    }, [props.dateInterval]);
+    }, [props.dateInterval])
 
     useEffect(() => {
         if (props.errorMessage !== null) {
-            message.success(props.errorMessage);
+            message.success(props.errorMessage)
         }
     }, [props.errorMessage])
 
     if (props.taskList !== null) {
         return (
             <>
-                {/* {props.taskListIsFetching ? <Spin key="spin" size="large" /> : null} */}
                 {getTimeScaleArrey(props.taskList)}
             </>
         )
@@ -58,16 +48,6 @@ export default TimeScale
 
 
 const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<string>> => {
-    const sortByParams = (field: 'date' | 'time') => {
-        if (field === 'date') {
-            return (a: TaskType, b: TaskType) => a['date'] > b['date'] ? 1 : -1;
-        } else {
-            return (a: TaskType, b: TaskType) => a['time'] > b['time'] ? -1 : 1;
-        }
-    }
-
-    taskList.sort(sortByParams('time')).sort(sortByParams('date'))
-
     let timeScaleArrey: Array<React.ReactElement<string>> = []
     let tomorowTasks: Array<TaskType> = []
 
@@ -75,7 +55,7 @@ const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<
         return moment(task.date).format('DD MMMM')
     }
 
-    let headlineDate: string | null = null;
+    let headlineDate: string | null = null
 
     if (taskList !== null && taskList.length > 0) {
         headlineDate = getHeadlineLabel(taskList[0])
@@ -98,7 +78,7 @@ const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<
 
         if (taskList !== null) {
             for (let i = 0; i < taskList.length; i++) {
-                const element: TaskType = taskList[i];
+                const element: TaskType = taskList[i]
                 const timeVal = Number(element.time.split(':', 1))
                 const nextHour = index + 1
                 if (timeVal >= index && timeVal < nextHour) {

@@ -10,27 +10,27 @@ export type OwnToDoListPropsType = {}
 
 const ToDoList: React.FC<ToDoListPropsType> = (props) => {
     const [visible, setVisible] = useState(false)
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false)
 
     const showDrawer = (): void => {
-        setVisible(true);
+        setVisible(true)
     }
 
     const onClose = (): void => {
-        setVisible(false);
+        setVisible(false)
     }
 
     const showModal = () => {
-        setIsModalVisible(true);
-    };
+        setIsModalVisible(true)
+    }
 
     const handleOk = () => {
-        setIsModalVisible(false);
-    };
+        setIsModalVisible(false)
+    }
 
     const handleCancel = () => {
-        setIsModalVisible(false);
-    };
+        setIsModalVisible(false)
+    }
 
     return (
         <>

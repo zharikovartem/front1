@@ -24,6 +24,6 @@ let mapStateToProps = (state:AppStateType) => {
 
 export default connect<MapPropsType, MapDispatchPropsType, OwnToDoHeaderPropsType, AppStateType>(mapStateToProps, 
     {setIsInterval: actions.setIsInterval}) 
-    (ToDoHeader);
+    (ToDoHeader)
     
 

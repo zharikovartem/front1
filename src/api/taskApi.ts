@@ -7,35 +7,34 @@ export type TaskListType = {
 
 export const taskAPI = {
     createNewTask(values: NewTaskDataType) {
-        return instance.post<TaskListType>(`tasks`, values).then(response => {
-            return response.status === 200 ? response : null;
+        return instance.post<TaskListType>(`tasks`, values)
+        .then(response => {
+            return response.status === 200 ? response : null
         })
         .catch(err => {
             if (err.response) {
                 return err.response
             } else if (err.request) {
-                // console.log('request', err.request)
+                console.log('request', err.request)
             } else {
-                // console.log('anything else: ', err)
+                console.log('anything else: ', err)
             }
             return null
         })
     },
 
     getTaskList(values: getTaskListValuesType) {
-        // console.log('getTaskList API', values)
-        return instance.post<TaskListType>(`tasks/part`, values).then(response => {
-            // console.log('response', response)
-            return response.status === 200 ? response : null;
+        return instance.post<TaskListType>(`tasks/part`, values)
+        .then(response => {
+            return response.status === 200 ? response : null
         })
         .catch(err => {
             if (err.response) {
-                // console.log('err')
                 return err.response
             } else if (err.request) {
-                // console.log('request', err.request)
+                console.log('request', err.request)
             } else {
-                // console.log('anything else: ', err)
+                console.log('anything else: ', err)
             }
             return null
         })
@@ -43,7 +42,17 @@ export const taskAPI = {
 
     deleteTask(taskId: number) {
         return instance.delete<TaskListType>(`tasks/${taskId}`).then(response => {
-            return response.status === 200 ? response : null;
+            return response.status === 200 ? response : null
+        })
+        .catch(err => {
+            if (err.response) {
+                return err.response
+            } else if (err.request) {
+                console.log('request', err.request)
+            } else {
+                console.log('anything else: ', err)
+            }
+            return null
         })
     }
 }

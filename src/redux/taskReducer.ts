@@ -49,9 +49,6 @@ const taskReducer = (state = initialState, action: ActionsTypes): initialStateTy
                 startDate: action.date.startDate,
                 endDate: action.date.endDate
             }
-
-            // console.log('in Reducer: ',dateInterval.startDate.format('DD'),'-',dateInterval.endDate.format('DD'))
-            // // console.log({...state, isInterval: action.isInterval, dateInterval })
             return {...state, isInterval: action.isInterval, dateInterval }
 
         default:
@@ -75,11 +72,10 @@ export const createNewTask = (values: NewTaskDataType, reload:boolean = true): T
 
         if (response.status === 200) {
             if (reload) {
-                // dispatch(actions.setTaskList(response.data));
                 const state = getState()
                 const startDate = state.task.dateInterval.startDate.format('YYYY-MM-DD')
                 const endDate = state.task.dateInterval.endDate.format('YYYY-MM-DD')
-                dispatch(getTaskList(startDate, endDate));
+                dispatch(getTaskList(startDate, endDate))
             }
             dispatch(actions.setTaskSaveStatus('success'))
             dispatch(actions.setTaskSaveStatus('no'))
@@ -93,13 +89,12 @@ export const createNewTask = (values: NewTaskDataType, reload:boolean = true): T
 }
 
 export const getTaskList = (startDate: string, endDate:string): ThunkType => {
-    // console.log('getTaskList', startDate, '-', endDate)
     return async (dispatch, getState) => {
         dispatch(actions.setTaskListIsFetching(true))
 
         const values = {start_date: startDate, end_date: endDate}
         let response = await taskAPI.getTaskList(values)
-        // console.log(response)
+
         if (response !== null) {
             dispatch(actions.setTaskList(response.data))
         } else {
@@ -112,7 +107,7 @@ export const getTaskList = (startDate: string, endDate:string): ThunkType => {
 export const deleteTask = (taskid: number, startDate: string, endDate:string): ThunkType => {
     return async (dispatch, getState) => {
         let response = await taskAPI.deleteTask(taskid)
-        // console.log(response)
+
         if (response !== null) {
             dispatch(actions.setErrorMessage('Task deletion was successful'))
             dispatch(getTaskList(startDate, endDate))

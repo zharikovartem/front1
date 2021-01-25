@@ -19,6 +19,6 @@ let mapStateToProps = (state:AppStateType) => {
 
 export default connect<MapPropsType, MapDispatchPropsType, OwnToDoListPropsType, AppStateType>(mapStateToProps, 
     {getTaskList}) 
-    (ToDoList);
+    (ToDoList)
     
 

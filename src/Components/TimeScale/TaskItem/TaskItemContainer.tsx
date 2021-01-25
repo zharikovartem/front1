@@ -20,4 +20,4 @@ let mapStateToProps = (state:AppStateType) => {
 
 export default connect<MapPropsType, DispatchPropsType, OwnTaskItemPropsType, AppStateType>(mapStateToProps, 
     {deleteTask, getTaskList}) 
-    (TaskItem);
+    (TaskItem)

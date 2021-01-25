@@ -25,26 +25,20 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
             props.setIsInterval(isInterval, dates)
         }
         
-    }, [isInterval, dates, props]);
+    }, [isInterval, dates, props])
 
 
     const onDateTypeChange = (e: CheckboxChangeEvent) => {
         if (!e.target.checked) {
-            // console.log('Необходимо вернуть одну дату если они разные startDate: ', dates.startDate.format('DD'), 
-            // ' ?== ',props.dateInterval.startDate.format('DD'))
-            // console.log('Необходимо вернуть одну дату если они разные endDate: ', dates.endDate.format('DD'), 
-            // ' ?== ',props.dateInterval.endDate.format('DD'))
             setDates({
                 startDate: dates.startDate,
                 endDate: dates.startDate
             })
-            // console.log('setDates runing')
         }
         setIsInterval(e.target.checked)
     }
 
     const onDateRangeChange = (values: RangeValue<moment.Moment>, formatString: [string, string]): void => {
-        // // console.log(values)
         if (values !== null && values[0] !== null && values[1] !== null ) {
             setDates({
                 startDate: values[0],

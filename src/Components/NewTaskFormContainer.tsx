@@ -23,6 +23,6 @@ let mapStateToProps = (state:AppStateType) => {
 
 export default connect<MapPropsType, DispatchPropsType, NewTaskFormOwnPropsType, AppStateType>(mapStateToProps, 
     {createNewTask}) 
-    (NewTaskForm);
+    (NewTaskForm)
 
 
