@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/epam-app/static/css/main.8ef4d7e4.chunk.css",
-    "main.js": "/epam-app/static/js/main.8487a73b.chunk.js",
-    "main.js.map": "/epam-app/static/js/main.8487a73b.chunk.js.map",
+    "main.js": "/epam-app/static/js/main.268c4e0e.chunk.js",
+    "main.js.map": "/epam-app/static/js/main.268c4e0e.chunk.js.map",
     "runtime-main.js": "/epam-app/static/js/runtime-main.99508952.js",
     "runtime-main.js.map": "/epam-app/static/js/runtime-main.99508952.js.map",
     "static/css/2.4dd1998b.chunk.css": "/epam-app/static/css/2.4dd1998b.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.4dd1998b.chunk.css",
     "static/js/2.81458a40.chunk.js",
     "static/css/main.8ef4d7e4.chunk.css",
-    "static/js/main.8487a73b.chunk.js"
+    "static/js/main.268c4e0e.chunk.js"
   ]
 }
