@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
-import { Form, Input, Button, TimePicker, DatePicker as DatePickerDesk, Drawer, Spin, message } from 'antd'
+import { Form, Input, Button, TimePicker, DatePicker, Drawer, Spin, message } from 'antd'
 import { NewTaskFormPropsType } from './NewTaskFormContainer'
 import './style.css'
-import { DatePicker as DatePickerMobile, List, InputItem } from 'antd-mobile'
-import enUs from 'antd-mobile/lib/date-picker/locale/en_US';
 
 const layout = {
     labelCol: { span: 8 },
@@ -116,7 +114,7 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
                     initialValue={selectedDate}
                     rules={[{ required: true, message: 'Please input task date!' }]}
                 >
-                    <DatePickerDesk
+                    <DatePicker
                         onChange={onDateChange}
                         format='DD-MM-YYYY'
                         autoComplete="off"
@@ -154,32 +152,6 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
                         </>
                     }
                 </Form.Item>
-                
-                <List 
-                    // renderHeader={() => 'Not editable / Disabled'}
-                >
-                    <InputItem
-                        value=""
-                        editable={true}
-                    >Task name</InputItem>
-                    {/* <InputItem
-                        value="style of disabled `InputItem`"
-                        disabled
-                    >姓名</InputItem> */}
-                </List>
-                <List className="date-picker-list" style={{ backgroundColor: 'white' }}>
-                    <DatePickerMobile
-                        locale={enUs}
-                        mode="date"
-                        title="Select Date"
-                        extra="click to choose"
-                        value={new Date('2017-1-1')}
-                        onChange={(date) => { console.log(date) }}
-                    >
-                        <List.Item arrow="horizontal">Datetime</List.Item>
-                    </DatePickerMobile>
-                </List>
-                
             </Form>
 
         </Drawer>
