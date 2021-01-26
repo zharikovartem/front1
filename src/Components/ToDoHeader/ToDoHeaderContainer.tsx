@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
 import ToDoHeader, { OwnToDoHeaderPropsType } from './ToDoHeader'
-import {actions} from './../redux/taskReducer'
-import { AppStateType } from '../redux/store'
+import {actions} from '../../redux/taskReducer'
+import { AppStateType } from '../../redux/store'
 // import { Action } from 'redux'
 
 type MapPropsType = ReturnType<typeof mapStateToProps>

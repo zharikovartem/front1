@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { DatePicker, Checkbox, Button } from 'antd'
 import { FileAddOutlined, SettingOutlined } from '@ant-design/icons'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
-import {RangeValue} from './../Types/types'
+import {RangeValue} from '../../Types/types'
 import { ToDoHeaderPropsType } from './ToDoHeaderContainer'
 import moment from 'moment'
 

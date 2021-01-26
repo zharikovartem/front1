@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import { Form, Input, Button, TimePicker, DatePicker, Drawer, Spin, message } from 'antd'
 import { NewTaskFormPropsType } from './NewTaskFormContainer'
-import './style.css'
+import './../style.css'
 
 const layout = {
     labelCol: { span: 8 },

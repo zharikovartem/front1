@@ -1,8 +1,8 @@
 import {connect} from 'react-redux'
 import NewTaskForm, { NewTaskFormOwnPropsType } from './NewTaskForm'
-import {createNewTask} from './../redux/taskReducer'
-import { AppStateType } from '../redux/store'
-import {NewTaskDataType} from './../Types/types'
+import {createNewTask} from '../../redux/taskReducer'
+import { AppStateType } from '../../redux/store'
+import {NewTaskDataType} from '../../Types/types'
 
 export type MapPropsType = ReturnType<typeof mapStateToProps>
 
