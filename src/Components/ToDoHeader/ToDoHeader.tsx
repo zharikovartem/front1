@@ -18,11 +18,9 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
     const [dates, setDates] = useState<{startDate: moment.Moment, endDate: moment.Moment}>({startDate: moment(), endDate: moment()})
 
     useEffect(() => {
-        // console.log('useEffect ToDoHeader dates:', dates.startDate.format('YYYY-MM-DD'),' - ',dates.endDate.format('YYYY-MM-DD'))
-        // console.log('useEffect ToDoHeader props:', props.dateInterval.startDate.format('YYYY-MM-DD'),' - ',props.dateInterval.endDate.format('YYYY-MM-DD'))
         if ( 
-            props.dateInterval.startDate.format('YYYY-MM-DD') !== dates.startDate.format('YYYY-MM-DD') ||
-            props.dateInterval.endDate.format('YYYY-MM-DD') !== dates.endDate.format('YYYY-MM-DD') 
+            !props.dateInterval.startDate.isSame(dates.startDate.format('YYYY-MM-DD'), "day" ) ||
+            !props.dateInterval.endDate.isSame(dates.endDate.format('YYYY-MM-DD'), "day" )
         ) {
             props.setIsInterval(isInterval, dates)
         }
