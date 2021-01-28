@@ -16,7 +16,6 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
     const [deleteingInProgess, setDeleteingInProgess] = useState(false)
 
     const onStatusChange = (e: CheckboxChangeEvent) => {
-        // console.log(e.target.checked)
         if (e.target.checked) {
             setStetus('completed')
         } else {
@@ -25,7 +24,6 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
     }
 
     const deleteTask: (taskid: number) => void = (taskid) => {
-        // console.log(taskid)
         setDeleteingInProgess(true)
         props.deleteTask(taskid, props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
     }
