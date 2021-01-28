@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/epam-app/static/css/main.46f1c307.chunk.css",
-    "main.js": "/epam-app/static/js/main.0f7b4309.chunk.js",
-    "main.js.map": "/epam-app/static/js/main.0f7b4309.chunk.js.map",
-    "runtime-main.js": "/epam-app/static/js/runtime-main.09d131f7.js",
-    "runtime-main.js.map": "/epam-app/static/js/runtime-main.09d131f7.js.map",
-    "static/css/2.db76a7fc.chunk.css": "/epam-app/static/css/2.db76a7fc.chunk.css",
-    "static/js/2.600cc16a.chunk.js": "/epam-app/static/js/2.600cc16a.chunk.js",
-    "static/js/2.600cc16a.chunk.js.map": "/epam-app/static/js/2.600cc16a.chunk.js.map",
-    "static/js/3.4e9eef0f.chunk.js": "/epam-app/static/js/3.4e9eef0f.chunk.js",
-    "static/js/3.4e9eef0f.chunk.js.map": "/epam-app/static/js/3.4e9eef0f.chunk.js.map",
-    "index.html": "/epam-app/index.html",
-    "static/css/2.db76a7fc.chunk.css.map": "/epam-app/static/css/2.db76a7fc.chunk.css.map",
-    "static/css/main.46f1c307.chunk.css.map": "/epam-app/static/css/main.46f1c307.chunk.css.map",
-    "static/js/2.600cc16a.chunk.js.LICENSE.txt": "/epam-app/static/js/2.600cc16a.chunk.js.LICENSE.txt"
+    "main.css": "/front1/static/css/main.5a04d905.chunk.css",
+    "main.js": "/front1/static/js/main.6c808bc7.chunk.js",
+    "main.js.map": "/front1/static/js/main.6c808bc7.chunk.js.map",
+    "runtime-main.js": "/front1/static/js/runtime-main.84dc0874.js",
+    "runtime-main.js.map": "/front1/static/js/runtime-main.84dc0874.js.map",
+    "static/css/2.db76a7fc.chunk.css": "/front1/static/css/2.db76a7fc.chunk.css",
+    "static/js/2.8b414a5b.chunk.js": "/front1/static/js/2.8b414a5b.chunk.js",
+    "static/js/2.8b414a5b.chunk.js.map": "/front1/static/js/2.8b414a5b.chunk.js.map",
+    "static/js/3.b167a70b.chunk.js": "/front1/static/js/3.b167a70b.chunk.js",
+    "static/js/3.b167a70b.chunk.js.map": "/front1/static/js/3.b167a70b.chunk.js.map",
+    "index.html": "/front1/index.html",
+    "static/css/2.db76a7fc.chunk.css.map": "/front1/static/css/2.db76a7fc.chunk.css.map",
+    "static/css/main.5a04d905.chunk.css.map": "/front1/static/css/main.5a04d905.chunk.css.map",
+    "static/js/2.8b414a5b.chunk.js.LICENSE.txt": "/front1/static/js/2.8b414a5b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.09d131f7.js",
+    "static/js/runtime-main.84dc0874.js",
     "static/css/2.db76a7fc.chunk.css",
-    "static/js/2.600cc16a.chunk.js",
-    "static/css/main.46f1c307.chunk.css",
-    "static/js/main.0f7b4309.chunk.js"
+    "static/js/2.8b414a5b.chunk.js",
+    "static/css/main.5a04d905.chunk.css",
+    "static/js/main.6c808bc7.chunk.js"
   ]
 }
