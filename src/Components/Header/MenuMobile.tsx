@@ -21,9 +21,7 @@ const MenuMobile: React.FC<OwnMenuMobileProps> = (props) => {
         data.forEach((dataItem: DataType) => {
             if (dataItem.children) {
                 dataItem.children.forEach( (item: DataType) => {
-                    console.log(location.pathname)
-                    console.log(dataItem.value)
-                    
+                    console.log('/',item.value,'===',location.pathname)
                     if (`/${item.value}` === location.pathname) {
                         response = [dataItem.value, item.value]
                     }
