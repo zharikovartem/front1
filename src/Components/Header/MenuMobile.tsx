@@ -57,6 +57,7 @@ const MenuMobile: React.FC<OwnMenuMobileProps> = (props) => {
                             if (cItem.value === value[1]) {
                                 label = `/${cItem.value}`;
                                 history.push(`/${cItem.value}`)
+                                console.log('history.push:',label)
                                 setSelectedMenuItem(value)
                             }
                         });
