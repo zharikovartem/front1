@@ -24,9 +24,10 @@ const appReducer = (state = initialState, action: ActionsType): InitialStateType
             }
 
         case 'SN/APP/SET_LOCATION':
+            console.log('location in appReducer:', action.location)
             return  {
                 ...state,
-                initialized: true
+                location: action.location
             }
         default:
             return state;

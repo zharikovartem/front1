@@ -27,7 +27,7 @@ const App = (props: MapPropsType & DispatchPropsType) => {
   const [location, setLocation] = useState(useLocation().pathname)
   useEffect(() => {
     if (!props.initialized) {
-      // console.log('location', location)
+      console.log('location', location)
       if (location !== '/') {
         props.addLocation(location)
       }
