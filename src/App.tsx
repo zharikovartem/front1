@@ -13,6 +13,7 @@ import { initializeApp, addLocation } from './redux/appReducer'
 import Header from './Components/Header/HeaderContainer'
 import { isMobile } from "react-device-detect"
 import Login from './Components/Login/Login'
+import Orders from './Components/Orders/OrdersContainer'
 
 const { SubMenu } = Menu
 const { Content, Footer, Sider } = Layout
@@ -56,6 +57,9 @@ const App = (props: MapPropsType & DispatchPropsType) => {
 
         <Route path={props.appLocation+'toDoList'} 
           render={() => <ToDoList />} />
+
+        <Route path={props.appLocation+'orders'} 
+          render={() => <Orders />} />
 
         <Route path={props.appLocation+'*'}
           render={() => <div>404 NOT FOUND</div>} />
