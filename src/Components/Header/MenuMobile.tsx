@@ -18,7 +18,7 @@ const MenuMobile: React.FC<OwnMenuMobileProps> = (props) => {
     const [initData, setInitData] = useState<DataType>(data)
 
     const getSelectedMenuItem = ():ValueType => {
-        let response: ValueType = ['', '']
+        let response: ValueType = [data[0].value, '']
         data.forEach( (dataItem: any) => {
             if (dataItem.children) {
                 dataItem.children.forEach( (item: any) => {
