@@ -3,9 +3,10 @@ import { Menu, ActivityIndicator, NavBar } from 'antd-mobile'
 import { ValueType } from 'antd-mobile/lib/menu/PropsType'
 import './MenuMobile.css'
 import {useHistory, useLocation} from 'react-router-dom'
+import {MenuDataType} from './Header'
 
 type OwnMenuMobileProps = {
-    menuData: any
+    menuData: MenuDataType
 }
 
 const MenuMobile: React.FC<OwnMenuMobileProps> = (props) => {
@@ -18,17 +19,13 @@ const MenuMobile: React.FC<OwnMenuMobileProps> = (props) => {
 
     const getSelectedMenuItem = ():ValueType => {
         let response: ValueType = ['', '']
-        data.forEach((dataItem: DataType) => {
+        data.forEach( (dataItem: any) => {
             if (dataItem.children) {
-                dataItem.children.forEach( (item: DataType) => {
+                dataItem.children.forEach( (item: any) => {
                     console.log('/',item.value,'===',location.pathname)
-                    if (`/${item.value}` === location.pathname) {
+                    if (item.value === location.pathname) {
                         response = [dataItem.value, item.value]
                     }
-                    // if (`/front1/${item.value}` === location.pathname) {
-                    //     console.log(location.pathname)
-                    //     response = [dataItem.value, item.value]
-                    // }
                 })
             }
         })
@@ -55,12 +52,12 @@ const MenuMobile: React.FC<OwnMenuMobileProps> = (props) => {
                     if (dataItem.children && value[1]) {
                         dataItem.children.forEach((cItem: { value: string | string[]; label: any }) => {
                             if (cItem.value === value[1]) {
-                                label = `/${cItem.value}`;
-                                history.push(`/${cItem.value}`)
+                                label = `${cItem.value}`;
                                 console.log('history.push:',label)
+                                history.push(`${cItem.value}`)
                                 setSelectedMenuItem(value)
                             }
-                        });
+                        })
                     }
                 }
             }

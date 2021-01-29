@@ -17,7 +17,7 @@ const MenuBrowser = (props: any) => {
         const menuItems = childs.map( (item: any) => {
             return (
                 <Menu.Item key={item.value}>
-                    <Link to={'/'+item.value}>{item.label}</Link>
+                    <Link to={item.value}>{item.label}</Link>
                 </Menu.Item>
             )
         })

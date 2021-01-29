@@ -10,7 +10,7 @@ import store, { AppStateType } from './redux/store'
 import { Breadcrumb, Layout, Menu, Spin } from 'antd'
 import { compose } from 'redux'
 import { initializeApp, addLocation } from './redux/appReducer'
-import Header from './Components/Header/Header'
+import Header from './Components/Header/HeaderContainer'
 import { isMobile } from "react-device-detect"
 import Login from './Components/Login/Login'
 
@@ -28,7 +28,7 @@ const App = (props: MapPropsType & DispatchPropsType) => {
   useEffect(() => {
     if (!props.initialized) {
       console.log('location', location)
-      if (location !== '/') {
+      if (location === '/front1/') {
         props.addLocation(location)
       }
       console.log('initialized FALSE', props)

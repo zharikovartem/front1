@@ -6,12 +6,31 @@ import {
     isMobile
 } from "react-device-detect"
 import { Link } from 'react-router-dom'
+import { HeaderPropsType } from './HeaderContainer'
 import MenuBrowser from './MenuBrowser'
 import MenuMobile from './MenuMobile'
 
 // type MenuDataType = Array<any>
-type MenuDataType = typeof menuData
-const menuData = [
+
+export type OwnHeaderPropsType = {}
+
+const Header: React.FC<HeaderPropsType> = (props) => {
+
+
+    if (isMobile) {
+        return <MenuMobile menuData={menuData(props.appLocation)} />
+    } else {
+        return <MenuBrowser menuData={menuData(props.appLocation)} />
+    }
+}
+
+export default Header
+
+
+export type MenuDataType = ReturnType<typeof menuData>
+
+const menuData = (appLocation: string) => {
+    const data = [
     {
         value: 'planning',
         label: 'Planning',
@@ -19,16 +38,16 @@ const menuData = [
             {
                 label: 'ToDo list',
                 // label: <Link to='/toDoList'>ToDo list</Link>,
-                value: 'toDoList',
+                value: appLocation + 'toDoList',
                 disabled: false,
             },
             {
                 label: 'Tasks tree',
-                value: 'tasksTree',
+                value: appLocation + 'tasksTree',
             },
             {
                 label: 'Analysis',
-                value: 'analysis',
+                value: appLocation + 'analysis',
                 disabled: true,
             }
         ],
@@ -38,11 +57,11 @@ const menuData = [
         children: [
             {
                 label: 'Products',
-                value: '1',
+                value: appLocation + 'products',
             }
             , {
                 label: 'Providers',
-                value: '2',
+                value: appLocation + 'providers',
             }
         ],
     },
@@ -53,22 +72,14 @@ const menuData = [
         children: [
             {
                 label: 'Orders',
-                value: '1',
+                value: appLocation + 'orders',
             },
             {
                 label: 'Leads',
-                value: '2',
+                value: appLocation + 'leads',
             },
         ],
     },
-]
-
-const Header = () => {
-    if (isMobile) {
-        return <MenuMobile menuData={menuData} />
-    } else {
-        return <MenuBrowser menuData={menuData}/>
-    }
+    ]
+    return data
 }
-
-export default Header
