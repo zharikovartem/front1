@@ -15,3 +15,36 @@ code {
 .ml-5 {
   margin-left: 10%;
 }
+
+.ant-form-item-label {
+  position: relative;
+  top: 25px;
+  width: 33.33333333%;
+}
+
+.ant-form-item-control-wrapper {
+  width: 66.66666667%;
+  display: inline-flex;
+  line-height: normal;
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+.form-container {
+  margin: 0 auto;
+  width: 350px;
+  text-align: left;
+  margin-top: -20px;
+}
+
+.field-container {
+  height: 65px;
+}
+
+.submit-container {
+  text-align: center;
+  margin-top: 25px;
+}

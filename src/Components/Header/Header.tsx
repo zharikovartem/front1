@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom'
 import { HeaderPropsType } from './HeaderContainer'
 import MenuBrowser from './MenuBrowser'
-import MenuMobile from './MenuMobile'
+import MenuMobile from './MenuMobileContainer'
 
 // type MenuDataType = Array<any>
 

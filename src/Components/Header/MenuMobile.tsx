@@ -4,12 +4,13 @@ import { ValueType } from 'antd-mobile/lib/menu/PropsType'
 import './MenuMobile.css'
 import {useHistory, useLocation} from 'react-router-dom'
 import {MenuDataType} from './Header'
+import { MenuMobilePropsType } from './MenuMobileContainer'
 
-type OwnMenuMobileProps = {
+export type OwnMenuMobilePropsType = {
     menuData: MenuDataType
 }
 
-const MenuMobile: React.FC<OwnMenuMobileProps> = (props) => {
+const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
     let history = useHistory();
     const location = useLocation();
     const [show, setShow] = useState(false)
@@ -29,6 +30,7 @@ const MenuMobile: React.FC<OwnMenuMobileProps> = (props) => {
                 })
             }
         })
+        console.log('getSelectedMenuItem response: ', response)
         return response
     }
 
@@ -52,9 +54,11 @@ const MenuMobile: React.FC<OwnMenuMobileProps> = (props) => {
                     if (dataItem.children && value[1]) {
                         dataItem.children.forEach((cItem: { value: string | string[]; label: any }) => {
                             if (cItem.value === value[1]) {
-                                label = `${cItem.value}`;
-                                console.log('history.push:',label)
-                                history.push(`${cItem.value}`)
+                                label = `/${cItem.value}`;
+                                console.log('history.push:',`${cItem.value}`)
+                                // history.push(`/${cItem.value}`)
+                                // history.push(props.appLocation + cItem.value)
+                                history.replace(`${cItem.value}`)
                                 setSelectedMenuItem(value)
                             }
                         })

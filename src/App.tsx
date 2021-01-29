@@ -55,23 +55,34 @@ const App = (props: MapPropsType & DispatchPropsType) => {
         <Route path={props.appLocation+'login'}
           render={() => <Login />} />
 
-        <Route path={props.appLocation+'toDoList'} 
-          render={() => <ToDoList />} />
+        {/* {isAuth ? 
+          <Route path={props.appLocation+'toDoList'} 
+            render={() => <ToDoList />} />
 
-        <Route path={props.appLocation+'orders'} 
-          render={() => <Orders />} />
+          <Route path={props.appLocation+'orders'} 
+            render={() => <Orders />} />
+        :
+          null
+        } */}
+        
+         <Route path={props.appLocation+'toDoList'} 
+            render={() => <ToDoList />} />
+
+          <Route path={props.appLocation+'orders'} 
+            render={() => <Orders />} />
 
         <Route path={props.appLocation+'*'}
           render={() => <div>404 NOT FOUND</div>} />
       </Switch>
-      <Footer>Footer for my app</Footer>
+      {/* <Footer>Footer for my app</Footer> */}
     </Layout>
   )
 }
 
 const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized,
-  appLocation: state.app.location
+  appLocation: state.app.location,
+  isAuth: state.auth.isAuth
 })
 
 let AppContainer = compose<React.ComponentType>(
