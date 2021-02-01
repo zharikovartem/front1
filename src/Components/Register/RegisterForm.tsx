@@ -61,11 +61,8 @@ const RegisterForm: React.FC<any> = (props) => {
             />
             <div className="submit-container">
                 <button className="ant-btn ant-btn-primary" type="submit">
-                    Login
+                    Register
                 </button>
-            </div>
-            <div className="mt-3">
-                <Link to="/register"><Button type="link" block>Register</Button></Link>
             </div>
             
             
