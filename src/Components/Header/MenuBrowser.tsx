@@ -5,7 +5,7 @@ import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/ico
 
 const { SubMenu } = Menu;
 
-const MenuBrowser = (props: any) => {
+const MenuBrowser: React.FC<any> = (props) => {
     const [state, setState] = useState<Array<string>>([])
     const handleClick = (e: any | undefined) => {
         // //console.log('click ', e);
@@ -38,9 +38,15 @@ const MenuBrowser = (props: any) => {
                 </SubMenu >
             )
         })
+        subMenu.push(
+            <Menu.Item key="login">
+                <Link to={props.appLocation +"login"} >Login</Link>
+            </Menu.Item>
+        )
         return subMenu
     }
 
+    console.log(props)
     return (
         <Menu 
             onClick={handleClick} 

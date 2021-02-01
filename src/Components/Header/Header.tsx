@@ -20,7 +20,7 @@ const Header: React.FC<HeaderPropsType> = (props) => {
     if (isMobile) {
         return <MenuMobile menuData={menuData(props.appLocation)} />
     } else {
-        return <MenuBrowser menuData={menuData(props.appLocation)} />
+        return <MenuBrowser menuData={menuData(props.appLocation)} appLocation={props.appLocation}/>
     }
 }
 
