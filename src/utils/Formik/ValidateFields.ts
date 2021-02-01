@@ -1,4 +1,4 @@
-import { userAPI } from "../../api/userAPI";
+// import { userAPI } from "../../api/userAPI";
 
 export const validateRequired = (value: string) => {
     let errors;
@@ -29,14 +29,14 @@ export const validateAsync = (value: string) => {
     })
 }
 
-export const validateUserExistense = (value: string) => {
-    //console.log(value)
-    return userAPI.checkUserForExistence(value).then( (result) => {
-        //console.log(result.status)
-        if (result.status !== 404) {
-            return 'Name is bisy'
-        } 
-    })
-    //console.log(test)
+// export const validateUserExistense = (value: string) => {
+//     //console.log(value)
+//     return userAPI.checkUserForExistence(value).then( (result) => {
+//         //console.log(result.status)
+//         if (result.status !== 404) {
+//             return 'Name is bisy'
+//         } 
+//     })
+//     //console.log(test)
 
-}
+// }

@@ -31,7 +31,6 @@ const taskListReducer = (state = initialState, action: ActionsTypes): InitialSta
     switch (action.type) {
         case 'SN/TASK_LIST/SET_TASK_LIST':
             return {...state, taskList: action.taskList}
-            return {...state}
 
         default:
             return state

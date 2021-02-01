@@ -8,11 +8,6 @@ type InitialStateType = {
     isAuth: boolean
 }
 let initialState: InitialStateType = {
-    // userId: null as (number | null),
-    // email: null as string | null,
-    // login: null as string | null,
-    // isAuth: false,
-    // captchaUrl: null as string | null// if null, then captcha is not required
     user: null,
     remember_token: null,
     isAuth: false
@@ -82,18 +77,18 @@ export const login = (data: credsType): ThunkType => {
         if (response) {
             console.log(response)
             if (response.status === 200) {
-                console.log('200')
                 dispatch(actions.setAuthUserData(response.data.user, response.data.remember_token))
             }
         }
     }
 }
 
-// export const logout = (): ThunkType => {
-//     return async (dispatch, getState) => {
-//         let response = await authAPI.logout()
-//     }
-// }
+export const register = (creds: any): ThunkType => {
+    return async (dispatch, getState) => {
+        let response = await authAPI.register(creds)
+        console.log(response)
+    }
+}
 
 export default authReducer;
 

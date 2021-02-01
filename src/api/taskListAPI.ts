@@ -1,4 +1,3 @@
-import { NewTaskDataType, TaskType } from '../Types/types'
 import {instance} from './api'
 
 export const taskListAPI = {

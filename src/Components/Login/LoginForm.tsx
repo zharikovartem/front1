@@ -3,7 +3,7 @@ import { Form, Field, FormikProps } from "formik"
 import { AntInput, AntCheckbox, AntInputPassword } from '../../utils/Formik/CreateAntField'
 import {useHistory, useLocation} from 'react-router-dom'
 import { List, Checkbox } from 'antd-mobile'
-import { validateAsync, validateEmail, validateRequired, validateUserExistense } from '../../utils/Formik/ValidateFields'
+import { validateAsync, validateEmail, validateRequired } from '../../utils/Formik/ValidateFields'
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 
