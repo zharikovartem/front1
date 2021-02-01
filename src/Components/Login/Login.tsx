@@ -1,9 +1,10 @@
 import React from 'react'
-import { isMobile } from "react-device-detect"
+import { LoginPropsType } from './LoginContainer'
 import { List, InputItem, Checkbox } from 'antd-mobile'
 import { Formik } from "formik"
 import moment from "moment"
 import LoginForm from './LoginForm'
+import { propTypes } from 'react-bootstrap/esm/Image'
 
 const CheckboxItem = Checkbox.CheckboxItem;
 
@@ -17,14 +18,21 @@ const initialValues = {
 // export const dateFormat = "YYYY--MM-DD";
 // export const timeFormat = "h:mm A";
 
-const Login = () => {
+export type OwnLoginPropsType = {}
 
-    const handleSubmit = (formProps:any) => {
-        //console.log('formProps: ', formProps)
-        alert(
-            ` Email: ${formProps.email} \n Name: ${formProps.name} \n Remember Me: ${formProps.rememberMe}`
-          )
-      }
+const Login: React.FC<LoginPropsType> = (props) => {
+    const handleSubmit = (formProps: any) => {
+        console.log('formProps: ', formProps)
+        if (!formProps.remember) {
+            formProps.remember = false
+        }
+        props.login(formProps)
+        // alert(
+        //     ` Email: ${formProps.email} \n Name: ${formProps.name} \n Remember Me: ${formProps.rememberMe}`
+        //   )
+    }
+
+    console.log(props)
 
     return (
         <>

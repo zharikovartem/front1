@@ -12,7 +12,7 @@ import { compose } from 'redux'
 import { initializeApp, addLocation } from './redux/appReducer'
 import Header from './Components/Header/HeaderContainer'
 import { isMobile } from "react-device-detect"
-import Login from './Components/Login/Login'
+import Login from './Components/Login/LoginContainer'
 import Orders from './Components/Orders/OrdersContainer'
 import TasksTree from './Components/TasksTree/TasksTreeContainer'
 
@@ -50,8 +50,14 @@ const App = (props: MapPropsType & DispatchPropsType) => {
       {/* <li>авторизироваться</li> */}
       <Header />
       <Switch>
-        <Route exact path={props.appLocation}
-          render={() => <Redirect to={props.appLocation+'login'} />} />
+        {!props.isAuth ?
+          <Route exact path={props.appLocation}
+            render={() => <Redirect to={props.appLocation+'login'} />} />
+        :
+          <Route exact path={props.appLocation+'login'}
+            render={() => <Redirect to={props.appLocation+'toDoList'} />} />
+        }
+        
 
         <Route path={props.appLocation+'login'}
           render={() => <Login />} />

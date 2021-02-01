@@ -6,9 +6,11 @@ import {useHistory, useLocation} from 'react-router-dom'
 import {MenuDataType} from './Header'
 import { MenuMobilePropsType } from './MenuMobileContainer'
 import { Link } from 'react-router-dom'
+import {LogoutOutlined} from '@ant-design/icons'
 
 export type OwnMenuMobilePropsType = {
-    menuData: MenuDataType
+    menuData: MenuDataType,
+    logout: ()=>void
 }
 
 const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
@@ -45,19 +47,17 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
         // }
     }
 
-    const onChange = (value?: ValueType | undefined) => {
-        console.log(value)
-        
+    const onChange = (value?: ValueType | undefined) => {        
         let label = '';
         data.forEach((dataItem) => {
             if (value) {
                 if (dataItem.value === value[0]) {
-                    // label = dataItem.label;
+                    // Нужно ли сохранять совпадение submenu?????
                     if (dataItem.children && value[1]) {
                         dataItem.children.forEach((cItem: { value: string | string[]; label: any }) => {
                             if (cItem.value === value[1]) {
                                 label = `/${cItem.value}`;
-                                console.log('history.push:',`${cItem.value}`)
+                                // console.log('history.push:',`${cItem.value}`)
                                 // history.push(`/${cItem.value}`)
                                 // history.push(props.appLocation + cItem.value)
                                 history.replace(`${cItem.value}`)
@@ -68,10 +68,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
                 }
                 setSelectedMenuItem([selectedMenuItem[0], value[1]])
             }
-        });
-        // if (value) {
-        //     setSelectedMenuItem(value)
-        // }
+        })
     }
 
     const onMaskClick = () => {
@@ -96,6 +93,12 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
 
     // console.log(props)
 
+    const onLogout = () => {
+        onChange(['', ''])
+        history.replace(props.appLocation+'login')
+        props.logout()
+    }
+
     return (
         <div className={show ? 'menu-active' : ''}>
             <div>
@@ -106,15 +109,22 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
                     onLeftClick={handleClick}
                     className="top-nav-bar"
                 >
-                    <Link 
-                        to={props.appLocation+"login"} 
-                        onClick={ ()=>{onChange(['', ''])} }
-                    >
-                        {/* <Button className="am-button-borderfix" type="primary" size="small"> */}
-                        <span className="text-white">Login</span>
-                            
-                        {/* </Button> */}
-                    </Link>
+                    {!props.isAuth ? 
+                        <Link 
+                            to={props.appLocation+"login"} 
+                            onClick={ ()=>{onChange(['', ''])} }
+                        >
+                            <span className="text-white">Login</span> 
+                        </Link>
+                    :
+                        <div>
+                            {props.user?.name}
+                            <Button className="ml-5" size="small" icon={<LogoutOutlined/>} onClick={onLogout} inline >
+
+                            </Button>
+                        </div>
+                    }
+                    
                 </NavBar>
             </div>
             {show ? initData ? menuEl : loadingEl : null}

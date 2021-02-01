@@ -70,6 +70,7 @@ const CreateAntField = (AntComponent: any) => (
                     <AntComponent
                         onBlur={onBlur}
                         onChange={type ? onInputChange : onChange}
+                        key={label}
                     >
                         {label}
                     </AntComponent>
@@ -78,6 +79,7 @@ const CreateAntField = (AntComponent: any) => (
                 <AntComponent
                     {...field}
                     {...props}
+                    // key={i.value}
                     onBlur={onBlur}
                     onChange={type ? onInputChange : onChange}
                 >

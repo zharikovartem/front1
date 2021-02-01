@@ -75,7 +75,7 @@ const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<
                 </Divider>
             )
         } else {
-            timeScaleArrey.push(<h3>no tasks</h3>)
+            timeScaleArrey.push(<h3 key="noTasks">no tasks</h3>)
             break
         }
 

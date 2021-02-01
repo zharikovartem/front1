@@ -16,9 +16,9 @@ export type OwnHeaderPropsType = {}
 
 const Header: React.FC<HeaderPropsType> = (props) => {
 
-
+    console.log(props)
     if (isMobile) {
-        return <MenuMobile menuData={menuData(props.appLocation)} />
+        return <MenuMobile menuData={menuData(props.appLocation)} logout={props.logout}/>
     } else {
         return <MenuBrowser menuData={menuData(props.appLocation)} appLocation={props.appLocation}/>
     }

@@ -13,7 +13,9 @@ export type MenuMobilePropsType = MapPropsType & MapDispatchPropsType & OwnMenuM
 
 let mapStateToProps = (state:AppStateType) => {
     return {
-        appLocation: state.app.location
+        appLocation: state.app.location,
+        isAuth: state.auth.isAuth,
+        user: state.auth.user
     }
 }
 

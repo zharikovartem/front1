@@ -24,7 +24,7 @@ const LoginForm: React.FC<OwnLoginFormPropsType> = (props) => {
             className="form-container" 
             onSubmit={props.handleSubmit}
         >
-            <Field
+            {/* <Field
                 component={AntInput}
                 name="name"
                 type="text"
@@ -32,7 +32,7 @@ const LoginForm: React.FC<OwnLoginFormPropsType> = (props) => {
                 validate={validateRequired}
                 submitCount={props.submitCount}
                 hasFeedback
-            />
+            /> */}
             <Field
                 component={AntInput}
                 name="email"
@@ -54,12 +54,9 @@ const LoginForm: React.FC<OwnLoginFormPropsType> = (props) => {
             />
             <Field
                 component={AntCheckbox}
-                name="rememberMe"
-                // type="checkbox"
+                name="remember"
                 label="Remember Me"
-                // validate={validateEmail}
                 submitCount={props.submitCount}
-            // hasFeedback
             />
             <div className="submit-container">
                 <button className="ant-btn ant-btn-primary" type="submit">
@@ -68,7 +65,7 @@ const LoginForm: React.FC<OwnLoginFormPropsType> = (props) => {
             </div>
 
             {/* <List >
-                <CheckboxItem key={"0"}>
+                <CheckboxItem key={"0"} onChange={onChange}>
                     test
                 </CheckboxItem>
             </List> */}
@@ -77,3 +74,7 @@ const LoginForm: React.FC<OwnLoginFormPropsType> = (props) => {
 }
 
 export default LoginForm
+
+// const onChange = () => {
+//     console.log('123')
+// }
