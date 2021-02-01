@@ -5,6 +5,8 @@ import { Formik } from "formik"
 import moment from "moment"
 import LoginForm from './LoginForm'
 import { propTypes } from 'react-bootstrap/esm/Image'
+import { Button } from 'antd'
+import { Link } from 'react-router-dom'
 
 const CheckboxItem = Checkbox.CheckboxItem;
 
@@ -38,8 +40,11 @@ const Login: React.FC<LoginPropsType> = (props) => {
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 render={LoginForm}
-                location= {props.location}
+                // location= {props.location}
             />
+            <div className="mt-3">
+                <Link to={props.location +"register"}><Button type="link" block>Register</Button></Link>
+            </div>
         </>
     )
 }

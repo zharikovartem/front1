@@ -71,10 +71,10 @@ const LoginForm: ((props: FormikProps<{}> | OwnLoginFormPropsType) => ReactNode)
             </div>
             {/* <div>{props.location}</div> */}
             {/* useHistory */}
-            <div className="mt-3">
+            {/* <div className="mt-3">
                 <Link to={"register"}><Button type="link" block>Register</Button></Link>
             </div>
-            
+             */}
             
 
             {/* <List >
