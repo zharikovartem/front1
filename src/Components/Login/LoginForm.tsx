@@ -67,7 +67,7 @@ const LoginForm: any = (props: any) => {
                 </button>
             </div>
             <div className="mt-3">
-                <Link to={"/register"}><Button type="link" block>Register</Button></Link>
+                <Link to={props.location+"register"}><Button type="link" block>Register</Button></Link>
             </div>
             
             
