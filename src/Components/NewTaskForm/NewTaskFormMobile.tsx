@@ -4,9 +4,13 @@ import enUs from 'antd-mobile/lib/date-picker/locale/en_US';
 
 // Компонент находится в разработке :-)
 const NewTaskFormMobile = () => {
+
+    const onChange = () => {
+
+    }
     return (
         <>
-            <List
+            {/* <List
             // renderHeader={() => 'List Title'}
             >
                 <InputItem
@@ -20,12 +24,12 @@ const NewTaskFormMobile = () => {
                     mode="date"
                     title="Date"
                     extra="click to choose"
-                    value={new Date('2017-1-1')}
-                    onChange={(date) => { console.log(date) }}
+                    value={new Date('2017-1-1')} 
+                    onChange={onChange}
                 >
                     <List.Item arrow="horizontal">Datetime</List.Item>
                 </DatePicker>
-            </List>
+            </List> */}
         </>
     )
 }

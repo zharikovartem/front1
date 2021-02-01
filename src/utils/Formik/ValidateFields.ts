@@ -31,13 +31,13 @@ export const validateAsync = (value: string) => {
 }
 
 export const validateUserExistense = (value: string) => {
-    console.log(value)
+    //console.log(value)
     return userAPI.checkUserForExistence(value).then( (result) => {
-        console.log(result.status)
+        //console.log(result.status)
         if (result.status !== 404) {
             return 'Name is bisy'
         } 
     })
-    console.log(test)
+    //console.log(test)
 
 }

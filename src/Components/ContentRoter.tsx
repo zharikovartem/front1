@@ -7,7 +7,7 @@ export type OwnContentRoterPropsType = {
 }
 
 const ContentRoter = (props: ContentRoterPropsType) => {
-    console.log('ContentRoter', props)
+    //console.log('ContentRoter', props)
     return(
         <div>
             ContentRoter

@@ -25,8 +25,8 @@ const CreateAntField = (AntComponent: any) => (
         ...props
     }: any
 ) => {
-    // console.log('field: ', field)
-    // console.log('form: ', form)
+    // //console.log('field: ', field)
+    // //console.log('form: ', form)
 
     const touched = form.touched[field.name];
     const submitted = submitCount > 0;
@@ -36,8 +36,8 @@ const CreateAntField = (AntComponent: any) => (
 
     // const onInputChange = ({ target: { value } }: any) => {
     const onInputChange = (value: any) => {
-        // console.log(value.target.value)
-        // console.log(field.name)
+        // //console.log(value.target.value)
+        // //console.log(field.name)
         if (value.target) {
             form.setFieldValue(field.name, value.target.value)
         } else {
@@ -46,8 +46,8 @@ const CreateAntField = (AntComponent: any) => (
         
     }
     const onChange = (value: any) => {
-        console.log(value)
-        console.log(field.name,'=',value)
+        //console.log(value)
+        //console.log(field.name,'=',value)
         if (value.target.type === 'checkbox') {
             form.setFieldValue(field.name, value.target.checked)
         } else {

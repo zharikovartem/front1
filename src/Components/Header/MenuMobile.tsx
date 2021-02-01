@@ -24,14 +24,14 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
         data.forEach( (dataItem: any) => {
             if (dataItem.children) {
                 dataItem.children.forEach( (item: any) => {
-                    console.log('/',item.value,'===',location.pathname)
+                    //console.log('/',item.value,'===',location.pathname)
                     if (item.value === location.pathname) {
                         response = [dataItem.value, item.value]
                     }
                 })
             }
         })
-        console.log('getSelectedMenuItem response: ', response)
+        //console.log('getSelectedMenuItem response: ', response)
         return response
     }
 
@@ -46,7 +46,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
     }
 
     const onChange = (value?: ValueType | undefined) => {
-        console.log(value)
+        //console.log(value)
         let label = '';
         data.forEach((dataItem) => {
             if (value) {
@@ -56,7 +56,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
                         dataItem.children.forEach((cItem: { value: string | string[]; label: any }) => {
                             if (cItem.value === value[1]) {
                                 label = `/${cItem.value}`;
-                                console.log('history.push:',`${cItem.value}`)
+                                //console.log('history.push:',`${cItem.value}`)
                                 // history.push(`/${cItem.value}`)
                                 // history.push(props.appLocation + cItem.value)
                                 history.replace(`${cItem.value}`)
@@ -89,7 +89,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
         </div>
     );
 
-    console.log(props)
+    //console.log(props)
 
     return (
         <div className={show ? 'menu-active' : ''}>

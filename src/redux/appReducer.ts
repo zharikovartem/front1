@@ -17,14 +17,14 @@ type ActionsType = InferActionsTypes<typeof actions>
 const appReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'SN/APP/INITIALIZED_SUCCESS':
-            console.log('INITIALIZED_SUCCESS: true')
+            //console.log('INITIALIZED_SUCCESS: true')
             return {
                 ...state,
                 initialized: true
             }
 
         case 'SN/APP/SET_LOCATION':
-            console.log('location in appReducer:', action.location)
+            //console.log('location in appReducer:', action.location)
             return  {
                 ...state,
                 location: action.location
@@ -43,7 +43,7 @@ export const initializeApp = () => (dispatch: any) => {
     let promise = dispatch(getAuthUserData());
     Promise.all([promise])
         .then(() => {
-            console.log('dispatch(actions.initializedSuccess());')
+            //console.log('dispatch(actions.initializedSuccess());')
             dispatch(actions.initializedSuccess());
         });
 }

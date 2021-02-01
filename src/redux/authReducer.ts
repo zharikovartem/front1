@@ -35,7 +35,7 @@ export const actions = {
 
 // export const getAuthUserData = (): ThunkType => async (dispatch) => {
 //     let response = await authAPI.me()
-//     console.log('getAuthUserData', response)
+//     //console.log('getAuthUserData', response)
 // }
 
 export const getAuthUserData = (): ThunkType => {
@@ -46,7 +46,7 @@ export const getAuthUserData = (): ThunkType => {
             if (response.data.resultCode === 0) {
                 dispatch(actions.setAuthUserData(null, null, null, false))
             } else {
-                console.log(response.data.messages[0])
+                //console.log(response.data.messages[0])
             }
         }
     }

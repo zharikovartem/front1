@@ -15,9 +15,9 @@ export const taskAPI = {
             if (err.response) {
                 return err.response
             } else if (err.request) {
-                console.log('request', err.request)
+                //console.log('request', err.request)
             } else {
-                console.log('anything else: ', err)
+                //console.log('anything else: ', err)
             }
             return null
         })
@@ -32,9 +32,9 @@ export const taskAPI = {
             if (err.response) {
                 return err.response
             } else if (err.request) {
-                console.log('request', err.request)
+                //console.log('request', err.request)
             } else {
-                console.log('anything else: ', err)
+                //console.log('anything else: ', err)
             }
             return null
         })
@@ -48,9 +48,9 @@ export const taskAPI = {
             if (err.response) {
                 return err.response
             } else if (err.request) {
-                console.log('request', err.request)
+                //console.log('request', err.request)
             } else {
-                console.log('anything else: ', err)
+                //console.log('anything else: ', err)
             }
             return null
         })

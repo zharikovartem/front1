@@ -20,14 +20,14 @@ export const authAPI = {
         //     if (err.response) {
         //         return err.response
         //     } else if (err.request) {
-        //         console.log('request', err.request)
+        //         //console.log('request', err.request)
         //     } else {
-        //         console.log('anything else: ', err)
+        //         //console.log('anything else: ', err)
         //     }
         //     return null
         // })
         return instance.get<APIResponseType<MeResponseDataType>>(`authMe/me`).then( (response) => {
-            console.log(response)
+            //console.log(response)
             return response
         });
     },

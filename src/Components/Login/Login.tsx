@@ -20,7 +20,7 @@ const initialValues = {
 const Login = () => {
 
     const handleSubmit = (formProps:any) => {
-        console.log('formProps: ', formProps)
+        //console.log('formProps: ', formProps)
         alert(
             ` Email: ${formProps.email} \n Name: ${formProps.name} \n Remember Me: ${formProps.rememberMe}`
           )

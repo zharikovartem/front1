@@ -8,7 +8,7 @@ const { SubMenu } = Menu;
 const MenuBrowser = (props: any) => {
     const [state, setState] = useState<Array<string>>([])
     const handleClick = (e: any | undefined) => {
-        // console.log('click ', e);
+        // //console.log('click ', e);
         // setState({ current: e.key });
     }
 
@@ -25,9 +25,9 @@ const MenuBrowser = (props: any) => {
     }
 
     const getSubMenu = () => {
-        // console.log(props.menuData)
+        // //console.log(props.menuData)
         const subMenu = props.menuData.map( (item: any) => {
-            // console.log(item)
+            // //console.log(item)
             return (
                 <SubMenu 
                     key={item.value} 

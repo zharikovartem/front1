@@ -29,14 +29,14 @@ const App = (props: MapPropsType & DispatchPropsType) => {
   const [location, setLocation] = useState(useLocation().pathname)
   useEffect(() => {
     if (!props.initialized) {
-      console.log('location', location)
+      //console.log('location', location)
       if (location === '/front1/') {
         props.addLocation(location)
       }
-      console.log('initialized FALSE', props)
+      //console.log('initialized FALSE', props)
       props.initializeApp()
     } else {
-      console.log('initialized TRUE', props)
+      //console.log('initialized TRUE', props)
     }
   }, [props.initialized])
 
