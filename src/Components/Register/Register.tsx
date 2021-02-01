@@ -14,6 +14,7 @@ const Register = () => {
 
     }
 
+    console.log('Register')
     return (
         <>
             <h1 className="mb-5 mx-auto">Register Form</h1>

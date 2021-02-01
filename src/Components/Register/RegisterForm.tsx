@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { Button } from 'antd'
 
 const RegisterForm: React.FC<any> = (props) => {
-
+    console.log('RegisterForm')
     return(
         <Form
             // {...layout} 
