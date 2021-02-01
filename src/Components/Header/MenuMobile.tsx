@@ -46,7 +46,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
     }
 
     const onChange = (value?: ValueType | undefined) => {
-        //console.log(value)
+        console.log(value)
         
         let label = '';
         data.forEach((dataItem) => {
@@ -57,7 +57,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
                         dataItem.children.forEach((cItem: { value: string | string[]; label: any }) => {
                             if (cItem.value === value[1]) {
                                 label = `/${cItem.value}`;
-                                // console.log('history.push:',`${cItem.value}`)
+                                console.log('history.push:',`${cItem.value}`)
                                 // history.push(`/${cItem.value}`)
                                 // history.push(props.appLocation + cItem.value)
                                 history.replace(`${cItem.value}`)
@@ -66,7 +66,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
                         })
                     }
                 }
-                setSelectedMenuItem(value)
+                setSelectedMenuItem([selectedMenuItem[0], value[1]])
             }
         });
         // if (value) {
