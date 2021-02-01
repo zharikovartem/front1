@@ -89,7 +89,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
         </div>
     );
 
-    //console.log(props)
+    console.log(props)
 
     return (
         <div className={show ? 'menu-active' : ''}>
@@ -102,7 +102,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
                     className="top-nav-bar"
                 >
                     <Link 
-                        to="/login" 
+                        to={props.appLocation+"login"} 
                         onClick={ ()=>{onChange(['', ''])} }
                     >
                         {/* <Button className="am-button-borderfix" type="primary" size="small"> */}
