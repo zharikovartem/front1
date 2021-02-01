@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Form, Field, FormikProps } from "formik"
 import { AntInput, AntCheckbox, AntInputPassword } from '../../utils/Formik/CreateAntField'
+import {useHistory, useLocation} from 'react-router-dom'
 import { List, Checkbox } from 'antd-mobile'
 import { validateAsync, validateEmail, validateRequired, validateUserExistense } from '../../utils/Formik/ValidateFields'
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
-import { LoginFormPropsType } from './LoginFormContainer'
 
 const CheckboxItem = Checkbox.CheckboxItem
 
@@ -18,9 +18,12 @@ export type OwnLoginFormPropsType = {
     handleSubmit: () => void,
     values: any,
     submitCount: any
+    location: string
 }
 
-const LoginForm: any = (props: any) => {
+const LoginForm: ((props: FormikProps<{}> | OwnLoginFormPropsType) => ReactNode) = (props) => {
+    console.log(props)
+    const location = useLocation()
     return (
         <Form 
             // {...layout} 
@@ -66,8 +69,10 @@ const LoginForm: any = (props: any) => {
                     Login
                 </button>
             </div>
+            {/* <div>{props.location}</div> */}
+            {/* useHistory */}
             <div className="mt-3">
-                <Link to={props.location+"register"}><Button type="link" block>Register</Button></Link>
+                <Link to={"register"}><Button type="link" block>Register</Button></Link>
             </div>
             
             

@@ -38,6 +38,7 @@ const Login: React.FC<LoginPropsType> = (props) => {
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 render={LoginForm}
+                location= {props.location}
             />
         </>
     )
