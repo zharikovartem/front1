@@ -1,4 +1,3 @@
-import moment from "moment";
 import { userAPI } from "../../api/userAPI";
 
 export const validateRequired = (value: string) => {

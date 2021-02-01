@@ -1,5 +1,4 @@
 import { Dispatch } from "react";
-import { TaskListType } from "../Types/types";
 import { BaseThunkType, InferActionsTypes } from "./store";
 import { taskListAPI } from './../api/taskListAPI'
 
