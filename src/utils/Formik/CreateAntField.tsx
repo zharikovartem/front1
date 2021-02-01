@@ -7,6 +7,11 @@ const FormItem = Form.Item
 const Option: React.FC<any> = Select.Option
 const CheckboxItem = CheckboxMobile.CheckboxItem
 
+// const layout = {
+//     labelCol: { span: 8 },
+//     wrapperCol: { span: 16 },
+//   };
+
 
 const CreateAntField = (AntComponent: any) => (
     {
@@ -51,7 +56,7 @@ const CreateAntField = (AntComponent: any) => (
     }
     const onBlur = () => form.setFieldTouched(field.name, true);
     return (
-        <div className="field-container">
+        <div >
             <FormItem
                 label={!isMobile ? label : null}
                 hasFeedback={
@@ -79,6 +84,7 @@ const CreateAntField = (AntComponent: any) => (
                     {selectOptions &&
                         selectOptions.map((name: any) => <Option key={name}>{name}</Option>)}
                     
+                    
                 </AntComponent>
                 }
                 
@@ -92,6 +98,8 @@ export const AntDatePicker = CreateAntField(DatePicker)
 
 // export const AntInput = !isMobile ? CreateAntField(Input) : <List>CreateAntField(InputItem)</List>
 export const AntInput = !isMobile ? CreateAntField(Input) : CreateAntField(InputItem)
+
+export const AntInputPassword = !isMobile ? CreateAntField(Input.Password) : CreateAntField(InputItem)
 
 export const AntTimePicker = CreateAntField(TimePicker)
 export const AntCheckbox = !isMobile ? CreateAntField(Checkbox) : CreateAntField(CheckboxItem)

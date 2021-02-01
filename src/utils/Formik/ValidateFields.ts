@@ -1,6 +1,14 @@
 import moment from "moment";
 import { userAPI } from "../../api/userAPI";
 
+export const validateRequired = (value: string) => {
+    let errors;
+    if (!value) {
+        errors = "Required!";
+    }
+    return errors;
+}
+
 export const validateEmail = (value: string) => {
     let errors;
 

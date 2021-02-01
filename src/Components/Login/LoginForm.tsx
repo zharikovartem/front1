@@ -1,10 +1,15 @@
 import React from 'react'
 import { Form, Field } from "formik"
-import { AntInput, AntCheckbox } from '../../utils/Formik/CreateAntField'
+import { AntInput, AntCheckbox, AntInputPassword } from '../../utils/Formik/CreateAntField'
 import { List, Checkbox } from 'antd-mobile'
-import { validateAsync, validateEmail, validateUserExistense } from '../../utils/Formik/ValidateFields'
+import { validateAsync, validateEmail, validateRequired, validateUserExistense } from '../../utils/Formik/ValidateFields'
 
 const CheckboxItem = Checkbox.CheckboxItem
+
+const layout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 },
+}
 
 type OwnLoginFormPropsType = {
     handleSubmit: () => void,
@@ -14,13 +19,17 @@ type OwnLoginFormPropsType = {
 
 const LoginForm: React.FC<OwnLoginFormPropsType> = (props) => {
     return (
-        <Form className="form-container" onSubmit={props.handleSubmit}>
+        <Form 
+            // {...layout} 
+            className="form-container" 
+            onSubmit={props.handleSubmit}
+        >
             <Field
                 component={AntInput}
                 name="name"
                 type="text"
                 label="Name"
-                validate={validateUserExistense}
+                validate={validateRequired}
                 submitCount={props.submitCount}
                 hasFeedback
             />
@@ -30,6 +39,16 @@ const LoginForm: React.FC<OwnLoginFormPropsType> = (props) => {
                 type="email"
                 label="Email"
                 validate={validateEmail}
+                submitCount={props.submitCount}
+                hasFeedback
+            />
+            <Field
+                component={AntInputPassword}
+                name="password"
+                type="password"
+                label="Password"
+                // label={<label className="ant-form-item-required">Password</label>}
+                validate={validateRequired}
                 submitCount={props.submitCount}
                 hasFeedback
             />

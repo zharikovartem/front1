@@ -109,7 +109,7 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
                             <SettingOutlined style={{ fontSize: '18px' }} />
                             <span className="ml-1" style={{ fontSize: '14px' }}>Settings</span>
                         </div>} 
-                    />
+                />
             </div>
         </div>
     )

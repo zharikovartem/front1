@@ -2,6 +2,10 @@ import { AppStateType } from './../redux/store'
 
 export type GetStateType = ()=>AppStateType
 
+export type TaskListType = {
+    
+} 
+
 export type TaskType = {
     created_at: string,
     date: string,

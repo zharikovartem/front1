@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Menu, ActivityIndicator, NavBar } from 'antd-mobile'
+import { Menu, ActivityIndicator, NavBar, Button } from 'antd-mobile'
 import { ValueType } from 'antd-mobile/lib/menu/PropsType'
 import './MenuMobile.css'
 import {useHistory, useLocation} from 'react-router-dom'
 import {MenuDataType} from './Header'
 import { MenuMobilePropsType } from './MenuMobileContainer'
+import { Link } from 'react-router-dom'
 
 export type OwnMenuMobilePropsType = {
     menuData: MenuDataType
@@ -100,7 +101,15 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
                     onLeftClick={handleClick}
                     className="top-nav-bar"
                 >
-                    User info
+                    <Link 
+                        to="/login" 
+                        onClick={ ()=>{onChange(['', ''])} }
+                    >
+                        {/* <Button className="am-button-borderfix" type="primary" size="small"> */}
+                        <span className="text-white">Login</span>
+                            
+                        {/* </Button> */}
+                    </Link>
                 </NavBar>
             </div>
             {show ? initData ? menuEl : loadingEl : null}
