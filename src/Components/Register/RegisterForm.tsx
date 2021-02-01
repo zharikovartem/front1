@@ -1,32 +1,19 @@
 import React from 'react'
 import { Form, Field } from "formik"
-import { AntInput, AntCheckbox, AntInputPassword } from '../../utils/Formik/CreateAntField'
-import { List, Checkbox } from 'antd-mobile'
-import { validateAsync, validateEmail, validateRequired, validateUserExistense } from '../../utils/Formik/ValidateFields'
-import { Button } from 'antd'
+import { AntCheckbox, AntInput, AntInputPassword } from '../../utils/Formik/CreateAntField'
+import { validateEmail, validateRequired } from '../../utils/Formik/ValidateFields'
 import { Link } from 'react-router-dom'
+import { Button } from 'antd'
 
-const CheckboxItem = Checkbox.CheckboxItem
+const RegisterForm: React.FC<any> = (props) => {
 
-const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
-}
-
-type OwnLoginFormPropsType = {
-    handleSubmit: () => void,
-    values: any,
-    submitCount: any
-}
-
-const LoginForm: React.FC<OwnLoginFormPropsType> = (props) => {
-    return (
-        <Form 
+    return(
+        <Form
             // {...layout} 
             className="form-container" 
             onSubmit={props.handleSubmit}
         >
-            {/* <Field
+            <Field
                 component={AntInput}
                 name="name"
                 type="text"
@@ -34,7 +21,7 @@ const LoginForm: React.FC<OwnLoginFormPropsType> = (props) => {
                 validate={validateRequired}
                 submitCount={props.submitCount}
                 hasFeedback
-            /> */}
+            />
             <Field
                 component={AntInput}
                 name="email"
@@ -54,6 +41,18 @@ const LoginForm: React.FC<OwnLoginFormPropsType> = (props) => {
                 submitCount={props.submitCount}
                 hasFeedback
             />
+
+            <Field
+                component={AntInputPassword}
+                name="password2"
+                type="password"
+                label="Confirm"
+                // label={<label className="ant-form-item-required">Password</label>}
+                validate={validateRequired}
+                submitCount={props.submitCount}
+                hasFeedback
+            />
+
             <Field
                 component={AntCheckbox}
                 name="remember"
@@ -80,8 +79,4 @@ const LoginForm: React.FC<OwnLoginFormPropsType> = (props) => {
     )
 }
 
-export default LoginForm
-
-// const onChange = () => {
-//     console.log('123')
-// }
+export default RegisterForm

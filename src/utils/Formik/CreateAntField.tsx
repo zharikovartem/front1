@@ -71,6 +71,7 @@ const CreateAntField = (AntComponent: any) => (
                         onBlur={onBlur}
                         onChange={type ? onInputChange : onChange}
                         key={label}
+                        type={type}
                     >
                         {label}
                     </AntComponent>

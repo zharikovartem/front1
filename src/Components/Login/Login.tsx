@@ -27,16 +27,13 @@ const Login: React.FC<LoginPropsType> = (props) => {
             formProps.remember = false
         }
         props.login(formProps)
-        // alert(
-        //     ` Email: ${formProps.email} \n Name: ${formProps.name} \n Remember Me: ${formProps.rememberMe}`
-        //   )
     }
 
     console.log(props)
 
     return (
         <>
-            <h1>Login Form</h1>
+            <h1 className="mb-5 mx-auto">Login Form</h1>
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}

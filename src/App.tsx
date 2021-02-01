@@ -10,11 +10,13 @@ import store, { AppStateType } from './redux/store'
 import { Breadcrumb, Layout, Menu, Spin } from 'antd'
 import { compose } from 'redux'
 import { initializeApp, addLocation } from './redux/appReducer'
+import {login} from './redux/authReducer'
 import Header from './Components/Header/HeaderContainer'
 import { isMobile } from "react-device-detect"
 import Login from './Components/Login/LoginContainer'
 import Orders from './Components/Orders/OrdersContainer'
 import TasksTree from './Components/TasksTree/TasksTreeContainer'
+import Register from './Components/Register/Register'
 
 const { SubMenu } = Menu
 const { Content, Footer, Sider } = Layout
@@ -22,21 +24,29 @@ const { Content, Footer, Sider } = Layout
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
   initializeApp: () => void,
-  addLocation: (location: string) => void
+  addLocation: (location: string) => void,
+  login: (data: any)=> void,
 }
 
 const App = (props: MapPropsType & DispatchPropsType) => {
   const [location, setLocation] = useState(useLocation().pathname)
+
   useEffect(() => {
     if (!props.initialized) {
-      //console.log('location', location)
+      // http://localhost:3000/?email=7383125@gmail.com&password=gfhjkm4501
+      let instanseCreds = parseQueryString()
+      if (instanseCreds.email && instanseCreds.password) {
+        instanseCreds.remember = true
+        props.login(instanseCreds)
+      }
+
       if (location === '/front1/') {
         props.addLocation(location)
       }
       //console.log('initialized FALSE', props)
       props.initializeApp()
     } else {
-      //console.log('initialized TRUE', props)
+      console.log('initialized TRUE', props)
     }
   }, [props.initialized])
 
@@ -44,6 +54,9 @@ const App = (props: MapPropsType & DispatchPropsType) => {
   if (!props.initialized) {
     return <Spin key="spin" size="large" />
   }
+
+  
+  // console.log(props.)
 
   return (
     <Layout>
@@ -54,10 +67,17 @@ const App = (props: MapPropsType & DispatchPropsType) => {
           <Route exact path={props.appLocation}
             render={() => <Redirect to={props.appLocation+'login'} />} />
         :
-          <Route exact path={props.appLocation+'login'}
+          <Route exact path={props.appLocation}
             render={() => <Redirect to={props.appLocation+'toDoList'} />} />
         }
         
+        {props.isAuth ?
+            <Route exact path={props.appLocation+'login'}
+              render={ () => <Redirect to={props.appLocation+'toDoList'} /> } 
+            />  
+          :
+            null
+        }
 
         <Route path={props.appLocation+'login'}
           render={() => <Login />} />
@@ -81,8 +101,11 @@ const App = (props: MapPropsType & DispatchPropsType) => {
           <Route path={props.appLocation+'orders'}
             render={() => <Orders />} />
 
-        <Route path={props.appLocation+'*'}
-          render={() => <div>404 NOT FOUND</div>} />
+          <Route path={props.appLocation+'register'}
+            render={() => <Register />} />
+
+          <Route path={props.appLocation+'*'}
+            render={() => <div>404 NOT FOUND</div>} />
       </Switch>
       {/* <Footer>Footer for my app</Footer> */}
     </Layout>
@@ -97,7 +120,7 @@ const mapStateToProps = (state: AppStateType) => ({
 
 let AppContainer = compose<React.ComponentType>(
   withRouter,
-  connect(mapStateToProps, { initializeApp, addLocation }))(App)
+  connect(mapStateToProps, { initializeApp, addLocation, login }))(App)
 
 const MainApp = () => {
   return (
@@ -112,3 +135,12 @@ const MainApp = () => {
 }
 
 export default MainApp
+
+const parseQueryString = (): any => {
+  const params:  any = {}
+  document.location.search.substr(1).split('&').forEach( (pair) => {
+      const [key, value] = pair.split('=')
+      params[key] = value
+  })
+  return params;
+};
