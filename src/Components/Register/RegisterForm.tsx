@@ -1,12 +1,9 @@
-import React from 'react'
-import { Form, Field } from "formik"
+import React, { ReactNode } from 'react'
+import { Form, Field, FormikProps } from "formik"
 import { AntCheckbox, AntInput, AntInputPassword } from '../../utils/Formik/CreateAntField'
 import { validateEmail, validateRequired } from '../../utils/Formik/ValidateFields'
-import { Link } from 'react-router-dom'
-import { Button } from 'antd'
 
-const RegisterForm: React.FC<any> = (props) => {
-    console.log('RegisterForm')
+const RegisterForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
     return(
         <Form
             // {...layout} 

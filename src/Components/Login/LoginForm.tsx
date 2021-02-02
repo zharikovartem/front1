@@ -1,44 +1,14 @@
 import React, { ReactNode } from 'react'
 import { Form, Field, FormikProps } from "formik"
 import { AntInput, AntCheckbox, AntInputPassword } from '../../utils/Formik/CreateAntField'
-import {useHistory, useLocation} from 'react-router-dom'
-import { List, Checkbox } from 'antd-mobile'
-import { validateAsync, validateEmail, validateRequired } from '../../utils/Formik/ValidateFields'
-import { Button } from 'antd'
-import { Link } from 'react-router-dom'
+import { validateEmail, validateRequired } from '../../utils/Formik/ValidateFields'
 
-const CheckboxItem = Checkbox.CheckboxItem
-
-const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
-}
-
-export type OwnLoginFormPropsType = {
-    handleSubmit: () => void,
-    values: any,
-    submitCount: any
-    location: string
-}
-
-const LoginForm: ((props: FormikProps<{}> | OwnLoginFormPropsType) => ReactNode) = (props) => {
-    console.log(props)
-    const location = useLocation()
+const LoginForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
     return (
         <Form 
-            // {...layout} 
             className="form-container" 
             onSubmit={props.handleSubmit}
         >
-            {/* <Field
-                component={AntInput}
-                name="name"
-                type="text"
-                label="Name"
-                validate={validateRequired}
-                submitCount={props.submitCount}
-                hasFeedback
-            /> */}
             <Field
                 component={AntInput}
                 name="email"
@@ -53,7 +23,6 @@ const LoginForm: ((props: FormikProps<{}> | OwnLoginFormPropsType) => ReactNode)
                 name="password"
                 type="password"
                 label="Password"
-                // label={<label className="ant-form-item-required">Password</label>}
                 validate={validateRequired}
                 submitCount={props.submitCount}
                 hasFeedback
@@ -69,25 +38,8 @@ const LoginForm: ((props: FormikProps<{}> | OwnLoginFormPropsType) => ReactNode)
                     Login
                 </button>
             </div>
-            {/* <div>{props.location}</div> */}
-            {/* useHistory */}
-            {/* <div className="mt-3">
-                <Link to={"register"}><Button type="link" block>Register</Button></Link>
-            </div>
-             */}
-            
-
-            {/* <List >
-                <CheckboxItem key={"0"} onChange={onChange}>
-                    test
-                </CheckboxItem>
-            </List> */}
         </Form>
     )
 }
 
 export default LoginForm
-
-// const onChange = () => {
-//     console.log('123')
-// }
