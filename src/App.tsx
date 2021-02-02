@@ -7,7 +7,7 @@ import 'antd/dist/antd.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'antd-mobile/dist/antd-mobile.css'
 import store, { AppStateType } from './redux/store'
-import { Layout, Menu, Spin } from 'antd'
+import { Layout, Spin } from 'antd'
 import { compose } from 'redux'
 import { initializeApp, addLocation } from './redux/appReducer'
 import {login} from './redux/authReducer'
@@ -17,9 +17,6 @@ import Login from './Components/Login/LoginContainer'
 import Orders from './Components/Orders/OrdersContainer'
 import TasksTree from './Components/TasksTree/TasksTreeContainer'
 import Register from './Components/Register/RegisterContainer'
-
-const { SubMenu } = Menu
-const { Content, Footer, Sider } = Layout
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
@@ -46,7 +43,7 @@ const App = (props: MapPropsType & DispatchPropsType) => {
       //console.log('initialized FALSE', props)
       props.initializeApp()
     } else {
-      console.log('initialized TRUE', props)
+      // console.log('initialized TRUE', props)
     }
   }, [props.initialized])
 
@@ -55,12 +52,8 @@ const App = (props: MapPropsType & DispatchPropsType) => {
     return <Spin key="spin" size="large" />
   }
 
-  
-  // console.log(props.)
-
   return (
     <Layout>
-      {/* <li>авторизироваться</li> */}
       <Header />
       <Switch>
         {!props.isAuth ?
@@ -81,16 +74,6 @@ const App = (props: MapPropsType & DispatchPropsType) => {
 
         <Route path={props.appLocation+'login'}
           render={() => <Login />} />
-
-        {/* {isAuth ? 
-          <Route path={props.appLocation+'toDoList'} 
-            render={() => <ToDoList />} />
-
-          <Route path={props.appLocation+'orders'} 
-            render={() => <Orders />} />
-        :
-          null
-        } */}
         
          <Route path={props.appLocation+'toDoList'}
             render={() => <ToDoList />} />
@@ -107,7 +90,6 @@ const App = (props: MapPropsType & DispatchPropsType) => {
           <Route path={props.appLocation+'*'}
             render={() => <div>404 NOT FOUND</div>} />
       </Switch>
-      {/* <Footer>Footer for my app</Footer> */}
     </Layout>
   )
 }

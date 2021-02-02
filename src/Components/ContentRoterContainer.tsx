@@ -5,9 +5,7 @@ import { AppStateType } from '../redux/store'
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 
-type MapDispatchPropsType = {
-    // getTaskList: (start_date: string, end_date:string)=>void
-}
+type MapDispatchPropsType = {}
 
 export type ContentRoterPropsType = MapPropsType & MapDispatchPropsType & OwnContentRoterPropsType
 

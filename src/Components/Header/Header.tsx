@@ -6,7 +6,7 @@ import {
     isMobile
 } from "react-device-detect"
 import { HeaderPropsType } from './HeaderContainer'
-import MenuBrowser from './MenuBrowser'
+import MenuBrowser from './MenuBrowserConainer'
 import MenuMobile from './MenuMobileContainer'
 // import {useHistory, useLocation} from 'react-router-dom'
 
@@ -16,12 +16,12 @@ export type OwnHeaderPropsType = {}
 
 const Header: React.FC<HeaderPropsType> = (props) => {
     // const location = useLocation()
-    // console.log(parseQueryString())
+    console.log('Header')
 
     if (isMobile) {
         return <MenuMobile menuData={menuData(props.appLocation)} logout={props.logout}/>
     } else {
-        return <MenuBrowser menuData={menuData(props.appLocation)} appLocation={props.appLocation}/>
+        return <MenuBrowser menuData={menuData(props.appLocation)}/>
     }
 }
 

@@ -1,11 +1,22 @@
 import React, {useState} from 'react'
-import { Menu } from 'antd';
-import {Link} from 'react-router-dom'
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
+import { Button, Menu } from 'antd';
+import {Link, useHistory} from 'react-router-dom'
+// import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
+import {LogoutOutlined} from '@ant-design/icons'
+import {MenuBrowserPropsType} from './MenuBrowserConainer'
+import { TaskListType } from '../../Types/types';
+import { MenuDataType } from './Header';
 
 const { SubMenu } = Menu;
 
-const MenuBrowser: React.FC<any> = (props) => {
+export type OwnMenuBrowserPropsType = {
+    menuData: any,
+    // logout: any,
+    // appLocation: string | null
+}
+
+const MenuBrowser: React.FC<MenuBrowserPropsType> = (props) => {
+    let history = useHistory();
     const [state, setState] = useState<Array<string>>([])
     const handleClick = (e: any | undefined) => {
         // //console.log('click ', e);
@@ -38,15 +49,22 @@ const MenuBrowser: React.FC<any> = (props) => {
                 </SubMenu >
             )
         })
-        subMenu.push(
-            <Menu.Item key="login">
-                <Link to={props.appLocation +"login"} >Login</Link>
-            </Menu.Item>
-        )
+        // subMenu.push(
+        //     <Menu.Item key="login">
+        //         <Link to={props.appLocation +"login"} >Login</Link>
+        //     </Menu.Item>
+        // )
         return subMenu
     }
 
+    const onLogout = () => {
+        // onChange(['', ''])
+        history.replace(props.appLocation+'login')
+        props.logout()
+    }
+
     console.log(props)
+
     return (
         <Menu 
             onClick={handleClick} 
@@ -55,6 +73,24 @@ const MenuBrowser: React.FC<any> = (props) => {
             theme="dark"
         >
             {getSubMenu()}
+
+            {!props.isAuth ? 
+                <Menu.Item key="login">
+                    <Link to={props.appLocation +"login"} >Login</Link>
+                </Menu.Item>
+            :
+                <SubMenu 
+                    key={props.user?.name} 
+                    title={props.user?.name}
+                >
+                    <Menu.Item key="login" onClick={onLogout}>
+                        {/* <Link to={props.appLocation +"login"} > */}
+                            Logout
+                        {/* </Link> */}
+                    </Menu.Item>
+                </SubMenu >
+                
+            }
         </Menu>
     )
 }
