@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState} from 'react'
 import { Form, Field, FormikProps } from "formik"
 import { AntCheckbox, AntInput, AntInputPassword } from '../../utils/Formik/CreateAntField'
 import { validateEmail, validateRequired } from '../../utils/Formik/ValidateFields'
@@ -33,7 +33,6 @@ const RegisterForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 name="password"
                 type="password"
                 label="Password"
-                // label={<label className="ant-form-item-required">Password</label>}
                 validate={validateRequired}
                 submitCount={props.submitCount}
                 hasFeedback
@@ -44,7 +43,6 @@ const RegisterForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 name="c_password"
                 type="password"
                 label="Confirm"
-                // label={<label className="ant-form-item-required">Password</label>}
                 validate={validateRequired}
                 submitCount={props.submitCount}
                 hasFeedback
@@ -61,14 +59,6 @@ const RegisterForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                     Register
                 </button>
             </div>
-            
-            
-
-            {/* <List >
-                <CheckboxItem key={"0"} onChange={onChange}>
-                    test
-                </CheckboxItem>
-            </List> */}
         </Form>
     )
 }
