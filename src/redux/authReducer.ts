@@ -68,7 +68,7 @@ export const getAuthUserData = (): ThunkType => {
 export type credsType = {
     email: string,
     password: string,
-    rememberMe: boolean
+    remember: boolean
 }
 
 export const login = (data: credsType): ThunkType => {
@@ -87,6 +87,12 @@ export const register = (creds: any): ThunkType => {
     return async (dispatch, getState) => {
         let response = await authAPI.register(creds)
         console.log(response)
+        const credsToLogin: credsType = {
+            email: creds.email,
+            password: creds.password,
+            remember: creds.remember
+        }
+        dispatch(login(credsToLogin))
     }
 }
 

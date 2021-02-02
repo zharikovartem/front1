@@ -1,6 +1,9 @@
 import { Formik } from 'formik'
-import React from 'react'
+import React, { useEffect } from 'react'
 import RegisterForm from './RegisterForm'
+import { RegisterPropsType } from './RegisterContainer'
+import { propTypes } from 'react-bootstrap/esm/Image'
+import { Redirect, Route, useHistory } from 'react-router-dom'
 
 const initialValues = {
     // bookingClient: "",
@@ -9,12 +12,23 @@ const initialValues = {
     // selectOptions: ["Mark", "Bob", "Anthony"]
 }
 
-const Register = () => {
-    const handleSubmit = (formProps: any) => {
+export type OwnRegisterPropsType = {}
 
+const Register: React.FC<RegisterPropsType> = (props) => {
+    let history = useHistory();
+    useEffect( () => {
+        console.log('useEffect in Register: ', props.isAuth)
+        if(props.isAuth) {
+            history.replace(props.appLocation+'toDoList')
+        }
+    }, [props.isAuth])
+    const handleSubmit = (formProps: any) => {
+        console.log(formProps)
+        formProps.status = 'guest'
+        props.register(formProps)
     }
 
-    console.log('Register')
+    console.log('Register', props)
     return (
         <>
             <h1 className="mb-5 mx-auto">Register Form</h1>

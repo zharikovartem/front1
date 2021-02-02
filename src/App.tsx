@@ -16,7 +16,7 @@ import { isMobile } from "react-device-detect"
 import Login from './Components/Login/LoginContainer'
 import Orders from './Components/Orders/OrdersContainer'
 import TasksTree from './Components/TasksTree/TasksTreeContainer'
-import Register from './Components/Register/Register'
+import Register from './Components/Register/RegisterContainer'
 
 const { SubMenu } = Menu
 const { Content, Footer, Sider } = Layout

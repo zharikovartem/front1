@@ -44,7 +44,7 @@ const RegisterForm: React.FC<any> = (props) => {
 
             <Field
                 component={AntInputPassword}
-                name="password2"
+                name="c_password"
                 type="password"
                 label="Confirm"
                 // label={<label className="ant-form-item-required">Password</label>}

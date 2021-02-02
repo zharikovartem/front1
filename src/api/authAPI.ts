@@ -45,7 +45,7 @@ export const authAPI = {
         .then(response => {
             console.log('login: ', response)
             if (response.data.remember_token !== null) {
-                localStorage.setItem('remember_token', response.data.remember_token);
+                localStorage.setItem('remember_token', response.data.token);
             } else {
                 localStorage.removeItem('remember_token');
             }
