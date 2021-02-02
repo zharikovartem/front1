@@ -1,4 +1,4 @@
-import React, { ReactNode, useState} from 'react'
+import React, { ReactNode } from 'react'
 import { Form, Field, FormikProps } from "formik"
 import { AntCheckbox, AntInput, AntInputPassword } from '../../utils/Formik/CreateAntField'
 import { validateEmail, validateRequired } from '../../utils/Formik/ValidateFields'
@@ -6,7 +6,6 @@ import { validateEmail, validateRequired } from '../../utils/Formik/ValidateFiel
 const RegisterForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
     return(
         <Form
-            // {...layout} 
             className="form-container" 
             onSubmit={props.handleSubmit}
         >
