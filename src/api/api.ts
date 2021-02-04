@@ -5,7 +5,7 @@ export const instance = axios.create({
     baseURL: 'https://crmapiserver.h1n.ru/api/',
     // baseURL: 'https://81.90.181.175/api/',
     // headers:     {
-    //     'X-Auth-Token': localStorage.getItem('localStorage')
+    //     'X-Auth-Token': localStorage.getItem('remember_token')
     // }
 })
 

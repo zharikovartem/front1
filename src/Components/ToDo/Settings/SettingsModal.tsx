@@ -7,7 +7,21 @@ export type OwmSettingsModalPropsType = {
     handleCancel: () => void
 }
 
+const settingasExample = {
+    ToDo: {
+        singlDateView: {
+            timeScale: true,
+            isCompletedVisible: true
+        },
+        intervalDateView: {
+            timeScale: false,
+            isCompletedVisible: true
+        }
+    }
+}
+
 const SettingsModal = (props:OwmSettingsModalPropsType) => {
+    console.log(settingasExample)
     return (
         <Modal title="Task display settings" visible={props.isModalVisible} onOk={props.handleOk} onCancel={props.handleCancel}>
             <p>Some contents...</p>

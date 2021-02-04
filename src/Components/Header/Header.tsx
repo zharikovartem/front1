@@ -67,7 +67,7 @@ const menuData = (appLocation: string) => {
         ],
     },
     {
-        value: '3',
+        value: 'orders',
         label: 'Orders',
         // isLeaf: true,
         children: [

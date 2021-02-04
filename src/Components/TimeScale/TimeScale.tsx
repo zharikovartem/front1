@@ -32,17 +32,22 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
         }
     }, [props.errorMessage])
 
-    if (props.taskList !== null) {
-        return (
-            <>
-                {getTimeScaleArrey(props.taskList)}
-            </>
-        )
+    if (props.taskList !== undefined) {
+        if (props.taskList !== null) {
+            return (
+                <>
+                    {getTimeScaleArrey(props.taskList)}
+                </>
+            )
+        } else {
+            return (
+                <Spin key="spin" size="large" />
+            )
+        }
     } else {
-        return (
-            <Spin key="spin" size="large" />
-        )
+        return <div>Authorization required to get a list of tasks</div>
     }
+    
 }
 
 export default TimeScale

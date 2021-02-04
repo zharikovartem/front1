@@ -23,7 +23,7 @@ export type TaskType = {
 
 export type NewTaskDataType = {
     taskName: string,
-    user_id: number,
+    user_id: number | undefined,
     taskTime: string,
     date: string
     description?: string

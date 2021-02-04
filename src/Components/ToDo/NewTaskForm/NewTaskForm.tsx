@@ -59,7 +59,7 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
             date: values.date.format('YYYY-MM-DD'),
             taskTime: values.taskTime.format('HH:mm'),
             taskName: values.taskName,
-            user_id: 1,
+            user_id: props.userId,
             description: values.description
         }
 
