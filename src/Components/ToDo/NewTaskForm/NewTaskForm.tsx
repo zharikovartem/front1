@@ -70,7 +70,6 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
         )) {
             props.createNewTask(data, false)
         } else {
-
             props.createNewTask(data, true)
         }
     }

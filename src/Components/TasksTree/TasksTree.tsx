@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { TasksTreePropsType } from './TasksTreeContainer'
 import { isMobile } from 'react-device-detect'
-import { DatePicker, Checkbox, Button, Card } from 'antd'
-import { FileAddOutlined, SettingOutlined } from '@ant-design/icons'
+import { Card } from 'antd'
 import TasksTreeMobile from './TasksTreeMobile'
 
 export type OwnTasksTreePropsType = {}
