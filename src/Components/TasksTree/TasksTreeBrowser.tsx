@@ -10,7 +10,10 @@ import moment from "moment"
 
 const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     useEffect(() => {
-        if (props.taskList.length === 0 && !props.isTaskListLoaded) {
+        if (props.taskList !== undefined && props.taskList.length === 0 && !props.isTaskListLoaded) {
+            props.getTaskList()
+        }
+        else if (props.taskList === undefined ) {
             props.getTaskList()
         }
     }, [props.taskList])
@@ -18,12 +21,16 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     const [visible, setVisible] = useState(false)
 
     const getSelectOptions = () => {
-        return props.taskList.map( (item) => {
-            return ({
-                name: item.name,
-                value: item.id
+        if (props.taskList !== undefined && props.taskList.length > 0) {
+            return props.taskList.map( (item) => {
+                return ({
+                    name: item.name,
+                    value: item.id
+                })
             })
-        })
+        } else {
+            return null
+        }
     }
 
     const initialValues: any = {
@@ -43,11 +50,15 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     }
 
     const getTaskTreeItems  = (taskList: Array<any>) => {
-        return taskList.map( (item) => {
-            return(
-                <div key={item.id}>{item.name}</div>
-            )
-        })
+        if (props.taskList !== undefined && props.taskList.length > 0) {
+            return taskList.map( (item) => {
+                return(
+                    <div key={item.id}>{item.name}</div>
+                )
+            })
+        } else {
+            return null
+        }
     }
 
     const onClose = () => {
@@ -67,9 +78,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
             formPropsCopy.time_to_complete = formPropsCopy.time_to_complete.format('HH:mm:ss')
         }
         console.log('NewTaskTreeForm Props: ', formPropsCopy)
-        // if (!formProps.remember) {
-        //     formProps.remember = false
-        // }
+
         formPropsCopy.user_id = props.userId
         props.createNewTaskList(formPropsCopy)
     }

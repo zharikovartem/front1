@@ -4,6 +4,7 @@ import { Drawer, List, NavBar, Icon, Button } from 'antd-mobile'
 import NewTaskTreeForm from './NewTaskTreeForm'
 import './TasksTreeMobile.css'
 import { Formik } from 'formik'
+import { Spin } from 'antd'
 
 const Item = List.Item
 
@@ -13,13 +14,18 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
             props.getTaskList()
         }
     }, [props.taskList])
+
     const getSelectOptions = () => {
-        return props.taskList.map((item) => {
-            return ({
-                name: item.name,
-                value: item.id
+        if (props.taskList !== undefined && props.taskList.length > 0) {
+            return props.taskList.map((item) => {
+                return ({
+                    name: item.name,
+                    value: item.id
+                })
             })
-        })
+        } else {
+            return null
+        }
     }
 
     const initialValues: any = {
@@ -78,8 +84,8 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     return (<div>
         <Button
             inline
-            size="small"
-            className="mx-3"
+            // size="small"
+            className="m-3"
             // style={{ marginRight: '4px' }} 
             onClick={onOpenChange}
             type="primary">
@@ -118,15 +124,21 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
 export default TasksTreeMobile
 
 const getTaskTreeItems = (taskList: Array<any>) => {
-    return taskList.map((item) => {
-        console.log('!!!!!!!')
-        return (
-            <Item 
-                className="my-3" 
-                key={item.id}
-            >
-                {item.name}
-            </Item>
-        )
-    })
+    if (taskList.length > 0) {
+        return taskList.map((item) => {
+            console.log('!!!!!!!')
+            return (
+                <Item 
+                    className="my-3" 
+                    key={item.id}
+                >
+                    {item.name}
+                </Item>
+            )
+        })
+    } else {
+        return <Spin key="spin" size="large" />
+    }
+    
+    
 }
