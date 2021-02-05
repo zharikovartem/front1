@@ -40,7 +40,6 @@ const Login: React.FC<LoginPropsType> = (props) => {
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 render={LoginForm}
-                // location= {props.location}
             />
             <div className="mt-3">
                 <Link to={props.location +"register"}><Button type="link" block>Register</Button></Link>

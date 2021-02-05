@@ -1,7 +1,10 @@
 import React from 'react'
 import { isMobile } from "react-device-detect"
 import { DatePicker, Form, Input, TimePicker, Select, Checkbox } from "antd"
-import { List, InputItem, Checkbox as CheckboxMobile, TextareaItem  } from 'antd-mobile'
+import enUs from 'antd-mobile/lib/date-picker/locale/en_US';
+import { List, InputItem, Checkbox as CheckboxMobile, TextareaItem, Picker, 
+    DatePicker as DatePickerMobile, 
+    LocaleProvider} from 'antd-mobile'
 
 const FormItem = Form.Item
 const Option: React.FC<any> = Select.Option
@@ -73,10 +76,19 @@ const CreateAntField = (AntComponent: any) => (
                     <AntComponent
                         onBlur={onBlur}
                         onChange={type ? onInputChange : onChange}
+                        mode={ type==='time' ? "time": null}
                         key={label}
                         type={type}
+                        title={label}
+                        locale={enUs}
+                        autoHeight
                     >
-                        {label}
+                        {/* {label} */}
+                        <List.Item 
+                            // arrow="horizontal"
+                        >
+                            {label}
+                        </List.Item>
                     </AntComponent>
                 </List>
                 : 
@@ -100,7 +112,7 @@ const CreateAntField = (AntComponent: any) => (
     )
 }
 
-export const AntSelect = !isMobile ? CreateAntField(Select) : CreateAntField(Select)
+export const AntSelect = !isMobile ? CreateAntField(Select) : CreateAntField(Picker)
 export const AntDatePicker = CreateAntField(DatePicker)
 
 // export const AntInput = !isMobile ? CreateAntField(Input) : <List>CreateAntField(InputItem)</List>
@@ -108,7 +120,7 @@ export const AntInput = !isMobile ? CreateAntField(Input) : CreateAntField(Input
 
 export const AntInputPassword = !isMobile ? CreateAntField(Input.Password) : CreateAntField(InputItem)
 
-export const AntTimePicker = CreateAntField(TimePicker)
+export const AntTimePicker = !isMobile ? CreateAntField(TimePicker) : CreateAntField(DatePickerMobile)
 export const AntCheckbox = !isMobile ? CreateAntField(Checkbox) : CreateAntField(CheckboxItem)
 // TextArea
 export const AntTextArea = !isMobile ? CreateAntField(TextArea) : CreateAntField(TextareaItem)

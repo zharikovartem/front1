@@ -76,7 +76,7 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
             <Field
                 component={AntTimePicker}
                 name="time_to_complete"
-                type="text"
+                type="time"
                 label="Time to complete"
                 // validate={validateRequired}
                 submitCount={props.submitCount}
