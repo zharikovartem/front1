@@ -1,11 +1,12 @@
 import React from 'react'
 import { isMobile } from "react-device-detect"
 import { DatePicker, Form, Input, TimePicker, Select, Checkbox } from "antd"
-import { List, InputItem, Checkbox as CheckboxMobile } from 'antd-mobile'
+import { List, InputItem, Checkbox as CheckboxMobile, TextareaItem  } from 'antd-mobile'
 
 const FormItem = Form.Item
 const Option: React.FC<any> = Select.Option
 const CheckboxItem = CheckboxMobile.CheckboxItem
+const { TextArea } = Input;
 
 // const layout = {
 //     labelCol: { span: 8 },
@@ -36,17 +37,19 @@ const CreateAntField = (AntComponent: any) => (
 
     // const onInputChange = ({ target: { value } }: any) => {
     const onInputChange = (value: any) => {
-        // //console.log(value.target.value)
+        // console.log(value)
         // //console.log(field.name)
         if (value.target) {
+            // console.log(value)
             form.setFieldValue(field.name, value.target.value)
         } else {
+            console.log(field.name, ": ", value)
             form.setFieldValue(field.name, value)
         }
         
     }
     const onChange = (value: any) => {
-        //console.log(value)
+        console.log(value)
         //console.log(field.name,'=',value)
         if (value.target.type === 'checkbox') {
             form.setFieldValue(field.name, value.target.checked)
@@ -81,11 +84,12 @@ const CreateAntField = (AntComponent: any) => (
                     {...field}
                     {...props}
                     // key={i.value}
+                    allowClear = {selectOptions ? "true": "false"}
                     onBlur={onBlur}
                     onChange={type ? onInputChange : onChange}
                 >
                     {selectOptions &&
-                        selectOptions.map((name: any) => <Option key={name}>{name}</Option>)}
+                        selectOptions.map((item: any) => <Option title={item.name} value={item.value} key={item.name}>{item.name}</Option>)}
                     
                     
                 </AntComponent>
@@ -106,3 +110,5 @@ export const AntInputPassword = !isMobile ? CreateAntField(Input.Password) : Cre
 
 export const AntTimePicker = CreateAntField(TimePicker)
 export const AntCheckbox = !isMobile ? CreateAntField(Checkbox) : CreateAntField(CheckboxItem)
+// TextArea
+export const AntTextArea = !isMobile ? CreateAntField(TextArea) : CreateAntField(TextareaItem)

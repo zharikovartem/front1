@@ -6,10 +6,7 @@ import { propTypes } from 'react-bootstrap/esm/Image'
 import { Redirect, Route, useHistory } from 'react-router-dom'
 
 const initialValues = {
-    // bookingClient: "",
-    // bookingDate: moment(Date.now()),
-    // bookingTime: moment(Date.now()),
-    // selectOptions: ["Mark", "Bob", "Anthony"]
+    // parent_id :['1', '2', '3']
 }
 
 export type OwnRegisterPropsType = {}

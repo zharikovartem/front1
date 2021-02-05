@@ -5,7 +5,8 @@ import { taskListAPI } from './../api/taskListAPI'
 
 export type InitialStateType = {
     taskList: Array<any>,
-    // taskListIsFetching: boolean,
+    taskListIsFetching: boolean,
+    isTaskListLoaded: boolean,
     // taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error'
     // errorMessage: null | string,
     // isInterval: boolean,
@@ -17,7 +18,8 @@ export type InitialStateType = {
 
 let initialState:InitialStateType = {
     taskList: [],
-    // taskListIsFetching: false,
+    taskListIsFetching: false,
+    isTaskListLoaded: false
     // taskSaveStatus: 'no',
     // errorMessage: null,
     // isInterval: false,
@@ -30,7 +32,7 @@ let initialState:InitialStateType = {
 const taskListReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case 'SN/TASK_LIST/SET_TASK_LIST':
-            return {...state, taskList: action.taskList}
+            return {...state, taskList: action.taskList, isTaskListLoaded: true}
 
         default:
             return state
@@ -58,6 +60,14 @@ export const getTaskList = (): ThunkType => {
             // add error message
         }
         // dispatch(actions.setTaskListIsFetching(false))
+    }
+}
+
+export const createNewTaskList = (values: any): ThunkType => {
+    return async (dispatch, getState) => {
+        let response = await taskListAPI.createNewTaskList(values)
+        console.log(response)
+        dispatch(actions.setTaskList(response.data.Tasks))
     }
 }
 
