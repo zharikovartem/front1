@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TasksTreePropsType } from './TasksTreeContainer'
-import { Drawer, List, NavBar, Icon, Button } from 'antd-mobile'
+import { Drawer, List, SwipeAction, Icon, Button } from 'antd-mobile'
 import NewTaskTreeForm from './NewTaskTreeForm'
 import './TasksTreeMobile.css'
 import { Formik } from 'formik'
@@ -99,18 +99,18 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
             contentStyle={{ color: '#A6A6A6', textAlign: 'center', paddingTop: 0, width: "100%" }}
             sidebar={
                 <div className="mt-4">
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={handleSubmit}
-                    render={NewTaskTreeForm}
-                />
+                    <Formik
+                        initialValues={initialValues}
+                        onSubmit={handleSubmit}
+                        render={NewTaskTreeForm}
+                    />
                 </div>
             }
             open={state}
             onOpenChange={onOpenChange}
         >
-            <List 
-                // renderHeader={() => 'taskList'}
+            <List
+            // renderHeader={() => 'taskList'}
             >
                 {getTaskTreeItems(props.taskList)}
             </List>
@@ -128,17 +128,54 @@ const getTaskTreeItems = (taskList: Array<any>) => {
         return taskList.map((item) => {
             console.log('!!!!!!!')
             return (
-                <Item 
-                    className="my-3" 
-                    key={item.id}
+
+
+
+                <SwipeAction
+                    style={{ backgroundColor: 'gray' }}
+                    autoClose
+                    right={[
+                        {
+                            text: 'Cancel',
+                            onPress: () => console.log('cancel'),
+                            style: { backgroundColor: '#ddd', color: 'white' },
+                        },
+                        {
+                            text: 'Delete',
+                            onPress: () => console.log('delete'),
+                            style: { backgroundColor: '#F4333C', color: 'white' },
+                        },
+                    ]}
+                    left={[
+                        {
+                            text: 'Reply',
+                            onPress: () => console.log('reply'),
+                            style: { backgroundColor: '#108ee9', color: 'white' },
+                        },
+                        {
+                            text: 'Cancel',
+                            onPress: () => console.log('cancel'),
+                            style: { backgroundColor: '#ddd', color: 'white' },
+                        },
+                    ]}
+                    onOpen={() => console.log('global open')}
+                    onClose={() => console.log('global close')}
                 >
-                    {item.name}
-                </Item>
+                    <Item
+                        // className="my-3"
+                        onClick={() => console.log('List.Item clicked!')}
+                        arrow="horizontal"
+                        key={item.id}
+                    >
+                        {item.name}
+                    </Item>
+
+                </SwipeAction>
             )
         })
     } else {
         return <Spin key="spin" size="large" />
     }
-    
-    
+
+
 }
