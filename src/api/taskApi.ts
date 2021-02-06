@@ -30,17 +30,17 @@ export const taskAPI = {
         // }
         return instance.post<TaskListType>(`tasks/part`, values)
         .then(response => {
-            console.log(response)
+            //console.log(response)
             return response.status === 200 ? response : null
         })
         .catch(err => {
             if (err.response) {
-                console.log('request', err.request)
+                //console.log('request', err.request)
                 return err.response
             } else if (err.request) {
-                console.log('request', err.request)
+                //console.log('request', err.request)
             } else {
-                console.log('anything else: ', err)
+                //console.log('anything else: ', err)
             }
             return null
         })

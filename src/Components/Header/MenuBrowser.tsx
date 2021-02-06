@@ -63,7 +63,7 @@ const MenuBrowser: React.FC<MenuBrowserPropsType> = (props) => {
         props.logout()
     }
 
-    console.log(props)
+    //console.log(props)
 
     return (
         <Menu 

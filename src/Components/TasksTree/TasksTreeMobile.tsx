@@ -5,6 +5,7 @@ import NewTaskTreeForm from './NewTaskTreeForm'
 import './TasksTreeMobile.css'
 import { Formik } from 'formik'
 import { Spin } from 'antd'
+import { propTypes } from 'react-bootstrap/esm/Image'
 
 const Item = List.Item
 
@@ -24,7 +25,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                 })
             })
         } else {
-            console.log('вернули пыстой список', props.taskList)
+            //console.log('вернули пыстой список', props.taskList)
             return null
         }
     }
@@ -47,28 +48,28 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     const [state, setState] = useState(false)
 
     const handleSubmit = (formProps: any) => {
-        console.log('formProps submit: ', formProps)
+        //console.log('formProps submit: ', formProps)
         let formPropsCopy: any = { ...formProps }
         delete formPropsCopy.selectOptions
         delete formPropsCopy.taskTypes
         if (formPropsCopy.time_to_complete !== undefined) {
-            console.log(formPropsCopy.time_to_complete.format('HH:mm:ss'))
+            //console.log(formPropsCopy.time_to_complete.format('HH:mm:ss'))
             formPropsCopy.time_to_complete = formPropsCopy.time_to_complete.format('HH:mm:ss')
         }
-        console.log('NewTaskMobile submit: ', formPropsCopy)
+        //console.log('NewTaskMobile submit: ', formPropsCopy)
 
         formPropsCopy.user_id = props.userId
         props.createNewTaskList(formPropsCopy)
     }
 
     const onOpenChange = (args: any) => {
-        console.log(args);
+        //console.log(args);
         setState(!state)
     }
 
-    console.log('TTM props: ', props)
+    //console.log('TTM props: ', props)
 
-    if (props.taskList.length > 0) {
+    if (props.taskList !== undefined && props.taskList.length > 0) {
         return (
             <div>
                 <div className="d-flex justify-content-end">
@@ -104,7 +105,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                     <List
                     // renderHeader={() => 'taskList'}
                     >
-                        {getTaskTreeItems(props.taskList)}
+                        {getTaskTreeItems(props.taskList, props.deleteTaskList)}
                     </List>
                 </Drawer>
 
@@ -119,10 +120,10 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
 
 export default TasksTreeMobile
 
-const getTaskTreeItems = (taskList: Array<any>) => {
+const getTaskTreeItems = (taskList: Array<any>, deleteTaskList:(taskId:number)=>void) => {
     if (taskList.length > 0) {
         return taskList.map((item) => {
-            console.log('!!!!!!!')
+            //console.log('!!!!!!!')
             return (
                 <SwipeAction
                     style={{ backgroundColor: 'gray' }}
@@ -135,13 +136,13 @@ const getTaskTreeItems = (taskList: Array<any>) => {
                         },
                         {
                             text: 'Delete',
-                            onPress: () => console.log('delete'),
+                            onPress: () => deleteTaskList(item.id),
                             style: { backgroundColor: '#F4333C', color: 'white' },
                         },
                     ]}
                     left={[
                         {
-                            text: 'Reply',
+                            text: 'Edit',
                             onPress: () => console.log('reply'),
                             style: { backgroundColor: '#108ee9', color: 'white' },
                         },

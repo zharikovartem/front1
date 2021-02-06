@@ -66,7 +66,15 @@ export const getTaskList = (): ThunkType => {
 export const createNewTaskList = (values: any): ThunkType => {
     return async (dispatch, getState) => {
         let response = await taskListAPI.createNewTaskList(values)
-        console.log(response)
+        //console.log(response)
+        dispatch(actions.setTaskList(response.data.Tasks))
+    }
+}
+
+export const deleteTaskList = (taskid: number): ThunkType => {
+    return async (dispatch, getState) => {
+        let response = await taskListAPI.deleteTask(taskid)
+        //console.log(response)
         dispatch(actions.setTaskList(response.data.Tasks))
     }
 }

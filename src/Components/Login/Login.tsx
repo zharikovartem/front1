@@ -24,14 +24,14 @@ export type OwnLoginPropsType = {}
 
 const Login: React.FC<LoginPropsType> = (props) => {
     const handleSubmit = (formProps: any) => {
-        console.log('formProps: ', formProps)
+        //console.log('formProps: ', formProps)
         if (!formProps.remember) {
             formProps.remember = false
         }
         props.login(formProps)
     }
 
-    console.log(props)
+    //console.log(props)
 
     return (
         <>

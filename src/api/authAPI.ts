@@ -13,14 +13,14 @@ type MeResponseDataType = {
 export const authAPI = {
     me() {
         return instance.get(`authMe/`+localStorage.getItem('remember_token')).then( (response) => {
-            console.log('login: ', response)
+            //console.log('login: ', response)
             return response
         })
     },
     login(data: any) {
         return instance.post('login', data)
         .then(response => {
-            console.log('login: ', response)
+            //console.log('login: ', response)
             if (response.data.remember_token !== null) {
                 localStorage.setItem('remember_token', response.data.remember_token);
             } else {
@@ -30,12 +30,12 @@ export const authAPI = {
         })
         .catch(err => {
             if (err.response) {
-                console.log(err.response)
+                //console.log(err.response)
                 return err.response
             } else if (err.request) {
-                console.log('request', err.request)
+                //console.log('request', err.request)
             } else {
-                console.log('anything else: ', err)
+                //console.log('anything else: ', err)
             }
             return null
         })
@@ -43,7 +43,7 @@ export const authAPI = {
     register(creds: any) {
         return instance.post('register', creds)
         .then(response => {
-            console.log('login: ', response)
+            //console.log('login: ', response)
             if (response.data.remember_token !== null) {
                 localStorage.setItem('remember_token', response.data.token);
             } else {
@@ -53,12 +53,12 @@ export const authAPI = {
         })
         .catch(err => {
             if (err.response) {
-                console.log(err.response)
+                //console.log(err.response)
                 return err.response
             } else if (err.request) {
-                console.log('request', err.request)
+                //console.log('request', err.request)
             } else {
-                console.log('anything else: ', err)
+                //console.log('anything else: ', err)
             }
             return null
         })

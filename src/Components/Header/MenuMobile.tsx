@@ -48,7 +48,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
     }
 
     const onChange = (value?: ValueType | undefined) => {
-        console.log('input values: ', value)
+        //console.log('input values: ', value)
         if (value) {
             let subMenu = value[0]
 
@@ -69,7 +69,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
             if (subMenu === '') {
                 subMenu = data[0].value
             }
-            console.log('set values: ', [subMenu, value[1]])
+            //console.log('set values: ', [subMenu, value[1]])
             setSelectedMenuItem([subMenu, value[1]])
         }
         
@@ -95,7 +95,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
         </div>
     );
 
-    // console.log(props)
+    //console.log(props)
 
     const onLogout = () => {
         onChange(['', ''])

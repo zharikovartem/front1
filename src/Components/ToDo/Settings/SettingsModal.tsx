@@ -21,7 +21,7 @@ const settingasExample = {
 }
 
 const SettingsModal = (props:OwmSettingsModalPropsType) => {
-    console.log(settingasExample)
+    //console.log(settingasExample)
     return (
         <Modal title="Task display settings" visible={props.isModalVisible} onOk={props.handleOk} onCancel={props.handleCancel}>
             <p>Some contents...</p>

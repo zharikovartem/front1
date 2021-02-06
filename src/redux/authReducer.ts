@@ -17,7 +17,7 @@ const authReducer = (state = initialState, action: ActionsTypes): InitialStateTy
     switch (action.type) {
         case 'SN/AUTH/SET_USER_DATA':
             if (action.user !== null) {
-                console.log('1')
+                //console.log('1')
                 return { ...state, user: action.user, remember_token: action.remember_token, isAuth: true}
             } else {
                 return initialState;
@@ -75,7 +75,7 @@ export const login = (data: credsType): ThunkType => {
     return async (dispatch, getState) => {
         let response = await authAPI.login(data)
         if (response) {
-            console.log(response)
+            //console.log(response)
             if (response.status === 200) {
                 dispatch(actions.setAuthUserData(response.data.user, response.data.remember_token))
             }
@@ -86,7 +86,7 @@ export const login = (data: credsType): ThunkType => {
 export const register = (creds: any): ThunkType => {
     return async (dispatch, getState) => {
         let response = await authAPI.register(creds)
-        console.log(response)
+        //console.log(response)
         const credsToLogin: credsType = {
             email: creds.email,
             password: creds.password,

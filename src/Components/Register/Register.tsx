@@ -14,18 +14,18 @@ export type OwnRegisterPropsType = {}
 const Register: React.FC<RegisterPropsType> = (props) => {
     let history = useHistory();
     useEffect( () => {
-        console.log('useEffect in Register: ', props.isAuth)
+        //console.log('useEffect in Register: ', props.isAuth)
         if(props.isAuth) {
             history.replace(props.appLocation+'toDoList')
         }
     }, [props.isAuth])
     const handleSubmit = (formProps: any) => {
-        console.log(formProps)
+        //console.log(formProps)
         formProps.status = 'guest'
         props.register(formProps)
     }
 
-    console.log('Register', props)
+    //console.log('Register', props)
     return (
         <>
             <h1 className="mb-5 mx-auto">Register Form</h1>

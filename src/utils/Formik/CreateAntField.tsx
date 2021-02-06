@@ -1,24 +1,28 @@
-import React, { useState } from 'react'
+import React, { SyntheticEvent, useState } from 'react'
 import { isMobile } from "react-device-detect"
-import { DatePicker, Form, Input, TimePicker, Select, Checkbox } from "antd"
+import { 
+    DatePicker, 
+    Form, 
+    Input, 
+    TimePicker, 
+    Select, 
+    Checkbox 
+} from "antd"
 import enUs from 'antd-mobile/lib/date-picker/locale/en_US';
 import moment from "moment"
 import {
-    List, InputItem, Checkbox as CheckboxMobile, TextareaItem, Picker,
+    List, 
+    InputItem, 
+    Checkbox as CheckboxMobile, 
+    TextareaItem, 
+    Picker,
     DatePicker as DatePickerMobile,
-    LocaleProvider
 } from 'antd-mobile'
 
 const FormItem = Form.Item
 const Option: React.FC<any> = Select.Option
 const CheckboxItem = CheckboxMobile.CheckboxItem
 const { TextArea } = Input;
-
-// const layout = {
-//     labelCol: { span: 8 },
-//     wrapperCol: { span: 16 },
-//   };
-
 
 const CreateAntField = (AntComponent: any) => (
     {
@@ -32,13 +36,6 @@ const CreateAntField = (AntComponent: any) => (
         ...props
     }: any
 ) => {
-    // //console.log('field: ', field)
-    // //console.log('form: ', form)
-
-    // const [state, setState] = useState(0);
-
-    // let timeValue = new Date().setTime(0)
-    let fieldValue: null | String | number | Date = null
 
     const touched = form.touched[field.name];
     const submitted = submitCount > 0;
@@ -46,40 +43,40 @@ const CreateAntField = (AntComponent: any) => (
     const submittedError = hasError && submitted;
     const touchedError = hasError && touched;
 
-    // const onInputChange = ({ target: { value } }: any) => {
+    // type OnInputChangeValueType = React.ChangeEvent<HTMLInputElement> | moment.Moment | Date | string
+    // const onInputChange = (value: OnInputChangeValueType, field: any) => {
     const onInputChange = (value: any) => {
-        console.log('onInputChange: ', value)
-        // //console.log(field.name)
         if (value.target) {
-            // console.log(value)
+        // if (value instanceof Date === false &&  !moment.isMoment(value) === false && typeof value !== "string") {
             form.setFieldValue(field.name, value.target.value)
         } else {
-            console.log(field.name, ": ", value)
             if (type === 'time') {
-                form.setFieldValue(field.name, moment(value.setSeconds(0)))//.from() )
-                // fieldValue = value.setSeconds(0)
-                console.log(props)
+                if (value instanceof moment) {
+                    form.setFieldValue(field.name, value)
+                } else {
+                    form.setFieldValue(field.name, moment(value.setSeconds(0)))//.from() )
+                }
             } else if (Array.isArray(value)) {
                 // добавтить проверуку на пустой массив
                 form.setFieldValue(field.name, value[0])
             } else {
                 form.setFieldValue(field.name, value)
-                // fieldValue = value
             }
-            // console.log('fieldValue: ', fieldValue)
         }
 
     }
-    const onChange = (value: any) => {
-        console.log(value)
-        //console.log(field.name,'=',value)
-        if (value.target.type === 'checkbox') {
+
+    const onChange = (value: string | React.ChangeEvent<HTMLInputElement>) => {
+        console.log('onChange: ', value)
+        if ( typeof value !== "string" && value.target.type === 'checkbox') {
             form.setFieldValue(field.name, value.target.checked)
         } else {
             form.setFieldValue(field.name, value)
         }
     }
+
     const onBlur = () => form.setFieldTouched(field.name, true);
+
     return (
         <FormItem
             label={!isMobile ? label : null}
@@ -90,28 +87,6 @@ const CreateAntField = (AntComponent: any) => (
             validateStatus={submittedError || touchedError ? "error" : "success"}
         >
             {isMobile ?
-                // <List>
-                //     <AntComponent
-                //         onBlur={onBlur}
-                //         onChange={type ? onInputChange : onChange}
-                //         mode={type === 'time' ? "time" : null}
-                //         // value = {fieldValue}
-                //         key={label}
-                //         // type={type}
-                //         title={label}
-                //         locale={enUs}
-                //         autoHeight
-                //         className={type === 'text' ? 'pl-0' : null}
-                //     >
-                //         {/* {label} */}
-                //         <List.Item
-                //             className="pl-0"
-                //         // arrow="horizontal"
-                //         >
-                //             {label}
-                //         </List.Item>
-                //     </AntComponent>
-                // </List>
                 <MobileComponent 
                     AntComponent={AntComponent}
                     onBlur = {onBlur}
@@ -142,19 +117,25 @@ const CreateAntField = (AntComponent: any) => (
 
 export const AntSelect = !isMobile ? CreateAntField(Select) : CreateAntField(Picker)
 export const AntDatePicker = CreateAntField(DatePicker)
-
-// export const AntInput = !isMobile ? CreateAntField(Input) : <List>CreateAntField(InputItem)</List>
 export const AntInput = !isMobile ? CreateAntField(Input) : CreateAntField(InputItem)
-
 export const AntInputPassword = !isMobile ? CreateAntField(Input.Password) : CreateAntField(InputItem)
-
 export const AntTimePicker = !isMobile ? CreateAntField(TimePicker) : CreateAntField(DatePickerMobile)
 export const AntCheckbox = !isMobile ? CreateAntField(Checkbox) : CreateAntField(CheckboxItem)
-// TextArea
 export const AntTextArea = !isMobile ? CreateAntField(TextArea) : CreateAntField(TextareaItem)
 
+type MobileComponentType = {
+    onInputChange: (value: any)=> void,
+    selectOptions:Array<any>,
+    AntComponent: any,
+    onBlur: ()=>void,
+    type: 'select' | 'date' | 'text' | 'number' | 'password' | 'time' | 'checkbox' | 'textarea',
+    onChange: (value: any)=>void,
+    label: string,
 
-const MobileComponent: React.FC<any> = (props) => {
+}
+
+// const MobileComponent: React.FC<any> = (props) => {
+const MobileComponent: React.FC<MobileComponentType> = (props) => {
     const [value, setValue] = useState(null)
 
     const onInputChange = (value: any) => {
@@ -162,9 +143,16 @@ const MobileComponent: React.FC<any> = (props) => {
         setValue(value)
     }
 
-    let data
+    type DataType = Array<
+            {
+                label: string,
+                value: string, 
+                key: string
+            }
+        >
+
+    let data: DataType
     if (props.selectOptions !== null && props.selectOptions !== undefined) {
-        console.log(props.label, props.selectOptions)
         data = props.selectOptions.map((item: any) => {
             return (
                 {
@@ -177,8 +165,6 @@ const MobileComponent: React.FC<any> = (props) => {
     } else {
         data = []
     }
-    
-    console.log(data)
 
     return (
         <List>
@@ -188,7 +174,6 @@ const MobileComponent: React.FC<any> = (props) => {
                 mode={props.type === 'time' ? "time" : null}
                 value = {value}
                 key={props.label}
-                // type={type}
                 title={props.label}
                 locale={enUs}
                 autoHeight
@@ -196,10 +181,8 @@ const MobileComponent: React.FC<any> = (props) => {
                 data={data}
                 cols={1}
             >
-                {/* {label} */}
                 <List.Item
                     className="pl-0"
-                // arrow="horizontal"
                 >
                     {props.label}
                 </List.Item>

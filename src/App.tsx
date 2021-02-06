@@ -43,7 +43,7 @@ const App = (props: MapPropsType & DispatchPropsType) => {
       //console.log('initialized FALSE', props)
       props.initializeApp()
     } else {
-      // console.log('initialized TRUE', props)
+      //console.log('initialized TRUE', props)
     }
   }, [props.initialized])
 

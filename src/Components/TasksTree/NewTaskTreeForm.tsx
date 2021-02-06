@@ -9,25 +9,27 @@ const { Option }: any = Select;
 
 const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
     const values: any = props.values
-    console.log(values)
+    //console.log(values)
     const selectOptions = values.selectOptions
     const taskTypes = values.taskTypes // ++++++
 
     const [taskType, setTaskType] = useState(values.taskType)
 
     useEffect(() => {
-        // console.log(props.values)
+        //console.log(props.values)
         const values: any = props.values
         const taskTypes = values.task_type
         setTaskType(taskTypes)
     }, [props.values])
 
-    console.log('NewTaskTreeForm props: ', props)
+    //console.log('NewTaskTreeForm props: ', props)
 
-    const handleSubmit = (formProps: any) => {
-        console.log('formProps in NewTaskTreeForm: ',formProps)
-        props.handleSubmit(formProps)
-    }
+    // const handleSubmit = (formProps: any) => {
+    //     //console.log('formProps in NewTaskTreeForm: ',formProps)
+    //     props.handleSubmit(formProps)
+    // }
+
+    console.log('NewTaskTreeForm', props)
 
     return (
         <Form
@@ -64,7 +66,7 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 label="Descriptions"
                 // validate={validateRequired}
                 submitCount={props.submitCount}
-                hasFeedback
+                // hasFeedback
             />
 
             <Field
@@ -87,7 +89,7 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 label="task Types"
                 // validate={validateRequired}
                 submitCount={props.submitCount}
-                hasFeedback
+                // hasFeedback
             />
 
 
