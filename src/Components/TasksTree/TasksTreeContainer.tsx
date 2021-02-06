@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
 // import TasksTree, { OwnTasksTreePropsType } from './TasksTree'
 import { AppStateType } from '../../redux/store'
-import {getTaskList, createNewTaskList, deleteTaskList} from './../../redux/TaskListReducer'
+import {getTaskList, createNewTaskList, deleteTaskList, updateTaskList} from './../../redux/TaskListReducer'
 import { isMobile } from 'react-device-detect'
 import TasksTreeBrowser from './TasksTreeBrowser'
 import TasksTreeMobile from './TasksTreeMobile'
@@ -13,6 +13,7 @@ type MapDispatchPropsType = {
     getTaskList: ()=>void,
     createNewTaskList: (values: any)=>void,
     deleteTaskList: (taskId: number)=>void,
+    updateTaskList: (values: any, taskId: number)=> void
 }
 
 type OwnTasksTreePropsType = {
@@ -36,7 +37,7 @@ let mapStateToProps = (state:AppStateType) => {
 // }
 
 export default connect<MapPropsType, MapDispatchPropsType, OwnTasksTreePropsType, AppStateType>(mapStateToProps, 
-    {getTaskList, createNewTaskList, deleteTaskList}) 
+    {getTaskList, createNewTaskList, deleteTaskList, updateTaskList}) 
     (isMobile ? TasksTreeMobile : TasksTreeBrowser)
     
 

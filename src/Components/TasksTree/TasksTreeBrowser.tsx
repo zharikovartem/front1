@@ -9,7 +9,12 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 const { Panel } = Collapse;
 
-const initialDrewerData = {
+type InitialDrewerDataType = {
+    header: string,
+    taskId: false | number
+}
+
+const initialDrewerData: InitialDrewerDataType = {
     header: 'Create New Task',
     taskId: false
 }
@@ -54,7 +59,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         ],
         task_type: 'soft',
         name: '',
-        new: true
+        // new: true
 
     }
 
@@ -89,7 +94,10 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         if (!drawerData.taskId) {
             props.createNewTaskList(formPropsCopy)
         } else {
-            alert('edit: '+ drawerData.taskId)
+            console.log(formPropsCopy)
+            props.updateTaskList(formPropsCopy, drawerData.taskId)
+            // descriptions
+            // descriptions
         }
         
     }
@@ -200,7 +208,7 @@ const getTaskTreeItems = (
 
         setInitialFormValues( 
                 {...initialFormValues, 
-                    new: false,
+                    // new: false,
                     name: task.name, 
                     time_to_complete: day,
                     descriptions: task.descriptions
