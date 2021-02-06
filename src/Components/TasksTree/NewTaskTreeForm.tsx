@@ -8,17 +8,10 @@ const { Option }: any = Select;
 
 
 const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
-
-    // const children: Array<any> = []
-    // for (let i = 0; i < 5; i++) {
-    //     children.push(i + 'optionName')
-    // }
-
-
-
     const values: any = props.values
+    console.log(values)
     const selectOptions = values.selectOptions
-    const taskTypes = values.taskTypes
+    const taskTypes = values.taskTypes // ++++++
 
     const [taskType, setTaskType] = useState(values.taskType)
 
@@ -32,13 +25,14 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
     console.log('NewTaskTreeForm props: ', props)
 
     const handleSubmit = (formProps: any) => {
+        console.log('formProps in NewTaskTreeForm: ',formProps)
         props.handleSubmit(formProps)
     }
 
     return (
         <Form
             className="form-container"
-            onSubmit={handleSubmit}
+            onSubmit={props.handleSubmit}
         >
             <Field
                 component={AntInput}
