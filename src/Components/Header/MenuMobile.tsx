@@ -7,6 +7,7 @@ import { MenuDataType } from './Header'
 import { MenuMobilePropsType } from './MenuMobileContainer'
 import { Link } from 'react-router-dom'
 import { LogoutOutlined } from '@ant-design/icons'
+import MenuPopover from './MenuPopover'
 
 export type OwnMenuMobilePropsType = {
     menuData: MenuDataType,
@@ -112,6 +113,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
                     icon={<img src="https://gw.alipayobjects.com/zos/rmsportal/iXVHARNNlmdCGnwWxQPH.svg" className="am-icon am-icon-md" alt="" />}
                     onLeftClick={handleClick}
                     className="top-nav-bar"
+                    rightContent={props.isAuth ? <MenuPopover onLogout={onLogout} /> : null}
                 >
                     {!props.isAuth ?
                         <Link
@@ -121,13 +123,19 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
                             <span className="text-white">Login</span>
                         </Link>
                         :
+                        <>
                         <div>
                             {props.user?.name}
-                            <Button className="ml-5" size="small" icon={<LogoutOutlined />} onClick={onLogout} inline >
+                            {/* <Button className="ml-5" size="small" icon={<LogoutOutlined />} onClick={onLogout} inline >
 
-                            </Button>
+                            </Button> */}
                         </div>
+                        {/* <div className="w-100">
+                            
+                        </div> */}
+                        </>
                     }
+                    
 
                 </NavBar>
             </div>
