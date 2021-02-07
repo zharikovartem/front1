@@ -27,6 +27,8 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         else if (props.taskList === undefined) {
             props.getTaskList()
         }
+        setVisible(false)
+        setInitialFormValues(initialValues)
     }, [props.taskList])
 
     const [visible, setVisible] = useState(false)

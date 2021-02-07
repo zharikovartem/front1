@@ -60,7 +60,7 @@ const MenuMobile: React.FC<MenuMobilePropsType> = (props) => {
                         dataItem.children.forEach((cItem: { value: string | string[]; label: any }) => {
                             if (cItem.value === value[1]) {
                                 history.replace(`${cItem.value}`)
-
+                                setShow(false)
                             }
                         })
                     }

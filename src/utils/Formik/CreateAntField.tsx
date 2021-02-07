@@ -1,20 +1,20 @@
-import React, { SyntheticEvent, useState } from 'react'
+import React, { useState } from 'react'
 import { isMobile } from "react-device-detect"
-import { 
-    DatePicker, 
-    Form, 
-    Input, 
-    TimePicker, 
-    Select, 
-    Checkbox 
+import {
+    DatePicker,
+    Form,
+    Input,
+    TimePicker,
+    Select,
+    Checkbox
 } from "antd"
 import enUs from 'antd-mobile/lib/date-picker/locale/en_US';
 import moment from "moment"
 import {
-    List, 
-    InputItem, 
-    Checkbox as CheckboxMobile, 
-    TextareaItem, 
+    List,
+    InputItem,
+    Checkbox as CheckboxMobile,
+    TextareaItem,
     Picker,
     DatePicker as DatePickerMobile,
 } from 'antd-mobile'
@@ -46,15 +46,23 @@ const CreateAntField = (AntComponent: any) => (
     // type OnInputChangeValueType = React.ChangeEvent<HTMLInputElement> | moment.Moment | Date | string
     // const onInputChange = (value: OnInputChangeValueType, field: any) => {
     const onInputChange = (value: any) => {
-        if (value.target) {
-        // if (value instanceof Date === false &&  !moment.isMoment(value) === false && typeof value !== "string") {
+        console.log('value: ', value)
+        console.log('field: ', field)
+        console.log('type: ', type)
+        if (value === undefined) {
+            if (type == 'select' || type == 'time') {
+                form.setFieldValue(field.name, null)
+            }
+        } else if(value === null) {
+            form.setFieldValue(field.name, null)
+        } else if (value.target) {
             form.setFieldValue(field.name, value.target.value)
         } else {
             if (type === 'time') {
                 if (value instanceof moment) {
                     form.setFieldValue(field.name, value)
                 } else {
-                    form.setFieldValue(field.name, moment(value.setSeconds(0)))//.from() )
+                    form.setFieldValue(field.name, moment(value.setSeconds(0)))
                 }
             } else if (Array.isArray(value)) {
                 // добавтить проверуку на пустой массив
@@ -68,7 +76,7 @@ const CreateAntField = (AntComponent: any) => (
 
     const onChange = (value: string | React.ChangeEvent<HTMLInputElement>) => {
         console.log('onChange: ', value)
-        if ( typeof value !== "string" && value.target.type === 'checkbox') {
+        if (typeof value !== "string" && value.target.type === 'checkbox') {
             form.setFieldValue(field.name, value.target.checked)
         } else {
             form.setFieldValue(field.name, value)
@@ -87,14 +95,14 @@ const CreateAntField = (AntComponent: any) => (
             validateStatus={submittedError || touchedError ? "error" : "success"}
         >
             {isMobile ?
-                <MobileComponent 
+                <MobileComponent
                     AntComponent={AntComponent}
-                    onBlur = {onBlur}
-                    type = {type}
-                    onInputChange = {onInputChange}
-                    onChange = {onChange}
-                    label = {label}
-                    selectOptions = {selectOptions}
+                    onBlur={onBlur}
+                    type={type}
+                    onInputChange={onInputChange}
+                    onChange={onChange}
+                    label={label}
+                    selectOptions={selectOptions}
                 />
                 :
                 <AntComponent
@@ -124,12 +132,12 @@ export const AntCheckbox = !isMobile ? CreateAntField(Checkbox) : CreateAntField
 export const AntTextArea = !isMobile ? CreateAntField(TextArea) : CreateAntField(TextareaItem)
 
 type MobileComponentType = {
-    onInputChange: (value: any)=> void,
-    selectOptions:Array<any>,
+    onInputChange: (value: any) => void,
+    selectOptions: Array<any>,
     AntComponent: any,
-    onBlur: ()=>void,
+    onBlur: () => void,
     type: 'select' | 'date' | 'text' | 'number' | 'password' | 'time' | 'checkbox' | 'textarea',
-    onChange: (value: any)=>void,
+    onChange: (value: any) => void,
     label: string,
 
 }
@@ -144,20 +152,20 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     }
 
     type DataType = Array<
-            {
-                label: string,
-                value: string, 
-                key: string
-            }
-        >
+        {
+            label: string,
+            value: string,
+            key: string
+        }
+    >
 
     let data: DataType
     if (props.selectOptions !== null && props.selectOptions !== undefined) {
         data = props.selectOptions.map((item: any) => {
             return (
                 {
-                    label: item.name, 
-                    value: item.value, 
+                    label: item.name,
+                    value: item.value,
                     key: item.name
                 }
             )
@@ -172,7 +180,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
                 onBlur={props.onBlur}
                 onChange={props.type ? onInputChange : props.onChange}
                 mode={props.type === 'time' ? "time" : null}
-                value = {value}
+                value={value}
                 key={props.label}
                 title={props.label}
                 locale={enUs}
