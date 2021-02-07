@@ -101,7 +101,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
             // descriptions
             // descriptions
         }
-        
+
     }
 
     console.log('initialFormValues: ', initialFormValues)
@@ -111,7 +111,17 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
             <div className="site-card-border-less-wrapper">
                 <Card
                     title={
-                        <div className="col-12 col-md-12 col-lg-4">
+                        <div
+                            // className="col-12 col-md-12 col-lg-4"
+                            className="inline"
+                        >
+                            <div ><h2>Tasks Tree</h2></div>
+
+
+                        </div>
+                    }
+                    extra={
+                        <>
                             <Button
                                 type="primary"
                                 shape="round"
@@ -135,7 +145,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                                         <span className="ml-1" style={{ fontSize: '14px' }}>Settings</span>
                                     </div>}
                             />
-                        </div>
+                        </>
                     }
                     bordered={false}
                 >
@@ -143,17 +153,17 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                     {/* { getTaskTreeItems(props.taskList) } */}
                     <List
                         size="small"
-                        header={<h2>Tasks Tree</h2>}
+                        // header={<h2>Tasks Tree</h2>}
                         // footer={<div>Footer</div>}
                         bordered
                         dataSource={getTaskTreeItems(
-                                        props.taskList, 
-                                        props.deleteTaskList, 
-                                        showDrawer, 
-                                        setDrawerData,
-                                        initialFormValues,
-                                        setInitialFormValues
-                                        )}
+                            props.taskList,
+                            props.deleteTaskList,
+                            showDrawer,
+                            setDrawerData,
+                            initialFormValues,
+                            setInitialFormValues
+                        )}
 
                         renderItem={item => <List.Item draggable>{item}</List.Item>}
                     />
@@ -190,16 +200,16 @@ const getTaskTreeItems = (
     deleteTask: (taskId: number) => void,
     showDrawer: () => void,
     setDrawerData: (drawerData: any) => void,
-    initialFormValues:any,
-    setInitialFormValues:(initialFormValues:any)=>void
+    initialFormValues: any,
+    setInitialFormValues: (initialFormValues: any) => void
 ) => {
-    const onEdit = (task:any) => {
+    const onEdit = (task: any) => {
         setDrawerData({
-            header: 'Edit: "'+task.name+'"',
+            header: 'Edit: "' + task.name + '"',
             taskId: task.id
         })
 
-        
+
         let day = moment().zone('GMT')
         if (task.time_to_complete !== null) {
             const splitTime = task.time_to_complete.split(/:/)
@@ -208,14 +218,15 @@ const getTaskTreeItems = (
             day.hours(0).minutes(0).seconds(0).milliseconds(0);
         }
 
-        setInitialFormValues( 
-                {...initialFormValues, 
-                    // new: false,
-                    name: task.name, 
-                    time_to_complete: day,
-                    descriptions: task.descriptions
-                } 
-            )
+        setInitialFormValues(
+            {
+                ...initialFormValues,
+                // new: false,
+                name: task.name,
+                time_to_complete: day,
+                descriptions: task.descriptions
+            }
+        )
         showDrawer()
     }
     if (taskList !== undefined && taskList.length > 0) {
@@ -237,7 +248,7 @@ const getTaskTreeItems = (
                             shape="circle"
                             size="small"
                             style={{ marginLeft: 10 }}
-                            onClick={()=>{onEdit(item)}}
+                            onClick={() => { onEdit(item) }}
                             icon={
                                 <div className="d-flex flex-wrap align-content-start">
                                     <EditOutlined className="ml-1" style={{ fontSize: '14px' }} />

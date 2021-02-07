@@ -29,7 +29,8 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
     //     props.handleSubmit(formProps)
     // }
 
-    console.log('NewTaskTreeForm', props)
+    // console.log('NewTaskTreeForm', props)
+    console.log('NewTaskTreeForm render', values)
 
     return (
         <Form

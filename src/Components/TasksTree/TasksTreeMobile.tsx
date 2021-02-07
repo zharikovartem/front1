@@ -1,19 +1,33 @@
 import React, { useState, useEffect } from 'react'
 import { TasksTreePropsType } from './TasksTreeContainer'
-import { Drawer, List, SwipeAction, Icon, Button } from 'antd-mobile'
+import { Drawer, List, SwipeAction, Icon, Button, Card, WingBlank, WhiteSpace } from 'antd-mobile'
 import NewTaskTreeForm from './NewTaskTreeForm'
 import './TasksTreeMobile.css'
 import { Formik } from 'formik'
-import { Spin } from 'antd'
+import { Spin, Empty } from 'antd'
 import { propTypes } from 'react-bootstrap/esm/Image'
+import moment from "moment"
 
 const Item = List.Item
+
+type InitialDrewerDataType = {
+    header: string,
+    taskId: false | number
+}
+
+const initialDrewerData: InitialDrewerDataType = {
+    header: 'Create New Task',
+    taskId: false
+}
 
 const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     useEffect(() => {
         if (props.taskList.length === 0 && !props.isTaskListLoaded) {
             props.getTaskList()
         }
+        setVisible(false)
+        console.log('initialValues: ', initialValues)
+        setInitialFormValues(initialValues)
     }, [props.taskList])
 
     const getSelectOptions = () => {
@@ -43,9 +57,11 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
             }
         ],
         task_type: 'soft'
-
     }
-    const [state, setState] = useState(false)
+
+    const [visible, setVisible] = useState(false)
+    const [initialFormValues, setInitialFormValues] = useState(initialValues)
+    const [drawerData, setDrawerData] = useState(initialDrewerData)
 
     const handleSubmit = (formProps: any) => {
         //console.log('formProps submit: ', formProps)
@@ -60,29 +76,47 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
 
         formPropsCopy.user_id = props.userId
         props.createNewTaskList(formPropsCopy)
+        setInitialFormValues(initialValues)
     }
 
     const onOpenChange = (args: any) => {
         //console.log(args);
-        setState(!state)
+        setVisible(!visible)
     }
 
-    //console.log('TTM props: ', props)
+    const showDrawer = () => {
+        setVisible(true)
+    }
 
-    if (props.taskList !== undefined && props.taskList.length > 0) {
+    console.log('TasksTreeMobile props: ', props)
+    console.log('TasksTreeMobile name: ', initialFormValues.name)
+
+    // if (props.taskList !== undefined) {
         return (
-            <div>
-                <div className="d-flex justify-content-end">
+            <WingBlank size="lg">
+            <WhiteSpace size="lg" />
+            <Card>
 
-                    <Button
-                        inline
-                        size="small"
-                        className="mx-3 my-2"
-                        // style={{ marginRight: '4px' }} 
-                        onClick={onOpenChange}
-                        type="primary">
-                        Add
-                </Button>
+                <div 
+                    // className="d-flex justify-content-end"
+                >
+                <Card.Header
+                    title={<h4 className="w-100 text-center">Tasks Tree</h4>}
+                    extra = {
+                                <Button
+                                    inline
+                                    size="small"
+                                    className="mx-3 my-2"
+                                    // style={{ marginRight: '4px' }} 
+                                    onClick={onOpenChange}
+                                    type="primary"
+                                >
+                                    Add
+                                </Button>
+                            }
+                >
+                    
+                </Card.Header>
                 </div>
 
                 <Drawer
@@ -93,34 +127,80 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                     sidebar={
                         <div className="mt-4">
                             <Formik
-                                initialValues={initialValues}
+                                initialValues={initialFormValues}
                                 onSubmit={handleSubmit}
                                 render={NewTaskTreeForm}
+                                enableReinitialize={true}
                             />
                         </div>
                     }
-                    open={state}
+                    open={visible}
                     onOpenChange={onOpenChange}
                 >
                     <List
                     // renderHeader={() => 'taskList'}
                     >
-                        {getTaskTreeItems(props.taskList, props.deleteTaskList)}
+                        {getTaskTreeItems(
+                                            props.taskList, 
+                                            props.deleteTaskList,
+                                            showDrawer,
+                                            setDrawerData,
+                                            initialFormValues,
+                                            setInitialFormValues
+                                        )
+                        }
                     </List>
                 </Drawer>
 
 
 
-            </div>
+            </Card>
+            </WingBlank>
         )
-    } else {
-        return <Spin key="spin" size="large" />
-    }
+    // } else {
+    //     return <Spin key="spin" size="large" />
+    // }
 }
 
 export default TasksTreeMobile
 
-const getTaskTreeItems = (taskList: Array<any>, deleteTaskList:(taskId:number)=>void) => {
+const getTaskTreeItems = (
+        taskList: Array<any>, 
+        deleteTaskList:(taskId:number)=>void,
+        showDrawer: () => void,
+        setDrawerData: (drawerData: any) => void,
+        initialFormValues: any,
+        setInitialFormValues: (initialFormValues: any) => void
+    ) => {
+    const onEdit = (task: any) => {
+        console.log(task)
+
+        setDrawerData({
+            header: 'Edit: "' + task.name + '"',
+            taskId: task.id
+        })
+
+        let day = moment().zone('GMT')
+        if (task.time_to_complete !== null) {
+            const splitTime = task.time_to_complete.split(/:/)
+            day.hours(parseInt(splitTime[0])).minutes(parseInt(splitTime[1])).seconds(0).milliseconds(0);
+        } else {
+            day.hours(0).minutes(0).seconds(0).milliseconds(0);
+        }
+
+        setInitialFormValues(
+            {
+                ...initialFormValues,
+                // new: false,
+                name: task.name,
+                time_to_complete: day,
+                descriptions: task.descriptions
+            }
+        )
+
+        showDrawer()
+    }
+
     if (taskList.length > 0) {
         return taskList.map((item) => {
             //console.log('!!!!!!!')
@@ -143,7 +223,7 @@ const getTaskTreeItems = (taskList: Array<any>, deleteTaskList:(taskId:number)=>
                     left={[
                         {
                             text: 'Edit',
-                            onPress: () => console.log('reply'),
+                            onPress: () => {onEdit(item)},
                             style: { backgroundColor: '#108ee9', color: 'white' },
                         },
                         {
@@ -152,8 +232,8 @@ const getTaskTreeItems = (taskList: Array<any>, deleteTaskList:(taskId:number)=>
                             style: { backgroundColor: '#ddd', color: 'white' },
                         },
                     ]}
-                    onOpen={() => console.log('global open')}
-                    onClose={() => console.log('global close')}
+                    // onOpen={() => console.log('global open')}
+                    // onClose={() => console.log('global close')}
                 >
                     <Item
                         // className="my-3"
@@ -168,7 +248,9 @@ const getTaskTreeItems = (taskList: Array<any>, deleteTaskList:(taskId:number)=>
             )
         })
     } else {
-        return <Spin key="spin" size="large" />
+        return(
+            <Empty />
+        )
     }
 
 
