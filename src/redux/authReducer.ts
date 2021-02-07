@@ -6,11 +6,13 @@ type InitialStateType = {
     user: UserType | null,
     remember_token: string | null,
     isAuth: boolean
+    viewSettings: any
 }
 let initialState: InitialStateType = {
     user: null,
     remember_token: null,
-    isAuth: false
+    isAuth: false,
+    viewSettings: null
 }
 
 const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
@@ -18,7 +20,12 @@ const authReducer = (state = initialState, action: ActionsTypes): InitialStateTy
         case 'SN/AUTH/SET_USER_DATA':
             if (action.user !== null) {
                 //console.log('1')
-                return { ...state, user: action.user, remember_token: action.remember_token, isAuth: true}
+                return { ...state, 
+                            user: action.user, 
+                            remember_token: action.remember_token, 
+                            isAuth: true, 
+                            viewSettings: JSON.parse(action.user.view_settings)
+                        }
             } else {
                 return initialState;
             }
@@ -39,7 +46,8 @@ export type UserType = {
     id: number
     name: string
     status: string
-    updated_at: string
+    updated_at: string,
+    view_settings: any
 }
 export const actions = {
     setAuthUserData: (user: UserType | null, remember_token: string | null) => ({ type: 'SN/AUTH/SET_USER_DATA', user, remember_token } as const),

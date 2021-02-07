@@ -1,11 +1,6 @@
-import React from 'react'
-import { Modal } from 'antd'
-
-export type OwmSettingsModalPropsType = {
-    isModalVisible: boolean,
-    handleOk: () => void,
-    handleCancel: () => void
-}
+import React, {useState} from 'react'
+import { Card, Modal } from 'antd'
+import { SettingsModalPropsType } from './SettingsModalContainer'
 
 const settingasExample = {
     ToDo: {
@@ -20,15 +15,50 @@ const settingasExample = {
     }
 }
 
-const SettingsModal = (props:OwmSettingsModalPropsType) => {
-    //console.log(settingasExample)
+export type OwmSettingsModalPropsType = {
+    isModalVisible: boolean,
+    handleOk: () => void,
+    handleCancel: () => void
+}
+
+
+
+const SettingsModal = (props:any) => {
+
+    // console.log( JSON.parse(props.viewSettings) )
+    const [settings, setSettings] = useState(props.viewSettings)
+
+    let settingsBlock: Array<any> = []
+
+    for (const propName in settings.ToDo) {
+        if (Object.prototype.hasOwnProperty.call(settings.ToDo, propName)) {
+            const element = settings.ToDo[propName]
+            console.log(propName, element)
+            settingsBlock.push(<FormItem title={propName} data={element}/>)
+        }
+    }
+
     return (
         <Modal title="Task display settings" visible={props.isModalVisible} onOk={props.handleOk} onCancel={props.handleCancel}>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+            {settingsBlock}
         </Modal>
     )
 }
 
 export default SettingsModal
+
+const FormItem: React.FC<any> = (props) => {
+    let settingsItem: Array<any> = []
+    for (const propName in props.data) {
+        if (Object.prototype.hasOwnProperty.call(props.data, propName)) {
+            const element = props.data[propName]
+            settingsItem.push(<div>{propName} = {element ? 'yes' : 'no'}</div>)
+        }
+    }
+
+    return(
+        <Card title={props.title} extra={<a href="#">More</a>} >
+            {settingsItem}
+        </Card>
+    )
+}

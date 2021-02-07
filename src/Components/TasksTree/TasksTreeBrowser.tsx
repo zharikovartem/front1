@@ -87,10 +87,8 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         delete formPropsCopy.selectOptions
         delete formPropsCopy.taskTypes
         if (formPropsCopy.time_to_complete !== undefined) {
-            //console.log(formPropsCopy.time_to_complete.format('HH:mm:ss'))
             formPropsCopy.time_to_complete = formPropsCopy.time_to_complete.format('HH:mm:ss')
         }
-        //console.log('NewTaskTreeForm Props: ', formPropsCopy)
 
         formPropsCopy.user_id = props.userId
         if (!drawerData.taskId) {
