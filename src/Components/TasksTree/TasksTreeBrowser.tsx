@@ -52,14 +52,14 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         taskTypes: [
             {
                 name: 'Простая задача',
-                value: 'soft'
+                value: 1
             },
             {
                 name: 'Задача с контектом',
-                value: 'context'
+                value: 2
             }
         ],
-        task_type: 'soft',
+        task_type: 1,
         name: '',
         // new: true
 
@@ -78,7 +78,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     const onAdd = () => {
         setDrawerData(initialDrewerData)
         setInitialFormValues(initialValues)
-        console.log(initialValues)
+        // console.log(initialValues)
         showDrawer()
     }
 
@@ -96,15 +96,13 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         if (!drawerData.taskId) {
             props.createNewTaskList(formPropsCopy)
         } else {
-            console.log(formPropsCopy)
+            // console.log(formPropsCopy)
             props.updateTaskList(formPropsCopy, drawerData.taskId)
-            // descriptions
-            // descriptions
         }
 
     }
 
-    console.log('initialFormValues: ', initialFormValues)
+    // console.log('initialFormValues: ', initialFormValues)
 
     return (
         <>

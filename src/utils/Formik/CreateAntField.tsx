@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { isMobile } from "react-device-detect"
 import {
     DatePicker,
@@ -46,9 +46,9 @@ const CreateAntField = (AntComponent: any) => (
     // type OnInputChangeValueType = React.ChangeEvent<HTMLInputElement> | moment.Moment | Date | string
     // const onInputChange = (value: OnInputChangeValueType, field: any) => {
     const onInputChange = (value: any) => {
-        console.log('value: ', value)
-        console.log('field: ', field)
-        console.log('type: ', type)
+        // console.log('value: ', value)
+        // console.log('field: ', field)
+        // console.log('type: ', type)
         if (value === undefined) {
             if (type == 'select' || type == 'time') {
                 form.setFieldValue(field.name, null)
@@ -59,11 +59,15 @@ const CreateAntField = (AntComponent: any) => (
             form.setFieldValue(field.name, value.target.value)
         } else {
             if (type === 'time') {
-                if (value instanceof moment) {
-                    form.setFieldValue(field.name, value)
-                } else {
-                    form.setFieldValue(field.name, moment(value.setSeconds(0)))
-                }
+                // if (value instanceof moment) {
+                //     console.log('moment')
+                //     form.setFieldValue(field.name, value)
+                // } else {
+                //     console.log('not moment')
+                //     // form.setFieldValue(field.name, moment(value.setSeconds(0)))
+                //     form.setFieldValue(field.name, value)
+                // }
+                form.setFieldValue(field.name, value)
             } else if (Array.isArray(value)) {
                 // добавтить проверуку на пустой массив
                 form.setFieldValue(field.name, value[0])
@@ -75,7 +79,7 @@ const CreateAntField = (AntComponent: any) => (
     }
 
     const onChange = (value: string | React.ChangeEvent<HTMLInputElement>) => {
-        console.log('onChange: ', value)
+        // console.log('onChange: ', value)
         if (typeof value !== "string" && value.target.type === 'checkbox') {
             form.setFieldValue(field.name, value.target.checked)
         } else {
@@ -103,6 +107,7 @@ const CreateAntField = (AntComponent: any) => (
                     onChange={onChange}
                     label={label}
                     selectOptions={selectOptions}
+                    value={field.value}
                 />
                 :
                 <AntComponent
@@ -139,15 +144,49 @@ type MobileComponentType = {
     type: 'select' | 'date' | 'text' | 'number' | 'password' | 'time' | 'checkbox' | 'textarea',
     onChange: (value: any) => void,
     label: string,
-
+    value: any
 }
 
 // const MobileComponent: React.FC<any> = (props) => {
 const MobileComponent: React.FC<MobileComponentType> = (props) => {
-    const [value, setValue] = useState(null)
+    const [defaultValue, setValue] = useState(props.value)
+
+    useEffect(() => {
+        if (props.type === 'select' && props.label === 'parent_id') {
+            console.log('useEffect parent_id: ',props.value)
+        }
+
+        setValue(props.value)
+
+    }, [props.value])
 
     const onInputChange = (value: any) => {
+        
+        // if (props.type === 'select') {
+        //     // console.log('select value:', value)
+        //     // for (let index = 0; index < props.selectOptions.length; index++) {
+        //     //     const element = props.selectOptions[index];
+        //     //     if (element.value == value[0]) {
+        //     //         console.log([element.value])
+        //     //         setValue([element.value])
+        //     //     }
+        //     // }
+        // } else {
+            setValue(value)
+        // }
+
+        // setValue(value)
+        
         props.onInputChange(value)
+    }
+
+    const onPickerChange = (value:any) => {
+        console.log('onPickerChange: ',value)
+        setValue(value)
+    }
+
+    const onOk = (value:any) => {
+        console.log('onOk; ', value)
         setValue(value)
     }
 
@@ -174,13 +213,19 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
         data = []
     }
 
+    if (props.type === 'select' && props.label === 'parent_id') {
+        console.log('render: ',defaultValue)
+    }
+    
     return (
         <List>
             <props.AntComponent
                 onBlur={props.onBlur}
+                type={props.type}
                 onChange={props.type ? onInputChange : props.onChange}
                 mode={props.type === 'time' ? "time" : null}
-                value={value}
+                defaultValue={props.label === 'parent_id' ? [38] : defaultValue}
+                value={defaultValue}
                 key={props.label}
                 title={props.label}
                 locale={enUs}
@@ -188,6 +233,8 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
                 className={props.type === 'text' ? 'pl-0' : null}
                 data={data}
                 cols={1}
+                onOk={(v:any) => setValue(v)}
+                onPickerChange={onPickerChange}
             >
                 <List.Item
                     className="pl-0"

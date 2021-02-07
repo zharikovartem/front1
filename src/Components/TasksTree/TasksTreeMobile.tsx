@@ -22,11 +22,13 @@ const initialDrewerData: InitialDrewerDataType = {
 
 const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     useEffect(() => {
-        if (props.taskList.length === 0 && !props.isTaskListLoaded) {
+        if (props.taskList && props.taskList.length === 0 && !props.isTaskListLoaded) {
+            props.getTaskList()
+        }else if (props.taskList === undefined) {
             props.getTaskList()
         }
         setVisible(false)
-        console.log('initialValues: ', initialValues)
+        // console.log('initialValues: ', initialValues)
         setInitialFormValues(initialValues)
     }, [props.taskList])
 
@@ -49,14 +51,15 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         taskTypes: [
             {
                 name: 'Простая задача',
-                value: 'soft'
+                value: 1
             },
             {
                 name: 'Задача с контектом',
-                value: 'context'
+                value: 2
             }
         ],
-        task_type: 'soft'
+        task_type: 1,
+        // parent_id:[]
     }
 
     const [visible, setVisible] = useState(false)
@@ -64,23 +67,32 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     const [drawerData, setDrawerData] = useState(initialDrewerData)
 
     const handleSubmit = (formProps: any) => {
-        //console.log('formProps submit: ', formProps)
+        // console.log('handleSubmit TasksTreeMobile: ', formProps.time_to_complete)
         let formPropsCopy: any = { ...formProps }
         delete formPropsCopy.selectOptions
         delete formPropsCopy.taskTypes
         if (formPropsCopy.time_to_complete !== undefined) {
-            //console.log(formPropsCopy.time_to_complete.format('HH:mm:ss'))
-            formPropsCopy.time_to_complete = formPropsCopy.time_to_complete.format('HH:mm:ss')
+            // console.log(formPropsCopy.time_to_complete)
+            const time_to_complete = moment(formPropsCopy.time_to_complete)
+            formPropsCopy.time_to_complete = time_to_complete.format('HH:mm:ss')
         }
+        formPropsCopy.parent_id = formPropsCopy.parent_id[0]
         //console.log('NewTaskMobile submit: ', formPropsCopy)
 
         formPropsCopy.user_id = props.userId
-        props.createNewTaskList(formPropsCopy)
-        setInitialFormValues(initialValues)
+        // props.createNewTaskList(formPropsCopy)
+        // setInitialFormValues(initialValues)
+        if (!drawerData.taskId) {
+            // console.log('createNewTaskList: ', formPropsCopy)
+            props.createNewTaskList(formPropsCopy)
+        } else {
+            console.log('updateTaskList: ', formPropsCopy)
+            props.updateTaskList(formPropsCopy, drawerData.taskId)
+        }
     }
 
     const onOpenChange = (args: any) => {
-        //console.log(args);
+        setInitialFormValues(initialValues)
         setVisible(!visible)
     }
 
@@ -88,8 +100,8 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         setVisible(true)
     }
 
-    console.log('TasksTreeMobile props: ', props)
-    console.log('TasksTreeMobile name: ', initialFormValues.name)
+    // console.log('TasksTreeMobile props: ', props)
+    // console.log('TasksTreeMobile name: ', initialFormValues.name)
 
     // if (props.taskList !== undefined) {
         return (
@@ -173,19 +185,25 @@ const getTaskTreeItems = (
         setInitialFormValues: (initialFormValues: any) => void
     ) => {
     const onEdit = (task: any) => {
-        console.log(task)
+        // console.log(task)
 
         setDrawerData({
             header: 'Edit: "' + task.name + '"',
             taskId: task.id
         })
 
-        let day = moment().zone('GMT')
+        let day = new Date()
         if (task.time_to_complete !== null) {
             const splitTime = task.time_to_complete.split(/:/)
-            day.hours(parseInt(splitTime[0])).minutes(parseInt(splitTime[1])).seconds(0).milliseconds(0);
+            day.setHours( parseInt(splitTime[0]) )
+            day.setMinutes( parseInt(splitTime[1]) )
+            day.setSeconds(0)
+            day.setMilliseconds(0)
         } else {
-            day.hours(0).minutes(0).seconds(0).milliseconds(0);
+            day.setHours(0)
+            day.setMinutes(0)
+            day.setSeconds(0)
+            day.setMilliseconds(0);
         }
 
         setInitialFormValues(
@@ -194,14 +212,17 @@ const getTaskTreeItems = (
                 // new: false,
                 name: task.name,
                 time_to_complete: day,
-                descriptions: task.descriptions
+                descriptions: task.descriptions,
+                parent_id: [task.parent_id]
             }
         )
 
         showDrawer()
     }
 
-    if (taskList.length > 0) {
+    // console.log(taskList)
+
+    if (taskList && taskList.length > 0) {
         return taskList.map((item) => {
             //console.log('!!!!!!!')
             return (
@@ -211,7 +232,9 @@ const getTaskTreeItems = (
                     right={[
                         {
                             text: 'Cancel',
-                            onPress: () => console.log('cancel'),
+                            onPress: () => { 
+                                //console.log('cancel') 
+                            },
                             style: { backgroundColor: '#ddd', color: 'white' },
                         },
                         {
@@ -228,7 +251,9 @@ const getTaskTreeItems = (
                         },
                         {
                             text: 'Cancel',
-                            onPress: () => console.log('cancel'),
+                            onPress: () => {
+                                // console.log('cancel')
+                            },
                             style: { backgroundColor: '#ddd', color: 'white' },
                         },
                     ]}
@@ -237,7 +262,9 @@ const getTaskTreeItems = (
                 >
                     <Item
                         // className="my-3"
-                        onClick={() => console.log('List.Item clicked!')}
+                        onClick={() => {
+                            // console.log('item is clicked')
+                        }}
                         arrow="horizontal"
                         key={item.id}
                     >
