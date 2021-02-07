@@ -46,6 +46,12 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         }
     }
 
+    let initialTimeToComplete = new Date()
+    initialTimeToComplete.setHours(0)
+    initialTimeToComplete.setMinutes(0)
+    initialTimeToComplete.setSeconds(0)
+    initialTimeToComplete.setMilliseconds(0);
+
     const initialValues: any = {
         selectOptions: getSelectOptions(),
         taskTypes: [
@@ -59,6 +65,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
             }
         ],
         task_type: 1,
+        time_to_complete: initialTimeToComplete
         // parent_id:[]
     }
 
@@ -76,7 +83,10 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
             const time_to_complete = moment(formPropsCopy.time_to_complete)
             formPropsCopy.time_to_complete = time_to_complete.format('HH:mm:ss')
         }
-        formPropsCopy.parent_id = formPropsCopy.parent_id[0]
+        if ( Array.isArray(formPropsCopy.parent_id) ){
+            formPropsCopy.parent_id = formPropsCopy.parent_id[0]
+        }
+        
         //console.log('NewTaskMobile submit: ', formPropsCopy)
 
         formPropsCopy.user_id = props.userId
@@ -203,7 +213,7 @@ const getTaskTreeItems = (
             day.setHours(0)
             day.setMinutes(0)
             day.setSeconds(0)
-            day.setMilliseconds(0);
+            day.setMilliseconds(0)
         }
 
         setInitialFormValues(

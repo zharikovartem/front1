@@ -161,22 +161,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     }, [props.value])
 
     const onInputChange = (value: any) => {
-        
-        // if (props.type === 'select') {
-        //     // console.log('select value:', value)
-        //     // for (let index = 0; index < props.selectOptions.length; index++) {
-        //     //     const element = props.selectOptions[index];
-        //     //     if (element.value == value[0]) {
-        //     //         console.log([element.value])
-        //     //         setValue([element.value])
-        //     //     }
-        //     // }
-        // } else {
-            setValue(value)
-        // }
-
-        // setValue(value)
-        
+        setValue(value)
         props.onInputChange(value)
     }
 
