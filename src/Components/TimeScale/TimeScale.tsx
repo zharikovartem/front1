@@ -10,6 +10,9 @@ export type OwnTaskTimeScaleType = {}
 const TimeScale: React.FC<TimeScalePropsType> = (props) => {
     type SelestedDatesType = typeof props.dateInterval
     const [selestedDates, setSelectedDates] = useState<SelestedDatesType>({ startDate: moment(null), endDate: moment() })
+    // const [isInterval, setIsInterval] = useState(
+    //     props.dateInterval.startDate.format('YYYY-MM-DD') === props.dateInterval.endDate.format('YYYY-MM-DD') ? false : true
+    //     )
     useEffect(() => {
         if (
             props.dateInterval.startDate.isSame(selestedDates.startDate.format('YYYY-MM-DD'), "day" ) &&
@@ -31,12 +34,14 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
             message.success(props.errorMessage)
         }
     }, [props.errorMessage])
+    
+    console.log(props.dateInterval)
 
     if (props.taskList !== undefined) {
         if (props.taskList !== null) {
             return (
                 <>
-                    {getTimeScaleArrey(props.taskList)}
+                    {getTimeScaleArrey(props.taskList, props.isInterval)}
                 </>
             )
         } else {
@@ -53,14 +58,16 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
 export default TimeScale
 
 
-const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<string>> => {
+const getTimeScaleArrey = (taskList: Array<TaskType>, isInterval:boolean): Array<React.ReactElement<string>> => {
     let timeScaleArrey: Array<React.ReactElement<string>> = []
     let tomorowTasks: Array<TaskType> = []
+
+    console.log('isInterval: ', isInterval)
 
     taskList.sort(sortTaskArrayByParams('time')).sort(sortTaskArrayByParams('date'))
 
     const getHeadlineLabel = (task: TaskType) => {
-        return moment(task.date).format('DD MMMM')
+        return moment(task.date).format('D MMMM')
     }
 
     let headlineDate: string | null = null
@@ -68,17 +75,24 @@ const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<
     if (taskList !== null && taskList.length > 0) {
         headlineDate = getHeadlineLabel(taskList[0])
         timeScaleArrey.push(
-            <h3 key={headlineDate + 'title'}>{headlineDate}:</h3>
+            <h5 
+                key={headlineDate + 'title'}
+                className={isInterval ? "text-left" : ""}
+            >
+                {headlineDate}:
+            </h5>
         )
     }
 
     for (let index: number = 0; index < 24; index++) {
         if (taskList.length > 0) {
-            timeScaleArrey.push(
-                <Divider key={index + 'to' + headlineDate} orientation="left">
-                    {index <= 9 ? '0' : null}{index}:00
-                </Divider>
-            )
+            if (!isInterval && index > 7) {
+                timeScaleArrey.push(
+                    <Divider key={index + 'to' + headlineDate} orientation="left">
+                        {index <= 9 ? '0' : null}{index}:00
+                    </Divider>
+                )
+            }
         } else {
             timeScaleArrey.push(<h3 key="noTasks">no tasks</h3>)
             break
@@ -106,7 +120,7 @@ const getTimeScaleArrey = (taskList: Array<TaskType>): Array<React.ReactElement<
     }
 
     if (tomorowTasks.length > 0) {
-        timeScaleArrey = timeScaleArrey.concat(getTimeScaleArrey(tomorowTasks))
+        timeScaleArrey = timeScaleArrey.concat(getTimeScaleArrey(tomorowTasks, isInterval))
     }
 
     return timeScaleArrey

@@ -261,11 +261,11 @@ const getTaskTreeItems = (
                             style: { backgroundColor: '#108ee9', color: 'white' },
                         },
                         {
-                            text: 'Cancel',
+                            text: 'Execute',
                             onPress: () => {
                                 // console.log('cancel')
                             },
-                            style: { backgroundColor: '#ddd', color: 'white' },
+                            style: { backgroundColor: 'green', color: 'white' },
                         },
                     ]}
                     // onOpen={() => console.log('global open')}
@@ -274,7 +274,7 @@ const getTaskTreeItems = (
                     <Item
                         // className="my-3"
                         onClick={() => {
-                            // console.log('item is clicked')
+                            console.log('item is clicked')
                         }}
                         arrow="horizontal"
                         key={item.id}

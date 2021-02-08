@@ -117,6 +117,14 @@ export const deleteTask = (taskid: number, startDate: string, endDate:string): T
     }
 }
 
+export const updateTask = (values: any, taskId: number): ThunkType => {
+    return async (dispatch, getState) => {
+        let response = await taskAPI.updateTask(values, taskId)
+        console.log(response)
+        // dispatch(actions.setTaskList(response.data.Tasks))
+    }
+}
+
 export default taskReducer
 
 type ActionsTypes = InferActionsTypes<typeof actions>

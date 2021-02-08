@@ -18,7 +18,8 @@ let mapStateToProps = (state:AppStateType) => {
         taskSaveStatus: state.task.taskSaveStatus,
         taskListIsFetching: state.task.taskListIsFetching,
         dateInterval: state.task.dateInterval,
-        errorMessage: state.task.errorMessage
+        errorMessage: state.task.errorMessage,
+        isInterval: state.task.isInterval
     }
 }
 

@@ -3,7 +3,7 @@ import { Col, Row, Checkbox, Tooltip, Button, Spin } from 'antd'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import { ListGroup } from 'react-bootstrap'
 import { TaskType } from '../../../Types/types'
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { TaskItemPropsType } from './TaskItemContainer'
 
 export type OwnTaskItemPropsType = {
@@ -11,16 +11,18 @@ export type OwnTaskItemPropsType = {
 }
 
 const TaskItem: React.FC<TaskItemPropsType> = (props) => {
-    type PropsElementType = typeof props.element.type
-    const [status, setStetus] = useState<PropsElementType>(props.element.type)
+    type PropsElementType = typeof props.element.status
+    const [checked, setChecked] = useState(props.element.status === 1 ? true : false)
     const [deleteingInProgess, setDeleteingInProgess] = useState(false)
 
     const onStatusChange = (e: CheckboxChangeEvent) => {
-        if (e.target.checked) {
-            setStetus('completed')
-        } else {
-            setStetus('active')
-        }
+        setChecked(!checked)
+        const values = { status: e.target.checked }
+        props.updateTask(values, props.element.id)
+    }
+
+    const onEdit = () => {
+        console.log(props.element)
     }
 
     const deleteTask: (taskid: number) => void = (taskid) => {
@@ -29,10 +31,14 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
     }
 
     return (
-        <ListGroup.Item action className="py-1">
+        <ListGroup.Item action className="">
             <Row className="px-0 ml-0 ml-sm-5">
                 <Col className="mx-2">
-                    <Checkbox onChange={onStatusChange} />
+                    <Checkbox 
+                        // checked={props.element.status === 1 ? true : false} 
+                        onChange={onStatusChange} 
+                        checked={checked}
+                        />
                 </Col>
                 <Col className="mx-2">
                     {props.element.time.split(':', 2).join(':')}
@@ -40,7 +46,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                 <Col className="mx-2">
                     <Tooltip key={props.element.id} placement="topLeft" title={props.element.descriptions}>
                         <span
-                            style={{ textDecoration: status === 'completed' ? 'line-through' : '' }}
+                            style={{ textDecoration: checked ? 'line-through' : '' }}
                             className="text-break"
                         >
                             {props.element.name}
@@ -48,8 +54,22 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                     </Tooltip>
                 </Col>
                 <Col className="mr-auto ml-0 mr-sm-2 ml-sm-auto">
-                    {!deleteingInProgess ? 
                     <Button className=""
+                        type="primary"
+                        shape="circle"
+                        size="small"
+                        style={{ marginLeft: 10 }}
+                        onClick={onEdit}
+                        icon={
+                            <div className="d-flex flex-wrap align-content-start">
+                                <EditOutlined className="ml-1" style={{ fontSize: '14px' }} />
+                            </div>
+                        }
+                    />
+
+                    {!deleteingInProgess ? 
+                    <Button 
+                        danger
                         type="primary"
                         shape="circle"
                         size="small"
