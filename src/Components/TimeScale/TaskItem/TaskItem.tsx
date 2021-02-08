@@ -11,13 +11,13 @@ export type OwnTaskItemPropsType = {
 }
 
 const TaskItem: React.FC<TaskItemPropsType> = (props) => {
-    type PropsElementType = typeof props.element.status
-    const [checked, setChecked] = useState(props.element.status === 1 ? true : false)
+    // type PropsElementType = typeof props.element.isCompleted
+    const [checked, setChecked] = useState(props.element.isCompleted === 1 ? true : false)
     const [deleteingInProgess, setDeleteingInProgess] = useState(false)
 
-    const onStatusChange = (e: CheckboxChangeEvent) => {
+    const onisCompletedChange = (e: CheckboxChangeEvent) => {
         setChecked(!checked)
-        const values = { status: e.target.checked }
+        const values = { isCompleted: e.target.checked }
         props.updateTask(values, props.element.id)
     }
 
@@ -35,8 +35,8 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
             <Row className="px-0 ml-0 ml-sm-5">
                 <Col className="mx-2">
                     <Checkbox 
-                        // checked={props.element.status === 1 ? true : false} 
-                        onChange={onStatusChange} 
+                        // checked={props.element.isCompleted === 1 ? true : false} 
+                        onChange={onisCompletedChange} 
                         checked={checked}
                         />
                 </Col>
@@ -47,7 +47,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                     <Tooltip key={props.element.id} placement="topLeft" title={props.element.descriptions}>
                         <span
                             style={{ textDecoration: checked ? 'line-through' : '' }}
-                            className="text-break"
+                            // className="text-break"
                         >
                             {props.element.name}
                         </span>

@@ -155,6 +155,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                         dataSource={getTaskTreeItems(
                             props.taskList,
                             props.deleteTaskList,
+                            props.updateTaskList,
                             showDrawer,
                             setDrawerData,
                             initialFormValues,
@@ -194,6 +195,7 @@ export default TasksTreeBrowser
 const getTaskTreeItems = (
     taskList: Array<any>,
     deleteTask: (taskId: number) => void,
+    updateTaskList: (values: any, taskId: number)=> void,
     showDrawer: () => void,
     setDrawerData: (drawerData: any) => void,
     initialFormValues: any,
@@ -227,14 +229,23 @@ const getTaskTreeItems = (
         )
         showDrawer()
     }
+
+    const onStatusChange = (e:any) => {
+        const values = { isCompleted: e.target.checked }
+        console.log(e)
+        updateTaskList(values, e.target.id)
+    }
+
     if (taskList !== undefined && taskList.length > 0) {
         return taskList.map((item) => {
             return (
                 <>
-                    <div><Checkbox></Checkbox></div>
+                    <div><Checkbox checked={item.isCompleted} id={item.id} onClick={onStatusChange}/></div>
                     <div className="w-100 float-left" key={item.id}>
                         <div className="ml-3 float-left">
-                            {item.name}
+                            
+                            {item.isCompleted ? <span className="text-black-50">{item.name}</span> : <span>{item.name}</span>}
+                            
                         </div>
                         <div className="ml-3 float-right">
                             {item.time_to_complete}

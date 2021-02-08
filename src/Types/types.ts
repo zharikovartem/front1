@@ -19,7 +19,7 @@ export type TaskType = {
     type: string | null,
     updated_at: string | null,
     user_id: number | null,
-    status: number | null
+    isCompleted: number | null
 }
 
 export type NewTaskDataType = {
