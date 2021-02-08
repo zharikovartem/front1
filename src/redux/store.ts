@@ -21,4 +21,6 @@ export type BaseThunkType<A extends Action = Action, R = Promise<void>> = ThunkA
 
 let store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
 
+// console.log('global State:', store.getState())
+
 export default store

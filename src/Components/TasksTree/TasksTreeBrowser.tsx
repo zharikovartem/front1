@@ -220,7 +220,9 @@ const getTaskTreeItems = (
                 // new: false,
                 name: task.name,
                 time_to_complete: day,
-                descriptions: task.descriptions
+                descriptions: task.descriptions,
+                parent_id: task.parent_id,
+                task_type: Number(task.task_type)
             }
         )
         showDrawer()

@@ -149,10 +149,10 @@ type MobileComponentType = {
 
 // const MobileComponent: React.FC<any> = (props) => {
 const MobileComponent: React.FC<MobileComponentType> = (props) => {
-    const [defaultValue, setValue] = useState(props.value)
+    const [defaultValue, setValue] = useState(props.type === 'select' ? [props.value] : props.value)
 
     useEffect(() => {
-        if (props.type === 'select' && props.label === 'parent_id') {
+        if (props.type === 'select' && props.label === 'task_type') {
             console.log('useEffect parent_id: ',props.value)
         }
 
@@ -166,14 +166,14 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     }
 
     const onPickerChange = (value:any) => {
-        console.log('onPickerChange: ',value)
+        console.log('onPickerChange: ',defaultValue)
         setValue(value)
     }
 
-    const onOk = (value:any) => {
-        console.log('onOk; ', value)
-        setValue(value)
-    }
+    // const onOk = (value:any) => {
+    //     console.log('onOk; ', value)
+    //     setValue(value)
+    // }
 
     type DataType = Array<
         {
@@ -198,8 +198,8 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
         data = []
     }
 
-    if (props.type === 'select' && props.label === 'parent_id') {
-        console.log('render: ',defaultValue)
+    if (props.type === 'select' && props.label === 'task Types') {
+        console.log('render: ',props.value)
     }
     
     return (

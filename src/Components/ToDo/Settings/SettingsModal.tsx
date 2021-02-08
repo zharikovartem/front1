@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Card, Modal } from 'antd'
 import { SettingsModalPropsType } from './SettingsModalContainer'
 
-const settingasExample = {
+const settingasInstanse = {
     ToDo: {
         singlDateView: {
             timeScale: true,
@@ -25,18 +25,18 @@ export type OwmSettingsModalPropsType = {
 
 const SettingsModal = (props:any) => {
 
-    // console.log( JSON.parse(props.viewSettings) )
-    const [settings, setSettings] = useState(props.viewSettings)
+    const [settings, setSettings] = useState(props.viewSettings!==null ? props.viewSettings : settingasInstanse)
 
     let settingsBlock: Array<any> = []
 
-    for (const propName in settings.ToDo) {
-        if (Object.prototype.hasOwnProperty.call(settings.ToDo, propName)) {
-            const element = settings.ToDo[propName]
-            console.log(propName, element)
-            settingsBlock.push(<FormItem title={propName} data={element}/>)
+        for (const propName in settings.ToDo) {
+            if (Object.prototype.hasOwnProperty.call(settings.ToDo, propName)) {
+                const element = settings.ToDo[propName]
+                console.log(propName, element)
+                settingsBlock.push(<FormItem title={propName} data={element}/>)
+            }
         }
-    }
+    
 
     return (
         <Modal title="Task display settings" visible={props.isModalVisible} onOk={props.handleOk} onCancel={props.handleCancel}>
