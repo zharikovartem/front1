@@ -26,7 +26,8 @@ let mapStateToProps = (state:AppStateType) => {
     return {
         taskList: state.taskList.taskList,
         userId: state.auth.user?.id,
-        isTaskListLoaded: state.taskList.isTaskListLoaded
+        isTaskListLoaded: state.taskList.isTaskListLoaded,
+        selectedTasks: state.taskList.selectedTasks
     }
 }
 

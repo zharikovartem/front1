@@ -7,6 +7,9 @@ import { Formik } from 'formik'
 import { Spin, Empty } from 'antd'
 import { propTypes } from 'react-bootstrap/esm/Image'
 import moment from "moment"
+import { TaskListType } from '../../Types/types'
+import { useDispatch } from 'react-redux'
+import { TaskTreeItemMobile } from './TaskTreeItem'
 
 const Item = List.Item
 
@@ -50,7 +53,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     initialTimeToComplete.setHours(0)
     initialTimeToComplete.setMinutes(0)
     initialTimeToComplete.setSeconds(0)
-    initialTimeToComplete.setMilliseconds(0);
+    initialTimeToComplete.setMilliseconds(0)
 
     const initialValues: any = {
         selectOptions: getSelectOptions(),
@@ -110,7 +113,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         setVisible(true)
     }
 
-    // console.log('TasksTreeMobile props: ', props)
+    console.log('TasksTreeMobile props: ', props)
     // console.log('TasksTreeMobile name: ', initialFormValues.name)
 
     // if (props.taskList !== undefined) {
@@ -162,7 +165,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                     <List
                     // renderHeader={() => 'taskList'}
                     >
-                        {getTaskTreeItems(
+                        {/* {getTaskTreeItems(
                                             props.taskList, 
                                             props.deleteTaskList,
                                             showDrawer,
@@ -170,7 +173,46 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                                             initialFormValues,
                                             setInitialFormValues
                                         )
+                        } */}
+
+                        {
+                        props.taskList !== undefined ?
+                        props.taskList.map( (item) => {
+                            let parentId: number
+                            if (props.selectedTasks.length !== 0) {
+                                parentId = props.selectedTasks[props.selectedTasks.length-1] 
+                                if (item.parent_id === parentId) {
+                                    return(
+                                        <TaskTreeItemMobile
+                                            taskItem={item} 
+                                            deleteTaskList={props.deleteTaskList}
+                                            showDrawer={showDrawer}
+                                            setDrawerData={setDrawerData}
+                                            initialFormValues={initialFormValues}
+                                            setInitialFormValues={setInitialFormValues}
+                                        />
+                                    )
+                                }
+                            } else {
+                                if (item.parent_id === null) {
+                                    return (
+                                        <TaskTreeItemMobile
+                                            taskItem={item} 
+                                            deleteTaskList={props.deleteTaskList}
+                                            showDrawer={showDrawer}
+                                            setDrawerData={setDrawerData}
+                                            initialFormValues={initialFormValues}
+                                            setInitialFormValues={setInitialFormValues}
+                                        />
+                                    )
+                                }
+                            }
+                            
+                        })
+                        :
+                        null
                         }
+
                     </List>
                 </Drawer>
 
@@ -231,6 +273,12 @@ const getTaskTreeItems = (
         showDrawer()
     }
 
+    const onItemOpen = (itemId: number) => {
+        console.log(itemId, 'is open')
+        // const dispatch = useDispatch()
+        // dispatch( { type: 'SN/TASK_LIST/SET_SELECTED_TASK', itemId } )
+    }
+
     // console.log(taskList)
 
     if (taskList && taskList.length > 0) {
@@ -273,9 +321,7 @@ const getTaskTreeItems = (
                 >
                     <Item
                         // className="my-3"
-                        onClick={() => {
-                            console.log('item is clicked')
-                        }}
+                        onClick={()=>{onItemOpen(item.id)}}
                         arrow="horizontal"
                         key={item.id}
                     >
@@ -293,3 +339,4 @@ const getTaskTreeItems = (
 
 
 }
+

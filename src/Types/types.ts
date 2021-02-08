@@ -3,7 +3,17 @@ import { AppStateType } from './../redux/store'
 export type GetStateType = ()=>AppStateType
 
 export type TaskListType = {
-    
+    created_at: string,
+    deleted_at: string | null,
+    descriptions: string | null,
+    id: number,
+    isCompleted: boolean,
+    name: string,
+    parent_id: null | number,
+    task_type: string,
+    time_to_complete: string,
+    updated_at: string,
+    user_id: number | null
 } 
 
 export type TaskType = {

@@ -1,12 +1,14 @@
 import { Dispatch } from "react";
 import { BaseThunkType, InferActionsTypes } from "./store";
 import { taskListAPI } from './../api/taskListAPI'
+import { TaskListType } from "../Types/types";
 
 
 export type InitialStateType = {
-    taskList: Array<any>,
+    taskList: Array<TaskListType>,
     taskListIsFetching: boolean,
     isTaskListLoaded: boolean,
+    selectedTasks: Array<number>
     // taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error'
     // errorMessage: null | string,
     // isInterval: boolean,
@@ -19,7 +21,8 @@ export type InitialStateType = {
 let initialState:InitialStateType = {
     taskList: [],
     taskListIsFetching: false,
-    isTaskListLoaded: false
+    isTaskListLoaded: false,
+    selectedTasks:[]
     // taskSaveStatus: 'no',
     // errorMessage: null,
     // isInterval: false,
@@ -31,8 +34,11 @@ let initialState:InitialStateType = {
 
 const taskListReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
+        case 'SN/TASK_LIST/SET_SELECTED_TASK':
+            console.log( { ...state, selectedTasks: [...state.selectedTasks, action.taskId] })
+            return { ...state, selectedTasks: [...state.selectedTasks, action.taskId] }
         case 'SN/TASK_LIST/SET_TASK_LIST':
-            return {...state, taskList: action.taskList, isTaskListLoaded: true}
+            return { ...state, taskList: action.taskList, isTaskListLoaded: true}
 
         default:
             return state
@@ -41,6 +47,7 @@ const taskListReducer = (state = initialState, action: ActionsTypes): InitialSta
 
 export const actions = {
     setTaskList: (taskList: Array<any>) => ({ type: 'SN/TASK_LIST/SET_TASK_LIST', taskList } as const),
+    setSelectedTasks: (taskId: number) => ({ type: 'SN/TASK_LIST/SET_SELECTED_TASK', taskId } as const),
     // setTaskSaveStatus: (taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error') => ({ type: 'SN/TASK/SET_TASK_SAVE_STATUS', taskSaveStatus } as const),
     // setErrorMessage: (message: string | null) => ({type: 'SN/TASK/SET_ERROR_MESSAGE', message} as const),
     // setTaskListIsFetching: (isFetchingValue: boolean) => ({type: 'SN/TASK/SET_TASK_LIST_IS_FETCHING', isFetchingValue} as const),

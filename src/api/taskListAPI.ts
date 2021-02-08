@@ -1,10 +1,11 @@
+import { TaskListType } from '../Types/types'
 import {instance} from './api'
 
 instance.defaults.headers.common['X-Auth-Token'] = localStorage.getItem('remember_token')
 
 export const taskListAPI = {
     getTaskList() {
-        return instance.get<any>(`taskList`)
+        return instance.get<TaskListType>(`taskList`)
         .then(response => {
             //console.log(response)
             return response.status === 200 ? response : null
@@ -22,7 +23,7 @@ export const taskListAPI = {
         })
     },
     createNewTaskList(values: any) {
-        return instance.post<any>(`taskList`, values)
+        return instance.post<TaskListType>(`taskList`, values)
         .then(response => {
             console.log(response)
             return response.status === 200 ? response : null
@@ -40,7 +41,7 @@ export const taskListAPI = {
         })
     },
     deleteTask(taskId: number) {
-        return instance.delete<any>(`taskList/${taskId}`).then(response => {
+        return instance.delete<TaskListType>(`taskList/${taskId}`).then(response => {
             return response.status === 200 ? response : null
         })
         .catch(err => {
@@ -55,7 +56,7 @@ export const taskListAPI = {
         })
     },
     updateTask(values: any, taskId: number) {
-        return instance.put<any>(`taskList/${taskId}`, values)
+        return instance.put<TaskListType>(`taskList/${taskId}`, values)
         .then(response => {
             console.log(response)
             return response.status === 200 ? response : null
