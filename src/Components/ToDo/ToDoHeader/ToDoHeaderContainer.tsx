@@ -2,7 +2,8 @@ import {connect} from 'react-redux'
 import ToDoHeader, { OwnToDoHeaderPropsType } from './ToDoHeader'
 import {actions} from '../../../redux/taskReducer'
 import { AppStateType } from '../../../redux/store'
-// import { Action } from 'redux'
+import { isMobile } from 'react-device-detect'
+import ToDoHeaderMobile from './ToDoHeaderMobile'
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 
@@ -24,6 +25,6 @@ let mapStateToProps = (state:AppStateType) => {
 
 export default connect<MapPropsType, MapDispatchPropsType, OwnToDoHeaderPropsType, AppStateType>(mapStateToProps, 
     {setIsInterval: actions.setIsInterval}) 
-    (ToDoHeader)
+    (isMobile ? ToDoHeaderMobile : ToDoHeader)
     
 

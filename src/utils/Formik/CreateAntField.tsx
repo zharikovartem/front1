@@ -8,8 +8,7 @@ import {
     Select,
     Checkbox
 } from "antd"
-import enUs from 'antd-mobile/lib/date-picker/locale/en_US';
-import moment from "moment"
+import enUs from 'antd-mobile/lib/date-picker/locale/en_US'
 import {
     List,
     InputItem,
