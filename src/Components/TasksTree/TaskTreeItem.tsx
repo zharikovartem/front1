@@ -1,6 +1,7 @@
 import { SwipeAction, List } from 'antd-mobile'
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { taskAPI } from '../../api/taskApi'
 import { TaskListType } from '../../Types/types'
 import {actions} from './../../redux/TaskListReducer'
 
@@ -16,6 +17,7 @@ export type OwnTaskTreeItemsType = {
     setDrawerData: (drawerData: any) => void,
     initialFormValues: any,
     setInitialFormValues: (initialFormValues: any) => void
+    updateTaskList: (values: any, taskId: number)=> void,
 }
 export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     const dispatch = useDispatch()
@@ -61,6 +63,12 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
         handleDispatch(props.taskItem.id)
     }
 
+    const onComplet = () => {
+        console.log('onComplet')
+        const values = { isCompleted: !props.taskItem.isCompleted }
+        props.updateTaskList(values, props.taskItem.id)
+    }
+
     return (
         <SwipeAction
             style={{ backgroundColor: 'gray' }}
@@ -87,9 +95,7 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
                 },
                 {
                     text: 'Execute',
-                    onPress: () => {
-                        // console.log('cancel')
-                    },
+                    onPress: () => onComplet(),
                     style: { backgroundColor: 'green', color: 'white' },
                 },
             ]}
@@ -99,10 +105,10 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             <Item
                 // className="my-3"
                 onClick={onItemOpen}
-                arrow="horizontal"
+                // arrow="horizontal"
                 key={props.taskItem.id}
             >
-                {props.taskItem.name}
+                {props.taskItem.isCompleted ? <span className="text-black-50">{props.taskItem.name}</span> : <span>{props.taskItem.name}</span>}
             </Item>
 
         </SwipeAction>

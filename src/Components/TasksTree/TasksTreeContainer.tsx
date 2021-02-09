@@ -1,10 +1,11 @@
 import {connect} from 'react-redux'
 // import TasksTree, { OwnTasksTreePropsType } from './TasksTree'
 import { AppStateType } from '../../redux/store'
-import {getTaskList, createNewTaskList, deleteTaskList, updateTaskList} from './../../redux/TaskListReducer'
+import {getTaskList, createNewTaskList, deleteTaskList, updateTaskList, actions} from './../../redux/TaskListReducer'
 import { isMobile } from 'react-device-detect'
 import TasksTreeBrowser from './TasksTreeBrowser'
 import TasksTreeMobile from './TasksTreeMobile'
+import { act } from '@testing-library/react'
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
@@ -13,7 +14,8 @@ type MapDispatchPropsType = {
     getTaskList: ()=>void,
     createNewTaskList: (values: any)=>void,
     deleteTaskList: (taskId: number)=>void,
-    updateTaskList: (values: any, taskId: number)=> void
+    updateTaskList: (values: any, taskId: number)=> void,
+    backSelectedTasks: ()=>void,
 }
 
 type OwnTasksTreePropsType = {
@@ -38,7 +40,7 @@ let mapStateToProps = (state:AppStateType) => {
 // }
 
 export default connect<MapPropsType, MapDispatchPropsType, OwnTasksTreePropsType, AppStateType>(mapStateToProps, 
-    {getTaskList, createNewTaskList, deleteTaskList, updateTaskList}) 
+    {getTaskList, createNewTaskList, deleteTaskList, updateTaskList, backSelectedTasks: actions.backSelectedTasks}) 
     (isMobile ? TasksTreeMobile : TasksTreeBrowser)
     
 

@@ -34,6 +34,12 @@ let initialState:InitialStateType = {
 
 const taskListReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
+        case 'SN/TASK_LIST/BACK_SELECTED_TASK':
+            let newSelectedTasks: Array<number> = [...state.selectedTasks]
+            if (newSelectedTasks.length > 0) {
+                newSelectedTasks.pop()
+            }              
+            return { ...state, selectedTasks: newSelectedTasks }
         case 'SN/TASK_LIST/SET_SELECTED_TASK':
             console.log( { ...state, selectedTasks: [...state.selectedTasks, action.taskId] })
             return { ...state, selectedTasks: [...state.selectedTasks, action.taskId] }
@@ -48,6 +54,7 @@ const taskListReducer = (state = initialState, action: ActionsTypes): InitialSta
 export const actions = {
     setTaskList: (taskList: Array<any>) => ({ type: 'SN/TASK_LIST/SET_TASK_LIST', taskList } as const),
     setSelectedTasks: (taskId: number) => ({ type: 'SN/TASK_LIST/SET_SELECTED_TASK', taskId } as const),
+    backSelectedTasks: () => ({type: 'SN/TASK_LIST/BACK_SELECTED_TASK'} as const),
     // setTaskSaveStatus: (taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error') => ({ type: 'SN/TASK/SET_TASK_SAVE_STATUS', taskSaveStatus } as const),
     // setErrorMessage: (message: string | null) => ({type: 'SN/TASK/SET_ERROR_MESSAGE', message} as const),
     // setTaskListIsFetching: (isFetchingValue: boolean) => ({type: 'SN/TASK/SET_TASK_LIST_IS_FETCHING', isFetchingValue} as const),

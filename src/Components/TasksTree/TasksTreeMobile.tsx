@@ -113,6 +113,10 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         setVisible(true)
     }
 
+    const onBack = () => {
+        props.backSelectedTasks()
+    }
+
     console.log('TasksTreeMobile props: ', props)
     // console.log('TasksTreeMobile name: ', initialFormValues.name)
 
@@ -128,6 +132,21 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                 <Card.Header
                     title={<h4 className="w-100 text-center">Tasks Tree</h4>}
                     extra = {
+                                <div className="d-flex flex-row">
+                                {props.selectedTasks.length>0 ? 
+                                    <Button
+                                        inline
+                                        size="small"
+                                        className="mx-3 my-2"
+                                        // style={{ marginRight: '4px' }} 
+                                        onClick={onBack}
+                                        type="primary"
+                                    >
+                                        Back
+                                    </Button>
+                                :
+                                    null
+                                }
                                 <Button
                                     inline
                                     size="small"
@@ -138,6 +157,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                                 >
                                     Add
                                 </Button>
+                                </div>
                             }
                 >
                     
@@ -190,6 +210,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                                             setDrawerData={setDrawerData}
                                             initialFormValues={initialFormValues}
                                             setInitialFormValues={setInitialFormValues}
+                                            updateTaskList={props.updateTaskList}
                                         />
                                     )
                                 }
@@ -203,6 +224,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                                             setDrawerData={setDrawerData}
                                             initialFormValues={initialFormValues}
                                             setInitialFormValues={setInitialFormValues}
+                                            updateTaskList={props.updateTaskList}
                                         />
                                     )
                                 }
