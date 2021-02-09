@@ -8,7 +8,11 @@ import {actions} from './../../redux/TaskListReducer'
 const Item = List.Item
 
 
-
+let time_to_complete = new Date()
+time_to_complete.setHours(0)
+time_to_complete.setMinutes(0)
+time_to_complete.setSeconds(0)
+time_to_complete.setMilliseconds(0)
 
 export type OwnTaskTreeItemsType = {
     taskItem: TaskListType,
@@ -21,8 +25,24 @@ export type OwnTaskTreeItemsType = {
 }
 export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     const dispatch = useDispatch()
-    function handleDispatch(email: number) {
-        dispatch(actions.setSelectedTasks(email));
+
+    const onSubTask = () => {
+        // console.log(props.taskItem.id, ': onSubTask')
+        props.setDrawerData({
+            header: 'SubTask for: "' + props.taskItem.name + '"',
+            taskId: null
+        })
+        console.log('parent_id:', props.taskItem.parent_id)
+
+        props.setInitialFormValues({
+            ...props.initialFormValues,
+            name: '',
+            time_to_complete: time_to_complete,
+            descriptions: '',
+            parent_id: [ Number(props.taskItem.id) ],
+            task_type: [ 0 ]
+        })
+        props.showDrawer()
     }
 
     const onEdit = (task: TaskListType) => {
@@ -31,7 +51,7 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             taskId: task.id
         })
 
-        let time_to_complete = new Date()
+        
         if (task.time_to_complete !== null) {
             const splitTime = task.time_to_complete.split(/:/)
             time_to_complete.setHours( parseInt(splitTime[0]) )
@@ -39,10 +59,7 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             time_to_complete.setSeconds(0)
             time_to_complete.setMilliseconds(0)
         } else {
-            time_to_complete.setHours(0)
-            time_to_complete.setMinutes(0)
-            time_to_complete.setSeconds(0)
-            time_to_complete.setMilliseconds(0)
+            
         }
 
         props.setInitialFormValues({
@@ -58,9 +75,7 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     }
 
     const onItemOpen = () => {
-        console.log(props.taskItem.id, 'is open')
-
-        handleDispatch(props.taskItem.id)
+        dispatch(actions.setSelectedTasks(props.taskItem.id));
     }
 
     const onComplet = () => {
@@ -75,11 +90,9 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             autoClose
             right={[
                 {
-                    text: 'Cancel',
-                    onPress: () => {
-                        //console.log('cancel') 
-                    },
-                    style: { backgroundColor: '#ddd', color: 'white' },
+                    text: 'SubTask',
+                    onPress: () => { onSubTask() },
+                    style: { backgroundColor: 'green', color: 'white' },
                 },
                 {
                     text: 'Delete',
@@ -94,7 +107,7 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
                     style: { backgroundColor: '#108ee9', color: 'white' },
                 },
                 {
-                    text: 'Execute',
+                    text: props.taskItem.isCompleted ? 'Not Done' : 'Done',
                     onPress: () => onComplet(),
                     style: { backgroundColor: 'green', color: 'white' },
                 },

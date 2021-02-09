@@ -197,9 +197,9 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
         data = []
     }
 
-    if (props.type === 'select' && props.label === 'task Types') {
-        console.log('render: ',props.value)
-    }
+    // if (props.type === 'select' && props.label === 'task Types') {
+    //     console.log('render: ',props.value)
+    // }
     
     return (
         <List>
