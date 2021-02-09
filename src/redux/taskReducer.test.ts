@@ -114,7 +114,7 @@ test('success getTaskList thunk', async () => {
 
 test('success createNewTask thunk with reload page', async () => {
     const NewTaskDataType = {
-        taskName: 'test',
+        name: 'test',
         user_id: 1,
         taskTime: '00:00:00',
         date: '2021-01-19'

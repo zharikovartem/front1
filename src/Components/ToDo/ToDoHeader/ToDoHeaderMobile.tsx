@@ -12,16 +12,38 @@ export type OwnToDoHeaderPropsType = {
 const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
     const [isInterval, setIsInterval] = useState(false)
 
-    const onIntervalChange = (e: any) => {
+    const onIntervalChange = (e: boolean) => {
+        if (e) {
+            props.setIsInterval( !isInterval, {startDate: props.dateInterval.startDate, endDate: props.dateInterval.endDate })
+        } else {
+            props.setIsInterval( !isInterval, {startDate: props.dateInterval.startDate, endDate: props.dateInterval.startDate })
+        }
+        
         setIsInterval(!isInterval)
     }
+
+    const onStartChange = (value: Date) => {
+        console.log(value)
+        console.log(props)
+        if (!isInterval) {
+            props.setIsInterval(isInterval, {startDate: moment(value), endDate: moment(value) })
+        } else {
+            props.setIsInterval(isInterval, {startDate: moment(value), endDate: props.dateInterval.endDate })
+        }
+        
+    }
+
+    const onEndChange = (value: Date) => {
+        props.setIsInterval(isInterval, {startDate: props.dateInterval.startDate, endDate: moment(value) })
+    }
+
     return (
-        <div>
+        <div className="w-100">
             <DatePicker
                 locale={enUs}
                 mode="date"
-                value={new Date()}
-                onChange={(date: any) => { console.log(date) }}
+                value={props.dateInterval.startDate.toDate()}
+                onChange={onStartChange}
             >
                 <List.Item className="w-100">
                 {isInterval ? 'Start:' : 'Date:'}
@@ -32,8 +54,8 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
                 <DatePicker
                     locale={enUs}
                     mode="date"
-                    value={new Date()}
-                    onChange={(date: any) => { console.log(date) }}
+                    value={props.dateInterval.endDate.toDate()}
+                    onChange={onEndChange}
                 >
                     <List.Item >End:</List.Item>
                 </DatePicker>

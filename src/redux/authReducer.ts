@@ -1,3 +1,4 @@
+import { act } from "@testing-library/react";
 import { authAPI } from "../api/authAPI";
 import { BaseThunkType, InferActionsTypes } from "./store"
 // import {FormAction} from 'redux-form/lib/actions';
@@ -12,11 +13,18 @@ let initialState: InitialStateType = {
     user: null,
     remember_token: null,
     isAuth: false,
-    viewSettings: null
+    viewSettings: {
+        ToDo: {}
+    }
 }
 
 const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
+        case 'SN/AUTH/SET_SETTINGS_DATA':
+            console.log(action)
+            let viewSettings = {...state.viewSettings}
+            viewSettings[action.settingType] = action.settings
+            return {...state, viewSettings: viewSettings}
         case 'SN/AUTH/SET_USER_DATA':
             if (action.user !== null) {
                 //console.log('1')
@@ -52,6 +60,7 @@ export type UserType = {
 export const actions = {
     setAuthUserData: (user: UserType | null, remember_token: string | null) => ({ type: 'SN/AUTH/SET_USER_DATA', user, remember_token } as const),
     logout: () => ({type: 'SN/AUTH/LOGOUT'} as const),
+    changeSettings: (settingType: string, settings: any) => ({ type: 'SN/AUTH/SET_SETTINGS_DATA', settingType, settings } as const),
 }
 
 // export const getAuthUserData = (): ThunkType => async (dispatch) => {

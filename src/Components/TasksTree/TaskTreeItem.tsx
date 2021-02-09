@@ -1,7 +1,6 @@
 import { SwipeAction, List } from 'antd-mobile'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { taskAPI } from '../../api/taskApi'
 import { TaskListType } from '../../Types/types'
 import { actions } from './../../redux/TaskListReducer'
 

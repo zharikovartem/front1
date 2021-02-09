@@ -7,7 +7,8 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { TaskItemPropsType } from './TaskItemContainer'
 
 export type OwnTaskItemPropsType = {
-    element: TaskType
+    element: TaskType,
+    onEdit: (value:any)=>void
 }
 
 const TaskItem: React.FC<TaskItemPropsType> = (props) => {
@@ -21,8 +22,8 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
         props.updateTask(values, props.element.id)
     }
 
-    const onEdit = () => {
-        console.log(props.element)
+    const onEdit = (e: any) => {
+        props.onEdit(e)
     }
 
     const deleteTask: (taskid: number) => void = (taskid) => {
@@ -59,7 +60,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                         shape="circle"
                         size="small"
                         style={{ marginLeft: 10 }}
-                        onClick={onEdit}
+                        onClick={()=>{onEdit(props.element)}}
                         icon={
                             <div className="d-flex flex-wrap align-content-start">
                                 <EditOutlined className="ml-1" style={{ fontSize: '14px' }} />

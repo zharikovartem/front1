@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import { Card } from 'antd'
 import NewTaskForm from './NewTaskForm/NewTaskFormContainer'
 import ToDoHeader from './ToDoHeader/ToDoHeaderContainer'
-import SettingsModal from './Settings/SettingsModalContainer'
 import { ToDoListPropsType } from './ToDoListContainer'
 import TimeScale from '../TimeScale/TimeScaleContainer'
+import { Formik } from 'formik'
+import ToDoForm from './ToDoForm/ToDoForm'
+
+import SettingsModal from './Settings/SettingsModalContainer'
 
 export type OwnToDoListPropsType = {}
 
@@ -32,6 +35,10 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
         setIsModalVisible(false)
     }
 
+    const handleSubmit = (values: any) => {
+        console.log('handleSubmit')
+    }
+
     return (
         <>
             <div className="site-card-border-less-wrapper">
@@ -43,20 +50,27 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
                     bordered={false}
                 >
 
-                    <SettingsModal 
+                    {/* <SettingsModal 
                         isModalVisible={isModalVisible} 
                         handleOk={handleOk} 
                         handleCancel={handleCancel}
-                    />
+                    /> */}
 
-                    <TimeScale />
+                   <TimeScale onEdit={(values: any)=>{}}/>
 
                 </Card>
 
-                <NewTaskForm
+                {/* <NewTaskForm
                     onClose={onClose}
                     visible={visible}
                     setVisible={setVisible}
+                /> */}
+
+                <Formik
+                    // initialValues={initialValues}
+                    initialValues={{}}
+                    onSubmit={handleSubmit}
+                    render={ToDoForm}
                 />
 
             </div>

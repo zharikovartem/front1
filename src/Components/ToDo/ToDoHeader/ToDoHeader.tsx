@@ -58,13 +58,13 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
     }
 
     return (
-        <div className="row" >
-            <div className="col-12 col-md-8 col-lg-6">
+        <div className="row w-100" >
+            <div className="col-12 col-md-9 col-lg-9 col-xl-7 w-100">
                 <div className="d-none d-sm-inline">
-                    <label >Select {isInterval ? "date interval" : "date"}:</label>
+                    <label >{isInterval ? "Date interval" : "Date"}:</label>
                 </div>
 
-                <div className="d-inline">
+                <div className="d-none d-inline">
                     {isInterval ?
                         <RangePicker
                             onChange={onDateRangeChange}
@@ -83,10 +83,10 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
                     }
                 </div>
             </div>
-            <div className="col-12 col-md-4 col-lg-2 m-2 m-md-0" >
+            <div className="col-12 col-md-3 col-lg-3 col-xl-2 m-2 m-md-0" >
                 <Checkbox className="ml-3" onChange={onDateTypeChange}>Date interval</Checkbox>
             </div>
-            <div className="col-12 col-md-12 col-lg-4">
+            <div className="col-12 col-md-12 col-lg-4 col-xl-3 mt-lg-2">
                 <Button
                     type="primary"
                     shape="round"

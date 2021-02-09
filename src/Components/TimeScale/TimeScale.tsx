@@ -6,7 +6,9 @@ import { Divider, Spin, Tooltip, message } from 'antd'
 import TaskItem from './TaskItem/TaskItemContainer'
 import { sortTaskArrayByParams } from '../../utils/array-helpers'
 
-export type OwnTaskTimeScaleType = {}
+export type OwnTaskTimeScaleType = {
+    onEdit: (value:any)=>void
+}
 const TimeScale: React.FC<TimeScalePropsType> = (props) => {
     type SelestedDatesType = typeof props.dateInterval
     const [selestedDates, setSelectedDates] = useState<SelestedDatesType>({ startDate: moment(null), endDate: moment() })
@@ -41,7 +43,7 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
         if (props.taskList !== null) {
             return (
                 <>
-                    {getTimeScaleArrey(props.taskList, props.isInterval)}
+                    {getTimeScaleArrey(props.taskList, props.isInterval, props.onEdit)}
                 </>
             )
         } else {
@@ -58,7 +60,7 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
 export default TimeScale
 
 
-const getTimeScaleArrey = (taskList: Array<TaskType>, isInterval:boolean): Array<React.ReactElement<string>> => {
+const getTimeScaleArrey = (taskList: Array<TaskType>, isInterval:boolean, onEdit:(value:any)=>void): Array<React.ReactElement<string>> => {
     let timeScaleArrey: Array<React.ReactElement<string>> = []
     let tomorowTasks: Array<TaskType> = []
 
@@ -107,7 +109,7 @@ const getTimeScaleArrey = (taskList: Array<TaskType>, isInterval:boolean): Array
                     if (getHeadlineLabel(element) === headlineDate) {
                         timeScaleArrey.push(
                             <Tooltip key={index + '-' + element.id} placement="topLeft" title={element.descriptions}>
-                                <TaskItem element={element} />
+                                <TaskItem element={element} onEdit={onEdit}/>
                             </Tooltip>
                         )
                     }
@@ -120,7 +122,7 @@ const getTimeScaleArrey = (taskList: Array<TaskType>, isInterval:boolean): Array
     }
 
     if (tomorowTasks.length > 0) {
-        timeScaleArrey = timeScaleArrey.concat(getTimeScaleArrey(tomorowTasks, isInterval))
+        timeScaleArrey = timeScaleArrey.concat(getTimeScaleArrey(tomorowTasks, isInterval, onEdit))
     }
 
     return timeScaleArrey

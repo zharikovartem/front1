@@ -5,6 +5,8 @@ import ToDoHeader from './ToDo/ToDoHeader/ToDoHeaderContainer'
 import SettingsModal from './ToDo/Settings/SettingsModal'
 import { ToDoListPropsType } from './ToDoListContainer'
 import TimeScale from './TimeScale/TimeScaleContainer'
+import { Formik } from 'formik'
+import ToDoForm from './ToDo/ToDoForm/ToDoForm'
 
 export type OwnToDoListPropsType = {}
 
@@ -32,9 +34,14 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
         setIsModalVisible(false)
     }
 
+    const handleSubmit = (values: any) => {
+        console.log('handleSubmit')
+    }
+
     return (
         <>
             <div className="site-card-border-less-wrapper">
+                2545564654546
                 <Card
                     title={<ToDoHeader
                         showDrawer={showDrawer}
@@ -43,20 +50,29 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
                     bordered={false}
                 >
 
-                    <SettingsModal 
+                    {/* <SettingsModal 
                         isModalVisible={isModalVisible} 
                         handleOk={handleOk} 
                         handleCancel={handleCancel}
-                    />
+                    /> */}
 
-                    <TimeScale />
+                    <TimeScale onEdit={(values: any)=>{}}/>
 
                 </Card>
 
-                <NewTaskForm
+                {/* <NewTaskForm
                     onClose={onClose}
                     visible={visible}
                     setVisible={setVisible}
+                /> */}
+
+                <div>!!!!!!!!!!!!</div>
+
+                <Formik
+                    // initialValues={initialValues}
+                    initialValues={{}}
+                    onSubmit={handleSubmit}
+                    render={ToDoForm}
                 />
 
             </div>

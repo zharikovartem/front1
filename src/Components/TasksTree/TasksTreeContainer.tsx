@@ -5,7 +5,6 @@ import {getTaskList, createNewTaskList, deleteTaskList, updateTaskList, actions}
 import { isMobile } from 'react-device-detect'
 import TasksTreeBrowser from './TasksTreeBrowser'
 import TasksTreeMobile from './TasksTreeMobile'
-import { act } from '@testing-library/react'
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
@@ -32,12 +31,6 @@ let mapStateToProps = (state:AppStateType) => {
         selectedTasks: state.taskList.selectedTasks
     }
 }
-
-// const TasksTree: React.FC<TasksTreePropsType> = (props) => {
-//     return {
-
-//     }
-// }
 
 export default connect<MapPropsType, MapDispatchPropsType, OwnTasksTreePropsType, AppStateType>(mapStateToProps, 
     {getTaskList, createNewTaskList, deleteTaskList, updateTaskList, backSelectedTasks: actions.backSelectedTasks}) 

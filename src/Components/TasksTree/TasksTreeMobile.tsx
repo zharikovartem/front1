@@ -107,14 +107,14 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
 
     const onAdd = (args: any) => {
         if (props.selectedTasks.length !== 0) {
-            setDrawerData({...drawerData, taskId: false})
+            setDrawerData({ ...drawerData, taskId: false })
             console.log('sub')
             console.log('initialValues', initialValues)
-            setInitialFormValues({...initialValues, parent_id: [Number(props.selectedTasks[props.selectedTasks.length-1])]})
+            setInitialFormValues({ ...initialValues, parent_id: [Number(props.selectedTasks[props.selectedTasks.length - 1])] })
         } else {
             setInitialFormValues(initialValues)
         }
-        
+
         setVisible(!visible)
     }
 
@@ -134,49 +134,44 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         <WingBlank size="lg">
             <WhiteSpace size="lg" />
             <Card>
-
-                <div
-                // className="d-flex justify-content-end"
-                >
-                    <Card.Header
-                        title={<h4 className="w-100 text-center">Tasks Tree</h4>}
-                        extra={
-                            <div className="d-flex flex-row">
-                                {props.selectedTasks.length > 0 && !visible ?
-                                    <Button
-                                        inline
-                                        size="small"
-                                        className="mx-3 my-2"
-                                        // style={{ marginRight: '4px' }} 
-                                        onClick={onBack}
-                                        type="primary"
-                                    >
-                                        Back
-                                    </Button>
-                                    :
-                                    null
-                                }
+                <Card.Header
+                    title={<h4 className="w-100 text-center">Tasks Tree</h4>}
+                    extra={
+                        <div className="d-flex flex-row">
+                            {props.selectedTasks.length > 0 && !visible ?
                                 <Button
                                     inline
                                     size="small"
                                     className="mx-3 my-2"
                                     // style={{ marginRight: '4px' }} 
-                                    onClick={onAdd}
+                                    onClick={onBack}
                                     type="primary"
                                 >
-                                    {visible ? 'Close' : 'Add'}
-                                </Button>
-                            </div>
-                        }
-                    >
+                                    Back
+                                    </Button>
+                                :
+                                null
+                            }
+                            <Button
+                                inline
+                                size="small"
+                                className="mx-3 my-2"
+                                // style={{ marginRight: '4px' }} 
+                                onClick={onAdd}
+                                type="primary"
+                            >
+                                {visible ? 'Close' : 'Add'}
+                            </Button>
+                        </div>
+                    }
+                >
 
-                    </Card.Header>
-                </div>
+                </Card.Header>
 
                 <Drawer
                     className="my-drawer"
                     style={{ minHeight: document.documentElement.clientHeight }}
-                    enableDragHandle
+                    // enableDragHandle
                     contentStyle={{ color: '#A6A6A6', textAlign: 'center', paddingTop: 0, width: "100%" }}
                     sidebar={
                         <div className="mt-4">

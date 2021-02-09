@@ -49,7 +49,7 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
     }, [props.taskSaveStatus])
 
     type OnFinishType = {
-        taskName: string,
+        name: string,
         date: moment.Moment,
         taskTime: moment.Moment,
         description?: string
@@ -58,7 +58,7 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
         const data = {
             date: values.date.format('YYYY-MM-DD'),
             taskTime: values.taskTime.format('HH:mm'),
-            taskName: values.taskName,
+            name: values.name,
             user_id: props.userId,
             description: values.description
         }
@@ -101,7 +101,7 @@ const NewTaskForm: React.FC<NewTaskFormPropsType> = (props) => {
             >
                 <Form.Item
                     label="Task name"
-                    name="taskName"
+                    name="name"
                     rules={[{ required: true, message: 'Please input task name!' }]}
                 >
                     <Input />

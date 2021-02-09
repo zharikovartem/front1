@@ -128,7 +128,7 @@ const CreateAntField = (AntComponent: any) => (
 }
 
 export const AntSelect = !isMobile ? CreateAntField(Select) : CreateAntField(Picker)
-export const AntDatePicker = CreateAntField(DatePicker)
+export const AntDatePicker = !isMobile ? CreateAntField(DatePicker) : CreateAntField(DatePickerMobile)
 export const AntInput = !isMobile ? CreateAntField(Input) : CreateAntField(InputItem)
 export const AntInputPassword = !isMobile ? CreateAntField(Input.Password) : CreateAntField(InputItem)
 export const AntTimePicker = !isMobile ? CreateAntField(TimePicker) : CreateAntField(DatePickerMobile)
@@ -200,6 +200,8 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     // if (props.type === 'select' && props.label === 'task Types') {
     //     console.log('render: ',props.value)
     // }
+
+    const mode = props.type
     
     return (
         <List>
@@ -207,13 +209,17 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
                 onBlur={props.onBlur}
                 type={props.type}
                 onChange={props.type ? onInputChange : props.onChange}
-                mode={props.type === 'time' ? "time" : null}
-                defaultValue={props.label === 'parent_id' ? [38] : defaultValue}
+                mode={mode}
+                defaultValue={defaultValue}
+                defaultChecked={defaultValue}
                 value={defaultValue}
                 key={props.label}
                 title={props.label}
                 locale={enUs}
                 autoHeight
+                // autoHeight
+                // autoHeight ={props.type === 'textarea' ? true : false}
+                // {props.type === 'textarea' ? 'autoHeight' : null}
                 className={props.type === 'text' ? 'pl-0' : null}
                 data={data}
                 cols={1}

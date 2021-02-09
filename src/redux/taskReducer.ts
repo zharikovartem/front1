@@ -31,6 +31,20 @@ let initialState:InitialStateType = {
 const taskReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     
     switch (action.type) {
+        case 'SN/TASK/EDIT_TASK_LIST':
+            if (state.taskList !== null) {
+            const stateCopy = state.taskList.map( item => {
+                if (action.task.id === item.id) {
+                    return action.task
+                } else {
+                    return item
+                }
+            })
+            return {...state, taskList: stateCopy}
+            } else {
+                return state
+            }
+
         case 'SN/TASK/SET_TASK_LIST':
             return {...state, taskList: action.taskList.Tasks}
 
@@ -44,6 +58,7 @@ const taskReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {...state, taskListIsFetching: action.isFetchingValue}
 
         case 'SN/TASK/SET_IS_INTERVAL':
+            console.log('SET_IS_INTERVAL')
             const dateInterval = {
                 startDate: action.date.startDate,
                 endDate: action.date.endDate
@@ -60,7 +75,8 @@ export const actions = {
     setTaskSaveStatus: (taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error') => ({ type: 'SN/TASK/SET_TASK_SAVE_STATUS', taskSaveStatus } as const),
     setErrorMessage: (message: string | null) => ({type: 'SN/TASK/SET_ERROR_MESSAGE', message} as const),
     setTaskListIsFetching: (isFetchingValue: boolean) => ({type: 'SN/TASK/SET_TASK_LIST_IS_FETCHING', isFetchingValue} as const),
-    setIsInterval: (isInterval: boolean, date: {startDate: moment.Moment, endDate: moment.Moment}) => ({type: 'SN/TASK/SET_IS_INTERVAL', isInterval, date} as const)
+    setIsInterval: (isInterval: boolean, date: {startDate: moment.Moment, endDate: moment.Moment}) => ({type: 'SN/TASK/SET_IS_INTERVAL', isInterval, date} as const),
+    editTaskList: (task: TaskType) => ({type: 'SN/TASK/EDIT_TASK_LIST', task} as const),
 }
 
 export const createNewTask = (values: NewTaskDataType, reload:boolean = true): ThunkType => {
@@ -97,6 +113,7 @@ export const getTaskList = (startDate: string, endDate:string): ThunkType => {
         let response = await taskAPI.getTaskList(values)
 
         if (response !== undefined && response !== null) {
+            console.log(response)
             dispatch(actions.setTaskList(response.data))
         } else {
             // add error message
@@ -121,7 +138,7 @@ export const updateTask = (values: any, taskId: number): ThunkType => {
     return async (dispatch, getState) => {
         let response = await taskAPI.updateTask(values, taskId)
         console.log(response)
-        // dispatch(actions.setTaskList(response.data.Tasks))
+        dispatch(actions.editTaskList(response.data[0]))
     }
 }
 
