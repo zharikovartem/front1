@@ -95,6 +95,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         formPropsCopy.user_id = props.userId
         // props.createNewTaskList(formPropsCopy)
         // setInitialFormValues(initialValues)
+        console.log('taskId: ', drawerData.taskId)
         if (!drawerData.taskId) {
             // console.log('createNewTaskList: ', formPropsCopy)
             props.createNewTaskList(formPropsCopy)
@@ -106,7 +107,9 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
 
     const onAdd = (args: any) => {
         if (props.selectedTasks.length !== 0) {
+            setDrawerData({...drawerData, taskId: false})
             console.log('sub')
+            console.log('initialValues', initialValues)
             setInitialFormValues({...initialValues, parent_id: [Number(props.selectedTasks[props.selectedTasks.length-1])]})
         } else {
             setInitialFormValues(initialValues)

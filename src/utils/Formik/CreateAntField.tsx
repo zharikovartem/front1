@@ -49,7 +49,7 @@ const CreateAntField = (AntComponent: any) => (
         // console.log('field: ', field)
         // console.log('type: ', type)
         if (value === undefined) {
-            if (type == 'select' || type == 'time') {
+            if (type === 'select' || type === 'time') {
                 form.setFieldValue(field.name, null)
             }
         } else if(value === null) {

@@ -30,7 +30,7 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
         // console.log(props.taskItem.id, ': onSubTask')
         props.setDrawerData({
             header: 'SubTask for: "' + props.taskItem.name + '"',
-            taskId: null
+            taskId: false
         })
         console.log('parent_id:', props.taskItem.parent_id)
 

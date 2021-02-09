@@ -93,7 +93,7 @@ export const login = (data: credsType): ThunkType => {
 
 export const register = (creds: any): ThunkType => {
     return async (dispatch, getState) => {
-        let response = await authAPI.register(creds)
+        await authAPI.register(creds)
         //console.log(response)
         const credsToLogin: credsType = {
             email: creds.email,
