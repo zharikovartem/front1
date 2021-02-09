@@ -24,33 +24,23 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
                 onChange={(date: any) => { console.log(date) }}
             >
                 <List.Item className="w-100">
-                {isInterval ?
-                    <DatePicker
-                        // className="w-100"
-                        locale={enUs}
-                        mode="date"
-                        value={new Date()}
-                        onChange={(date: any) => { console.log(date) }}
-                    >
-                        <List.Item ></List.Item>
-                    </DatePicker>
-                    :
-                    <List.Item ></List.Item>
-                }
+                {isInterval ? 'Start:' : 'Date:'}
                 </List.Item>
             </DatePicker>
-            {/* {isInterval ?
+
+            {isInterval ?
                 <DatePicker
                     locale={enUs}
                     mode="date"
                     value={new Date()}
                     onChange={(date: any) => { console.log(date) }}
                 >
-                    <List.Item >End</List.Item>
+                    <List.Item >End:</List.Item>
                 </DatePicker>
                 :
                 null
-            } */}
+            }
+
             <List.Item
                 extra={
                         <Switch
@@ -63,14 +53,24 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
             </List.Item>
 
             <Button
-                // inline
+                inline
                 size="small"
                 className="ml-3"
                 // style={{ marginRight: '4px' }} 
-                // onClick={onOpenChange}
+                onClick={()=>{props.showDrawer()}}
                 type="primary"
             >
                 Add
+            </Button>
+            <Button
+                inline
+                size="small"
+                className="ml-3"
+                // style={{ marginRight: '4px' }} 
+                onClick={()=>{props.showModal()}}
+                type="primary"
+            >
+                Settings
             </Button>
         </div>
     )

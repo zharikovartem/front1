@@ -3,12 +3,12 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { taskAPI } from '../../api/taskApi'
 import { TaskListType } from '../../Types/types'
-import {actions} from './../../redux/TaskListReducer'
+import { actions } from './../../redux/TaskListReducer'
 
 const Item = List.Item
 
 
-let time_to_complete = new Date()
+const time_to_complete = new Date()
 time_to_complete.setHours(0)
 time_to_complete.setMinutes(0)
 time_to_complete.setSeconds(0)
@@ -21,7 +21,7 @@ export type OwnTaskTreeItemsType = {
     setDrawerData: (drawerData: any) => void,
     initialFormValues: any,
     setInitialFormValues: (initialFormValues: any) => void
-    updateTaskList: (values: any, taskId: number)=> void,
+    updateTaskList: (values: any, taskId: number) => void,
 }
 export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     const dispatch = useDispatch()
@@ -39,8 +39,8 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             name: '',
             time_to_complete: time_to_complete,
             descriptions: '',
-            parent_id: [ Number(props.taskItem.id) ],
-            task_type: [ 0 ]
+            parent_id: [Number(props.taskItem.id)],
+            task_type: [0]
         })
         props.showDrawer()
     }
@@ -51,25 +51,26 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             taskId: task.id
         })
 
-        
+        // let new_time_to_complete = {...time_to_complete}
+        let new_time_to_complete = new Date(time_to_complete.getTime())
         if (task.time_to_complete !== null) {
             const splitTime = task.time_to_complete.split(/:/)
-            time_to_complete.setHours( parseInt(splitTime[0]) )
-            time_to_complete.setMinutes( parseInt(splitTime[1]) )
-            time_to_complete.setSeconds(0)
-            time_to_complete.setMilliseconds(0)
+            new_time_to_complete.setHours(parseInt(splitTime[0]))
+            new_time_to_complete.setMinutes(parseInt(splitTime[1]))
+            new_time_to_complete.setSeconds(0)
+            new_time_to_complete.setMilliseconds(0)
         } else {
             
         }
 
         props.setInitialFormValues({
-                ...props.initialFormValues,
-                name: task.name,
-                time_to_complete: time_to_complete,
-                descriptions: task.descriptions,
-                parent_id: [ task.parent_id ],
-                task_type: [ Number(task.task_type) ]
-            })
+            ...props.initialFormValues,
+            name: task.name,
+            time_to_complete: new_time_to_complete,
+            descriptions: task.descriptions,
+            parent_id: [task.parent_id],
+            task_type: [Number(task.task_type)]
+        })
 
         props.showDrawer()
     }
@@ -120,8 +121,22 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
                 onClick={onItemOpen}
                 // arrow="horizontal"
                 key={props.taskItem.id}
+                wrap
             >
-                {props.taskItem.isCompleted ? <span className="text-black-50">{props.taskItem.name}</span> : <span>{props.taskItem.name}</span>}
+                {/* {props.taskItem.isCompleted ? <span className="text-black-50">{props.taskItem.name}</span> : <span>{props.taskItem.name}</span>} */}
+
+                <div className="w-100 row " key={props.taskItem.id}>
+                    <div className="col-10">
+                        {props.taskItem.isCompleted ? 
+                        <span className="text-black-50 text-break">{props.taskItem.name}</span> 
+                        : 
+                        <span className="text-break">{props.taskItem.name}</span>}
+                    </div>
+                    <div className="col-2">
+                        {props.taskItem.time_to_complete.split(/:/)[0]+':'+props.taskItem.time_to_complete.split(/:/)[1]}
+                    </div>
+                </div>
+
             </Item>
 
         </SwipeAction>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Card } from 'antd'
 import NewTaskForm from './ToDo/NewTaskForm/NewTaskFormContainer'
-import ToDoHeader from './ToDoHeader/ToDoHeaderContainer'
+import ToDoHeader from './ToDo/ToDoHeader/ToDoHeaderContainer'
 import SettingsModal from './ToDo/Settings/SettingsModal'
 import { ToDoListPropsType } from './ToDoListContainer'
 import TimeScale from './TimeScale/TimeScaleContainer'

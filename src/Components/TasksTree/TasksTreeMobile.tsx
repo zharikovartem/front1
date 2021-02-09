@@ -104,8 +104,14 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         }
     }
 
-    const onOpenChange = (args: any) => {
-        setInitialFormValues(initialValues)
+    const onAdd = (args: any) => {
+        if (props.selectedTasks.length !== 0) {
+            console.log('sub')
+            setInitialFormValues({...initialValues, parent_id: [Number(props.selectedTasks[props.selectedTasks.length-1])]})
+        } else {
+            setInitialFormValues(initialValues)
+        }
+        
         setVisible(!visible)
     }
 
@@ -152,7 +158,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                                     size="small"
                                     className="mx-3 my-2"
                                     // style={{ marginRight: '4px' }} 
-                                    onClick={onOpenChange}
+                                    onClick={onAdd}
                                     type="primary"
                                 >
                                     {visible ? 'Close' : 'Add'}
@@ -180,7 +186,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                         </div>
                     }
                     open={visible}
-                    onOpenChange={onOpenChange}
+                    onOpenChange={onAdd}
                 >
                     <List>
 
@@ -239,115 +245,115 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
 
 export default TasksTreeMobile
 
-const getTaskTreeItems = (
-    taskList: Array<any>,
-    deleteTaskList: (taskId: number) => void,
-    showDrawer: () => void,
-    setDrawerData: (drawerData: any) => void,
-    initialFormValues: any,
-    setInitialFormValues: (initialFormValues: any) => void
-) => {
-    const onEdit = (task: any) => {
-        // console.log(task)
+// const getTaskTreeItems = (
+//     taskList: Array<any>,
+//     deleteTaskList: (taskId: number) => void,
+//     showDrawer: () => void,
+//     setDrawerData: (drawerData: any) => void,
+//     initialFormValues: any,
+//     setInitialFormValues: (initialFormValues: any) => void
+// ) => {
+//     const onEdit = (task: any) => {
+//         // console.log(task)
 
-        setDrawerData({
-            header: 'Edit: "' + task.name + '"',
-            taskId: task.id
-        })
+//         setDrawerData({
+//             header: 'Edit: "' + task.name + '"',
+//             taskId: task.id
+//         })
 
-        let day = new Date()
-        if (task.time_to_complete !== null) {
-            const splitTime = task.time_to_complete.split(/:/)
-            day.setHours(parseInt(splitTime[0]))
-            day.setMinutes(parseInt(splitTime[1]))
-            day.setSeconds(0)
-            day.setMilliseconds(0)
-        } else {
-            day.setHours(0)
-            day.setMinutes(0)
-            day.setSeconds(0)
-            day.setMilliseconds(0)
-        }
+//         let day = new Date()
+//         if (task.time_to_complete !== null) {
+//             const splitTime = task.time_to_complete.split(/:/)
+//             day.setHours(parseInt(splitTime[0]))
+//             day.setMinutes(parseInt(splitTime[1]))
+//             day.setSeconds(0)
+//             day.setMilliseconds(0)
+//         } else {
+//             day.setHours(0)
+//             day.setMinutes(0)
+//             day.setSeconds(0)
+//             day.setMilliseconds(0)
+//         }
 
-        setInitialFormValues(
-            {
-                ...initialFormValues,
-                // new: false,
-                name: task.name,
-                time_to_complete: day,
-                descriptions: task.descriptions,
-                parent_id: [task.parent_id],
-                task_type: [Number(task.task_type)]
-            }
-        )
+//         setInitialFormValues(
+//             {
+//                 ...initialFormValues,
+//                 // new: false,
+//                 name: task.name,
+//                 time_to_complete: day,
+//                 descriptions: task.descriptions,
+//                 parent_id: [task.parent_id],
+//                 task_type: [Number(task.task_type)]
+//             }
+//         )
 
-        showDrawer()
-    }
+//         showDrawer()
+//     }
 
-    const onItemOpen = (itemId: number) => {
-        console.log(itemId, 'is open')
-        // const dispatch = useDispatch()
-        // dispatch( { type: 'SN/TASK_LIST/SET_SELECTED_TASK', itemId } )
-    }
+//     const onItemOpen = (itemId: number) => {
+//         console.log(itemId, 'is open')
+//         // const dispatch = useDispatch()
+//         // dispatch( { type: 'SN/TASK_LIST/SET_SELECTED_TASK', itemId } )
+//     }
 
-    // console.log(taskList)
+//     // console.log(taskList)
 
-    if (taskList && taskList.length > 0) {
-        return taskList.map((item) => {
-            //console.log('!!!!!!!')
-            return (
-                <SwipeAction
-                    style={{ backgroundColor: 'gray' }}
-                    autoClose
-                    right={[
-                        {
-                            text: 'Cancel',
-                            onPress: () => {
-                                //console.log('cancel') 
-                            },
-                            style: { backgroundColor: '#ddd', color: 'white' },
-                        },
-                        {
-                            text: 'Delete',
-                            onPress: () => deleteTaskList(item.id),
-                            style: { backgroundColor: '#F4333C', color: 'white' },
-                        },
-                    ]}
-                    left={[
-                        {
-                            text: 'Edit',
-                            onPress: () => { onEdit(item) },
-                            style: { backgroundColor: '#108ee9', color: 'white' },
-                        },
-                        {
-                            text: 'Execute',
-                            onPress: () => {
-                                // console.log('cancel')
-                            },
-                            style: { backgroundColor: 'green', color: 'white' },
-                        },
-                    ]}
-                // onOpen={() => console.log('global open')}
-                // onClose={() => console.log('global close')}
-                >
-                    <Item
-                        // className="my-3"
-                        onClick={() => { onItemOpen(item.id) }}
-                        arrow="horizontal"
-                        key={item.id}
-                    >
-                        {item.name}
-                    </Item>
+//     if (taskList && taskList.length > 0) {
+//         return taskList.map((item) => {
+//             //console.log('!!!!!!!')
+//             return (
+//                 <SwipeAction
+//                     style={{ backgroundColor: 'gray' }}
+//                     autoClose
+//                     right={[
+//                         {
+//                             text: 'Cancel',
+//                             onPress: () => {
+//                                 //console.log('cancel') 
+//                             },
+//                             style: { backgroundColor: '#ddd', color: 'white' },
+//                         },
+//                         {
+//                             text: 'Delete',
+//                             onPress: () => deleteTaskList(item.id),
+//                             style: { backgroundColor: '#F4333C', color: 'white' },
+//                         },
+//                     ]}
+//                     left={[
+//                         {
+//                             text: 'Edit',
+//                             onPress: () => { onEdit(item) },
+//                             style: { backgroundColor: '#108ee9', color: 'white' },
+//                         },
+//                         {
+//                             text: 'Execute',
+//                             onPress: () => {
+//                                 // console.log('cancel')
+//                             },
+//                             style: { backgroundColor: 'green', color: 'white' },
+//                         },
+//                     ]}
+//                 // onOpen={() => console.log('global open')}
+//                 // onClose={() => console.log('global close')}
+//                 >
+//                     <Item
+//                         // className="my-3"
+//                         onClick={() => { onItemOpen(item.id) }}
+//                         arrow="horizontal"
+//                         key={item.id}
+//                     >
+//                         {item.name}
+//                     </Item>
 
-                </SwipeAction>
-            )
-        })
-    } else {
-        return (
-            <Empty />
-        )
-    }
+//                 </SwipeAction>
+//             )
+//         })
+//     } else {
+//         return (
+//             <Empty />
+//         )
+//     }
 
 
-}
+// }
 
