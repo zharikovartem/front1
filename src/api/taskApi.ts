@@ -55,6 +55,7 @@ export const taskAPI = {
     },
 
     deleteTask(taskId: number) {
+        getToken()
         return instance.delete<TaskListType>(`tasks/${taskId}`).then(response => {
             return response.status === 200 ? response : null
         })
@@ -71,6 +72,7 @@ export const taskAPI = {
     }, 
 
     updateTask(values: any, taskId: number) {
+        getToken()
         return instance.put<any>(`tasks/${taskId}`, values)
         .then(response => {
             //console.log(response)

@@ -1,11 +1,11 @@
 import { Button, Card, Drawer, List, Checkbox, Collapse } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { TasksTreePropsType } from './TasksTreeContainer'
-import { FileAddOutlined, SettingOutlined } from '@ant-design/icons'
+import { FileAddOutlined, SettingOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import NewTaskTreeForm from './NewTaskTreeForm'
 import { Formik } from 'formik'
 import moment from "moment"
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import TaskTreeBrowserItem from './TaskTreeBrowserItem'
 
 const { Panel } = Collapse;
 
@@ -144,6 +144,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                     <List
                         size="small"
                         bordered
+
                         dataSource={getTaskTreeItems(
                             props.taskList,
                             props.deleteTaskList,
@@ -154,8 +155,10 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                             setInitialFormValues,
                             props.selectedTasks
                         )}
-
                         renderItem={item => <List.Item className="py-0" draggable>{item}</List.Item>}
+
+                        // dataSource={props.taskList}                        
+                        // renderItem={item => <TaskTreeBrowserItem item={item} taskList={props.taskList} />}
                     />
 
                     <Drawer
@@ -248,7 +251,7 @@ const getTaskTreeItems = (
                         <div className="w-100 float-left" key={item.id}>
                             <div className="ml-3 float-left">
 
-                                {item.isCompleted ? <span className="text-black-50">{item.name}</span> : <span>{item.name}</span>}
+                                {item.isCompleted ? <span className="text-black-50">{item.name}</span> : <a data-toggle="collapse" aria-controls={item.id+'collapseExample'} >{item.name}</a>}
 
                             </div>
                             <div className="ml-3 float-right">
@@ -281,6 +284,15 @@ const getTaskTreeItems = (
                                     </div>
                                 }
                             />
+                        </div>
+                    </>
+                )
+                taskTreeItems.push(
+                    <>
+                        <div className="collapse" id={item.id+'collapseExample'}>
+                            <div className="card card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            </div>
                         </div>
                     </>
                 )
