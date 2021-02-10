@@ -56,7 +56,7 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
         console.log('useEffect.isTimeScaleVisible=', props.viewSettings.ToDo.timeScaleSingle)
     }, [props.isInterval, props.viewSettings])
 
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState<boolean>(false)
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [drawerData, setDrawerData] = useState(initialDrewerData)
     const [isTimeScaleVisible, setIsTimeScaleVisible] = useState(props.viewSettings.ToDo.timeScaleSingle)
@@ -119,6 +119,7 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
                         title={<ToDoHeader
                             showDrawer={showDrawer}
                             showModal={showModal}
+                            isOpen={visible}
                         />}
                     >
                     </Card.Header>
@@ -211,7 +212,9 @@ const TaskItemMobile: React.FC<any> = (props) => {
         // dispatch(actions.setSelectedTasks(props.element.id));
     }
 
-    const onComplet = () => { }
+    const onComplet = () => {
+        console.log('onComplet')
+    }
     // console.log(props)
     return (
         <SwipeAction

@@ -7,6 +7,7 @@ import moment from "moment"
 export type OwnToDoHeaderPropsType = {
     showDrawer: () => void,
     showModal: () => void,
+    isOpen: boolean
 }
 
 const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
@@ -36,11 +37,6 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
 
     const onEndChange = (value: Date) => {
         props.setIsInterval(isInterval, {startDate: props.dateInterval.startDate, endDate: moment(value) })
-    }
-
-    const onAdd = () => {
-        setIsFormOpen(!isFormOpen)
-        props.showDrawer()
     }
 
     return (
@@ -85,10 +81,10 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
                 size="small"
                 className="ml-3"
                 // style={{ marginRight: '4px' }} 
-                onClick={onAdd}
+                onClick={()=>{props.showDrawer()}}
                 type="primary"
             >
-                {isFormOpen ? 'Add' : 'Close'}
+                {!props.isOpen ? 'Add' : 'Close'}
             </Button>
             <Button
                 inline

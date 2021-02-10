@@ -11,6 +11,7 @@ const { RangePicker } = DatePicker
 export type OwnToDoHeaderPropsType = {
     showDrawer: () => void,
     showModal: () => void,
+    isOpen?: boolean
 }
 
 const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
