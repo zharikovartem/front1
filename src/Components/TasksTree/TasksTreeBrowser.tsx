@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { TasksTreePropsType } from './TasksTreeContainer'
 import { FileAddOutlined, SettingOutlined } from '@ant-design/icons'
 import NewTaskTreeForm from './NewTaskTreeForm'
-import { Formik, FormikProps } from 'formik'
+import { Formik } from 'formik'
 import moment from "moment"
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
@@ -61,7 +61,6 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         ],
         task_type: 1,
         name: '',
-        // new: true
 
     }
 
@@ -78,7 +77,6 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     const onAdd = () => {
         setDrawerData(initialDrewerData)
         setInitialFormValues(initialValues)
-        //console.log(initialValues)
         showDrawer()
     }
 
@@ -94,13 +92,10 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         if (!drawerData.taskId) {
             props.createNewTaskList(formPropsCopy)
         } else {
-            //console.log(formPropsCopy)
             props.updateTaskList(formPropsCopy, drawerData.taskId)
         }
 
     }
-
-    //console.log('initialFormValues: ', initialFormValues)
 
     return (
         <>
@@ -146,11 +141,8 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                     bordered={false}
                 >
 
-                    {/* { getTaskTreeItems(props.taskList) } */}
                     <List
                         size="small"
-                        // header={<h2>Tasks Tree</h2>}
-                        // footer={<div>Footer</div>}
                         bordered
                         dataSource={getTaskTreeItems(
                             props.taskList,
@@ -159,10 +151,11 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                             showDrawer,
                             setDrawerData,
                             initialFormValues,
-                            setInitialFormValues
+                            setInitialFormValues,
+                            props.selectedTasks
                         )}
 
-                        renderItem={item => <List.Item draggable>{item}</List.Item>}
+                        renderItem={item => <List.Item className="py-0" draggable>{item}</List.Item>}
                     />
 
                     <Drawer
@@ -195,11 +188,12 @@ export default TasksTreeBrowser
 const getTaskTreeItems = (
     taskList: Array<any>,
     deleteTask: (taskId: number) => void,
-    updateTaskList: (values: any, taskId: number)=> void,
+    updateTaskList: (values: any, taskId: number) => void,
     showDrawer: () => void,
     setDrawerData: (drawerData: any) => void,
     initialFormValues: any,
-    setInitialFormValues: (initialFormValues: any) => void
+    setInitialFormValues: (initialFormValues: any) => void,
+    selectedTasks: Array<number>
 ) => {
     const onEdit = (task: any) => {
         setDrawerData({
@@ -219,7 +213,6 @@ const getTaskTreeItems = (
         setInitialFormValues(
             {
                 ...initialFormValues,
-                // new: false,
                 name: task.name,
                 time_to_complete: day,
                 descriptions: task.descriptions,
@@ -230,57 +223,72 @@ const getTaskTreeItems = (
         showDrawer()
     }
 
-    const onStatusChange = (e:any) => {
+    const onStatusChange = (e: any) => {
         const values = { isCompleted: e.target.checked }
-        //console.log(e)
         updateTaskList(values, e.target.id)
     }
 
+    // let display: string = 'none'
+
+    // const changeDisplat = (key: any) => {
+    //     console.log(key);
+    //     display = "block"
+    //   }
+
     if (taskList !== undefined && taskList.length > 0) {
-        return taskList.map((item) => {
-            return (
-                <>
-                    <div><Checkbox checked={item.isCompleted} id={item.id} onClick={onStatusChange}/></div>
-                    <div className="w-100 float-left" key={item.id}>
-                        <div className="ml-3 float-left">
-                            
-                            {item.isCompleted ? <span className="text-black-50">{item.name}</span> : <span>{item.name}</span>}
-                            
+
+
+        let taskTreeItems: Array<any> = []
+        for (let index = 0; index < taskList.length; index++) {
+            const item = taskList[index];
+            if (item.parent_id === null) {
+                taskTreeItems.push(
+                    <>
+                        <div className="py-2"><Checkbox checked={item.isCompleted} id={item.id} onClick={onStatusChange} /></div>
+                        <div className="w-100 float-left" key={item.id}>
+                            <div className="ml-3 float-left">
+
+                                {item.isCompleted ? <span className="text-black-50">{item.name}</span> : <span>{item.name}</span>}
+
+                            </div>
+                            <div className="ml-3 float-right">
+                                {item.time_to_complete}
+                            </div>
                         </div>
-                        <div className="ml-3 float-right">
-                            {item.time_to_complete}
+                        <div className="d-flex flex-row">
+                            <Button className=""
+                                type="primary"
+                                shape="circle"
+                                size="small"
+                                style={{ marginLeft: 10 }}
+                                onClick={() => { onEdit(item) }}
+                                icon={
+                                    <div className="d-flex flex-wrap align-content-start">
+                                        <EditOutlined className="ml-1" style={{ fontSize: '14px' }} />
+                                    </div>
+                                }
+                            />
+                            <Button className=""
+                                type="primary"
+                                danger
+                                shape="circle"
+                                size="small"
+                                style={{ marginLeft: 10 }}
+                                onClick={() => { deleteTask(item.id) }}
+                                icon={
+                                    <div className="d-flex flex-wrap align-content-start">
+                                        <DeleteOutlined className="ml-1" style={{ fontSize: '14px' }} />
+                                    </div>
+                                }
+                            />
                         </div>
-                    </div>
-                    <div className="d-flex flex-row">
-                        <Button className=""
-                            type="primary"
-                            shape="circle"
-                            size="small"
-                            style={{ marginLeft: 10 }}
-                            onClick={() => { onEdit(item) }}
-                            icon={
-                                <div className="d-flex flex-wrap align-content-start">
-                                    <EditOutlined className="ml-1" style={{ fontSize: '14px' }} />
-                                </div>
-                            }
-                        />
-                        <Button className=""
-                            type="primary"
-                            danger
-                            shape="circle"
-                            size="small"
-                            style={{ marginLeft: 10 }}
-                            onClick={() => { deleteTask(item.id) }}
-                            icon={
-                                <div className="d-flex flex-wrap align-content-start">
-                                    <DeleteOutlined className="ml-1" style={{ fontSize: '14px' }} />
-                                </div>
-                            }
-                        />
-                    </div>
-                </>
-            )
-        })
+                    </>
+                )
+            }
+
+        }
+        return taskTreeItems
+
     } else {
         return []
     }

@@ -1,12 +1,15 @@
 import { NewTaskDataType, TaskType } from '../Types/types'
 import {instance} from './api'
 
-if (localStorage.getItem('remember_token')) {
-    instance.defaults.headers.common['X-Auth-Token'] = localStorage.getItem('remember_token')
+const getToken = () => {
+    if (localStorage.getItem('remember_token')) {
+        instance.defaults.headers.common['X-Auth-Token'] = localStorage.getItem('remember_token')
+    }
+    if (sessionStorage.getItem('remember_token')) {
+        instance.defaults.headers.common['X-Auth-Token'] = sessionStorage.getItem('remember_token')
+    }
 }
-if (sessionStorage.getItem('remember_token')) {
-    instance.defaults.headers.common['X-Auth-Token'] = sessionStorage.getItem('remember_token')
-}
+
 
 export type TaskListType = {
     Tasks: Array<TaskType>
@@ -32,10 +35,7 @@ export const taskAPI = {
 
     getTaskList(values: getTaskListValuesType) {
         console.log(instance.defaults.headers.common['X-Auth-Token'])
-        // 
-        // .headers = {
-        //     'X-Auth-Token': localStorage.getItem('remember_token')
-        // }
+        getToken()
         return instance.post<TaskListType>(`tasks/part`, values)
         .then(response => {
             //console.log(response)
