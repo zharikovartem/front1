@@ -31,7 +31,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
             props.getTaskList()
         }
         setVisible(false)
-        // console.log('initialValues: ', initialValues)
+        //console.log('initialValues: ', initialValues)
         setInitialFormValues(initialValues)
     }, [props.taskList])
 
@@ -77,12 +77,12 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     const [drawerData, setDrawerData] = useState(initialDrewerData)
 
     const handleSubmit = (formProps: any) => {
-        // console.log('handleSubmit TasksTreeMobile: ', formProps.time_to_complete)
+        //console.log('handleSubmit TasksTreeMobile: ', formProps.time_to_complete)
         let formPropsCopy: any = { ...formProps }
         delete formPropsCopy.selectOptions
         delete formPropsCopy.taskTypes
         if (formPropsCopy.time_to_complete !== undefined) {
-            // console.log(formPropsCopy.time_to_complete)
+            //console.log(formPropsCopy.time_to_complete)
             const time_to_complete = moment(formPropsCopy.time_to_complete)
             formPropsCopy.time_to_complete = time_to_complete.format('HH:mm:ss')
         }
@@ -95,12 +95,12 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         formPropsCopy.user_id = props.userId
         // props.createNewTaskList(formPropsCopy)
         // setInitialFormValues(initialValues)
-        console.log('taskId: ', drawerData.taskId)
+        //console.log('taskId: ', drawerData.taskId)
         if (!drawerData.taskId) {
-            // console.log('createNewTaskList: ', formPropsCopy)
+            //console.log('createNewTaskList: ', formPropsCopy)
             props.createNewTaskList(formPropsCopy)
         } else {
-            console.log('updateTaskList: ', formPropsCopy)
+            //console.log('updateTaskList: ', formPropsCopy)
             props.updateTaskList(formPropsCopy, drawerData.taskId)
         }
     }
@@ -108,8 +108,8 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     const onAdd = (args: any) => {
         if (props.selectedTasks.length !== 0) {
             setDrawerData({ ...drawerData, taskId: false })
-            console.log('sub')
-            console.log('initialValues', initialValues)
+            //console.log('sub')
+            //console.log('initialValues', initialValues)
             setInitialFormValues({ ...initialValues, parent_id: [Number(props.selectedTasks[props.selectedTasks.length - 1])] })
         } else {
             setInitialFormValues(initialValues)
@@ -126,8 +126,8 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         props.backSelectedTasks()
     }
 
-    console.log('TasksTreeMobile props: ', props)
-    // console.log('TasksTreeMobile name: ', initialFormValues.name)
+    //console.log('TasksTreeMobile props: ', props)
+    //console.log('TasksTreeMobile name: ', initialFormValues.name)
 
     // if (props.taskList !== undefined) {
     return (
@@ -252,7 +252,7 @@ export default TasksTreeMobile
 //     setInitialFormValues: (initialFormValues: any) => void
 // ) => {
 //     const onEdit = (task: any) => {
-//         // console.log(task)
+//         //console.log(task)
 
 //         setDrawerData({
 //             header: 'Edit: "' + task.name + '"',
@@ -289,12 +289,12 @@ export default TasksTreeMobile
 //     }
 
 //     const onItemOpen = (itemId: number) => {
-//         console.log(itemId, 'is open')
+//         //console.log(itemId, 'is open')
 //         // const dispatch = useDispatch()
 //         // dispatch( { type: 'SN/TASK_LIST/SET_SELECTED_TASK', itemId } )
 //     }
 
-//     // console.log(taskList)
+//     //console.log(taskList)
 
 //     if (taskList && taskList.length > 0) {
 //         return taskList.map((item) => {
@@ -326,13 +326,13 @@ export default TasksTreeMobile
 //                         {
 //                             text: 'Execute',
 //                             onPress: () => {
-//                                 // console.log('cancel')
+//                                 //console.log('cancel')
 //                             },
 //                             style: { backgroundColor: 'green', color: 'white' },
 //                         },
 //                     ]}
-//                 // onOpen={() => console.log('global open')}
-//                 // onClose={() => console.log('global close')}
+//                 // onOpen={() => //console.log('global open')}
+//                 // onClose={() => //console.log('global close')}
 //                 >
 //                     <Item
 //                         // className="my-3"

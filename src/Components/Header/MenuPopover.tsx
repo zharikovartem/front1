@@ -7,7 +7,7 @@ const MenuPopover: React.FC<any> = (props) => {
     const [visible, setVisible] = useState(false)
 
     const onSelect = (opt: any, index?: number) => {
-        // console.log(opt.props);
+        //console.log(opt.props);
         setVisible(false)
         if(opt.props.children === "Logout") {
             props.onLogout()

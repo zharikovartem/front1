@@ -36,7 +36,7 @@ const ToDoList: React.FC<ToDoListPropsType> = (props) => {
     }
 
     const handleSubmit = (values: any) => {
-        console.log('handleSubmit')
+        //console.log('handleSubmit')
     }
 
     return (

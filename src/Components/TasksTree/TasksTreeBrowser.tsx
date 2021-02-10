@@ -78,7 +78,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     const onAdd = () => {
         setDrawerData(initialDrewerData)
         setInitialFormValues(initialValues)
-        // console.log(initialValues)
+        //console.log(initialValues)
         showDrawer()
     }
 
@@ -94,13 +94,13 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         if (!drawerData.taskId) {
             props.createNewTaskList(formPropsCopy)
         } else {
-            // console.log(formPropsCopy)
+            //console.log(formPropsCopy)
             props.updateTaskList(formPropsCopy, drawerData.taskId)
         }
 
     }
 
-    // console.log('initialFormValues: ', initialFormValues)
+    //console.log('initialFormValues: ', initialFormValues)
 
     return (
         <>
@@ -232,7 +232,7 @@ const getTaskTreeItems = (
 
     const onStatusChange = (e:any) => {
         const values = { isCompleted: e.target.checked }
-        console.log(e)
+        //console.log(e)
         updateTaskList(values, e.target.id)
     }
 

@@ -41,7 +41,7 @@ const taskListReducer = (state = initialState, action: ActionsTypes): InitialSta
             }              
             return { ...state, selectedTasks: newSelectedTasks }
         case 'SN/TASK_LIST/SET_SELECTED_TASK':
-            console.log( { ...state, selectedTasks: [...state.selectedTasks, action.taskId] })
+            //console.log( { ...state, selectedTasks: [...state.selectedTasks, action.taskId] })
             return { ...state, selectedTasks: [...state.selectedTasks, action.taskId] }
         case 'SN/TASK_LIST/SET_TASK_LIST':
             return { ...state, taskList: action.taskList, isTaskListLoaded: true}

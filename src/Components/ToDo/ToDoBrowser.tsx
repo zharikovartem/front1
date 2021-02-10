@@ -53,11 +53,11 @@ const ToDoBrowser: React.FC<any> = (props) => {
         }
     }, [props.getTaskList])
     useEffect(() => {
-        console.log('useEffect')
+        //console.log('useEffect')
     }, [initialFormValues])
 
     const onTaskEdit = (value:any) => {
-        console.log('onTaskEdit: ', value)
+        //console.log('onTaskEdit: ', value)
         setDrawerData({
             header: 'Edite "'+value.name+'"',
             taskId: value.id
@@ -76,23 +76,23 @@ const ToDoBrowser: React.FC<any> = (props) => {
     }
 
     const showDrawer = (): void => {
-        console.log('drawerData', drawerData)
+        //console.log('drawerData', drawerData)
         if (!drawerData.taskId) {
-            console.log('empty')
+            //console.log('empty')
         }
-        console.log(initialFormValues)
+        //console.log(initialFormValues)
         setVisible(true)
     }
 
     const onClose = (): void => {
-        console.log('onClose')
+        //console.log('onClose')
 
         setInitialFormValues(null)
         setInitialFormValues({...initialValues})
-        
+
         setDrawerData({...initialDrewerData})
         setVisible(false)
-        console.log('drawerData: ', drawerData)
+        //console.log('drawerData: ', drawerData)
     }
 
     const showModal = () => {
@@ -124,18 +124,18 @@ const ToDoBrowser: React.FC<any> = (props) => {
         }
 
         formPropsCopy.user_id = props.userId
-        console.log('handleSubmit', formPropsCopy)
+        //console.log('handleSubmit', formPropsCopy)
         if (!drawerData.taskId) {
             props.createNewTask(formPropsCopy, true)
         } else {
-        //     // console.log(formPropsCopy)
+        //     //console.log(formPropsCopy)
             props.updateTask(formPropsCopy, drawerData.taskId)
         }
         // setInitialFormValues({...initialValues})
         onClose()
     }
 
-    console.log('ToDoBrowser initialFormValues: ', initialFormValues)
+    //console.log('ToDoBrowser initialFormValues: ', initialFormValues)
 
     return (
         <Card

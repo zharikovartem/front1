@@ -21,7 +21,7 @@ let initialState: InitialStateType = {
 const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case 'SN/AUTH/SET_SETTINGS_DATA':
-            console.log(action)
+            //console.log(action)
             let viewSettings = {...state.viewSettings}
             viewSettings[action.settingType] = action.settings
             return {...state, viewSettings: viewSettings}

@@ -14,7 +14,7 @@ type MapDispatchPropsType = {
 export type SettingsModalPropsType = MapPropsType & MapDispatchPropsType & OwmSettingsModalPropsType
 
 let mapStateToProps = (state:AppStateType) => {
-    // console.log(state)
+    //console.log(state)
     return {
         viewSettings: state.auth.viewSettings
     }

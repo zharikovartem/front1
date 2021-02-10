@@ -45,9 +45,9 @@ const CreateAntField = (AntComponent: any) => (
     // type OnInputChangeValueType = React.ChangeEvent<HTMLInputElement> | moment.Moment | Date | string
     // const onInputChange = (value: OnInputChangeValueType, field: any) => {
     const onInputChange = (value: any) => {
-        // console.log('value: ', value)
-        // console.log('field: ', field)
-        // console.log('type: ', type)
+        //console.log('value: ', value)
+        //console.log('field: ', field)
+        //console.log('type: ', type)
         if (value === undefined) {
             if (type === 'select' || type === 'time') {
                 form.setFieldValue(field.name, null)
@@ -59,10 +59,10 @@ const CreateAntField = (AntComponent: any) => (
         } else {
             if (type === 'time') {
                 // if (value instanceof moment) {
-                //     console.log('moment')
+                //     //console.log('moment')
                 //     form.setFieldValue(field.name, value)
                 // } else {
-                //     console.log('not moment')
+                //     //console.log('not moment')
                 //     // form.setFieldValue(field.name, moment(value.setSeconds(0)))
                 //     form.setFieldValue(field.name, value)
                 // }
@@ -78,7 +78,7 @@ const CreateAntField = (AntComponent: any) => (
     }
 
     const onChange = (value: string | React.ChangeEvent<HTMLInputElement>) => {
-        // console.log('onChange: ', value)
+        //console.log('onChange: ', value)
         if (typeof value !== "string" && value.target.type === 'checkbox') {
             form.setFieldValue(field.name, value.target.checked)
         } else {
@@ -152,7 +152,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
 
     useEffect(() => {
         if (props.type === 'select' && props.label === 'task_type') {
-            console.log('useEffect parent_id: ',props.value)
+            //console.log('useEffect parent_id: ',props.value)
         }
 
         setValue(props.value)
@@ -165,12 +165,12 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     }
 
     const onPickerChange = (value:any) => {
-        console.log('onPickerChange: ',defaultValue)
+        //console.log('onPickerChange: ',defaultValue)
         setValue(value)
     }
 
     // const onOk = (value:any) => {
-    //     console.log('onOk; ', value)
+    //     //console.log('onOk; ', value)
     //     setValue(value)
     // }
 
@@ -198,7 +198,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     }
 
     // if (props.type === 'select' && props.label === 'task Types') {
-    //     console.log('render: ',props.value)
+    //     //console.log('render: ',props.value)
     // }
 
     const mode = props.type

@@ -26,12 +26,12 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     const dispatch = useDispatch()
 
     const onSubTask = () => {
-        // console.log(props.taskItem.id, ': onSubTask')
+        //console.log(props.taskItem.id, ': onSubTask')
         props.setDrawerData({
             header: 'SubTask for: "' + props.taskItem.name + '"',
             taskId: false
         })
-        console.log('parent_id:', props.taskItem.parent_id)
+        //console.log('parent_id:', props.taskItem.parent_id)
 
         props.setInitialFormValues({
             ...props.initialFormValues,
@@ -79,7 +79,7 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     }
 
     const onComplet = () => {
-        console.log('onComplet')
+        //console.log('onComplet')
         const values = { isCompleted: !props.taskItem.isCompleted }
         props.updateTaskList(values, props.taskItem.id)
     }
@@ -112,8 +112,8 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
                     style: { backgroundColor: 'green', color: 'white' },
                 },
             ]}
-        // onOpen={() => console.log('global open')}
-        // onClose={() => console.log('global close')}
+        // onOpen={() => //console.log('global open')}
+        // onClose={() => //console.log('global close')}
         >
             <Item
                 // className="my-3"

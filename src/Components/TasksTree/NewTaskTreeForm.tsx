@@ -20,7 +20,7 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
         const taskTypes = values.task_type
         setTaskType(taskTypes)
 
-        // console.log('useEffect NewTaskTreeForm', props.initialValues)
+        //console.log('useEffect NewTaskTreeForm', props.initialValues)
     }, [props.values])
 
     //console.log('NewTaskTreeForm props: ', props)
@@ -30,8 +30,8 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
     //     props.handleSubmit(formProps)
     // }
 
-    // console.log('NewTaskTreeForm', props)
-    // console.log('NewTaskTreeForm render', values)
+    //console.log('NewTaskTreeForm', props)
+    //console.log('NewTaskTreeForm render', values)
 
     return (
         <Form

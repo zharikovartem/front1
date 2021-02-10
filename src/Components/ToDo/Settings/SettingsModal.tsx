@@ -38,7 +38,7 @@ const SettingsModal: React.FC< SettingsModalPropsType > = (props) => {
     const [settings, setSettings] = useState(props.viewSettings !== null ? props.viewSettings : settingasInstanse)
 
     const handleSubmit = (values: any) => {
-        // console.log(values)
+        //console.log(values)
         props.changeSettings('ToDo', values)
         props.handleOk()
     }
@@ -48,12 +48,12 @@ const SettingsModal: React.FC< SettingsModalPropsType > = (props) => {
     for (const propName in settings.ToDo) {
         if (Object.prototype.hasOwnProperty.call(settings.ToDo, propName)) {
             const element = settings.ToDo[propName]
-            // console.log(propName, element)
+            //console.log(propName, element)
             // settingsBlock.push(<FormItem title={propName} data={element}/>)
         }
     }
 
-    console.log('SettingsModal', props)
+    //console.log('SettingsModal', props)
 
     return (
         <Modal

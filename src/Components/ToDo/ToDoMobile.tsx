@@ -32,12 +32,10 @@ const initialValues: any = {
     time: zeroTime,
     date: new Date(),
     descriptions: ''
-
 }
 
 const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
     useEffect(() => {
-        // console.log('useEffect')
         if (props.taskList === null) {
             props.getTaskList(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
         }
@@ -53,7 +51,6 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
         } else {
             setIsTimeScaleVisible(props.viewSettings.ToDo.timeScaleSingle)
         }
-        console.log('useEffect.isTimeScaleVisible=', props.viewSettings.ToDo.timeScaleSingle)
     }, [props.isInterval, props.viewSettings])
 
     const [visible, setVisible] = useState<boolean>(false)
@@ -83,7 +80,7 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
 
     const handleSubmit = (values: any) => {
         let formPropsCopy: any = { ...values }
-        console.log('handleSubmit')
+        //console.log('handleSubmit')
         if (formPropsCopy.time !== undefined) {
             formPropsCopy.time = moment(formPropsCopy.time).format('HH:mm:ss')
         }
@@ -92,26 +89,27 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
         }
 
         formPropsCopy.user_id = props.userId
-        console.log('handleSubmit', formPropsCopy)
+        //console.log('handleSubmit', formPropsCopy)
         if (!drawerData.taskId) {
             props.createNewTask(formPropsCopy, true)
         } else {
             props.updateTask(formPropsCopy, drawerData.taskId)
         }
+        showDrawer()
     }
 
     const onAdd = (args: any) => {
-        console.log('on add')
+        //console.log('on add')
         setVisible(!visible)
     }
 
     const onComplete = (task: any) => {
-        console.log('onComplete', task)
+        //console.log('onComplete', task)
         task.isCompleted = !task.isCompleted
         props.updateTask(task, task.id)
     }
 
-    console.log('ToDoMobile: ', props.taskList)
+    //console.log('ToDoMobile: ', props.taskList)
 
     if (props.taskList !== null) {
         return (
@@ -195,18 +193,29 @@ const TaskItemMobile: React.FC<any> = (props) => {
 
     const onSubTask = () => { }
     const onEdit = (value: any) => {
-        console.log('onEdit: ', value)
+        //console.log('onEdit: ', value)
         props.setDrawerData({
             header: 'Edite "'+value.name+'"',
             taskId: value.id
         })
 
-        // const splitTime = value.time.split(/:/)
+        const splitTime = value.time.split(/:/)
+        let time = new Date()
+        time.setHours(parseInt(splitTime[0]))
+        time.setMinutes(parseInt(splitTime[1]))
+        time.setSeconds(parseInt(splitTime[2]))
+        time.setMilliseconds(0)
+
+        const splitDate = value.date.split(/-/)
+        let date = new Date()
+        date.setFullYear(parseInt(splitDate[0]))
+        date.setMinutes(parseInt(splitDate[1]))
+        date.setDate(parseInt(splitDate[2]))
 
         props.setInitialFormValues({
             name: value.name,
-            // time: moment().hours(splitTime[0]).minutes(splitTime[1]).seconds(0),
-            // date: moment(value.date),
+            time: time,
+            date: date,
             descriptions: value.descriptions ? value.descriptions : null
         })
         
@@ -218,10 +227,10 @@ const TaskItemMobile: React.FC<any> = (props) => {
     }
 
     const onComplete = () => {
-        console.log('onComplete')
+        //console.log('onComplete')
         props.onComplete(props.element)
     }
-    // console.log(props)
+    //console.log(props)
     return (
         <SwipeAction
             style={{ backgroundColor: 'gray' }}
@@ -254,8 +263,8 @@ const TaskItemMobile: React.FC<any> = (props) => {
                     style: { backgroundColor: 'green', color: 'white' },
                 },
             ]}
-        // onOpen={() => console.log('global open')}
-        // onClose={() => console.log('global close')}
+        // onOpen={() => //console.log('global open')}
+        // onClose={() => //console.log('global close')}
         >
 
             <List.Item
@@ -300,23 +309,23 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
     let startDate = moment(props.dateInterval.startDate)
     // startDate.add(-2, 'days')
 
-    // console.log( moment(startDate.format('YYYY-MM-DD')).isSameOrBefore( moment(props.dateInterval.endDate.format('YYYY-MM-DD')) ) )
-    // console.log( startDate.isAfter(props.dateInterval.endDate) )
+    //console.log( moment(startDate.format('YYYY-MM-DD')).isSameOrBefore( moment(props.dateInterval.endDate.format('YYYY-MM-DD')) ) )
+    //console.log( startDate.isAfter(props.dateInterval.endDate) )
 
     let dateArrey: any = []
 
-    // console.log('startDate: ', startDate.format('YYYY-MM-DD'))
-    // console.log('endDate: ', props.dateInterval.endDate.format('YYYY-MM-DD'))
-    // console.log('startDate props: ', props.dateInterval.startDate.format('YYYY-MM-DD'))
+    //console.log('startDate: ', startDate.format('YYYY-MM-DD'))
+    //console.log('endDate: ', props.dateInterval.endDate.format('YYYY-MM-DD'))
+    //console.log('startDate props: ', props.dateInterval.startDate.format('YYYY-MM-DD'))
 
 
 
     while (moment(startDate.format('YYYY-MM-DD')).isSameOrBefore(moment(props.dateInterval.endDate.format('YYYY-MM-DD')))) {
-        // console.log('1')
+        //console.log('1')
         dateArrey.push(moment(startDate))
         startDate.add(1, 'days')
     }
-    // console.log(dateArrey)
+    //console.log(dateArrey)
 
     const getTasksForHour = (date: string, hour: number) => {
         let tasksForHour: Array<any> = []
@@ -324,7 +333,7 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
             tasksForHour = props.taskList.map(item => {
                 if (item.date === date) {
                     let itemTime = item.time.split(':')[0]
-                    // console.log(moment().hours(hour).format('HH'), ' === ', itemTime, moment().hours(hour).format('HH') === itemTime)
+                    //console.log(moment().hours(hour).format('HH'), ' === ', itemTime, moment().hours(hour).format('HH') === itemTime)
                     if (moment().hours(hour).format('HH') === itemTime) {
                         return <TaskItemMobile 
                                     element={item} 
@@ -339,7 +348,7 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
                 }
             })
         }
-        // console.log(tasksForHour)
+        //console.log(tasksForHour)
         return tasksForHour
 
     }
