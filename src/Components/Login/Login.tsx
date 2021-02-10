@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { LoginPropsType } from './LoginContainer'
 import { List, InputItem, Checkbox } from 'antd-mobile'
 import { Formik } from "formik"
 import moment from "moment"
 import LoginForm from './LoginForm'
 import { propTypes } from 'react-bootstrap/esm/Image'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 import { Link } from 'react-router-dom'
 
 const CheckboxItem = Checkbox.CheckboxItem;
@@ -23,6 +23,12 @@ const initialValues = {
 export type OwnLoginPropsType = {}
 
 const Login: React.FC<LoginPropsType> = (props) => {
+    useEffect(() => {
+        if (props.authError) {
+            message.error(props.authError)
+        }
+    }, [props.authError])
+
     const handleSubmit = (formProps: any) => {
         //console.log('formProps: ', formProps)
         if (!formProps.remember) {

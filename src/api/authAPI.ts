@@ -12,20 +12,38 @@ type MeResponseDataType = {
 
 export const authAPI = {
     me() {
-        return instance.get(`authMe/`+localStorage.getItem('remember_token')).then( (response) => {
-            //console.log('login: ', response)
+        let remember_token: string | null = 'error'
+        if (localStorage.getItem('remember_token')) {
+            remember_token = localStorage.getItem('remember_token')
+        }
+        if (sessionStorage.getItem('remember_token')) {
+            remember_token = sessionStorage.getItem('remember_token')
+        }
+        console.log(remember_token)
+        return instance.get(`authMe/`+remember_token).then( (response) => {
+            console.log('ME: ', response)
             return response
         })
     },
     login(data: any) {
         return instance.post('login', data)
         .then(response => {
-            //console.log('login: ', response)
-            if (response.data.remember_token !== null) {
-                localStorage.setItem('remember_token', response.data.remember_token);
+            console.log('login: ', response)
+            if (data.remember) {
+                if (response.data.remember_token !== null) {
+                    localStorage.setItem('remember_token', response.data.remember_token);
+                } else {
+                    localStorage.removeItem('remember_token');
+                }
             } else {
-                localStorage.removeItem('remember_token');
+                if (response.data.remember_token !== null) {
+                    sessionStorage.setItem('remember_token', response.data.remember_token);
+                } else {
+                    sessionStorage.removeItem('remember_token');
+                }
             }
+            
+
             return response.status === 200 ? response : null;
         })
         .catch(err => {

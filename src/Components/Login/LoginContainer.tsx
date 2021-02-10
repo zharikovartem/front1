@@ -15,7 +15,8 @@ export type LoginPropsType = MapPropsType & MapDispatchPropsType & OwnLoginProps
 let mapStateToProps = (state:AppStateType) => {
     return {
         auth: state.auth,
-        location: state.app.location
+        location: state.app.location,
+        authError: state.auth.authError
     }
 }
 

@@ -8,6 +8,7 @@ type InitialStateType = {
     remember_token: string | null,
     isAuth: boolean
     viewSettings: any
+    authError: null | string
 }
 let initialState: InitialStateType = {
     user: null,
@@ -15,11 +16,14 @@ let initialState: InitialStateType = {
     isAuth: false,
     viewSettings: {
         ToDo: {}
-    }
+    },
+    authError: null
 }
 
 const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
+        case 'SN/AUTH/SET_AUTH_ERROR':
+            return{...state, authError: action.error}
         case 'SN/AUTH/SET_SETTINGS_DATA':
             //console.log(action)
             let viewSettings = {...state.viewSettings}
@@ -32,14 +36,16 @@ const authReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                             user: action.user, 
                             remember_token: action.remember_token, 
                             isAuth: true, 
-                            viewSettings: JSON.parse(action.user.view_settings)
+                            viewSettings: JSON.parse(action.user.view_settings),
+                            authError: null
                         }
             } else {
                 return initialState;
             }
             
         case 'SN/AUTH/LOGOUT':
-            localStorage.removeItem('remember_token');
+            localStorage.removeItem('remember_token')
+            sessionStorage.removeItem('remember_token');
             return initialState;
 
         default:
@@ -61,6 +67,7 @@ export const actions = {
     setAuthUserData: (user: UserType | null, remember_token: string | null) => ({ type: 'SN/AUTH/SET_USER_DATA', user, remember_token } as const),
     logout: () => ({type: 'SN/AUTH/LOGOUT'} as const),
     changeSettings: (settingType: string, settings: any) => ({ type: 'SN/AUTH/SET_SETTINGS_DATA', settingType, settings } as const),
+    setAuthError: (error: string) => ({type: 'SN/AUTH/SET_AUTH_ERROR', error } as const),
 }
 
 // export const getAuthUserData = (): ThunkType => async (dispatch) => {
@@ -95,6 +102,9 @@ export const login = (data: credsType): ThunkType => {
             //console.log(response)
             if (response.status === 200) {
                 dispatch(actions.setAuthUserData(response.data.user, response.data.remember_token))
+            } else {
+                console.log(response.data.message)
+                dispatch(actions.setAuthError(response.data.message))
             }
         }
     }

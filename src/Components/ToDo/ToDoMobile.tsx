@@ -152,20 +152,20 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
                         <List>
                             {
                                 isTimeScaleVisible ?
-                                    <TimeScale 
-                                        taskList={props.taskList} 
-                                        dateInterval={props.dateInterval} 
-                                        deleteTask={props.deleteTask} 
+                                    <TimeScale
+                                        taskList={props.taskList}
+                                        dateInterval={props.dateInterval}
+                                        deleteTask={props.deleteTask}
                                         setDrawerData={setDrawerData}
                                         setInitialFormValues={setInitialFormValues}
                                         showDrawer={showDrawer}
                                         onComplete={onComplete}
                                     />
                                     :
-                                    <TasksOnly 
-                                        taskList={props.taskList} 
-                                        dateInterval={props.dateInterval} 
-                                        deleteTask={props.deleteTask} 
+                                    <TasksOnly
+                                        taskList={props.taskList}
+                                        dateInterval={props.dateInterval}
+                                        deleteTask={props.deleteTask}
                                         setDrawerData={setDrawerData}
                                         setInitialFormValues={setInitialFormValues}
                                         showDrawer={showDrawer}
@@ -195,7 +195,7 @@ const TaskItemMobile: React.FC<any> = (props) => {
     const onEdit = (value: any) => {
         //console.log('onEdit: ', value)
         props.setDrawerData({
-            header: 'Edite "'+value.name+'"',
+            header: 'Edite "' + value.name + '"',
             taskId: value.id
         })
 
@@ -218,7 +218,7 @@ const TaskItemMobile: React.FC<any> = (props) => {
             date: date,
             descriptions: value.descriptions ? value.descriptions : null
         })
-        
+
         props.showDrawer()
     }
 
@@ -244,10 +244,10 @@ const TaskItemMobile: React.FC<any> = (props) => {
                 {
                     text: 'Delete',
                     onPress: () => props.deleteTask(
-                        props.element.id, 
-                        props.dateInterval.startDate.format('YYYY-MM-DD'), 
+                        props.element.id,
+                        props.dateInterval.startDate.format('YYYY-MM-DD'),
                         props.dateInterval.endDate.format('YYYY-MM-DD')
-                        ),
+                    ),
                     style: { backgroundColor: '#F4333C', color: 'white' },
                 },
             ]}
@@ -297,11 +297,11 @@ type TimeScaleType = {
         startDate: moment.Moment,
         endDate: moment.Moment,
     },
-    deleteTask: (taskid: number, startDate: string, endDate:string)=>void,
-    setDrawerData: (devarData: any)=>void,
-    setInitialFormValues: (initialFormValues: any)=>void,
+    deleteTask: (taskid: number, startDate: string, endDate: string) => void,
+    setDrawerData: (devarData: any) => void,
+    setInitialFormValues: (initialFormValues: any) => void,
     showDrawer: any,
-    onComplete: (values: any)=>void,
+    onComplete: (values: any) => void,
 }
 const TimeScale: React.FC<TimeScaleType> = (props) => {
     const [startHour, setStartHour] = useState<number>(0)
@@ -335,15 +335,15 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
                     let itemTime = item.time.split(':')[0]
                     //console.log(moment().hours(hour).format('HH'), ' === ', itemTime, moment().hours(hour).format('HH') === itemTime)
                     if (moment().hours(hour).format('HH') === itemTime) {
-                        return <TaskItemMobile 
-                                    element={item} 
-                                    dateInterval={props.dateInterval} 
-                                    deleteTask={props.deleteTask} 
-                                    setDrawerData={props.setDrawerData}
-                                    setInitialFormValues={props.setInitialFormValues}
-                                    showDrawer={props.showDrawer}
-                                    onComplete={props.onComplete}
-                                />
+                        return <TaskItemMobile
+                            element={item}
+                            dateInterval={props.dateInterval}
+                            deleteTask={props.deleteTask}
+                            setDrawerData={props.setDrawerData}
+                            setInitialFormValues={props.setInitialFormValues}
+                            showDrawer={props.showDrawer}
+                            onComplete={props.onComplete}
+                        />
                     }
                 }
             })
@@ -374,7 +374,7 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
                 dateArrey.map((date: moment.Moment) => {
                     return (
                         <>
-                            <h3 key={date.format('DD MMMM')+'dateHeader'}>{date.format('DD MMMM')}</h3>
+                            <h3 key={date.format('DD MMMM') + 'dateHeader'}>{date.format('DD MMMM')}</h3>
                             {getHours(date.format('YYYY-MM-DD'))}
                         </>
                     )
@@ -401,9 +401,9 @@ const TasksOnly: React.FC<TimeScaleType> = (props) => {
                         <h3>{date.format('DD MMMM')}</h3>
                         {props.taskList?.map(task => {
                             if (task.date === date.format('YYYY-MM-DD')) {
-                                return <TaskItemMobile 
-                                    element={task} 
-                                    dateInterval={props.dateInterval} 
+                                return <TaskItemMobile
+                                    element={task}
+                                    dateInterval={props.dateInterval}
                                     deleteTask={props.deleteTask}
                                     setDrawerData={props.setDrawerData}
                                     showDrawer={props.showDrawer}

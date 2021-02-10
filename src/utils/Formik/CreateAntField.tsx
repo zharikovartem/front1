@@ -12,6 +12,7 @@ import enUs from 'antd-mobile/lib/date-picker/locale/en_US'
 import {
     List,
     InputItem,
+    Switch,
     Checkbox as CheckboxMobile,
     TextareaItem,
     Picker,
@@ -133,6 +134,7 @@ export const AntInput = !isMobile ? CreateAntField(Input) : CreateAntField(Input
 export const AntInputPassword = !isMobile ? CreateAntField(Input.Password) : CreateAntField(InputItem)
 export const AntTimePicker = !isMobile ? CreateAntField(TimePicker) : CreateAntField(DatePickerMobile)
 export const AntCheckbox = !isMobile ? CreateAntField(Checkbox) : CreateAntField(CheckboxItem)
+// export const AntCheckbox = !isMobile ? CreateAntField(Checkbox) : CreateAntField(Switch)
 export const AntTextArea = !isMobile ? CreateAntField(TextArea) : CreateAntField(TextareaItem)
 
 type MobileComponentType = {
