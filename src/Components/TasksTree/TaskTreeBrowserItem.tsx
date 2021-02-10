@@ -19,31 +19,34 @@ const TaskTreeBrowserItem: React.FC<any> = (props) => {
         console.log(key)
     }
 
-    const getChilds = (parentId: number) => {
+    const getChilds = () => {
         let childs: Array<any> = []
         //  = props.taskList.map( (item: any) => {
         for (let index = 0; index < props.taskList.length; index++) {
-            const item = props.taskList[index];
-            if (item.parent_id === parentId) {
-                childs.push(<TaskTreeBrowserItem item={item} taskList={props.taskList} />)
+            const elem = props.taskList[index];
+            // console.log(elem.parent_id===props.item.id)
+            if (elem.parent_id===props.item.id) {
+                // console.log('push')
+                childs.push(<TaskTreeBrowserItem key={elem.id} item={elem} taskList={props.taskList} />)
             }
         }
             
         // })
-        console.log(childs)
+        console.log(props.item.name, childs)
         return childs
     }
 
     // console.log(props.item)
+    
 
     if (props.item.parent_id == null) {
         return (
-            <List.Item className="py-0" draggable>
-            <Collapse className="w-100" defaultActiveKey={[]} collapsible="header" onChange={callback} ghost>
+            <List.Item className="py-0" draggable key={props.item.id}>
+            <Collapse key={props.item.id} className="w-100" defaultActiveKey={[]} collapsible="header" onChange={callback} ghost>
                 <Panel
                     // header={props.item.name}
-                    header={<span className="float-left" >{props.item.name}</span>}
-                    key={props.item.id}
+                    header={<span key={props.item.id} className="float-left" >{props.item.name}</span>}
+                    key={props.item.id+'Panel'}
                     extra={<>
                         <Button className=""
                             type="primary"
@@ -73,7 +76,7 @@ const TaskTreeBrowserItem: React.FC<any> = (props) => {
 
                     </>}
                 >
-                   {getChilds(props.item.id)}
+                   {getChilds}
                 </Panel>
             </Collapse>
             </List.Item>
