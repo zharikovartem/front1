@@ -52,6 +52,9 @@ const ToDoBrowser: React.FC<any> = (props) => {
             props.getTaskList(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
         }
     }, [props.getTaskList])
+    useEffect(() => {
+        console.log('useEffect')
+    }, [initialFormValues])
 
     const onTaskEdit = (value:any) => {
         console.log('onTaskEdit: ', value)
@@ -82,9 +85,14 @@ const ToDoBrowser: React.FC<any> = (props) => {
     }
 
     const onClose = (): void => {
-        setInitialFormValues(initialValues)
-        setDrawerData(initialDrewerData)
+        console.log('onClose')
+
+        setInitialFormValues(null)
+        setInitialFormValues({...initialValues})
+        
+        setDrawerData({...initialDrewerData})
         setVisible(false)
+        console.log('drawerData: ', drawerData)
     }
 
     const showModal = () => {
@@ -123,6 +131,8 @@ const ToDoBrowser: React.FC<any> = (props) => {
         //     // console.log(formPropsCopy)
             props.updateTask(formPropsCopy, drawerData.taskId)
         }
+        // setInitialFormValues({...initialValues})
+        onClose()
     }
 
     console.log('ToDoBrowser initialFormValues: ', initialFormValues)

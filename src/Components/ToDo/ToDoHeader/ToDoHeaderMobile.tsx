@@ -11,6 +11,7 @@ export type OwnToDoHeaderPropsType = {
 
 const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
     const [isInterval, setIsInterval] = useState(false)
+    const [isFormOpen, setIsFormOpen] = useState(true)
 
     const onIntervalChange = (e: boolean) => {
         if (e) {
@@ -35,6 +36,11 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
 
     const onEndChange = (value: Date) => {
         props.setIsInterval(isInterval, {startDate: props.dateInterval.startDate, endDate: moment(value) })
+    }
+
+    const onAdd = () => {
+        setIsFormOpen(!isFormOpen)
+        props.showDrawer()
     }
 
     return (
@@ -79,10 +85,10 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
                 size="small"
                 className="ml-3"
                 // style={{ marginRight: '4px' }} 
-                onClick={()=>{props.showDrawer()}}
+                onClick={onAdd}
                 type="primary"
             >
-                Add
+                {isFormOpen ? 'Add' : 'Close'}
             </Button>
             <Button
                 inline
