@@ -61,14 +61,11 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
     const [drawerData, setDrawerData] = useState(initialDrewerData)
     const [isTimeScaleVisible, setIsTimeScaleVisible] = useState(props.viewSettings.ToDo.timeScaleSingle)
     const [initialFormValues, setInitialFormValues] = useState(initialValues)
-    console.log('initialFormValues: ', initialFormValues)
 
     const showDrawer = (): void => {
-        console.log('drawerData', drawerData)
-        if (!drawerData.taskId) {
-            console.log('empty')
+        if (visible) {
+            setInitialFormValues(initialValues)
         }
-        console.log(initialFormValues)
         setVisible(!visible)
     }
 
@@ -108,6 +105,12 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
         setVisible(!visible)
     }
 
+    const onComplete = (task: any) => {
+        console.log('onComplete', task)
+        task.isCompleted = !task.isCompleted
+        props.updateTask(task, task.id)
+    }
+
     console.log('ToDoMobile: ', props.taskList)
 
     if (props.taskList !== null) {
@@ -139,9 +142,9 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
                             <div className="mt-4">
                                 <Formik
                                     initialValues={initialFormValues}
-                                    // initialValues={{}}
                                     onSubmit={handleSubmit}
                                     render={ToDoForm}
+                                    enableReinitialize={true}
                                 />
                             </div>
                         }
@@ -158,6 +161,7 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
                                         setDrawerData={setDrawerData}
                                         setInitialFormValues={setInitialFormValues}
                                         showDrawer={showDrawer}
+                                        onComplete={onComplete}
                                     />
                                     :
                                     <TasksOnly 
@@ -167,6 +171,7 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
                                         setDrawerData={setDrawerData}
                                         setInitialFormValues={setInitialFormValues}
                                         showDrawer={showDrawer}
+                                        onComplete={onComplete}
                                     />
                             }
                         </List>
@@ -212,8 +217,9 @@ const TaskItemMobile: React.FC<any> = (props) => {
         // dispatch(actions.setSelectedTasks(props.element.id));
     }
 
-    const onComplet = () => {
-        console.log('onComplet')
+    const onComplete = () => {
+        console.log('onComplete')
+        props.onComplete(props.element)
     }
     // console.log(props)
     return (
@@ -244,7 +250,7 @@ const TaskItemMobile: React.FC<any> = (props) => {
                 },
                 {
                     text: props.element.isCompleted ? 'Not Done' : 'Done',
-                    onPress: () => onComplet(),
+                    onPress: () => onComplete(),
                     style: { backgroundColor: 'green', color: 'white' },
                 },
             ]}
@@ -285,7 +291,8 @@ type TimeScaleType = {
     deleteTask: (taskid: number, startDate: string, endDate:string)=>void,
     setDrawerData: (devarData: any)=>void,
     setInitialFormValues: (initialFormValues: any)=>void,
-    showDrawer: any
+    showDrawer: any,
+    onComplete: (values: any)=>void,
 }
 const TimeScale: React.FC<TimeScaleType> = (props) => {
     const [startHour, setStartHour] = useState<number>(0)
@@ -326,6 +333,7 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
                                     setDrawerData={props.setDrawerData}
                                     setInitialFormValues={props.setInitialFormValues}
                                     showDrawer={props.showDrawer}
+                                    onComplete={props.onComplete}
                                 />
                     }
                 }
@@ -390,6 +398,8 @@ const TasksOnly: React.FC<TimeScaleType> = (props) => {
                                     deleteTask={props.deleteTask}
                                     setDrawerData={props.setDrawerData}
                                     showDrawer={props.showDrawer}
+                                    setInitialFormValues={props.setInitialFormValues}
+                                    onComplete={props.onComplete}
                                 />
                             }
                         })}
