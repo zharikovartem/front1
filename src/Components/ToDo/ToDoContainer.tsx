@@ -3,7 +3,6 @@ import ToDoMobile from './ToDoMobile'
 import { isMobile } from 'react-device-detect'
 import {getTaskList, createNewTask, updateTask, deleteTask} from '../../redux/taskReducer'
 import { AppStateType } from '../../redux/store'
-import ToDoList from '../ToDoList'
 import ToDoBrowser from './ToDoBrowser'
 import { NewTaskDataType } from '../../Types/types'
 

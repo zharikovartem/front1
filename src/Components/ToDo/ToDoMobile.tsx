@@ -3,7 +3,7 @@ import { Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import SettingsModal from './Settings/SettingsModalContainer'
 import ToDoHeader from './ToDoHeader/ToDoHeaderContainer'
-import { ToDoListPropsType } from './ToDoListContainer'
+import { ToDoListPropsType } from './ToDoContainer'
 import ToDoForm from './ToDoForm/ToDoForm'
 // import TimeScale from './../TimeScale/TimeScaleContainer'
 import TaskItem from './../TimeScale/TaskItem/TaskItemContainer'
@@ -374,7 +374,7 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
                 dateArrey.map((date: moment.Moment) => {
                     return (
                         <>
-                            <h3>{date.format('DD MMMM')}</h3>
+                            <h3 key={date.format('DD MMMM')+'dateHeader'}>{date.format('DD MMMM')}</h3>
                             {getHours(date.format('YYYY-MM-DD'))}
                         </>
                     )

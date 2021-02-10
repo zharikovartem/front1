@@ -32,7 +32,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
     }
 
     return (
-        <ListGroup.Item action className="">
+        <ListGroup.Item action className="" key={props.element.id}>
             <Row className="px-0 ml-0 ml-sm-5">
                 <Col className="mx-2">
                     <Checkbox 

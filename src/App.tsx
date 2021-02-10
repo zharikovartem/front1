@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
-import ToDoList from './Components/ToDo/ToDoListContainer'
+import ToDoList from './Components/ToDo/ToDoContainer'
 import { BrowserRouter, Redirect, Route, Switch, withRouter, useLocation } from 'react-router-dom'
 import { connect, Provider } from 'react-redux'
 import 'antd/dist/antd.css'

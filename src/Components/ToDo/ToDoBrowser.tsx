@@ -1,11 +1,7 @@
-import { Button, Card, Drawer } from 'antd'
+import { Card, Drawer } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { ToDoListPropsType } from '../ToDoListContainer'
-import { FileAddOutlined, SettingOutlined } from '@ant-design/icons'
 import ToDoHeaderContainer from './ToDoHeader/ToDoHeaderContainer'
-import { List } from 'antd/lib/form/Form'
 import TimeScale from '../TimeScale/TimeScaleContainer'
-import SettingsModal from './Settings/SettingsModalContainer'
 import { Formik } from 'formik'
 import ToDoForm from './ToDoForm/ToDoForm'
 import moment from "moment"
