@@ -15,7 +15,8 @@ export type RegisterPropsType = MapPropsType & MapDispatchPropsType & OwnRegiste
 let mapStateToProps = (state:AppStateType) => {
     return {
         isAuth: state.auth.isAuth,
-        appLocation: state.app.location
+        appLocation: state.app.location,
+        authError: state.auth.authError
     }
 }
 

@@ -112,14 +112,28 @@ export const login = (data: credsType): ThunkType => {
 
 export const register = (creds: any): ThunkType => {
     return async (dispatch, getState) => {
-        await authAPI.register(creds)
-        //console.log(response)
-        const credsToLogin: credsType = {
-            email: creds.email,
-            password: creds.password,
-            remember: creds.remember
+        const response = await authAPI.register(creds)
+        console.log(response)
+        if (response.status === 200) {
+            const credsToLogin: credsType = {
+                email: creds.email,
+                password: creds.password,
+                remember: creds.remember
+            }
+            dispatch(login(credsToLogin))
+        } else {
+            let message: string = ''
+            console.log(response.data)
+            for (const key in response.data) {
+                if (Object.prototype.hasOwnProperty.call(response.data, key)) {
+                    const element = response.data[key];
+                    message = message+key+': '+element[0]
+                }
+            }
+            
+            dispatch(actions.setAuthError(message))
         }
-        dispatch(login(credsToLogin))
+        
     }
 }
 
