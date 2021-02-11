@@ -127,7 +127,7 @@ export const register = (creds: any): ThunkType => {
             for (const key in response.data) {
                 if (Object.prototype.hasOwnProperty.call(response.data, key)) {
                     const element = response.data[key];
-                    message = message+key+': '+element[0]
+                    message = message+key+': '+element[0]+';'
                 }
             }
             
