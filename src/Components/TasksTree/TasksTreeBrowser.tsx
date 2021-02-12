@@ -5,7 +5,7 @@ import { FileAddOutlined, SettingOutlined, DeleteOutlined, EditOutlined } from '
 import NewTaskTreeForm from './NewTaskTreeForm'
 import { Formik } from 'formik'
 import moment from "moment"
-import TaskTreeBrowserItem from './TaskTreeBrowserItem'
+import TaskTreeBrowserItem from './TaskTreeBrowserItemContainer'
 
 const { Panel } = Collapse;
 
@@ -81,6 +81,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     }
 
     const handleSubmit = (formProps: any) => {
+        console.log('handleSubmit')
         let formPropsCopy: any = { ...formProps }
         delete formPropsCopy.selectOptions
         delete formPropsCopy.taskTypes
@@ -157,8 +158,17 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                         // )}
                         // renderItem={item => <List.Item className="py-0" draggable>{item}</List.Item>}
 
-                        dataSource={props.taskList}                        
-                        renderItem={item => <TaskTreeBrowserItem item={item} taskList={props.taskList} />}
+                        dataSource={props.taskList}
+                        renderItem={item => {
+                            return (<TaskTreeBrowserItem
+                                item={item}
+                                showDrawer={showDrawer}
+                                setDrawerData={setDrawerData}
+                                initialFormValues={initialFormValues}
+                                setInitialFormValues={setInitialFormValues}
+                                initialValues={initialValues}
+                            />)
+                        }}
                     />
 
                     <Drawer
@@ -251,7 +261,7 @@ const getTaskTreeItems = (
                         <div className="w-100 float-left" key={item.id}>
                             <div className="ml-3 float-left">
 
-                                {item.isCompleted ? <span className="text-black-50">{item.name}</span> : <a data-toggle="collapse" aria-controls={item.id+'collapseExample'} >{item.name}</a>}
+                                {item.isCompleted ? <span className="text-black-50">{item.name}</span> : <a data-toggle="collapse" aria-controls={item.id + 'collapseExample'} >{item.name}</a>}
 
                             </div>
                             <div className="ml-3 float-right">
@@ -289,7 +299,7 @@ const getTaskTreeItems = (
                 )
                 taskTreeItems.push(
                     <>
-                        <div className="collapse" id={item.id+'collapseExample'}>
+                        <div className="collapse" id={item.id + 'collapseExample'}>
                             <div className="card card-body">
                                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
                             </div>
