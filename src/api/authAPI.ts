@@ -26,6 +26,7 @@ export const authAPI = {
         })
     },
     login(data: any) {
+        console.log(data)
         return instance.post('login', data)
         .then(response => {
             console.log('login: ', response)
@@ -61,7 +62,7 @@ export const authAPI = {
     register(creds: any) {
         return instance.post('register', creds)
         .then(response => {
-            console.log('login: ', response)
+            console.log('register: ', response)
             if (response.data.remember_token !== null) {
                 localStorage.setItem('remember_token', response.data.token);
             } else {

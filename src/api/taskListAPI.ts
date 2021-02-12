@@ -9,8 +9,18 @@ if (sessionStorage.getItem('remember_token')) {
     instance.defaults.headers.common['X-Auth-Token'] = sessionStorage.getItem('remember_token')
 }
 
+const getToken = () => {
+    if (localStorage.getItem('remember_token')) {
+        instance.defaults.headers.common['X-Auth-Token'] = localStorage.getItem('remember_token')
+    }
+    if (sessionStorage.getItem('remember_token')) {
+        instance.defaults.headers.common['X-Auth-Token'] = sessionStorage.getItem('remember_token')
+    }
+}
+
 export const taskListAPI = {
     getTaskList() {
+        getToken()
         return instance.get<TaskListType>(`taskList`)
         .then(response => {
             //console.log(response)

@@ -113,12 +113,12 @@ export const login = (data: credsType): ThunkType => {
 export const register = (creds: any): ThunkType => {
     return async (dispatch, getState) => {
         const response = await authAPI.register(creds)
-        console.log(response)
+        console.log('register', response)
         if (response.status === 200) {
             const credsToLogin: credsType = {
                 email: creds.email,
                 password: creds.password,
-                remember: creds.remember
+                remember: creds.remember ? creds.remember : false
             }
             dispatch(login(credsToLogin))
         } else {
