@@ -2,9 +2,11 @@ import {connect} from 'react-redux'
 // import TasksTree, { OwnTasksTreePropsType } from './TasksTree'
 import { AppStateType } from '../../redux/store'
 import {getTaskList, createNewTaskList, deleteTaskList, updateTaskList, actions} from './../../redux/TaskListReducer'
+import {createNewTask as createNewToDo} from './../../redux/taskReducer'
 import { isMobile } from 'react-device-detect'
 import TasksTreeBrowser from './TasksTreeBrowser'
 import TasksTreeMobile from './TasksTreeMobile'
+import { NewTaskDataType } from '../../Types/types'
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
@@ -15,6 +17,7 @@ type MapDispatchPropsType = {
     deleteTaskList: (taskId: number)=>void,
     updateTaskList: (values: any, taskId: number)=> void,
     backSelectedTasks: ()=>void,
+    createNewToDo: (values: NewTaskDataType, reload?:boolean)=> void,
 }
 
 type OwnTasksTreePropsType = {
@@ -33,7 +36,60 @@ let mapStateToProps = (state:AppStateType) => {
 }
 
 export default connect<MapPropsType, MapDispatchPropsType, OwnTasksTreePropsType, AppStateType>(mapStateToProps, 
-    {getTaskList, createNewTaskList, deleteTaskList, updateTaskList, backSelectedTasks: actions.backSelectedTasks}) 
+    {getTaskList, createNewTaskList, deleteTaskList, updateTaskList, backSelectedTasks: actions.backSelectedTasks, createNewToDo}) 
     (isMobile ? TasksTreeMobile : TasksTreeBrowser)
     
+type TaskTreeTypesItemType = {
+    name: string,
+    label?: string,
+    value: string | number | null,
+    isSubform: boolean,
+    childTypes?: Array<TaskTreeTypesItemType> 
+    component?: string,
+    type?: string,
+    validate?: string,
+    hasFeedback?: true,
 
+}
+type TaskTreeTypesType = Array<TaskTreeTypesItemType>
+export const taskTreeTypes: TaskTreeTypesType = [
+    {
+        name: 'Простая задача',
+        value: 1,
+        isSubform: false,
+        childTypes: []
+    },
+    {
+        name: 'Звонок',
+        value: 2,
+        isSubform: true,
+        childTypes: [
+            {
+                label: 'телефонный номер',
+                value: null,
+                name: 'phone_number',
+                component: 'AntInput',
+                type: "text",
+                validate: 'validateRequired',
+                hasFeedback: true,
+                isSubform: false,
+            },
+            {
+                label: 'Имя абонента',
+                value: null,
+                name: 'lead_name',
+                component: 'AntInput',
+                type: "text",
+                validate: 'validateRequired',
+                hasFeedback: true,
+                isSubform: false,
+            }
+        ]
+    },
+    {
+        name: 'Проект',
+        value: 3,
+        isSubform: true,
+        childTypes: []
+    }
+]

@@ -5,6 +5,8 @@ import TimeScale from '../TimeScale/TimeScaleContainer'
 import { Formik } from 'formik'
 import ToDoForm from './ToDoForm/ToDoForm'
 import moment from "moment"
+import { ToDoListPropsType } from './ToDoContainer'
+import { NewTaskDataType, TaskType } from '../../Types/types'
 
 type InitialDrewerDataType = {
     header: string,
@@ -23,13 +25,13 @@ zeroTime.seconds(0)
 zeroTime.milliseconds(0)
 
 type InitialValuesType = {
-    name: string | null,
+    name: string,
     time: moment.Moment,
     date: moment.Moment,
     descriptions: string | null 
-
 }
-const initialValues: any = {
+
+const initialValues: InitialValuesType = {
     name: '',
     time: zeroTime,
     date: moment(),
@@ -37,7 +39,7 @@ const initialValues: any = {
 
 }
 
-const ToDoBrowser: React.FC<any> = (props) => {
+const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
     const [visible, setVisible] = useState(false)
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [drawerData, setDrawerData] = useState(initialDrewerData)
@@ -48,12 +50,8 @@ const ToDoBrowser: React.FC<any> = (props) => {
             props.getTaskList(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
         }
     }, [props.getTaskList])
-    useEffect(() => {
-        //console.log('useEffect')
-    }, [initialFormValues])
 
-    const onTaskEdit = (value:any) => {
-        //console.log('onTaskEdit: ', value)
+    const onTaskEdit = (value: TaskType) => {
         setDrawerData({
             header: 'Edite "'+value.name+'"',
             taskId: value.id
@@ -63,7 +61,7 @@ const ToDoBrowser: React.FC<any> = (props) => {
 
         setInitialFormValues({
             name: value.name,
-            time: moment().hours(splitTime[0]).minutes(splitTime[1]).seconds(0),
+            time: moment().hours( Number(splitTime[0]) ).minutes( Number(splitTime[1]) ).seconds(0),
             date: moment(value.date),
             descriptions: value.descriptions ? value.descriptions : null
         })
@@ -72,66 +70,37 @@ const ToDoBrowser: React.FC<any> = (props) => {
     }
 
     const showDrawer = (): void => {
-        //console.log('drawerData', drawerData)
-        if (!drawerData.taskId) {
-            //console.log('empty')
-        }
-        //console.log(initialFormValues)
         setVisible(true)
     }
 
     const onClose = (): void => {
-        //console.log('onClose')
-
-        setInitialFormValues(null)
         setInitialFormValues({...initialValues})
-
         setDrawerData({...initialDrewerData})
         setVisible(false)
-        //console.log('drawerData: ', drawerData)
     }
 
     const showModal = () => {
         setIsModalVisible(true)
-    }
-    const onAdd = () => {
-        // setDrawerData(initialDrewerData)
-        // setInitialFormValues(initialValues)
-        // showDrawer()
     }
 
     const handleOk = () => {
         setIsModalVisible(false)
     }
 
-    const handleCancel = () => {
-        setIsModalVisible(false)
-    }
-
-    const handleSubmit = (formProps: any) => {
-        let formPropsCopy: any = { ...formProps }
-        // delete formPropsCopy.selectOptions
-        // delete formPropsCopy.taskTypes
-        if (formPropsCopy.time !== undefined) {
-            formPropsCopy.time = formPropsCopy.time.format('HH:mm:ss')
-        }
-        if (formPropsCopy.date !== undefined) {
-            formPropsCopy.date = formPropsCopy.date.format('YYYY-MM-DD')
-        }
-
-        formPropsCopy.user_id = props.userId
-        //console.log('handleSubmit', formPropsCopy)
+    const handleSubmit = (values: InitialValuesType) => {
+        let formProps: NewTaskDataType = { 
+                ...values,
+                time: values.time.format('HH:mm:ss'),
+                date: values.date.format('YYYY-MM-DD'),
+                user_id: props.userId,
+            }
         if (!drawerData.taskId) {
-            props.createNewTask(formPropsCopy, true)
+            props.createNewTask(formProps, true)
         } else {
-        //     //console.log(formPropsCopy)
-            props.updateTask(formPropsCopy, drawerData.taskId)
+            props.updateTask(formProps, drawerData.taskId)
         }
-        // setInitialFormValues({...initialValues})
         onClose()
     }
-
-    //console.log('ToDoBrowser initialFormValues: ', initialFormValues)
 
     return (
         <Card
@@ -142,7 +111,6 @@ const ToDoBrowser: React.FC<any> = (props) => {
             bordered={false}
         >
             <TimeScale onEdit={onTaskEdit}/>
-
             <Drawer
                 title={drawerData.header}
                 placement="right"
@@ -151,17 +119,13 @@ const ToDoBrowser: React.FC<any> = (props) => {
                 visible={visible}
                 width="90%"
             >
-
                 <Formik
                     initialValues={initialFormValues}
-                    // initialValues={{}}
                     onSubmit={handleSubmit}
-                    render={ToDoForm}
+                    render={ToDoForm as any}
                     enableReinitialize={true}
                 />
-
             </Drawer>
-
         </Card>
     )
 }

@@ -8,12 +8,6 @@ import moment from 'moment'
 
 const { RangePicker } = DatePicker
 
-export type OwnToDoHeaderPropsType = {
-    showDrawer: () => void,
-    showModal: () => void,
-    isOpen?: boolean
-}
-
 const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
     const [isInterval, setIsInterval] = useState(false)
     const [dates, setDates] = useState<{startDate: moment.Moment, endDate: moment.Moment}>({startDate: moment(), endDate: moment()})

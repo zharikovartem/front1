@@ -1,5 +1,6 @@
 import { act } from "@testing-library/react";
 import { authAPI } from "../api/authAPI";
+import { SettingasInstanseType } from "../Components/ToDo/Settings/SettingsModal";
 import { BaseThunkType, InferActionsTypes } from "./store"
 // import {FormAction} from 'redux-form/lib/actions';
 
@@ -66,7 +67,7 @@ export type UserType = {
 export const actions = {
     setAuthUserData: (user: UserType | null, remember_token: string | null) => ({ type: 'SN/AUTH/SET_USER_DATA', user, remember_token } as const),
     logout: () => ({type: 'SN/AUTH/LOGOUT'} as const),
-    changeSettings: (settingType: string, settings: any) => ({ type: 'SN/AUTH/SET_SETTINGS_DATA', settingType, settings } as const),
+    changeSettings: (settingType: string, settings: SettingasInstanseType) => ({ type: 'SN/AUTH/SET_SETTINGS_DATA', settingType, settings } as const),
     setAuthError: (error: string) => ({type: 'SN/AUTH/SET_AUTH_ERROR', error } as const),
 }
 

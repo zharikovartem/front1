@@ -21,3 +21,5 @@ const ButtonVsIcon:React.FC<ownProps> = (props) => {
             />
     )
 }
+
+export default ButtonVsIcon

@@ -4,14 +4,14 @@ import { isMobile } from 'react-device-detect'
 import {getTaskList, createNewTask, updateTask, deleteTask} from '../../redux/taskReducer'
 import { AppStateType } from '../../redux/store'
 import ToDoBrowser from './ToDoBrowser'
-import { NewTaskDataType } from '../../Types/types'
+import { NewTaskDataType, TaskType } from '../../Types/types'
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 
 type MapDispatchPropsType = {
     getTaskList: (start_date: string, end_date:string)=>void,
     createNewTask: (values: NewTaskDataType, reload:boolean)=>void,
-    updateTask: (values: any, taskId: number)=>void,
+    updateTask: (values: NewTaskDataType, taskId: number)=>void,
     deleteTask: (taskid: number, startDate: string, endDate:string)=>void,
 }
 
@@ -29,10 +29,8 @@ let mapStateToProps = (state:AppStateType) => {
 
 type OwnToDoListPropsType = {}
 
-const component: any = isMobile ? ToDoMobile : ToDoBrowser
-
 export default connect<MapPropsType, MapDispatchPropsType, OwnToDoListPropsType, AppStateType>(mapStateToProps, 
     {getTaskList, createNewTask, updateTask, deleteTask}) 
-    ( component )
+    ( isMobile ? ToDoMobile : ToDoBrowser )
     
 

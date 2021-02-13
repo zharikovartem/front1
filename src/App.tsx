@@ -10,7 +10,7 @@ import store, { AppStateType } from './redux/store'
 import { Layout, Spin } from 'antd'
 import { compose } from 'redux'
 import { initializeApp, addLocation } from './redux/appReducer'
-import {login} from './redux/authReducer'
+import { login } from './redux/authReducer'
 import Header from './Components/Header/HeaderContainer'
 import { isMobile } from "react-device-detect"
 import Login from './Components/Login/LoginContainer'
@@ -22,7 +22,7 @@ type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
   initializeApp: () => void,
   addLocation: (location: string) => void,
-  login: (data: any)=> void,
+  login: (data: any) => void,
 }
 
 const App = (props: MapPropsType & DispatchPropsType) => {
@@ -30,7 +30,6 @@ const App = (props: MapPropsType & DispatchPropsType) => {
 
   useEffect(() => {
     if (!props.initialized) {
-      // http://localhost:3000/?email=7383125@gmail.com&password=gfhjkm4501
       let instanseCreds = parseQueryString()
       if (instanseCreds.email && instanseCreds.password) {
         instanseCreds.remember = true
@@ -40,10 +39,7 @@ const App = (props: MapPropsType & DispatchPropsType) => {
       if (location === '/front1/') {
         props.addLocation(location)
       }
-      //console.log('initialized FALSE', props)
       props.initializeApp()
-    } else {
-      //console.log('initialized TRUE', props)
     }
   }, [props.initialized])
 
@@ -58,37 +54,37 @@ const App = (props: MapPropsType & DispatchPropsType) => {
       <Switch>
         {!props.isAuth ?
           <Route exact path={props.appLocation}
-            render={() => <Redirect to={props.appLocation+'login'} />} />
-        :
-          <Route exact path={props.appLocation}
-            render={() => <Redirect to={props.appLocation+'toDoList'} />} />
-        }
-        
-        {props.isAuth ?
-            <Route exact path={props.appLocation+'login'}
-              render={ () => <Redirect to={props.appLocation+'toDoList'} /> } 
-            />  
+            render={() => <Redirect to={props.appLocation + 'login'} />} />
           :
-            null
+          <Route exact path={props.appLocation}
+            render={() => <Redirect to={props.appLocation + 'toDoList'} />} />
         }
 
-        <Route path={props.appLocation+'login'}
+        {props.isAuth ?
+          <Route exact path={props.appLocation + 'login'}
+            render={() => <Redirect to={props.appLocation + 'toDoList'} />}
+          />
+          :
+          null
+        }
+
+        <Route path={props.appLocation + 'login'}
           render={() => <Login />} />
-        
-         <Route path={props.appLocation+'toDoList'}
-            render={() => <ToDoList />} />
 
-          <Route path={props.appLocation+'tasksTree'}
-            render={() => <TasksTree />} />
+        <Route path={props.appLocation + 'toDoList'}
+          render={() => <ToDoList />} />
 
-          <Route path={props.appLocation+'orders'}
-            render={() => <Orders />} />
+        <Route path={props.appLocation + 'tasksTree'}
+          render={() => <TasksTree />} />
 
-          <Route path={props.appLocation+'register'}
-            render={() => <Register />} />
+        <Route path={props.appLocation + 'orders'}
+          render={() => <Orders />} />
 
-          <Route path={props.appLocation+'*'}
-            render={() => <div>404 NOT FOUND</div>} />
+        <Route path={props.appLocation + 'register'}
+          render={() => <Register />} />
+
+        <Route path={props.appLocation + '*'}
+          render={() => <div>404 NOT FOUND</div>} />
       </Switch>
     </Layout>
   )
@@ -119,10 +115,10 @@ const MainApp = () => {
 export default MainApp
 
 const parseQueryString = (): any => {
-  const params:  any = {}
-  document.location.search.substr(1).split('&').forEach( (pair) => {
-      const [key, value] = pair.split('=')
-      params[key] = value
+  const params: any = {}
+  document.location.search.substr(1).split('&').forEach((pair) => {
+    const [key, value] = pair.split('=')
+    params[key] = value
   })
   return params;
 };

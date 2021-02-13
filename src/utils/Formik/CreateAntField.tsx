@@ -221,7 +221,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
                 autoHeight
                 // autoHeight
                 // autoHeight ={props.type === 'textarea' ? true : false}
-                // {props.type === 'textarea' ? 'autoHeight' : null}
+                // {props && props.type ==='textarea' ? 'autoHeight' : null}
                 className={props.type === 'text' ? 'pl-0' : null}
                 data={data}
                 cols={1}

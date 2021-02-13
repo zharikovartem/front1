@@ -13,12 +13,13 @@ export type OwnTaskItemPropsType = {
 
 const TaskItem: React.FC<TaskItemPropsType> = (props) => {
     // type PropsElementType = typeof props.element.isCompleted
-    const [checked, setChecked] = useState(props.element.isCompleted === 1 ? true : false)
+    const [checked, setChecked] = useState(props.element.isCompleted)
     const [deleteingInProgess, setDeleteingInProgess] = useState(false)
 
     const onisCompletedChange = (e: CheckboxChangeEvent) => {
         setChecked(!checked)
         const values = { isCompleted: e.target.checked }
+        if (props.element.id) {}
         props.updateTask(values, props.element.id)
     }
 

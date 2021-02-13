@@ -19,6 +19,7 @@ export const taskAPI = {
     createNewTask(values: NewTaskDataType) {
         return instance.post<TaskListType>(`tasks`, values)
         .then(response => {
+            console.log('createNewTask', response)
             return response.status === 200 ? response : null
         })
         .catch(err => {

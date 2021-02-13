@@ -18,7 +18,7 @@ maxTime.setMinutes(59)
 maxTime.setSeconds(0)
 maxTime.setMilliseconds(0)
 
-const settingasInstanse: any = {
+const settingasInstanse = {
         timeScaleInrerval: false,
         completeInrerval: true,
         timeScaleSingle: true,
@@ -27,6 +27,8 @@ const settingasInstanse: any = {
         timeEnd: maxTime,
 }
 
+export type SettingasInstanseType = typeof settingasInstanse
+
 export type OwmSettingsModalPropsType = {
     isModalVisible: boolean,
     handleOk: () => void,
@@ -34,47 +36,31 @@ export type OwmSettingsModalPropsType = {
 }
 
 
-const SettingsModal: React.FC< SettingsModalPropsType > = (props) => {
+const SettingsModal: React.FC<SettingsModalPropsType> = (props) => {
     const [settings, setSettings] = useState(props.viewSettings !== null ? props.viewSettings : settingasInstanse)
 
-    const handleSubmit = (values: any) => {
-        //console.log(values)
+    const handleSubmit = (values: SettingasInstanseType) => {
         props.changeSettings('ToDo', values)
         props.handleOk()
     }
-
-    let settingsBlock: Array<any> = []
-
-    for (const propName in settings.ToDo) {
-        if (Object.prototype.hasOwnProperty.call(settings.ToDo, propName)) {
-            const element = settings.ToDo[propName]
-            //console.log(propName, element)
-            // settingsBlock.push(<FormItem title={propName} data={element}/>)
-        }
-    }
-
-    //console.log('SettingsModal', props)
 
     return (
         <Modal
             title="Task display settings"
             visible={props.isModalVisible}
-            // onOk={props.handleOk} 
             onOk={props.handleOk}
             onCancel={props.handleCancel}
         >
             <Formik
                 initialValues={settingasInstanse}
-                // initialValues={{}}
                 onSubmit={handleSubmit}
-                render={SettingsForm}
+                render={SettingsForm as any}
             />
         </Modal>
     )
 }
 
 export default SettingsModal
-
 
 const SettingsForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
     return (
@@ -97,7 +83,6 @@ const SettingsForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                     submitCount={props.submitCount}
                 />
             </List>
-
             <List renderHeader={() => 'Inrerval date settings'}>
                 <Field
                     component={AntCheckbox}
@@ -134,13 +119,11 @@ const SettingsForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                     hasFeedback
                 />
             </List>
-
             <div className="submit-container">
                 <button className="ant-btn ant-btn-primary" type="submit">
                     Save
                 </button>
             </div>
-
         </Form>
     )
 }

@@ -2,14 +2,10 @@ import { Form, Field, FormikProps } from 'formik'
 import React, { ReactNode, useState, useEffect } from 'react'
 import { AntInput, AntSelect, AntTextArea, AntTimePicker } from '../../utils/Formik/CreateAntField'
 import { validateRequired } from '../../utils/Formik/ValidateFields'
-import { Select } from 'antd';
-
-const { Option }: any = Select;
 
 
 const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
     const values: any = props.values
-    //console.log(values)
     const selectOptions = values.selectOptions
     const taskTypes = values.taskTypes // ++++++
 
@@ -19,19 +15,7 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
         const values: any = props.values
         const taskTypes = values.task_type
         setTaskType(taskTypes)
-
-        //console.log('useEffect NewTaskTreeForm', props.initialValues)
     }, [props.values])
-
-    //console.log('NewTaskTreeForm props: ', props)
-
-    // const handleSubmit = (formProps: any) => {
-    //     //console.log('formProps in NewTaskTreeForm: ',formProps)
-    //     props.handleSubmit(formProps)
-    // }
-
-    //console.log('NewTaskTreeForm', props)
-    //console.log('NewTaskTreeForm render', values)
 
     return (
         <Form
@@ -83,15 +67,11 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
 
             <Field
                 component={AntSelect}
-
                 selectOptions={taskTypes}
-
                 name="task_type"
                 type="select"
                 label="task Types"
-                // validate={validateRequired}
                 submitCount={props.submitCount}
-                // hasFeedback
             />
 
 
@@ -99,18 +79,18 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 <>
                     <Field
                         component={AntInput}
-                        name="context1"
+                        name="phone_number"
                         type="text"
-                        label="context1"
+                        label="Номер телефона"
                         validate={validateRequired}
                         submitCount={props.submitCount}
                         hasFeedback
                     />
                     <Field
                         component={AntInput}
-                        name="context2"
+                        name="lead_name"
                         type="text"
-                        label="context2"
+                        label="Имя абонента"
                         validate={validateRequired}
                         submitCount={props.submitCount}
                         hasFeedback
@@ -128,6 +108,5 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
 
         </Form>
     )
-    // )
 }
 export default NewTaskTreeForm

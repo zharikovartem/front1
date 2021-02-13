@@ -1,11 +1,15 @@
-import { Button, Card, Drawer, List, Checkbox, Collapse } from 'antd'
+import { Button, Card, Drawer, List, Checkbox, Collapse, Modal } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { TasksTreePropsType } from './TasksTreeContainer'
+import { TasksTreePropsType, taskTreeTypes } from './TasksTreeContainer'
 import { FileAddOutlined, SettingOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import NewTaskTreeForm from './NewTaskTreeForm'
-import { Formik } from 'formik'
+import { Formik, useFormikContext  } from 'formik'
 import moment from "moment"
 import TaskTreeBrowserItem from './TaskTreeBrowserItemContainer'
+import RunTaskFormCall from './RunTask.tsx/RunTaskForm'
+import { TaskListType, TaskType } from '../../Types/types'
+
+
 
 const { Panel } = Collapse;
 
@@ -17,7 +21,7 @@ type InitialDrewerDataType = {
 const initialDrewerData: InitialDrewerDataType = {
     header: 'Create New Task',
     taskId: false
-}
+} 
 
 const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     useEffect(() => {
@@ -30,6 +34,8 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         setVisible(false)
         setInitialFormValues(initialValues)
     }, [props.taskList])
+
+    // const { submitForm } = useFormikContext();
 
     const [visible, setVisible] = useState(false)
     const [drawerData, setDrawerData] = useState(initialDrewerData)
@@ -49,24 +55,59 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
 
     const initialValues: any = {
         selectOptions: getSelectOptions(),
-        taskTypes: [
-            {
-                name: 'Простая задача',
-                value: 1
-            },
-            {
-                name: 'Задача с контектом',
-                value: 2
-            }
-        ],
+        taskTypes: taskTreeTypes,
         task_type: 1,
         name: '',
 
     }
 
     const [initialFormValues, setInitialFormValues] = useState(initialValues)
+    const [runTaskVisible, setRunTaskVisible] = useState(false)
+    const [runData, setRunData] = useState<TaskListType | null>(null)
 
+    const runTaslSubmit = (values: any) => {
+        console.log('runTaslSubmit', values.time.format('HH:mm:00'))
+        console.log(runData)
+        if (runData !== null && runData.data !== null && props.userId) {
+            const data = JSON.parse(runData.data)
+            const newToDo = {
+                name: 'Call to '+data.lead_name,
+                descriptions: data.phone_number,
+                date: values.date.format('YYYY-MM-DD'),
+                time: values.time.format('HH:mm:00'), 
+                user_id: props.userId
+            }
+            console.log(newToDo)
+            props.createNewToDo(newToDo, true)
+        }
+        
+        
+        // props.createNewToDo()
+    }
+    const runTaslOk = (values: any) => {
+
+        // submitForm()
+        setRunTaskVisible(false)
+    }
+
+    const runTaskCancel = () => {
+        setRunTaskVisible(false)
+    }
+
+    const onRunTask = (values: any) => {
+        setRunTaskVisible(true)
+        console.log('onRunTask', values)
+        setRunData(
+            props.taskList.filter( (item: TaskListType)=> {
+                if (item.id === values) {
+                    return item
+                }
+            })[0]
+        )
+    }
+    
     const onClose = () => {
+        setInitialFormValues({ ...initialValues })
         setVisible(false)
     }
 
@@ -81,7 +122,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     }
 
     const handleSubmit = (formProps: any) => {
-        console.log('handleSubmit')
+
         let formPropsCopy: any = { ...formProps }
         delete formPropsCopy.selectOptions
         delete formPropsCopy.taskTypes
@@ -90,6 +131,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         }
 
         formPropsCopy.user_id = props.userId
+        console.log('handleSubmit', formPropsCopy)
         if (!drawerData.taskId) {
             props.createNewTaskList(formPropsCopy)
         } else {
@@ -167,6 +209,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                                 initialFormValues={initialFormValues}
                                 setInitialFormValues={setInitialFormValues}
                                 initialValues={initialValues}
+                                onRunTask={onRunTask}
                             />)
                         }}
                     />
@@ -188,6 +231,23 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                         />
 
                     </Drawer>
+
+                    <Modal
+                        title="Run Task"
+                        visible={runTaskVisible}
+                        onOk={runTaslOk}
+                        onCancel={runTaskCancel}
+                        okText="Ok"
+                        cancelText="Cancel"
+                    >
+                        {/* <RunTaskForm handleSubmit={runTaslSubmit} handleReset={(v: any)=>{}}/> */}
+                        <Formik
+                            initialValues={{}}
+                            onSubmit={runTaslSubmit}
+                            render={RunTaskFormCall}
+                            enableReinitialize={true}
+                        />
+                    </Modal>
 
                 </Card>
             </div>

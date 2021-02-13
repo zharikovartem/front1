@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Checkbox, Collapse, List } from 'antd'
-import { PlusCircleOutlined , DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined , DeleteOutlined, EditOutlined, CaretRightOutlined  } from '@ant-design/icons'
 import { TaskListType } from '../../Types/types'
 import {TaskTreeBrowserItemType} from './TaskTreeBrowserItemContainer'
 import moment from "moment"
@@ -14,13 +14,15 @@ export type OwnTaskTreeBrowserItemType = {
     setDrawerData: (drawerData: any) => void,
     initialFormValues: any,
     setInitialFormValues: (initialFormValues: any) => void,
-    initialValues: any
+    initialValues: any,
+    onRunTask: (values:any)=>void
 }
 
 const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
 
     const onAddSubtask = (taskId: number) => {
         console.log('onAddSubtask to: ', taskId)
+        props.setInitialFormValues({})
         props.setInitialFormValues({...props.initialValues, parent_id: taskId})
         props.showDrawer()
     }
@@ -38,9 +40,10 @@ const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
         } else {
             day.hours(0).minutes(0).seconds(0).milliseconds(0);
         }
-        console.log('setInitialFormValues')
+        
         props.setInitialFormValues({
                 ...props.initialFormValues,
+                ...JSON.parse(values.data), 
                 name: values.name,
                 time_to_complete: day,
                 descriptions: values.descriptions,
@@ -72,6 +75,7 @@ const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
             onEdit={onEdit}
             deleteTask={deleteTask}
             onStatusChange={onStatusChange}
+            onRunTask={props.onRunTask}
         />
     } else {
         return null
@@ -87,6 +91,7 @@ type ChildItemType = {
     deleteTask: (task: number) => void,
     onAddSubtask: (taskId: number) => void,
     onStatusChange: (e: any) => void,
+    onRunTask: (values:any)=>void
 }
 const ChildItem: React.FC<ChildItemType> = (props) => {
     console.log(props.childsTaslList)
@@ -106,6 +111,7 @@ const ChildItem: React.FC<ChildItemType> = (props) => {
                         onEdit={props.onEdit}
                         deleteTask={props.deleteTask}
                         onStatusChange={props.onStatusChange}
+                        onRunTask={props.onRunTask}
                     />
                 )
             })
@@ -122,6 +128,7 @@ type CollapseItemType = {
     deleteTask: (task: number) => void,
     onAddSubtask: (taskId: number) => void,
     onStatusChange: (e: any) => void,
+    onRunTask: (values:any)=>void
 }
 const CollapseItem: React.FC<CollapseItemType> = (props) => {
     const [isLast, setIsLast] = useState( getChildsList(props.taskList, props.item).length === 0 ? true : false )
@@ -145,6 +152,7 @@ const CollapseItem: React.FC<CollapseItemType> = (props) => {
                             deleteTask={props.deleteTask}
                             onAddSubtask={props.onAddSubtask}
                             onStatusChange={props.onStatusChange}
+                            onRunTask={props.onRunTask}
                         />
 
                     </Panel>
@@ -158,6 +166,7 @@ const CollapseItem: React.FC<CollapseItemType> = (props) => {
             deleteTask={props.deleteTask} 
             onAddSubtask={props.onAddSubtask} 
             onStatusChange={props.onStatusChange}
+            onRunTask={props.onRunTask}
             />)
     }
 
@@ -169,6 +178,7 @@ type LastItemType = {
     deleteTask: (task: number) => void,
     onAddSubtask: (taskId: number) => void,
     onStatusChange: (e: any) => void,
+    onRunTask: (values:any)=>void
 }
 
 const LastItem: React.FC<LastItemType> = (props) => {
@@ -206,11 +216,28 @@ type ButtonsBlockType = {
     onEdit: (task: TaskListType)=>void,
     deleteTask: (task: number)=>void,
     onAddSubtask: (parentId: number)=>void,
+    onRunTask: (values:any)=>void
 }
 
 const ButtonsBlock: React.FC<ButtonsBlockType> = (props) => {
     return(
         <div className="d-flex flex-row">
+            {props.item.task_type > 1 ?
+                <Button className=""
+                type="primary"
+                shape="circle"
+                size="small"
+                style={{ marginLeft: 10 }}
+                onClick={() => { props.onRunTask(props.item.id) }}
+                icon={
+                    <div className="d-flex flex-wrap align-content-start">
+                        <CaretRightOutlined  className="ml-1" style={{ fontSize: '14px' }} />
+                    </div>
+                }
+            />
+            :
+            null
+            }
                 <Button className=""
                     type="primary"
                     shape="circle"

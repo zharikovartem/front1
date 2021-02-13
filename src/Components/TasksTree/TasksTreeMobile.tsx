@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TasksTreePropsType } from './TasksTreeContainer'
+import { TasksTreePropsType, taskTreeTypes } from './TasksTreeContainer'
 import { Drawer, List, SwipeAction, Icon, Button, Card, WingBlank, WhiteSpace } from 'antd-mobile'
 import NewTaskTreeForm from './NewTaskTreeForm'
 import './TasksTreeMobile.css'
@@ -57,16 +57,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
 
     const initialValues: any = {
         selectOptions: getSelectOptions(),
-        taskTypes: [
-            {
-                name: 'Простая задача',
-                value: 1
-            },
-            {
-                name: 'Задача с контектом',
-                value: 2
-            }
-        ],
+        taskTypes: taskTreeTypes,
         task_type: 1,
         time_to_complete: initialTimeToComplete
         // parent_id:[]

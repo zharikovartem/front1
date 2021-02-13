@@ -134,7 +134,7 @@ export const deleteTask = (taskid: number, startDate: string, endDate:string): T
     }
 }
 
-export const updateTask = (values: any, taskId: number): ThunkType => {
+export const updateTask = (values: NewTaskDataType, taskId: number): ThunkType => {
     return async (dispatch, getState) => {
         let response = await taskAPI.updateTask(values, taskId)
         //console.log(response)

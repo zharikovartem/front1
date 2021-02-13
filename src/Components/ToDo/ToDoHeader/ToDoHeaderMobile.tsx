@@ -4,15 +4,8 @@ import { Button, DatePicker, List, Switch } from 'antd-mobile'
 import enUs from 'antd-mobile/lib/date-picker/locale/en_US'
 import moment from "moment"
 
-export type OwnToDoHeaderPropsType = {
-    showDrawer: () => void,
-    showModal: () => void,
-    isOpen: boolean
-}
-
 const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
     const [isInterval, setIsInterval] = useState(false)
-    const [isFormOpen, setIsFormOpen] = useState(true)
 
     const onIntervalChange = (e: boolean) => {
         if (e) {
@@ -25,8 +18,6 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
     }
 
     const onStartChange = (value: Date) => {
-        //console.log(value)
-        //console.log(props)
         if (!isInterval) {
             props.setIsInterval(isInterval, {startDate: moment(value), endDate: moment(value) })
         } else {
@@ -80,7 +71,6 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
                 inline
                 size="small"
                 className="ml-3"
-                // style={{ marginRight: '4px' }} 
                 onClick={()=>{props.showDrawer()}}
                 type="primary"
             >
@@ -90,7 +80,6 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
                 inline
                 size="small"
                 className="ml-3"
-                // style={{ marginRight: '4px' }} 
                 onClick={()=>{props.showModal()}}
                 type="primary"
             >
