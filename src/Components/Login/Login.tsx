@@ -10,16 +10,6 @@ import { Link } from 'react-router-dom'
 
 const CheckboxItem = Checkbox.CheckboxItem;
 
-const initialValues = {
-    // bookingClient: "",
-    // bookingDate: moment(Date.now()),
-    // bookingTime: moment(Date.now()),
-    // selectOptions: ["Mark", "Bob", "Anthony"]
-}
-
-// export const dateFormat = "YYYY--MM-DD";
-// export const timeFormat = "h:mm A";
-
 export type OwnLoginPropsType = {}
 
 const Login: React.FC<LoginPropsType> = (props) => {
@@ -30,20 +20,17 @@ const Login: React.FC<LoginPropsType> = (props) => {
     }, [props.authError])
 
     const handleSubmit = (formProps: any) => {
-        //console.log('formProps: ', formProps)
         if (!formProps.remember) {
             formProps.remember = false
         }
         props.login(formProps)
     }
 
-    //console.log(props)
-
     return (
         <>
             <h1 className="mb-5 mx-auto">Login Form</h1>
             <Formik
-                initialValues={initialValues}
+                initialValues={{}}
                 onSubmit={handleSubmit}
                 render={LoginForm}
             />
