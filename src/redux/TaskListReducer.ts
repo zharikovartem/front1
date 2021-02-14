@@ -9,13 +9,6 @@ export type InitialStateType = {
     taskListIsFetching: boolean,
     isTaskListLoaded: boolean,
     selectedTasks: Array<number>
-    // taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error'
-    // errorMessage: null | string,
-    // isInterval: boolean,
-    // dateInterval: {
-    //     startDate: moment.Moment,
-    //     endDate: moment.Moment
-    // }
 }
 
 let initialState:InitialStateType = {
@@ -23,13 +16,6 @@ let initialState:InitialStateType = {
     taskListIsFetching: false,
     isTaskListLoaded: false,
     selectedTasks:[]
-    // taskSaveStatus: 'no',
-    // errorMessage: null,
-    // isInterval: false,
-    // dateInterval: {
-    //     startDate: moment(),
-    //     endDate: moment()
-    // }
 }
 
 const taskListReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
@@ -41,7 +27,6 @@ const taskListReducer = (state = initialState, action: ActionsTypes): InitialSta
             }              
             return { ...state, selectedTasks: newSelectedTasks }
         case 'SN/TASK_LIST/SET_SELECTED_TASK':
-            //console.log( { ...state, selectedTasks: [...state.selectedTasks, action.taskId] })
             return { ...state, selectedTasks: [...state.selectedTasks, action.taskId] }
         case 'SN/TASK_LIST/SET_TASK_LIST':
             return { ...state, taskList: action.taskList, isTaskListLoaded: true}
@@ -55,10 +40,6 @@ export const actions = {
     setTaskList: (taskList: Array<any>) => ({ type: 'SN/TASK_LIST/SET_TASK_LIST', taskList } as const),
     setSelectedTasks: (taskId: number) => ({ type: 'SN/TASK_LIST/SET_SELECTED_TASK', taskId } as const),
     backSelectedTasks: () => ({type: 'SN/TASK_LIST/BACK_SELECTED_TASK'} as const),
-    // setTaskSaveStatus: (taskSaveStatus: 'no' | 'inProgress' | 'success' | 'error') => ({ type: 'SN/TASK/SET_TASK_SAVE_STATUS', taskSaveStatus } as const),
-    // setErrorMessage: (message: string | null) => ({type: 'SN/TASK/SET_ERROR_MESSAGE', message} as const),
-    // setTaskListIsFetching: (isFetchingValue: boolean) => ({type: 'SN/TASK/SET_TASK_LIST_IS_FETCHING', isFetchingValue} as const),
-    // setIsInterval: (isInterval: boolean, date: {startDate: moment.Moment, endDate: moment.Moment}) => ({type: 'SN/TASK/SET_IS_INTERVAL', isInterval, date} as const)
 }
 
 export const getTaskList = (): ThunkType => {
@@ -80,7 +61,6 @@ export const getTaskList = (): ThunkType => {
 export const createNewTaskList = (values: any): ThunkType => {
     return async (dispatch, getState) => {
         let response = await taskListAPI.createNewTaskList(values)
-        //console.log(response)
         dispatch(actions.setTaskList(response.data.Tasks))
     }
 }
@@ -88,7 +68,6 @@ export const createNewTaskList = (values: any): ThunkType => {
 export const deleteTaskList = (taskId: number): ThunkType => {
     return async (dispatch, getState) => {
         let response = await taskListAPI.deleteTask(taskId)
-        //console.log(response)
         dispatch(actions.setTaskList(response.data.Tasks))
     }
 }
@@ -96,7 +75,6 @@ export const deleteTaskList = (taskId: number): ThunkType => {
 export const updateTaskList = (values: any, taskId: number): ThunkType => {
     return async (dispatch, getState) => {
         let response = await taskListAPI.updateTask(values, taskId)
-        //console.log(response)
         dispatch(actions.setTaskList(response.data.Tasks))
     }
 }

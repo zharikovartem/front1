@@ -1,5 +1,4 @@
 import {connect} from 'react-redux'
-// import TasksTree, { OwnTasksTreePropsType } from './TasksTree'
 import { AppStateType } from '../../redux/store'
 import {getTaskList, createNewTaskList, deleteTaskList, updateTaskList, actions} from './../../redux/TaskListReducer'
 import {createNewTask as createNewToDo} from './../../redux/taskReducer'

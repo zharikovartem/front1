@@ -1,14 +1,5 @@
-import {instance, APIResponseType} from "./api";
-
-type MeResponseDataType = {
-    id: number
-    email: string
-    login: string
-    // remember_token?: string,
-    // user?: any
-    // error?: boolean,
-    // message?: string
-}
+import { credsType } from "../redux/authReducer";
+import { instance } from "./api";
 
 export const authAPI = {
     me() {
@@ -21,15 +12,14 @@ export const authAPI = {
         }
         console.log(remember_token)
         return instance.get(`authMe/`+remember_token).then( (response) => {
-            console.log('ME: ', response)
             return response
         })
     },
-    login(data: any) {
+
+    login(data: credsType) {
         console.log(data)
         return instance.post('login', data)
         .then(response => {
-            console.log('login: ', response)
             if (data.remember) {
                 if (response.data.remember_token !== null) {
                     localStorage.setItem('remember_token', response.data.remember_token);
@@ -59,10 +49,10 @@ export const authAPI = {
             return null
         })
     },
+
     register(creds: any) {
         return instance.post('register', creds)
         .then(response => {
-            console.log('register: ', response)
             if (response.data.remember_token !== null) {
                 localStorage.setItem('remember_token', response.data.token);
             } else {

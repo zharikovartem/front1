@@ -1,8 +1,6 @@
-import { act } from "@testing-library/react";
 import { authAPI } from "../api/authAPI";
 import { SettingasInstanseType } from "../Components/ToDo/Settings/SettingsModal";
 import { BaseThunkType, InferActionsTypes } from "./store"
-// import {FormAction} from 'redux-form/lib/actions';
 
 type InitialStateType = {
     user: UserType | null,
@@ -26,13 +24,11 @@ const authReducer = (state = initialState, action: ActionsTypes): InitialStateTy
         case 'SN/AUTH/SET_AUTH_ERROR':
             return{...state, authError: action.error}
         case 'SN/AUTH/SET_SETTINGS_DATA':
-            //console.log(action)
             let viewSettings = {...state.viewSettings}
             viewSettings[action.settingType] = action.settings
             return {...state, viewSettings: viewSettings}
         case 'SN/AUTH/SET_USER_DATA':
             if (action.user !== null) {
-                //console.log('1')
                 return { ...state, 
                             user: action.user, 
                             remember_token: action.remember_token, 
@@ -57,12 +53,12 @@ const authReducer = (state = initialState, action: ActionsTypes): InitialStateTy
 export type UserType = {
     created_at: string
     email: string
-    email_verified_at: null | any
+    email_verified_at: null | string
     id: number
     name: string
     status: string
     updated_at: string,
-    view_settings: any
+    view_settings: string
 }
 export const actions = {
     setAuthUserData: (user: UserType | null, remember_token: string | null) => ({ type: 'SN/AUTH/SET_USER_DATA', user, remember_token } as const),
@@ -70,11 +66,6 @@ export const actions = {
     changeSettings: (settingType: string, settings: SettingasInstanseType) => ({ type: 'SN/AUTH/SET_SETTINGS_DATA', settingType, settings } as const),
     setAuthError: (error: string) => ({type: 'SN/AUTH/SET_AUTH_ERROR', error } as const),
 }
-
-// export const getAuthUserData = (): ThunkType => async (dispatch) => {
-//     let response = await authAPI.me()
-//     //console.log('getAuthUserData', response)
-// }
 
 export const getAuthUserData = (): ThunkType => {
     return async (dispatch, getState) => {
@@ -100,7 +91,6 @@ export const login = (data: credsType): ThunkType => {
     return async (dispatch, getState) => {
         let response = await authAPI.login(data)
         if (response) {
-            //console.log(response)
             if (response.status === 200) {
                 dispatch(actions.setAuthUserData(response.data.user, response.data.remember_token))
             } else {
@@ -140,7 +130,6 @@ export const register = (creds: any): ThunkType => {
 
 export default authReducer;
 
-// export type InitialStateType = typeof initialState;
 type ActionsTypes = InferActionsTypes<typeof actions>
 type ThunkType = BaseThunkType< ActionsTypes>
 

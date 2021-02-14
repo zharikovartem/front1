@@ -10,7 +10,7 @@ import store, { AppStateType } from './redux/store'
 import { Layout, Spin } from 'antd'
 import { compose } from 'redux'
 import { initializeApp, addLocation } from './redux/appReducer'
-import { login } from './redux/authReducer'
+import { credsType, login } from './redux/authReducer'
 import Header from './Components/Header/HeaderContainer'
 import { isMobile } from "react-device-detect"
 import Login from './Components/Login/LoginContainer'
@@ -22,7 +22,7 @@ type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
   initializeApp: () => void,
   addLocation: (location: string) => void,
-  login: (data: any) => void,
+  login: (data: credsType) => void,
 }
 
 const App = (props: MapPropsType & DispatchPropsType) => {
