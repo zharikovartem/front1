@@ -132,7 +132,7 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
                         <span className="text-break">{props.taskItem.name}</span>}
                     </div>
                     <div className="col-2">
-                        {props.taskItem.time_to_complete.split(/:/)[0]+':'+props.taskItem.time_to_complete.split(/:/)[1]}
+                        {props.taskItem.time_to_complete ? props.taskItem.time_to_complete.split(/:/)[0]+':'+props.taskItem.time_to_complete.split(/:/)[1] : null}
                     </div>
                 </div>
 

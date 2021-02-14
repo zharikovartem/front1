@@ -1,28 +1,14 @@
 import React from 'react'
-import {
-    BrowserView,
-    MobileView,
-    isBrowser,
-    isMobile
-} from "react-device-detect"
+import { isMobile } from "react-device-detect"
 import { HeaderPropsType } from './HeaderContainer'
-import MenuBrowser from './MenuBrowserConainer'
-import MenuMobile from './MenuMobileContainer'
-// import {useHistory, useLocation} from 'react-router-dom'
-
-// type MenuDataType = Array<any>
+// import MenuBrowser from './MenuBrowserConainer'
+import MenuContainer from './MenuContainer'
+import MenuMobile from './MenuContainer'
 
 export type OwnHeaderPropsType = {}
 
 const Header: React.FC<HeaderPropsType> = (props) => {
-    // const location = useLocation()
-    //console.log('Header')
-
-    if (isMobile) {
-        return <MenuMobile menuData={menuData(props.appLocation)} logout={props.logout}/>
-    } else {
-        return <MenuBrowser menuData={menuData(props.appLocation)}/>
-    }
+    return <MenuContainer menuData={menuData(props.appLocation)}/>
 }
 
 export default Header
@@ -38,7 +24,6 @@ const menuData = (appLocation: string) => {
         children: [
             {
                 label: 'ToDo list',
-                // label: <Link to='/toDoList'>ToDo list</Link>,
                 value: appLocation + 'toDoList',
                 disabled: false,
             },
@@ -69,7 +54,6 @@ const menuData = (appLocation: string) => {
     {
         value: 'orders',
         label: 'Orders',
-        // isLeaf: true,
         children: [
             {
                 label: 'Orders',
