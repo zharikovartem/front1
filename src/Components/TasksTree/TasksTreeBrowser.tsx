@@ -2,7 +2,7 @@ import { Button, Card, Drawer, List, Checkbox, Collapse, Modal } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { TasksTreePropsType, taskTreeTypes } from './TasksTreeContainer'
 import { FileAddOutlined, SettingOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import NewTaskTreeForm from './NewTaskTreeForm'
+import NewTaskTreeForm from './TaskTreeForm/NewTaskTreeForm'
 import { Formik, useFormikContext  } from 'formik'
 import moment from "moment"
 import TaskTreeBrowserItem from './TaskTreeBrowserItemContainer'
@@ -122,7 +122,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     }
 
     const handleSubmit = (formProps: any) => {
-
+        console.log('formProps', formProps)
         let formPropsCopy: any = { ...formProps }
         delete formPropsCopy.selectOptions
         delete formPropsCopy.taskTypes
@@ -131,7 +131,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         }
 
         formPropsCopy.user_id = props.userId
-        console.log('handleSubmit', formPropsCopy)
+        console.log('formPropsCopy', formPropsCopy)
         if (!drawerData.taskId) {
             props.createNewTaskList(formPropsCopy)
         } else {

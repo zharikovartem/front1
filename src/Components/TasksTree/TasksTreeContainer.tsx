@@ -51,6 +51,7 @@ type TaskTreeTypesItemType = {
 
 }
 type TaskTreeTypesType = Array<TaskTreeTypesItemType>
+
 export const taskTreeTypes: TaskTreeTypesType = [
     {
         name: 'Простая задача',
