@@ -1,5 +1,6 @@
+import { Dispatch } from "react"
 import {getAuthUserData} from "./authReducer"
-import {InferActionsTypes} from './store'
+import {BaseThunkType, InferActionsTypes} from './store'
 
 let initialState = {
     initialized: false,
@@ -47,6 +48,5 @@ export const initializeApp = () => (dispatch: any) => {
 export const addLocation = (location: string) => (dispatch: any) => {
     dispatch(actions.setLocation(location));
 }
-
 
 export default appReducer;

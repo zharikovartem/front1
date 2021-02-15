@@ -2,6 +2,7 @@ import taskReducer, {actions, InitialStateType, getTaskList, createNewTask, dele
 import moment from 'moment'
 import {taskAPI} from './../api/taskApi'
 import { APIResponseType, ResultCodesEnum } from '../api/api';
+import { NewTaskDataType } from '../Types/types';
 
 jest.mock('../api/taskAPI')
 const userAPIMock = taskAPI as jest.Mocked<typeof taskAPI>;
@@ -113,13 +114,13 @@ test('success getTaskList thunk', async () => {
 
 
 test('success createNewTask thunk with reload page', async () => {
-    const NewTaskDataType = {
+    const NewTask: NewTaskDataType = {
         name: 'test',
         user_id: 1,
-        taskTime: '00:00:00',
+        time: '00:00:00',
         date: '2021-01-19'
     }
-    const thunk = createNewTask(NewTaskDataType, true)
+    const thunk = createNewTask(NewTask, true)
     const taskList = { Tasks: [addTask(1), addTask(2), addTask(3)] }
     await thunk(dispatchMock, getStateMock, {})
 
