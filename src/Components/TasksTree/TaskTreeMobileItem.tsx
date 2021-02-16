@@ -28,7 +28,7 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             header: 'SubTask for: "' + props.taskItem.name + '"',
             taskId: false
         })
-        //console.log('parent_id:', props.taskItem.parent_id)
+        console.log('parent_id:', props.taskItem.parent_id)
 
         props.setInitialFormValues({
             ...props.initialFormValues,
@@ -42,27 +42,27 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     }
 
     const onEdit = (task: TaskListType) => {
-        console.log('task_type', task.task_type)
+        // console.log('task_type', task.task_type)
         props.setDrawerData({
             header: 'Edit: "' + task.name + '"',
             taskId: task.id
         })
 
-        console.log('new_time_to_complete', time_to_complete.toTimeString())
+        // console.log('new_time_to_complete', time_to_complete.toTimeString())
 
         const new_time_to_complete = NewTimeByString( task.time_to_complete )
 
-        console.log('new_time_to_complete', new_time_to_complete)
+        // console.log('new_time_to_complete', new_time_to_complete)
 
-        console.log('initialFormValues', props.initialFormValues)
-        console.log('task', {
-            ...props.initialFormValues,
-            name: task.name,
-            time_to_complete: new_time_to_complete,
-            descriptions: task.descriptions,
-            parent_id: [task.parent_id],
-            task_type: [ task.task_type ]
-        })
+        // console.log('initialFormValues', props.initialFormValues)
+        // console.log('task', {
+        //     ...props.initialFormValues,
+        //     name: task.name,
+        //     time_to_complete: new_time_to_complete,
+        //     descriptions: task.descriptions,
+        //     parent_id: [task.parent_id],
+        //     task_type: [ task.task_type ]
+        // })
 
         props.setInitialFormValues({
             ...props.initialFormValues,
@@ -77,7 +77,12 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     }
 
     const onItemOpen = () => {
+        console.log('onItemOpen')
         dispatch(actions.setSelectedTasks(props.taskItem.id));
+        // props.setDrawerData({
+        //     header: 'Edit: "' + props.taskItem.name + '"',
+        //     taskId: props.taskItem.id
+        // })
     }
 
     const onComplet = () => {

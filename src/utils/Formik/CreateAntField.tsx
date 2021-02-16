@@ -140,7 +140,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     const [defaultValue, setValue] = useState(props.type === 'select' ? [props.value] : props.value)
 
     useEffect(() => {
-        if (props.type === 'select') {
+        if (props.type === 'select' && !Array.isArray(props.value) ) {
             setValue([props.value])
         } else {
             setValue(props.value)

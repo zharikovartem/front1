@@ -55,7 +55,8 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         task_type: Array<number>,
         name?: string,
         descriptions?: string
-        parent_id?: Array<number>
+        // parent_id?: Array<number>
+        parent_id?: number
         time_to_complete?: Date
     }
 
@@ -77,7 +78,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
             task_type: formProps.taskTypes[0].value?.toString(),
             descriptions: formProps.descriptions, 
             user_id: props.userId,
-            parent_id: formProps.parent_id ? formProps.parent_id[0] : undefined,
+            parent_id: formProps.parent_id ? formProps.parent_id : undefined,
             time_to_complete: formProps.time_to_complete ? formProps.time_to_complete.toTimeString().split(' ')[0] : undefined,
         }
 
@@ -91,9 +92,9 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     const onAdd = () => {
         if (props.selectedTasks.length !== 0) {
             setDrawerData({ ...drawerData, taskId: false })
-            setInitialFormValues({ ...initialValues, parent_id: [Number(props.selectedTasks[props.selectedTasks.length - 1])] })
+            setInitialFormValues({ ...initialValues, parent_id: Number(props.selectedTasks[props.selectedTasks.length - 1]) })
         } else {
-            setInitialFormValues(initialValues)
+            setInitialFormValues({...initialValues, parent_id: initialFormValues.parent_id })
         }
 
         setVisible(!visible)
@@ -115,7 +116,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
             <Card>
                 <Card.Header
                     className="sticky-top bg-white"
-                    title={<h4 className="w-100 text-center">Tasks Tree</h4>}
+                    title={<h4 className="w-100 text-center">Tasks Tree!</h4>}
                     extra={
                         <div className="d-flex flex-row">
                             {props.selectedTasks.length > 0 && !visible ?
