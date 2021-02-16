@@ -114,7 +114,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
             <WhiteSpace size="lg" />
             <Card>
                 <Card.Header
-                    className="sticky-top"
+                    className="sticky-top bg-white"
                     title={<h4 className="w-100 text-center">Tasks Tree</h4>}
                     extra={
                         <div className="d-flex flex-row">

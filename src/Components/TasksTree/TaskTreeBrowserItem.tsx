@@ -137,8 +137,6 @@ type CollapseItemType = {
 }
 const CollapseItem: React.FC<CollapseItemType> = (props) => {
     const [isLast, setIsLast] = useState( getChildsList(props.taskList, props.item).length === 0 ? true : false )
-    // console.log(props)
-    // console.log(isLast)
 
     if (!isLast) {
         return (
