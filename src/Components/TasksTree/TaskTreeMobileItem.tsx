@@ -35,8 +35,8 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             name: '',
             time_to_complete: time_to_complete,
             descriptions: '',
-            parent_id: [Number(props.taskItem.id)],
-            task_type: [0]
+            parent_id: Number(props.taskItem.id),
+            task_type: 0
         })
         props.showDrawer()
     }
@@ -69,8 +69,8 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             name: task.name,
             time_to_complete: new_time_to_complete,
             descriptions: task.descriptions,
-            parent_id: [task.parent_id],
-            task_type: [ Number(task.task_type) ]
+            parent_id: task.parent_id,
+            task_type:  Number(task.task_type) 
         })
 
         props.showDrawer()

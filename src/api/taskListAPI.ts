@@ -40,6 +40,7 @@ export const taskListAPI = {
         })
     },
     createNewTaskList(values: NewTaskListType) {
+        console.log(values)
         return instance.post<TaskListType>(`taskList`, values)
         .then(response => {
             console.log(response)
@@ -73,6 +74,7 @@ export const taskListAPI = {
         })
     },
     updateTask(values: NewTaskListType, taskId: number) {
+        console.log(values)
         return instance.put<TaskListType>(`taskList/${taskId}`, values)
         .then(response => {
             console.log(response)
