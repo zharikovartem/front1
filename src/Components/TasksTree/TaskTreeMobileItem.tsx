@@ -79,10 +79,10 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     const onItemOpen = () => {
         console.log('onItemOpen')
         dispatch(actions.setSelectedTasks(props.taskItem.id));
-        // props.setDrawerData({
-        //     header: 'Edit: "' + props.taskItem.name + '"',
-        //     taskId: props.taskItem.id
-        // })
+        props.setDrawerData({
+            header: props.taskItem.name
+            // taskId: props.taskItem.id
+        })
     }
 
     const onComplet = () => {

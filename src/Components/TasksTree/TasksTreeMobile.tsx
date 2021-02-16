@@ -14,7 +14,7 @@ type InitialDrewerDataType = {
 }
 
 const initialDrewerData: InitialDrewerDataType = {
-    header: 'Create New Task',
+    header: 'Tasks Tree',
     taskId: false
 }
 
@@ -108,15 +108,21 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         props.backSelectedTasks()
     }
 
-    console.log('initialFormValues', initialFormValues)
+    console.log('TasksTreeMobile drawerData', drawerData)
 
     return (
         <WingBlank size="lg">
             <WhiteSpace size="lg" />
             <Card>
                 <Card.Header
-                    className="sticky-top bg-white"
-                    title={<h4 className="w-100 text-center">Tasks Tree!</h4>}
+                    // className="sticky-top bg-white"
+                    title={
+                        <h4 className="w-100 text-center">Tasks Tree</h4>
+                        // drawerData.header === 'Tasks Tree' ?
+                        // <h4 className="w-100 text-center">{drawerData.header}</h4>
+                        // :
+                        // <div>{drawerData.header}</div>
+                    }
                     extra={
                         <div className="d-flex flex-row">
                             {props.selectedTasks.length > 0 && !visible ?
