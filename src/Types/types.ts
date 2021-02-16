@@ -15,6 +15,18 @@ export type TaskListType = {
     updated_at: string,
     user_id: number | null,
     data: string | null, 
+}
+
+export type NewTaskListType = {
+    descriptions?: string | null,
+    id?: number,
+    isCompleted?: boolean,
+    name?: string,
+    parent_id?: null | number,
+    task_type?: string,
+    time_to_complete?: string,
+    user_id?: number | null,
+    data?: string | null,
 } 
 
 export type TaskType = {

@@ -7,6 +7,7 @@ import LoginForm from './LoginForm'
 import { propTypes } from 'react-bootstrap/esm/Image'
 import { Button, message } from 'antd'
 import { Link } from 'react-router-dom'
+import { credsType } from '../../redux/authReducer'
 
 const CheckboxItem = Checkbox.CheckboxItem;
 
@@ -19,20 +20,29 @@ const Login: React.FC<LoginPropsType> = (props) => {
         }
     }, [props.authError])
 
-    const handleSubmit = (formProps: any) => {
-        if (!formProps.remember) {
-            formProps.remember = false
-        }
-        props.login(formProps)
+    type FormPropsType = {
+        email: string,
+        password: string,
+        remember: boolean
+    }
+
+    const initialValues: FormPropsType = {
+        email: '',
+        password: '',
+        remember: false
+    }
+
+    const handleSubmit = (formProps: FormPropsType) => {
+        props.login(formProps as credsType)
     }
 
     return (
         <>
             <h1 className="mb-5 mx-auto">Login Form</h1>
             <Formik
-                initialValues={{}}
+                initialValues={initialValues}
                 onSubmit={handleSubmit}
-                render={LoginForm}
+                render={LoginForm as any}
             />
             <div className="mt-3">
                 <Link to={props.location +"register"}><Button type="link" block>Register</Button></Link>

@@ -1,6 +1,14 @@
 import { credsType } from "../redux/authReducer";
 import { instance } from "./api";
 
+export type RegisterFormType = {
+    name: string,
+    email: string,
+    password: string,
+    remember?: boolean,
+    status?: 'guest' | 'admin'
+}
+
 export const authAPI = {
     me() {
         let remember_token: string | null = 'error'
@@ -50,7 +58,7 @@ export const authAPI = {
         })
     },
 
-    register(creds: any) {
+    register(creds: RegisterFormType) {
         return instance.post('register', creds)
         .then(response => {
             if (response.data.remember_token !== null) {

@@ -1,17 +1,14 @@
 import { SwipeAction, List } from 'antd-mobile'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { TaskListType } from '../../Types/types'
-import { actions } from './../../redux/TaskListReducer'
+import { NewTaskListType, TaskListType } from '../../Types/types'
+import { NewTimeByString } from '../../utils/Date/NewDeteByString'
+import { actions } from '../../redux/TaskListReducer'
 
 const Item = List.Item
 
 
-const time_to_complete = new Date()
-time_to_complete.setHours(0)
-time_to_complete.setMinutes(0)
-time_to_complete.setSeconds(0)
-time_to_complete.setMilliseconds(0)
+const time_to_complete = NewTimeByString()
 
 export type OwnTaskTreeItemsType = {
     taskItem: TaskListType,
@@ -20,7 +17,7 @@ export type OwnTaskTreeItemsType = {
     setDrawerData: (drawerData: any) => void,
     initialFormValues: any,
     setInitialFormValues: (initialFormValues: any) => void
-    updateTaskList: (values: any, taskId: number) => void,
+    updateTaskList: (values: NewTaskListType, taskId: number) => void,
 }
 export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     const dispatch = useDispatch()
@@ -45,22 +42,27 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     }
 
     const onEdit = (task: TaskListType) => {
+        console.log('task_type', task.task_type)
         props.setDrawerData({
             header: 'Edit: "' + task.name + '"',
             taskId: task.id
         })
 
-        // let new_time_to_complete = {...time_to_complete}
-        let new_time_to_complete = new Date(time_to_complete.getTime())
-        if (task.time_to_complete !== null) {
-            const splitTime = task.time_to_complete.split(/:/)
-            new_time_to_complete.setHours(parseInt(splitTime[0]))
-            new_time_to_complete.setMinutes(parseInt(splitTime[1]))
-            new_time_to_complete.setSeconds(0)
-            new_time_to_complete.setMilliseconds(0)
-        } else {
-            
-        }
+        console.log('new_time_to_complete', time_to_complete.toTimeString())
+
+        const new_time_to_complete = NewTimeByString( task.time_to_complete )
+
+        console.log('new_time_to_complete', new_time_to_complete)
+
+        console.log('initialFormValues', props.initialFormValues)
+        console.log('task', {
+            ...props.initialFormValues,
+            name: task.name,
+            time_to_complete: new_time_to_complete,
+            descriptions: task.descriptions,
+            parent_id: [task.parent_id],
+            task_type: [ task.task_type ]
+        })
 
         props.setInitialFormValues({
             ...props.initialFormValues,
@@ -68,7 +70,7 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             time_to_complete: new_time_to_complete,
             descriptions: task.descriptions,
             parent_id: [task.parent_id],
-            task_type: [Number(task.task_type)]
+            task_type: [ Number(task.task_type) ]
         })
 
         props.showDrawer()

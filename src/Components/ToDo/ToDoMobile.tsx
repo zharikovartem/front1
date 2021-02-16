@@ -8,6 +8,7 @@ import ToDoForm from './ToDoForm/ToDoForm'
 import moment from 'moment'
 import { TaskType, TimeScaleSettingsType, NewTaskDataType } from '../../Types/types'
 import { Divider, Empty } from 'antd'
+import { NewTimeByString } from '../../utils/Date/NewDeteByString'
 
 type InitialDrewerDataType = {
     header: string,
@@ -18,11 +19,7 @@ const initialDrewerData: InitialDrewerDataType = {
     header: 'Create New Task',
     taskId: false
 }
-const zeroTime = new Date()
-zeroTime.setHours(0)
-zeroTime.setMinutes(0)
-zeroTime.setSeconds(0)
-zeroTime.setMilliseconds(0)
+const zeroTime = NewTimeByString()
 
 type InitialValuesType = {
     name: string,
@@ -43,7 +40,7 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
         if (props.taskList === null) {
             props.getTaskList(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
         }
-    }, [props.taskList])
+    }, [props])
 
     useEffect(() => {
         props.getTaskList(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
@@ -82,10 +79,6 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
         setIsModalVisible(false)
     }
 
-    type FormPropsType = {
-        
-    }
-
     const handleSubmit = (values: InitialValuesType) => {
         let formPropsCopy: NewTaskDataType = { 
             ...values, 
@@ -103,13 +96,11 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
     }
 
     const onComplete = (task: TaskType) => {
-        if (task.isCompleted) {
-            const updatedTask: NewTaskDataType = {
-                ...task as NewTaskDataType,
-                isCompleted: !task.isCompleted
-            }
-            props.updateTask(updatedTask, task.id)
+        const updatedTask: NewTaskDataType = {
+            ...task as NewTaskDataType,
+            isCompleted: !task.isCompleted
         }
+        props.updateTask(updatedTask, task.id)
     }
 
     if (props.taskList !== null) {
@@ -205,12 +196,8 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
             taskId: value.id
         })
 
-        const splitTime = value.time.split(/:/)
-        let time = new Date()
-        time.setHours(parseInt(splitTime[0]))
-        time.setMinutes(parseInt(splitTime[1]))
-        time.setSeconds(parseInt(splitTime[2]))
-        time.setMilliseconds(0)
+        let time = NewTimeByString(value.time)
+        // let date = NewTimeByString(value.date)
 
         const splitDate = value.date.split(/-/)
         let date = new Date()
@@ -303,7 +290,7 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
     const getTasksForHour = (date: string, hour: number) => {
         let tasksForHour: Array<JSX.Element | undefined> = []
         if (props.taskList !== null) {
-            tasksForHour = props.taskList.map(item => {
+            tasksForHour = props.taskList.map( (item: TaskType) => {
                 if (item.date === date) {
                     let itemTime = item.time.split(':')[0]
                     if (moment().hours(hour).format('HH') === itemTime) {
@@ -382,7 +369,7 @@ const TasksOnly: React.FC<TimeScaleType> = (props) => {
                                     setInitialFormValues={props.setInitialFormValues}
                                     onComplete={props.onComplete}
                                 />
-                            }
+                            } else return null
                         })}
                     </>
                 )

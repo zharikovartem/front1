@@ -1,24 +1,17 @@
 import {connect} from 'react-redux'
 import TaskTreeBrowserItem, { OwnTaskTreeBrowserItemType } from './TaskTreeBrowserItem'
 import { AppStateType } from '../../redux/store'
-import {getTaskList, createNewTaskList, deleteTaskList, updateTaskList, actions} from './../../redux/TaskListReducer'
-import { isMobile } from 'react-device-detect'
-// import TasksTreeBrowser from './TasksTreeBrowser'
-import TasksTreeMobile from './TasksTreeMobile'
+import {getTaskList, createNewTaskList, deleteTaskList, updateTaskList} from './../../redux/TaskListReducer'
+import { NewTaskListType } from '../../Types/types'
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 
 type MapDispatchPropsType = {
     getTaskList: ()=>void,
-    createNewTaskList: (values: any)=>void,
+    createNewTaskList: (values: NewTaskListType)=>void,
     deleteTaskList: (taskId: number)=>void,
-    updateTaskList: (values: any, taskId: number)=> void,
-    // backSelectedTasks: ()=>void,
-}
-
-type OwnTasksTreePropsType = {
-
+    updateTaskList: (values: NewTaskListType, taskId: number)=> void,
 }
 
 export type TaskTreeBrowserItemType = MapPropsType & MapDispatchPropsType & OwnTaskTreeBrowserItemType

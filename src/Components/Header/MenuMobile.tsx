@@ -6,20 +6,20 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { MenuPropsType } from './MenuContainer'
 import { Link } from 'react-router-dom'
 import MenuPopover from './MenuPopover'
+import { MenuDataItemType, MenuDataType } from './Header'
 
 const MenuMobile: React.FC<MenuPropsType> = (props) => {
     let history = useHistory();
     const location = useLocation();
-    const [show, setShow] = useState(false)
-    type DataType = typeof props.menuData
+    const [showMenu, setShowMenu] = useState(false)
     const data = [...props.menuData]
-    const [initData, setInitData] = useState<DataType>(data)
+    const [initData, setInitData] = useState<MenuDataType>(data)
 
     const getSelectedMenuItem = (): ValueType => {
         let response: ValueType = [data[0].value, '']
-        data.forEach((dataItem: any) => {
+        data.forEach((dataItem: MenuDataItemType) => {
             if (dataItem.children) {
-                dataItem.children.forEach((item: any) => {
+                dataItem.children.forEach((item: MenuDataItemType) => {
                     if (item.value === location.pathname) {
                         response = [dataItem.value, item.value]
                     }
@@ -33,7 +33,7 @@ const MenuMobile: React.FC<MenuPropsType> = (props) => {
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault(); // Fix event propagation on Android
-        setShow(!show)
+        setShowMenu(!showMenu)
     }
 
     const onChange = (value?: ValueType | undefined) => {
@@ -44,10 +44,10 @@ const MenuMobile: React.FC<MenuPropsType> = (props) => {
                 if (dataItem.value === value[0]) {
                     subMenu = value[0]
                     if (dataItem.children && value[1]) {
-                        dataItem.children.forEach((cItem: { value: string | string[]; label: any }) => {
+                        dataItem.children.forEach((cItem: { value: string | string[]; label: string }) => {
                             if (cItem.value === value[1]) {
                                 history.replace(`${cItem.value}`)
-                                setShow(false)
+                                setShowMenu(false)
                             }
                         })
                     }
@@ -63,7 +63,7 @@ const MenuMobile: React.FC<MenuPropsType> = (props) => {
     }
 
     const onMaskClick = () => {
-        setShow(false)
+        setShowMenu(false)
     }
 
     const menuEl = (
@@ -89,7 +89,7 @@ const MenuMobile: React.FC<MenuPropsType> = (props) => {
     }
 
     return (
-        <div className={show ? 'menu-active' : ''}>
+        <div className={showMenu ? 'menu-active' : ''}>
             <div>
                 <NavBar
                     leftContent=""
@@ -117,8 +117,8 @@ const MenuMobile: React.FC<MenuPropsType> = (props) => {
 
                 </NavBar>
             </div>
-            {show ? initData ? menuEl : loadingEl : null}
-            {show ? <div className="menu-mask" onClick={onMaskClick} /> : null}
+            {showMenu ? initData ? menuEl : loadingEl : null}
+            {showMenu ? <div className="menu-mask" onClick={onMaskClick} /> : null}
         </div>
     )
 }

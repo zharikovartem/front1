@@ -4,7 +4,7 @@ import { isMobile } from 'react-device-detect'
 import {getTaskList, createNewTask, updateTask, deleteTask} from '../../redux/taskReducer'
 import { AppStateType } from '../../redux/store'
 import ToDoBrowser from './ToDoBrowser'
-import { NewTaskDataType, TaskType } from '../../Types/types'
+import { NewTaskDataType } from '../../Types/types'
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 

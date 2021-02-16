@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import { BaseThunkType, InferActionsTypes } from "./store";
 import { taskListAPI } from './../api/taskListAPI'
-import { TaskListType } from "../Types/types";
+import { NewTaskListType, TaskListType } from "../Types/types";
 
 
 export type InitialStateType = {
@@ -58,7 +58,7 @@ export const getTaskList = (): ThunkType => {
     }
 }
 
-export const createNewTaskList = (values: any): ThunkType => {
+export const createNewTaskList = (values: NewTaskListType): ThunkType => {
     return async (dispatch, getState) => {
         let response = await taskListAPI.createNewTaskList(values)
         dispatch(actions.setTaskList(response.data.Tasks))
@@ -72,7 +72,7 @@ export const deleteTaskList = (taskId: number): ThunkType => {
     }
 }
 
-export const updateTaskList = (values: any, taskId: number): ThunkType => {
+export const updateTaskList = (values: NewTaskListType, taskId: number): ThunkType => {
     return async (dispatch, getState) => {
         let response = await taskListAPI.updateTask(values, taskId)
         dispatch(actions.setTaskList(response.data.Tasks))

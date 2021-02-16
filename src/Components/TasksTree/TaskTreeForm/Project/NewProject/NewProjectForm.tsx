@@ -9,18 +9,13 @@ const NewProjectForm: React.FC<any> = (props) => {
     const [backend, setBackend] = useState(false)
 
     const submitFrontEnd = (val: any) => {
+        console.log('submitFrontEnd')
         setFrontend(val.target.checked)
     }
 
     const submitBackEnd = (val: any) => {
         console.log('submitBackEnd')
         setBackend(val.target.checked)
-    }
-
-    const submitCountBackEnd = (val: any) => {
-        console.log('submitCountBackEnd', val)
-        // setBackend(val.target.checked)
-        props.submitCount(val)
     }
 
     return (
@@ -39,8 +34,9 @@ const NewProjectForm: React.FC<any> = (props) => {
                 name="isHasBackEnd"
                 type="checkbox"
                 label="BackEnd"
-                submitCount={submitCountBackEnd}
+                submitCount={props.submitCount}
                 onClick={submitBackEnd}
+                onSelect={submitBackEnd}
             />
             {backend ? 
             <>
@@ -57,9 +53,11 @@ const NewProjectForm: React.FC<any> = (props) => {
             <Field
                 component={AntCheckbox}
                 name="isHasFrontEnd"
+                type="checkbox"
                 label="FrontEnd"
                 submitCount={props.submitCount}
                 onClick={submitFrontEnd}
+                onSelect={submitFrontEnd}
             />
             {frontend ? <>
                 <h5>Frontend initial options:</h5><br />

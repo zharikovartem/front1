@@ -4,52 +4,58 @@ import { PlusCircleOutlined , DeleteOutlined, EditOutlined, CaretRightOutlined  
 import { TaskListType } from '../../Types/types'
 import {TaskTreeBrowserItemType} from './TaskTreeBrowserItemContainer'
 import moment from "moment"
+import { InitialDrewerDataType, InitialValuesType } from './TasksTreeBrowser'
 
 const { Panel } = Collapse
 
 export type OwnTaskTreeBrowserItemType = {
-    // item: TaskListType,
-    item: any
+    item: TaskListType,
     showDrawer: () => void,
-    setDrawerData: (drawerData: any) => void,
-    initialFormValues: any,
-    setInitialFormValues: (initialFormValues: any) => void,
-    initialValues: any,
-    onRunTask: (values:any)=>void
+    setDrawerData: React.Dispatch<React.SetStateAction<InitialDrewerDataType>>,
+    initialFormValues: InitialValuesType,
+    setInitialFormValues: React.Dispatch<React.SetStateAction<InitialValuesType>>,
+    initialValues: InitialValuesType,
+    onRunTask: (values: number)=>void
 }
 
 const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
 
     const onAddSubtask = (taskId: number) => {
         console.log('onAddSubtask to: ', taskId)
-        props.setInitialFormValues({})
         props.setInitialFormValues({...props.initialValues, parent_id: taskId})
         props.showDrawer()
     }
 
-    const onEdit = (values: any) => {
-        console.log('onEdit values: ',values)
+    const onEdit = (values: TaskListType) => {
         props.setDrawerData({
             header: 'Edit: "' + values.name + '"',
             taskId: values.id
         })
+
         let day = moment().zone('GMT')
         if (values.time_to_complete !== null) {
             const splitTime = values.time_to_complete.split(/:/)
-            day.hours(parseInt(splitTime[0])).minutes(parseInt(splitTime)).seconds(0).milliseconds(0);
+            day.hours(parseInt(splitTime[0])).minutes(parseInt(splitTime[1])).seconds(0).milliseconds(0);
         } else {
             day.hours(0).minutes(0).seconds(0).milliseconds(0);
         }
-        
-        props.setInitialFormValues({
-                ...props.initialFormValues,
-                ...JSON.parse(values.data), 
-                name: values.name,
-                time_to_complete: day,
-                descriptions: values.descriptions,
-                parent_id: values.parent_id,
-                task_type: Number(values.task_type)
-            })
+
+        let newFormValues: InitialValuesType = {
+            ...props.initialFormValues,
+            name: values.name,
+            time_to_complete: day,
+            descriptions: values.descriptions ? values.descriptions : undefined,
+            parent_id: values.parent_id ? values.parent_id : undefined,
+            task_type: Number(values.task_type)
+        }
+        if (values.data) {
+            newFormValues = {
+                ...newFormValues,
+                ...JSON.parse(values.data)
+            }
+        }
+
+        props.setInitialFormValues(newFormValues)
 
         props.showDrawer()
     }
@@ -65,7 +71,6 @@ const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
         props.deleteTaskList(taskId)
     }
 
-    // console.log(props.item)
     if (props.item.parent_id == null) {
         return <CollapseItem
             item={props.item}
@@ -85,23 +90,23 @@ const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
 export default TaskTreeBrowserItem
 
 type ChildItemType = {
-    childsTaslList: any
+    childsTasklList: Array<TaskListType>,
     taskList: Array<TaskListType>,
     onEdit: (task: TaskListType) => void,
     deleteTask: (task: number) => void,
     onAddSubtask: (taskId: number) => void,
     onStatusChange: (e: any) => void,
-    onRunTask: (values:any)=>void
+    onRunTask: (values:TaskListType)=>void
 }
 const ChildItem: React.FC<ChildItemType> = (props) => {
-    console.log(props.childsTaslList)
-    // let vals = Array.from( props.childsTaslList.values() )
+    console.log(props.childsTasklList)
+    // let vals = Array.from( props.childsTasklList.values() )
     // console.log(vals)
     return (
         <>
-            { props.childsTaslList.map((item: any) => {
-                // console.log(props.childsTaslList.get(item.id))
-            {/* { props.childsTaslList .map((item: TaskListType) => { */}
+            { props.childsTasklList.map((item: TaskListType) => {
+                // console.log(props.childsTasklList.get(item.id))
+            {/* { props.childsTasklList .map((item: TaskListType) => { */}
                 return (
                     <CollapseItem
                         item={item}
@@ -146,7 +151,7 @@ const CollapseItem: React.FC<CollapseItemType> = (props) => {
                         extra={<ButtonsBlock {...props}/>}
                     >
                         <ChildItem
-                            childsTaslList={getChildsList(props.taskList, props.item)}
+                            childsTasklList={getChildsList(props.taskList, props.item)}
                             taskList={props.taskList}
                             onEdit={props.onEdit}
                             deleteTask={props.deleteTask}
@@ -182,12 +187,11 @@ type LastItemType = {
 }
 
 const LastItem: React.FC<LastItemType> = (props) => {
+
     const onStatusChange = (e: any) => {
         const values = { ...props.item, isCompleted: e.target.checked }
         props.onEdit(values)
     }
-
-    // console.log(props.item.name,' checked: ', props.item.isCompleted)
 
     return (
         <List.Item className="py-0" draggable key={String(props.item.id)}>
@@ -288,14 +292,4 @@ const getChildsList = (taskList: any, item: any ) => {
         }
     }
     return childs
-
-    // let childs = new Map()
-    // 
-    // for (let pair of taskList.entries()) {
-    //     const elem = pair
-    //     if (elem.parent_id === item.id) {
-    //         childs.set(pair[0], pair)
-    //     }
-    // }
-    // return childs
 }

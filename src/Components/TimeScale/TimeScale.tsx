@@ -37,7 +37,7 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
         }
     }, [props.errorMessage])
     
-    //console.log(props.dateInterval)
+    console.log('view settings: ',props.settings.ToDo)
 
     if (props.taskList !== undefined) {
         if (props.taskList !== null) {

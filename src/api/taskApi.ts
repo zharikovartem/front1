@@ -72,11 +72,11 @@ export const taskAPI = {
         })
     }, 
 
-    updateTask(values: any, taskId: number) {
+    updateTask(values: NewTaskDataType, taskId: number) {
         getToken()
-        return instance.put<any>(`tasks/${taskId}`, values)
+        return instance.put<TaskListType>(`tasks/${taskId}`, values)
         .then(response => {
-            //console.log(response)
+            // console.log('updateTask: ',response)
             return response.status === 200 ? response : null
         })
         .catch(err => {

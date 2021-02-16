@@ -38,6 +38,7 @@ const App = (props: MapPropsType & DispatchPropsType) => {
 
       if (location === '/front1/') {
         props.addLocation(location)
+        setLocation(location)
       }
       props.initializeApp()
     }

@@ -1,30 +1,27 @@
 import React, { ReactNode, useState } from 'react'
-import { Card, Modal } from 'antd'
+import { Modal } from 'antd'
 import { SettingsModalPropsType } from './SettingsModalContainer'
 import { Form, Field, FormikProps, Formik } from 'formik'
 import { validateRequired } from '../../../utils/Formik/ValidateFields'
-import { AntInput, AntSelect, AntTextArea, AntTimePicker, AntDatePicker, AntCheckbox } from '../../../utils/Formik/CreateAntField'
+import { AntTimePicker, AntCheckbox } from '../../../utils/Formik/CreateAntField'
 import { List } from 'antd-mobile'
+import moment from "moment"
+import { isMobile } from 'react-device-detect'
+import { NewTimeByString } from '../../../utils/Date/NewDeteByString'
 
-const zeroTime = new Date()
-zeroTime.setHours(0)
-zeroTime.setMinutes(0)
-zeroTime.setSeconds(0)
-zeroTime.setMilliseconds(0)
+const zeroTimeDate = NewTimeByString()
+const zeroTimeMoment = moment(zeroTimeDate)
 
-const maxTime = new Date()
-maxTime.setHours(23)
-maxTime.setMinutes(59)
-maxTime.setSeconds(0)
-maxTime.setMilliseconds(0)
+const maxTimeDate = NewTimeByString('23:00')
+const maxTimeMoment = moment(maxTimeDate)
 
 const settingasInstanse = {
         timeScaleInrerval: false,
         completeInrerval: true,
         timeScaleSingle: true,
         completeSingle: true,
-        timeStart: zeroTime,
-        timeEnd: maxTime,
+        timeStart: isMobile ? zeroTimeDate : zeroTimeMoment,
+        timeEnd: isMobile ? maxTimeDate : maxTimeMoment,
 }
 
 export type SettingasInstanseType = typeof settingasInstanse
@@ -35,14 +32,29 @@ export type OwmSettingsModalPropsType = {
     handleCancel: () => void
 }
 
+const getSettingsInstanseFromPros = (viewSettings: any) => {
+    console.log(viewSettings)
+    const timeStartParts = viewSettings.timeStart.split(':')
+    const timeEndParts = viewSettings.timeEnd.split(':')
+
+    return {
+        ...viewSettings,
+        timeStart: isMobile ? NewTimeByString(viewSettings.timeStart) : moment().hours(timeStartParts[0]).minutes(timeStartParts[1]).seconds(0).milliseconds(0),
+        timeEnd: isMobile ? NewTimeByString(viewSettings.timeEnd) : moment().hours(timeEndParts[0]).minutes(timeEndParts[1]).seconds(0).milliseconds(0),
+    }
+}
+
 
 const SettingsModal: React.FC<SettingsModalPropsType> = (props) => {
-    const [settings, setSettings] = useState(props.viewSettings !== null ? props.viewSettings : settingasInstanse)
+    const [settings, setSettings] = useState(props.viewSettings !== null ? getSettingsInstanseFromPros(props.viewSettings.ToDo) : settingasInstanse)
 
     const handleSubmit = (values: SettingasInstanseType) => {
+        console.log(values)
         props.changeSettings('ToDo', values)
         props.handleOk()
     }
+
+    console.log('settings: ', settings)
 
     return (
         <Modal
@@ -52,9 +64,11 @@ const SettingsModal: React.FC<SettingsModalPropsType> = (props) => {
             onCancel={props.handleCancel}
         >
             <Formik
-                initialValues={settingasInstanse}
+                // initialValues={settingasInstanse}
+                initialValues={settings}
                 onSubmit={handleSubmit}
                 render={SettingsForm as any}
+                enableReinitialize={true}
             />
         </Modal>
     )
@@ -63,6 +77,7 @@ const SettingsModal: React.FC<SettingsModalPropsType> = (props) => {
 export default SettingsModal
 
 const SettingsForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
+    console.log(props)
     return (
         <Form
             className="form-container"
@@ -100,7 +115,7 @@ const SettingsForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
             </List>
             <List renderHeader={() => 'Work day info'}>
                 <Field
-                    component={AntDatePicker}
+                    component={AntTimePicker}
                     name="timeStart"
                     type="time"
                     label="Start time"
@@ -110,7 +125,7 @@ const SettingsForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 />
 
                 <Field
-                    component={AntDatePicker}
+                    component={AntTimePicker}
                     name="timeEnd"
                     type="time"
                     label="End time"

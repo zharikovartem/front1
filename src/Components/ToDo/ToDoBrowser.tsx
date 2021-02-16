@@ -7,6 +7,7 @@ import ToDoForm from './ToDoForm/ToDoForm'
 import moment from "moment"
 import { ToDoListPropsType } from './ToDoContainer'
 import { NewTaskDataType, TaskType } from '../../Types/types'
+import SettingsModalContainer from './Settings/SettingsModalContainer'
 
 type InitialDrewerDataType = {
     header: string,
@@ -28,7 +29,7 @@ type InitialValuesType = {
     name: string,
     time: moment.Moment,
     date: moment.Moment,
-    descriptions: string | null 
+    descriptions: string | null
 }
 
 const initialValues: InitialValuesType = {
@@ -53,7 +54,7 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
 
     const onTaskEdit = (value: TaskType) => {
         setDrawerData({
-            header: 'Edite "'+value.name+'"',
+            header: 'Edite "' + value.name + '"',
             taskId: value.id
         })
 
@@ -61,11 +62,11 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
 
         setInitialFormValues({
             name: value.name,
-            time: moment().hours( Number(splitTime[0]) ).minutes( Number(splitTime[1]) ).seconds(0),
+            time: moment().hours(Number(splitTime[0])).minutes(Number(splitTime[1])).seconds(0),
             date: moment(value.date),
             descriptions: value.descriptions ? value.descriptions : null
         })
-        
+
         showDrawer()
     }
 
@@ -74,8 +75,8 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
     }
 
     const onClose = (): void => {
-        setInitialFormValues({...initialValues})
-        setDrawerData({...initialDrewerData})
+        setInitialFormValues({ ...initialValues })
+        setDrawerData({ ...initialDrewerData })
         setVisible(false)
     }
 
@@ -83,17 +84,21 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
         setIsModalVisible(true)
     }
 
+    const handleCancel = () => {
+        setIsModalVisible(false)
+    }
+
     const handleOk = () => {
         setIsModalVisible(false)
     }
 
     const handleSubmit = (values: InitialValuesType) => {
-        let formProps: NewTaskDataType = { 
-                ...values,
-                time: values.time.format('HH:mm:ss'),
-                date: values.date.format('YYYY-MM-DD'),
-                user_id: props.userId,
-            }
+        let formProps: NewTaskDataType = {
+            ...values,
+            time: values.time.format('HH:mm:ss'),
+            date: values.date.format('YYYY-MM-DD'),
+            user_id: props.userId,
+        }
         if (!drawerData.taskId) {
             props.createNewTask(formProps, true)
         } else {
@@ -104,13 +109,20 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
 
     return (
         <Card
-            title={ <ToDoHeaderContainer 
-                        showDrawer={showDrawer} 
-                        showModal={showModal}
-                    />}
+            title={<ToDoHeaderContainer
+                showDrawer={showDrawer}
+                showModal={showModal}
+            />}
             bordered={false}
         >
-            <TimeScale onEdit={onTaskEdit}/>
+            <SettingsModalContainer
+                isModalVisible={isModalVisible}
+                handleOk={handleOk}
+                handleCancel={handleCancel}
+            />
+
+            <TimeScale onEdit={onTaskEdit} />
+            
             <Drawer
                 title={drawerData.header}
                 placement="right"

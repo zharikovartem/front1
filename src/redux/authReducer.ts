@@ -1,6 +1,7 @@
-import { authAPI } from "../api/authAPI";
+import { authAPI, RegisterFormType } from "../api/authAPI";
 import { SettingasInstanseType } from "../Components/ToDo/Settings/SettingsModal";
 import { BaseThunkType, InferActionsTypes } from "./store"
+import moment from "moment"
 
 type InitialStateType = {
     user: UserType | null,
@@ -24,8 +25,30 @@ const authReducer = (state = initialState, action: ActionsTypes): InitialStateTy
         case 'SN/AUTH/SET_AUTH_ERROR':
             return{...state, authError: action.error}
         case 'SN/AUTH/SET_SETTINGS_DATA':
+            console.log(state.viewSettings)
             let viewSettings = {...state.viewSettings}
-            viewSettings[action.settingType] = action.settings
+            
+            let timeStart: string = ''
+            if (moment.isMoment(action.settings.timeStart)) {
+                timeStart = action.settings.timeStart.format('h:mm A')
+            } else {
+                timeStart = action.settings.timeStart.toTimeString().split(' ')[0]
+            }
+            let timeEnd: string = ''
+            if (moment.isMoment(action.settings.timeEnd)) {
+                timeEnd = action.settings.timeEnd.format('h:mm A')
+            } else {
+                timeEnd = action.settings.timeEnd.toTimeString().split(' ')[0]
+            }
+
+
+            // viewSettings[action.settingType] = action.settings
+            viewSettings[action.settingType] = {
+                ...action.settings,
+                timeStart: timeStart,
+                timeEnd: timeEnd
+            }
+            console.log(viewSettings)
             return {...state, viewSettings: viewSettings}
         case 'SN/AUTH/SET_USER_DATA':
             if (action.user !== null) {
@@ -101,7 +124,7 @@ export const login = (data: credsType): ThunkType => {
     }
 }
 
-export const register = (creds: any): ThunkType => {
+export const register = (creds: RegisterFormType): ThunkType => {
     return async (dispatch, getState) => {
         const response = await authAPI.register(creds)
         console.log('register', response)

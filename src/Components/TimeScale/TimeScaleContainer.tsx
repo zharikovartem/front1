@@ -19,7 +19,8 @@ let mapStateToProps = (state:AppStateType) => {
         taskListIsFetching: state.task.taskListIsFetching,
         dateInterval: state.task.dateInterval,
         errorMessage: state.task.errorMessage,
-        isInterval: state.task.isInterval
+        isInterval: state.task.isInterval,
+        settings: state.auth.viewSettings
     }
 }
 

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import { Form, Field, FormikProps } from 'formik'
-import { AntInput, AntSelect, AntTextArea, AntTimePicker } from '../../../../utils/Formik/CreateAntField'
+import { Field } from 'formik'
+import { AntSelect } from '../../../../utils/Formik/CreateAntField'
 import { validateRequired } from '../../../../utils/Formik/ValidateFields'
 import NewProjectForm from './NewProject/NewProjectForm'
 
@@ -22,7 +22,7 @@ const ProjectForm: React.FC<any> = (props) => {
     ]
 
     const onSelect = (val: string) => {
-        console.log(val)
+        console.log('onSelect: ',val)
         setIsNewType( Number(val) )
     }
 

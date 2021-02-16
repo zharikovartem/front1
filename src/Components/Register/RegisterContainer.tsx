@@ -2,12 +2,13 @@ import {connect} from 'react-redux'
 import Register, { OwnRegisterPropsType } from './Register'
 import { AppStateType } from '../../redux/store'
 import {register} from './../../redux/authReducer'
+import { RegisterFormType } from '../../api/authAPI'
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 
 type MapDispatchPropsType = {
-    register: (creds: any)=>void
+    register: (creds: RegisterFormType)=>void
 }
 
 export type RegisterPropsType = MapPropsType & MapDispatchPropsType & OwnRegisterPropsType

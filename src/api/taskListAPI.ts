@@ -1,5 +1,6 @@
 import { TaskListType } from '../Types/types'
 import {instance} from './api'
+import {NewTaskListType} from './../Types/types'
 
 
 if (localStorage.getItem('remember_token')) {
@@ -38,7 +39,7 @@ export const taskListAPI = {
             return null
         })
     },
-    createNewTaskList(values: any) {
+    createNewTaskList(values: NewTaskListType) {
         return instance.post<TaskListType>(`taskList`, values)
         .then(response => {
             console.log(response)
@@ -71,7 +72,7 @@ export const taskListAPI = {
             return null
         })
     },
-    updateTask(values: any, taskId: number) {
+    updateTask(values: NewTaskListType, taskId: number) {
         return instance.put<TaskListType>(`taskList/${taskId}`, values)
         .then(response => {
             console.log(response)
@@ -90,5 +91,3 @@ export const taskListAPI = {
         })
     }
 }
-//descriptions
-//descriptions

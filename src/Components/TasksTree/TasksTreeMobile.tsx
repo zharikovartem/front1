@@ -4,8 +4,9 @@ import { Drawer, List, Button, Card, WingBlank, WhiteSpace } from 'antd-mobile'
 import NewTaskTreeForm from './TaskTreeForm/NewTaskTreeForm'
 import './TasksTreeMobile.css'
 import { Formik } from 'formik'
-import moment from "moment"
-import { TaskTreeItemMobile } from './TaskTreeItem'
+import { TaskTreeItemMobile } from './TaskTreeMobileItem'
+import { NewTimeByString } from '../../utils/Date/NewDeteByString'
+import { NewTaskListType } from '../../Types/types'
 
 type InitialDrewerDataType = {
     header: string,
@@ -41,46 +42,53 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         }
     }
 
-    let initialTimeToComplete = new Date()
-    initialTimeToComplete.setHours(0)
-    initialTimeToComplete.setMinutes(0)
-    initialTimeToComplete.setSeconds(0)
-    initialTimeToComplete.setMilliseconds(0)
+    let initialTimeToComplete = NewTimeByString()
 
-    const initialValues: any = {
+    type SelectOptionType = {
+        name: string,
+        value: number
+    }
+
+    type InitialValuesType = {
+        selectOptions: Array<SelectOptionType> | null,
+        taskTypes: typeof taskTreeTypes,
+        task_type: Array<number>,
+        name?: string,
+        descriptions?: string
+        parent_id?: Array<number>
+        time_to_complete?: Date
+    }
+
+    const initialValues: InitialValuesType = {
         selectOptions: getSelectOptions(),
         taskTypes: taskTreeTypes,
-        task_type: 1,
-        time_to_complete: initialTimeToComplete
+        task_type: [1],
+        time_to_complete: initialTimeToComplete,
+        // name: 'empty'
     }
 
     const [visible, setVisible] = useState(false)
     const [initialFormValues, setInitialFormValues] = useState(initialValues)
     const [drawerData, setDrawerData] = useState(initialDrewerData)
 
-    const handleSubmit = (formProps: any) => {
-        console.log('handleSubmit formProps: ', formProps)
-        let formPropsCopy: any = { ...formProps }
-        delete formPropsCopy.selectOptions
-        delete formPropsCopy.taskTypes
-        if (formPropsCopy.time_to_complete !== undefined) {
-            const time_to_complete = moment(formPropsCopy.time_to_complete)
-            formPropsCopy.time_to_complete = time_to_complete.format('HH:mm:ss')
+    const handleSubmit = (formProps: InitialValuesType) => {
+        const newTaskList: NewTaskListType = {
+            name: formProps.name,
+            task_type: formProps.taskTypes[0].value?.toString(),
+            descriptions: formProps.descriptions, 
+            user_id: props.userId,
+            parent_id: formProps.parent_id ? formProps.parent_id[0] : undefined,
+            time_to_complete: formProps.time_to_complete ? formProps.time_to_complete.toTimeString().split(' ')[0] : undefined,
         }
-        if (Array.isArray(formPropsCopy.parent_id)) {
-            formPropsCopy.parent_id = formPropsCopy.parent_id[0]
-        }
-
-        formPropsCopy.user_id = props.userId
 
         if (!drawerData.taskId) {
-            props.createNewTaskList(formPropsCopy)
+            props.createNewTaskList(newTaskList)
         } else {
-            props.updateTaskList(formPropsCopy, drawerData.taskId)
+            props.updateTaskList(newTaskList, drawerData.taskId)
         }
     }
 
-    const onAdd = (args: any) => {
+    const onAdd = () => {
         if (props.selectedTasks.length !== 0) {
             setDrawerData({ ...drawerData, taskId: false })
             setInitialFormValues({ ...initialValues, parent_id: [Number(props.selectedTasks[props.selectedTasks.length - 1])] })
@@ -99,11 +107,14 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         props.backSelectedTasks()
     }
 
+    console.log('initialFormValues', initialFormValues)
+
     return (
         <WingBlank size="lg">
             <WhiteSpace size="lg" />
             <Card>
                 <Card.Header
+                    className="sticky-top"
                     title={<h4 className="w-100 text-center">Tasks Tree</h4>}
                     extra={
                         <div className="d-flex flex-row">
@@ -145,7 +156,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                             <Formik
                                 initialValues={initialFormValues}
                                 onSubmit={handleSubmit}
-                                render={NewTaskTreeForm}
+                                render={NewTaskTreeForm as any}
                                 enableReinitialize={true}
                             />
                         </div>

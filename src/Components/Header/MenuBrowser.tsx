@@ -2,16 +2,17 @@ import React from 'react'
 import { Menu } from 'antd'
 import {Link, useHistory} from 'react-router-dom'
 import { MenuPropsType } from './MenuContainer'
+import { MenuDataItemType } from './Header';
 
 const { SubMenu } = Menu;
 
 const MenuBrowser: React.FC<MenuPropsType> = (props) => {
     let history = useHistory();
-    const handleClick = (e: any | undefined) => {
-    }
 
-    const getMenuItem = (childs: any):any => {
-        const menuItems = childs.map( (item: any) => {
+    const handleClick = () => {}
+
+    const getMenuItem = (childs: Array<MenuDataItemType>):Array<JSX.Element | undefined> => {
+        const menuItems = childs.map( (item: MenuDataItemType) => {
             return (
                 <Menu.Item key={item.value}>
                     <Link to={item.value}>{item.label}</Link>
@@ -21,14 +22,14 @@ const MenuBrowser: React.FC<MenuPropsType> = (props) => {
         return menuItems
     }
 
-    const getSubMenu = () => {
-        const subMenu = props.menuData.map( (item: any) => {
+    const getSubMenu = ():Array<JSX.Element | undefined> => {
+        const subMenu = props.menuData.map( (item: MenuDataItemType) => {
             return (
                 <SubMenu 
                     key={item.value} 
                     title={item.label}
                 >
-                    {getMenuItem(item.children)}
+                    {item.children ? getMenuItem(item.children) : null}
                 </SubMenu >
             )
         })
@@ -46,7 +47,7 @@ const MenuBrowser: React.FC<MenuPropsType> = (props) => {
             mode="horizontal"
             theme="dark"
         >
-            {getSubMenu()}
+            { getSubMenu() }
 
             {!props.isAuth ? 
                 <Menu.Item key="login">

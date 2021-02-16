@@ -12,7 +12,6 @@ import enUs from 'antd-mobile/lib/date-picker/locale/en_US'
 import {
     List,
     InputItem,
-    Switch,
     Checkbox as CheckboxMobile,
     TextareaItem,
     Picker,
@@ -20,7 +19,7 @@ import {
 } from 'antd-mobile'
 
 const FormItem = Form.Item
-const Option: React.FC<any> = Select.Option
+const Option = Select.Option
 const CheckboxItem = CheckboxMobile.CheckboxItem
 const { TextArea } = Input;
 
@@ -43,12 +42,7 @@ const CreateAntField = (AntComponent: any) => (
     const submittedError = hasError && submitted;
     const touchedError = hasError && touched;
 
-    // type OnInputChangeValueType = React.ChangeEvent<HTMLInputElement> | moment.Moment | Date | string
-    // const onInputChange = (value: OnInputChangeValueType, field: any) => {
     const onInputChange = (value: any) => {
-        console.log('value: ', value)
-        console.log('field: ', field)
-        console.log('type: ', type)
         if (value === undefined) {
             if (type === 'select' || type === 'time') {
                 form.setFieldValue(field.name, null)
@@ -56,23 +50,13 @@ const CreateAntField = (AntComponent: any) => (
         } else if(value === null) {
             form.setFieldValue(field.name, null)
         } else if (type === 'checkbox') {
-            console.log('checkbox(',field.name,')', value.target.checked)
             form.setFieldValue(field.name, value.target.checked)
         } else if (value.target) {
             form.setFieldValue(field.name, value.target.value)
         } else {
             if (type === 'time') {
-                // if (value instanceof moment) {
-                //     //console.log('moment')
-                //     form.setFieldValue(field.name, value)
-                // } else {
-                //     //console.log('not moment')
-                //     // form.setFieldValue(field.name, moment(value.setSeconds(0)))
-                //     form.setFieldValue(field.name, value)
-                // }
                 form.setFieldValue(field.name, value)
             } else if (Array.isArray(value)) {
-                // добавтить проверуку на пустой массив
                 form.setFieldValue(field.name, value[0])
             } else {
                 form.setFieldValue(field.name, value)
@@ -82,7 +66,6 @@ const CreateAntField = (AntComponent: any) => (
     }
 
     const onChange = (value: string | React.ChangeEvent<HTMLInputElement>) => {
-        //console.log('onChange: ', value)
         if (typeof value !== "string" && value.target.type === 'checkbox') {
             form.setFieldValue(field.name, value.target.checked)
         } else {
@@ -120,6 +103,7 @@ const CreateAntField = (AntComponent: any) => (
                     allowClear={selectOptions ? "true" : "false"}
                     onBlur={onBlur}
                     onChange={type ? onInputChange : onChange}
+                    checked={field.value}
                 >
                     {selectOptions &&
                         selectOptions.map((item: any) => <Option title={item.name} value={item.value} key={item.name}>{item.name}</Option>)}
@@ -138,7 +122,6 @@ export const AntInput = !isMobile ? CreateAntField(Input) : CreateAntField(Input
 export const AntInputPassword = !isMobile ? CreateAntField(Input.Password) : CreateAntField(InputItem)
 export const AntTimePicker = !isMobile ? CreateAntField(TimePicker) : CreateAntField(DatePickerMobile)
 export const AntCheckbox = !isMobile ? CreateAntField(Checkbox) : CreateAntField(CheckboxItem)
-// export const AntCheckbox = !isMobile ? CreateAntField(Checkbox) : CreateAntField(Switch)
 export const AntTextArea = !isMobile ? CreateAntField(TextArea) : CreateAntField(TextareaItem)
 
 type MobileComponentType = {
@@ -153,44 +136,35 @@ type MobileComponentType = {
     onOk: (val:any)=>void
 }
 
-// const MobileComponent: React.FC<any> = (props) => {
 const MobileComponent: React.FC<MobileComponentType> = (props) => {
     const [defaultValue, setValue] = useState(props.type === 'select' ? [props.value] : props.value)
 
-    // useEffect(() => {
-    //     if (props.type === 'select' && props.label === 'task_type') {
-    //         //console.log('useEffect parent_id: ',props.value)
-    //         setValue([props.value])
-    //     } else {
-    //         setValue(props.value)
-    //     }
-    // }, [props.value])
+    useEffect(() => {
+        if (props.type === 'select') {
+            setValue([props.value])
+        } else {
+            setValue(props.value)
+        }
+    }, [props.value])
 
     const onInputChange = (value: any) => {
-        console.log('onInputChange', value)
         setValue(value)
         props.onInputChange(value)
+        if (props.type === 'checkbox') {
+            props.onOk(value)
+        }
     }
 
     const onPickerChange = (value:any) => {
-        console.log('onPickerChange: ')
         setValue(value)
     }
 
     const onOk = (value:any) => {
-        console.log('onOk; ', value)
         setValue(value)
-        props.onOk(value)
-    }
-
-    const onCheckboxClick = (val: any) => {
-        if (props.type === 'checkbox') {
-            if (val.target.checked) {
-                console.log('onClick', val.target.checked)
-            } else {
-                console.log('!!!!onClick', val)
-            }
+        if (props.onOk) {
+            props.onOk(value)
         }
+        
     }
 
     type DataType = Array<
@@ -214,12 +188,6 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
         })
     } else {
         data = []
-    }
-
-    if (props.type === 'select') {
-        // console.log('render: ',props.label,': ',props.value)
-        // console.log('props', props)
-        // console.log(props.label,'defaultValue: ', defaultValue)
     }
 
     const mode = props.type
@@ -247,7 +215,6 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
                 onOk={onOk}
                 onPickerChange={onPickerChange}
                 onChange={props.type ? onInputChange : props.onChange}
-                // onClick={onCheckboxClick}
             >
                 <List.Item
                     className="pl-0"

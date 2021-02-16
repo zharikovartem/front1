@@ -1,9 +1,6 @@
 import React from 'react'
-import { isMobile } from "react-device-detect"
 import { HeaderPropsType } from './HeaderContainer'
-// import MenuBrowser from './MenuBrowserConainer'
 import MenuContainer from './MenuContainer'
-import MenuMobile from './MenuContainer'
 
 export type OwnHeaderPropsType = {}
 
@@ -13,11 +10,16 @@ const Header: React.FC<HeaderPropsType> = (props) => {
 
 export default Header
 
+export type MenuDataType = Array<MenuDataItemType>
+export type MenuDataItemType = {
+    value: string,
+    label: string,
+    disabled?: boolean
+    children?: Array<MenuDataItemType>,
+}
 
-export type MenuDataType = ReturnType<typeof menuData>
-
-const menuData = (appLocation: string) => {
-    const data = [
+const menuData = (appLocation: string): MenuDataType => {
+    const data: MenuDataType = [
     {
         value: 'planning',
         label: 'Planning',

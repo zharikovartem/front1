@@ -1,8 +1,6 @@
-import { Button } from 'antd'
 import { Form, Field, FormikProps } from 'formik'
-import React, { ReactNode, useState, useEffect } from 'react'
-import ButtonVsIcon from '../../../utils/components/ButtonVsIcon'
-import { AntDatePicker, AntInput, AntSelect, AntTextArea, AntTimePicker } from '../../../utils/Formik/CreateAntField'
+import React, { ReactNode } from 'react'
+import { AntDatePicker, AntTimePicker } from '../../../utils/Formik/CreateAntField'
 import { validateRequired } from '../../../utils/Formik/ValidateFields'
 
 const RunTaskFormCall: ((props: FormikProps<{}>) => ReactNode) = (props) => {

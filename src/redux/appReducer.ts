@@ -1,6 +1,5 @@
-import { Dispatch } from "react"
 import {getAuthUserData} from "./authReducer"
-import {BaseThunkType, InferActionsTypes} from './store'
+import {InferActionsTypes} from './store'
 
 let initialState = {
     initialized: false,

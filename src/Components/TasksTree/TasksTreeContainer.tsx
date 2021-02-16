@@ -5,16 +5,16 @@ import {createNewTask as createNewToDo} from './../../redux/taskReducer'
 import { isMobile } from 'react-device-detect'
 import TasksTreeBrowser from './TasksTreeBrowser'
 import TasksTreeMobile from './TasksTreeMobile'
-import { NewTaskDataType } from '../../Types/types'
+import { NewTaskDataType, NewTaskListType } from '../../Types/types'
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 
 type MapDispatchPropsType = {
     getTaskList: ()=>void,
-    createNewTaskList: (values: any)=>void,
+    createNewTaskList: (values: NewTaskListType)=>void,
     deleteTaskList: (taskId: number)=>void,
-    updateTaskList: (values: any, taskId: number)=> void,
+    updateTaskList: (values: NewTaskListType, taskId: number)=> void,
     backSelectedTasks: ()=>void,
     createNewToDo: (values: NewTaskDataType, reload?:boolean)=> void,
 }
