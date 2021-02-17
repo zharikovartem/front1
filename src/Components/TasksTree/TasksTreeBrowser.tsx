@@ -37,21 +37,7 @@ export type InitialValuesType = {
 
 
 const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
-    useEffect(() => {
-        if (props.taskList !== undefined && props.taskList.length === 0 && !props.isTaskListLoaded) {
-            props.getTaskList()
-        }
-        else if (props.taskList === undefined) {
-            props.getTaskList()
-        }
-        setVisible(false)
-        setInitialFormValues(initialValues)
-    }, [props.taskList])
 
-    const [visible, setVisible] = useState(false)
-    const [drawerData, setDrawerData] = useState(initialDrewerData)
-
-    
     const getSelectOptions = (): Array<SelectOptionType> | null => {
         if (props.taskList !== undefined && props.taskList.length > 0) {
             return props.taskList.map((item) => {
@@ -64,7 +50,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
             return null
         }
     }
-
+    
     const initialValues: InitialValuesType = {
         selectOptions: getSelectOptions(),
         taskTypes: taskTreeTypes,
@@ -72,7 +58,19 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         name: '',
 
     }
+    useEffect(() => {
+        if (props.taskList !== undefined && props.taskList.length === 0 && !props.isTaskListLoaded) {
+            props.getTaskList()
+        }
+        else if (props.taskList === undefined) {
+            props.getTaskList()
+        }
+        setVisible(false)
+        setInitialFormValues(initialValues)
+    }, [props.taskList, initialValues, props])
 
+    const [visible, setVisible] = useState(false)
+    const [drawerData, setDrawerData] = useState(initialDrewerData)
     const [initialFormValues, setInitialFormValues] = useState(initialValues)
     const [runTaskVisible, setRunTaskVisible] = useState(false)
     const [runData, setRunData] = useState<TaskListType | null>(null)
@@ -114,7 +112,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     }
     
     const onClose = () => {
-        setInitialFormValues({ ...initialValues })
+        // setInitialFormValues({ ...initialValues })
         setVisible(false)
     }
 
@@ -124,7 +122,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
 
     const onAdd = () => {
         setDrawerData(initialDrewerData)
-        setInitialFormValues(initialValues)
+        // setInitialFormValues(initialValues)
         showDrawer()
     }
 

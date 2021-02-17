@@ -1,4 +1,3 @@
-import { formatCountdown } from 'antd/lib/statistic/utils'
 import React from 'react'
 import { OrdersPropsType } from './OrdersContainer'
 

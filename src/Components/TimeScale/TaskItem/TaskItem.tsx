@@ -33,7 +33,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
     }
 
     return (
-        <ListGroup.Item action className="" key={props.element.id}>
+        <ListGroup.Item as="li" action className="" key={props.element.id}>
             <Row className="px-0 ml-0 ml-sm-5">
                 <Col className="mx-2">
                     <Checkbox 
@@ -56,7 +56,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                     </Tooltip>
                 </Col>
                 <Col className="mr-auto ml-0 mr-sm-2 ml-sm-auto">
-                    <Button className=""
+                    <Button
                         type="primary"
                         shape="circle"
                         size="small"
@@ -67,7 +67,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                                 <EditOutlined className="ml-1" style={{ fontSize: '14px' }} />
                             </div>
                         }
-                    />
+                    ></Button>
 
                     {!deleteingInProgess ? 
                     <Button 

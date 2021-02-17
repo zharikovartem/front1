@@ -5,6 +5,7 @@ import { TimeScalePropsType } from './TimeScaleContainer'
 import { Divider, Spin, Tooltip, message } from 'antd'
 import TaskItem from './TaskItem/TaskItemContainer'
 import { sortTaskArrayByParams } from '../../utils/array-helpers'
+import { ListGroup } from 'react-bootstrap'
 
 export type OwnTaskTimeScaleType = {
     onEdit: (value:any)=>void
@@ -12,9 +13,7 @@ export type OwnTaskTimeScaleType = {
 const TimeScale: React.FC<TimeScalePropsType> = (props) => {
     type SelestedDatesType = typeof props.dateInterval
     const [selestedDates, setSelectedDates] = useState<SelestedDatesType>({ startDate: moment(null), endDate: moment() })
-    // const [isInterval, setIsInterval] = useState(
-    //     props.dateInterval.startDate.format('YYYY-MM-DD') === props.dateInterval.endDate.format('YYYY-MM-DD') ? false : true
-    //     )
+
     useEffect(() => {
         if (
             props.dateInterval.startDate.isSame(selestedDates.startDate.format('YYYY-MM-DD'), "day" ) &&
@@ -37,7 +36,7 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
         }
     }, [props.errorMessage])
     
-    console.log('view settings: ',props.settings.ToDo)
+    // console.log('view settings: ',props.settings.ToDo)
 
     if (props.taskList !== undefined) {
         if (props.taskList !== null) {
@@ -109,7 +108,9 @@ const getTimeScaleArrey = (taskList: Array<TaskType>, isInterval:boolean, onEdit
                     if (getHeadlineLabel(element) === headlineDate) {
                         timeScaleArrey.push(
                             <Tooltip key={index + '-' + element.id} placement="topLeft" title={element.descriptions}>
-                                <TaskItem element={element} onEdit={onEdit}/>
+                                <ListGroup as="ul">
+                                    <TaskItem element={element} onEdit={onEdit}/>
+                                </ListGroup>
                             </Tooltip>
                         )
                     }

@@ -41,18 +41,25 @@ const initialValues: InitialValuesType = {
 }
 
 const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
+    useEffect(() => {
+        if (props.taskList === null) {
+            props.getTaskList(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
+        }
+    }, [props.taskList])
+
+    
+
     const [visible, setVisible] = useState(false)
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [drawerData, setDrawerData] = useState(initialDrewerData)
     const [initialFormValues, setInitialFormValues] = useState(initialValues)
 
     useEffect(() => {
-        if (props.taskList === null) {
-            props.getTaskList(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
-        }
-    }, [props.getTaskList])
+        console.log('name: ', initialFormValues.name)
+    }, [initialFormValues])
 
     const onTaskEdit = (value: TaskType) => {
+        console.log('onTaskEdit')
         setDrawerData({
             header: 'Edite "' + value.name + '"',
             taskId: value.id
@@ -75,7 +82,7 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
     }
 
     const onClose = (): void => {
-        setInitialFormValues({ ...initialValues })
+        setInitialFormValues(initialValues)
         setDrawerData({ ...initialDrewerData })
         setVisible(false)
     }
@@ -92,7 +99,7 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
         setIsModalVisible(false)
     }
 
-    const handleSubmit = (values: InitialValuesType) => {
+    const handleSubmit = (values: InitialValuesType, actions: any) => {
         let formProps: NewTaskDataType = {
             ...values,
             time: values.time.format('HH:mm:ss'),
@@ -104,6 +111,7 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
         } else {
             props.updateTask(formProps, drawerData.taskId)
         }
+        actions.resetForm()
         onClose()
     }
 

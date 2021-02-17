@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, Checkbox, Collapse, List } from 'antd'
 import { PlusCircleOutlined , DeleteOutlined, EditOutlined, CaretRightOutlined  } from '@ant-design/icons'
 import { TaskListType } from '../../Types/types'
@@ -105,8 +105,6 @@ const ChildItem: React.FC<ChildItemType> = (props) => {
     return (
         <>
             { props.childsTasklList.map((item: TaskListType) => {
-                // console.log(props.childsTasklList.get(item.id))
-            {/* { props.childsTasklList .map((item: TaskListType) => { */}
                 return (
                     <CollapseItem
                         item={item}
@@ -136,7 +134,8 @@ type CollapseItemType = {
     onRunTask: (values:any)=>void
 }
 const CollapseItem: React.FC<CollapseItemType> = (props) => {
-    const [isLast, setIsLast] = useState( getChildsList(props.taskList, props.item).length === 0 ? true : false )
+    // const [isLast, setIsLast] = useState( getChildsList(props.taskList, props.item).length === 0 ? true : false )
+    const isLast  = getChildsList(props.taskList, props.item).length === 0 ? true : false 
 
     if (!isLast) {
         return (
@@ -186,11 +185,6 @@ type LastItemType = {
 
 const LastItem: React.FC<LastItemType> = (props) => {
 
-    const onStatusChange = (e: any) => {
-        const values = { ...props.item, isCompleted: e.target.checked }
-        props.onEdit(values)
-    }
-
     return (
         <List.Item className="py-0" draggable key={String(props.item.id)}>
         <>
@@ -198,7 +192,13 @@ const LastItem: React.FC<LastItemType> = (props) => {
             <div className="w-100 float-left" key={String(props.item.id)}>
                 <div className="ml-3 float-left">
 
-                    {props.item.isCompleted ? <span className="text-black-50">{props.item.name}</span> : <a data-toggle="collapse" aria-controls={props.item.id + 'collapseExample'} >{props.item.name}</a>}
+                    {
+                    props.item.isCompleted ? 
+                        <span className="text-black-50">{props.item.name}</span> 
+                    : 
+                        // <button className="btn btn-link" data-toggle="collapse" aria-controls={props.item.id + 'collapseExample'} >{props.item.name}</button >
+                        <span data-toggle="collapse" aria-controls={props.item.id + 'collapseExample'} >{props.item.name}</span >
+                    }
 
                 </div>
                 <div className="ml-3 float-right">

@@ -21,8 +21,6 @@ const MenuPopover: React.FC<MenuPopoverType> = (props) => {
         setVisible(visible)
     }
 
-    const fortest:String = "fortest"
-
     return (
         <div className="mr-3">
         <Popover 

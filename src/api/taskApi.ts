@@ -19,7 +19,7 @@ export const taskAPI = {
     createNewTask(values: NewTaskDataType) {
         return instance.post<TaskListType>(`tasks`, values)
         .then(response => {
-            console.log('createNewTask', response)
+            // console.log('createNewTask', response)
             return response.status === 200 ? response : null
         })
         .catch(err => {
@@ -35,7 +35,7 @@ export const taskAPI = {
     },
 
     getTaskList(values: getTaskListValuesType) {
-        console.log(instance.defaults.headers.common['X-Auth-Token'])
+        // console.log(instance.defaults.headers.common['X-Auth-Token'])
         getToken()
         return instance.post<TaskListType>(`tasks/part`, values)
         .then(response => {

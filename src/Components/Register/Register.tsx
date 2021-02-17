@@ -22,7 +22,7 @@ const Register: React.FC<RegisterPropsType> = (props) => {
         if(props.isAuth) {
             history.replace(props.appLocation+'toDoList')
         }
-    }, [props.isAuth])
+    }, [props.isAuth, history, props.appLocation])
 
     useEffect(() => {
         if (props.authError) {

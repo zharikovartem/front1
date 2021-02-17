@@ -1,15 +1,11 @@
 import React, {useEffect} from 'react'
 import { LoginPropsType } from './LoginContainer'
-import { List, InputItem, Checkbox } from 'antd-mobile'
 import { Formik } from "formik"
-import moment from "moment"
 import LoginForm from './LoginForm'
-import { propTypes } from 'react-bootstrap/esm/Image'
 import { Button, message } from 'antd'
 import { Link } from 'react-router-dom'
 import { credsType } from '../../redux/authReducer'
 
-const CheckboxItem = Checkbox.CheckboxItem;
 
 export type OwnLoginPropsType = {}
 

@@ -6,18 +6,16 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { MenuPropsType } from './MenuContainer'
 import { Link } from 'react-router-dom'
 import MenuPopover from './MenuPopover'
-import { MenuDataItemType, MenuDataType } from './Header'
+import { MenuDataItemType } from './Header'
 
 const MenuMobile: React.FC<MenuPropsType> = (props) => {
     let history = useHistory();
     const location = useLocation();
     const [showMenu, setShowMenu] = useState(false)
-    const data = [...props.menuData]
-    const [initData, setInitData] = useState<MenuDataType>(data)
 
     const getSelectedMenuItem = (): ValueType => {
-        let response: ValueType = [data[0].value, '']
-        data.forEach((dataItem: MenuDataItemType) => {
+        let response: ValueType = [props.menuData[0].value, '']
+        props.menuData.forEach((dataItem: MenuDataItemType) => {
             if (dataItem.children) {
                 dataItem.children.forEach((item: MenuDataItemType) => {
                     if (item.value === location.pathname) {
@@ -40,7 +38,7 @@ const MenuMobile: React.FC<MenuPropsType> = (props) => {
         if (value) {
             let subMenu = value[0]
 
-            data.forEach((dataItem) => {
+            props.menuData.forEach((dataItem) => {
                 if (dataItem.value === value[0]) {
                     subMenu = value[0]
                     if (dataItem.children && value[1]) {
@@ -55,7 +53,7 @@ const MenuMobile: React.FC<MenuPropsType> = (props) => {
             })
         
             if (subMenu === '') {
-                subMenu = data[0].value
+                subMenu = props.menuData[0].value
             }
             setSelectedMenuItem([subMenu, value[1]])
         }
@@ -69,7 +67,7 @@ const MenuMobile: React.FC<MenuPropsType> = (props) => {
     const menuEl = (
         <Menu
             className="foo-menu"
-            data={initData}
+            data={props.menuData}
             value={selectedMenuItem}
             onChange={onChange}
             height={document.documentElement.clientHeight * 0.6}
@@ -117,7 +115,7 @@ const MenuMobile: React.FC<MenuPropsType> = (props) => {
 
                 </NavBar>
             </div>
-            {showMenu ? initData ? menuEl : loadingEl : null}
+            {showMenu ? props.menuData ? menuEl : loadingEl : null}
             {showMenu ? <div className="menu-mask" onClick={onMaskClick} /> : null}
         </div>
     )

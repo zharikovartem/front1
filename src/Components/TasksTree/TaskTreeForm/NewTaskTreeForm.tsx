@@ -13,6 +13,7 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
     const [taskType, setTaskType] = useState(values.taskType)
 
     useEffect(() => {
+        console.log(props.values)
         const values: any = props.values
         const taskTypes = values.task_type
         setTaskType(taskTypes)

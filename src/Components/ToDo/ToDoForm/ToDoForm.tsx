@@ -1,10 +1,18 @@
 import { Form, Field, FormikProps } from 'formik'
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import { AntInput, AntTextArea, AntTimePicker, AntDatePicker } from '../../../utils/Formik/CreateAntField'
 import { validateRequired } from '../../../utils/Formik/ValidateFields'
 
 
 const ToDoForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
+    useEffect(() => {
+        // props.values = props.initialValues
+        console.log('useEffect ToDoForm values', props.values)
+        // console.log('useEffect ToDoForm initialValues',props.initialValues)
+        // const values: any = props.values
+        // const taskTypes = values.task_type
+    }, [props.values])
+    console.log('ToDoForm render', props.values)
     return (
         <Form
             className="form-container"

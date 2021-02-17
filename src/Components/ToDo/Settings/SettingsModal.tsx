@@ -33,7 +33,7 @@ export type OwmSettingsModalPropsType = {
 }
 
 const getSettingsInstanseFromPros = (viewSettings: any) => {
-    console.log(viewSettings)
+    // console.log(viewSettings)
     const timeStartParts = viewSettings.timeStart.split(':')
     const timeEndParts = viewSettings.timeEnd.split(':')
 
@@ -49,12 +49,12 @@ const SettingsModal: React.FC<SettingsModalPropsType> = (props) => {
     const [settings, setSettings] = useState(props.viewSettings !== null ? getSettingsInstanseFromPros(props.viewSettings.ToDo) : settingasInstanse)
 
     const handleSubmit = (values: SettingasInstanseType) => {
-        console.log(values)
+        // console.log(values)
         props.changeSettings('ToDo', values)
         props.handleOk()
     }
 
-    console.log('settings: ', settings)
+    // console.log('settings: ', settings)
 
     return (
         <Modal

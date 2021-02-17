@@ -42,7 +42,7 @@ const App = (props: MapPropsType & DispatchPropsType) => {
       }
       props.initializeApp()
     }
-  }, [props.initialized])
+  }, [props, location])
 
 
   if (!props.initialized) {
