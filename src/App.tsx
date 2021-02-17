@@ -17,6 +17,7 @@ import Login from './Components/Login/LoginContainer'
 import Orders from './Components/Orders/OrdersContainer'
 import TasksTree from './Components/TasksTree/TasksTreeContainer'
 import Register from './Components/Register/RegisterContainer'
+import Users from './Components/Users/UsersContainer'
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
@@ -48,6 +49,8 @@ const App = (props: MapPropsType & DispatchPropsType) => {
   if (!props.initialized) {
     return <Spin key="spin" size="large" />
   }
+
+  console.log(props.userStatus)
 
   return (
     <Layout>
@@ -84,6 +87,16 @@ const App = (props: MapPropsType & DispatchPropsType) => {
         <Route path={props.appLocation + 'register'}
           render={() => <Register />} />
 
+
+
+        {props.userStatus === 'admin' || props.userStatus === 'superAdmin' ?
+          <Route path={props.appLocation + 'users'}
+            render={() => <Users />} />
+          :
+          null
+        }
+
+
         <Route path={props.appLocation + '*'}
           render={() => <div>404 NOT FOUND</div>} />
       </Switch>
@@ -94,7 +107,8 @@ const App = (props: MapPropsType & DispatchPropsType) => {
 const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized,
   appLocation: state.app.location,
-  isAuth: state.auth.isAuth
+  isAuth: state.auth.isAuth,
+  userStatus: state.auth.user?.status
 })
 
 let AppContainer = compose<React.ComponentType>(

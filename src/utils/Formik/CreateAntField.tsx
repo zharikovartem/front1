@@ -145,7 +145,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     const [defaultValue, setValue] = useState(props.type === 'select' ? [props.value] : props.value)
 
     useEffect(() => {
-        console.log(props.label,': ',props.value)
+        // console.log(props.label,': ',props.value)
         if (props.type === 'select' && !Array.isArray(props.value) ) {
             setValue([props.value])
         } else {
@@ -197,6 +197,10 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     }
 
     const mode = props.type
+    const autoHeight = props.type === 'textarea' ? {autoHeight: true} : null
+    if (props.type === 'textarea') {
+        console.log(autoHeight)
+    }
     
     return (
         <List>
@@ -212,7 +216,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
                 key={props.label}
                 title={props.label}
                 locale={enUs}
-                autoHeight
+                {...autoHeight}
 
                 className={props.type === 'text' ? 'pl-0' : null}
                 data={data}

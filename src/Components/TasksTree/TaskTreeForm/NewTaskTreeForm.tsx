@@ -56,7 +56,7 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
             <Field
                 component={AntTextArea}
                 name="descriptions"
-                type="text"
+                type="textarea"
                 label="Descriptions"
                 // validate={validateRequired}
                 submitCount={props.submitCount}

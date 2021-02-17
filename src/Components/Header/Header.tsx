@@ -5,7 +5,8 @@ import MenuContainer from './MenuContainer'
 export type OwnHeaderPropsType = {}
 
 const Header: React.FC<HeaderPropsType> = (props) => {
-    return <MenuContainer menuData={menuData(props.appLocation)}/>
+    const userStatus = props.user ? props.user.status : null
+    return <MenuContainer menuData={menuData(props.appLocation, userStatus)}/>
 }
 
 export default Header
@@ -18,7 +19,7 @@ export type MenuDataItemType = {
     children?: Array<MenuDataItemType>,
 }
 
-const menuData = (appLocation: string): MenuDataType => {
+const menuData = (appLocation: string, userStatus: string | null): MenuDataType => {
     const data: MenuDataType = [
     {
         value: 'planning',
@@ -68,5 +69,21 @@ const menuData = (appLocation: string): MenuDataType => {
         ],
     },
     ]
+
+    if (userStatus === 'admin' || userStatus ==='superAdmin') {
+        console.log(userStatus)
+        data.push(
+            {
+                value: 'admin',
+                label: 'Admin',
+                children: [
+                    {
+                        label: 'Users',
+                        value: appLocation + 'users',
+                    }
+                ],
+            }
+        )
+    }
     return data
 }

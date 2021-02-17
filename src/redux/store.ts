@@ -4,6 +4,7 @@ import appReducer from "./appReducer"
 import authReducer from "./authReducer"
 import taskListReducer from "./TaskListReducer"
 import taskReducer from './taskReducer'
+import usersReducer from "./usersReducer"
 
 
 let rootReducer = combineReducers({
@@ -11,6 +12,7 @@ let rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,
     taskList: taskListReducer,
+    users: usersReducer
 })
 
 type rootReducerType = typeof rootReducer
