@@ -34,6 +34,8 @@ const UserDataForm: React.FC<userData> = (props) => {
 
     const handleSubmit = (values: any, actions: any) => {
         console.log(values)
+        delete values['created_at']
+        delete values['updated_at']
         props.updateUser(values, props.userData.id)
     }
 
@@ -107,6 +109,18 @@ const FormFielsd: ((props: FormikProps<{}>) => ReactNode) = (props) => {
 
             <Field
                 component={AntInput}
+                name="email"
+                type="text"
+                label="Email"
+                disabled
+                // validate={validateEmail}
+                // onChange={submitPosible}
+                // submitCount={props.submitCount}
+                // hasFeedback
+            />
+
+            <Field
+                component={AntInput}
                 name="name"
                 type="text"
                 label="Name"
@@ -115,16 +129,7 @@ const FormFielsd: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 submitCount={props.submitCount}
                 hasFeedback
             />
-            <Field
-                component={AntInput}
-                name="email"
-                type="text"
-                label="Email"
-                validate={validateEmail}
-                onChange={submitPosible}
-                submitCount={props.submitCount}
-                hasFeedback
-            />
+            
             <Field
                 component={AntInput}
                 name="phone"

@@ -23,7 +23,14 @@ export type CurrentUserPropsType = MapPropsType & MapDispatchPropsType & OwnCurr
 
 let mapStateToProps = (state:AppStateType) => {
     return {
-        usersList: state.users.usersList
+        usersList: state.users.usersList,
+        dateInterval: state.task.dateInterval,
+        errorMessage: state.task.errorMessage,
+        isInterval: state.task.isInterval,
+        taskSaveStatus: state.task.taskSaveStatus,
+        settings:state.auth.viewSettings
+        // taskList
+        // taskListIsFetching={false}
     }
 }
 

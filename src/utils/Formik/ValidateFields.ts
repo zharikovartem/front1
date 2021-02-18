@@ -33,8 +33,7 @@ export const validatePhone = (value: string) => {
     let errors;
     if (!value) {
         errors = "Required!";
-    }
-    if (value.length === 1) {
+    } else if (value.length === 1) {
         if ( !Number(value) ) {
             if (value !== '+') {
                 errors = "NOT NUMBER!";

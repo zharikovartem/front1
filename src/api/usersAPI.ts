@@ -5,7 +5,8 @@ export type UserType = {
     name: string,
     view_settings: string,
     email: string,
-    status: 'admin' | 'superAdmin' | 'guest'
+    status: 'admin' | 'superAdmin' | 'guest',
+    toDoList?: Array<any> 
 }
 type UsersListType = Array<UserType>
 
