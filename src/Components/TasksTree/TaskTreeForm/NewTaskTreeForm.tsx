@@ -42,9 +42,7 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
 
             <Field
                 component={AntSelect}
-
                 selectOptions={selectOptions}
-
                 name="parent_id"
                 type="select"
                 label="Parent"

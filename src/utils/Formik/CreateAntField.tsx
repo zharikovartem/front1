@@ -43,6 +43,11 @@ const CreateAntField = (AntComponent: any) => (
     const touchedError = hasError && touched;
 
     const onInputChange = (value: any) => {
+
+        if (props.onChange) {
+            props.onChange(field.name, value)
+        }
+
         if (value === undefined) {
             if (type === 'select' || type === 'time') {
                 form.setFieldValue(field.name, null)
@@ -79,6 +84,8 @@ const CreateAntField = (AntComponent: any) => (
     if (label === 'Name') {
         // console.log(label,': ',field.value)
     }
+
+    // console.log(props)
 
     return (
         <FormItem

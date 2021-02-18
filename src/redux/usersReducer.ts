@@ -1,9 +1,7 @@
 import { Dispatch } from 'redux'
-import { taskAPI, TaskListType } from '../api/taskApi'
 import {usersAPI, UserType} from '../api/usersAPI'
-import { NewTaskDataType, TaskType } from '../Types/types'
 import {BaseThunkType, InferActionsTypes} from './store'
-import moment from 'moment'
+// import moment from 'moment'
 
 export type InitialStateType = {
     usersList: Array<UserType>,
@@ -32,6 +30,17 @@ export const getUsersList = (): ThunkType => {
 
         let response = await usersAPI.getUsersList()
         console.log(response)
+        dispatch(actions.setUsersList(response.data.UsersList))
+    }
+}
+
+export const updateUser = (values: UserType, userId: number): ThunkType => {
+    console.log(userId)
+    return async (dispatch, getState) => {
+
+        let response = await usersAPI.updateUser(values, userId)
+        console.log(response)
+        // dispatch(actions.setUsersList(response.data.UsersList))
     }
 }
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import './App.css'
 import ToDoList from './Components/ToDo/ToDoContainer'
 import { BrowserRouter, Redirect, Route, Switch, withRouter, useLocation } from 'react-router-dom'
 import { connect, Provider } from 'react-redux'
+import './App.css'
 import 'antd/dist/antd.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'antd-mobile/dist/antd-mobile.css'
@@ -18,6 +18,7 @@ import Orders from './Components/Orders/OrdersContainer'
 import TasksTree from './Components/TasksTree/TasksTreeContainer'
 import Register from './Components/Register/RegisterContainer'
 import Users from './Components/Users/UsersContainer'
+import CurrentUser from './Components/Users/CurrentUser/CurrentUserContainer'
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
@@ -90,8 +91,15 @@ const App = (props: MapPropsType & DispatchPropsType) => {
 
 
         {props.userStatus === 'admin' || props.userStatus === 'superAdmin' ?
-          <Route path={props.appLocation + 'users'}
+          <>
+
+          <Route path={props.appLocation + 'users/:userId'} component={CurrentUser} />
+            {/* render={() => <CurrentUser />} /> */}
+
+          <Route exact path={props.appLocation + 'users'}
             render={() => <Users />} />
+
+          </>
           :
           null
         }

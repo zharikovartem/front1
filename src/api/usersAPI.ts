@@ -13,7 +13,7 @@ export const usersAPI = {
     getUsersList() {
         getToken()
         // console.log(instance.defaults.headers.common['X-Auth-Token'])
-        return instance.get<UsersListType>(`taskList`) // users
+        return instance.get<UsersListType>(`account`) // users
         .then(response => {
             console.log(response)
             return response.status === 200 ? response : null
@@ -30,4 +30,24 @@ export const usersAPI = {
             return null
         })
     },
+    updateUser(values: UserType, userId: number) {
+        getToken()
+        console.log(values)
+        return instance.put<UsersListType>(`account/${userId}`, values)
+        .then(response => {
+            console.log('updateUser: ',response)
+            return response.status === 200 ? response : null
+        })
+        .catch(err => {
+            if (err.response) {
+                //console.log(err.response)
+                return err.response
+            } else if (err.request) {
+                //console.log('request', err.request)
+            } else {
+                //console.log('anything else: ', err)
+            }
+            return null
+        })
+    }
 }
