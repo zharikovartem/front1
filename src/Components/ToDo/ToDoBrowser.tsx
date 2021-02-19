@@ -83,6 +83,9 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
     }
 
     const onClose = (): void => {
+        // console.log(a)
+        // console.log(b)
+
         setInitialFormValues(initialValues)
         setDrawerData({ ...initialDrewerData })
         setVisible(false)
@@ -112,7 +115,9 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
         } else {
             props.updateTask(formProps, drawerData.taskId)
         }
+
         actions.resetForm()
+        
         onClose()
     }
 

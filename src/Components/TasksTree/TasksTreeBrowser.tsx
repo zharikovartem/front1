@@ -19,6 +19,23 @@ const initialDrewerData: InitialDrewerDataType = {
     taskId: false
 } 
 
+// type SelectOptionType = {
+//     name: string,
+//     value: number
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
 type SelectOptionType = {
     name: string,
     value: number
@@ -35,43 +52,52 @@ export type InitialValuesType = {
     data?: string
 }
 
+const getInitialValues = ( taskList: Array<TaskListType> ):InitialValuesType => {
+    return (
+        {
+            selectOptions: getSelectOptions(taskList),
+            taskTypes: taskTreeTypes,
+            task_type: 1,
+            name: '',
+        }
+    )
+}
+
+const getSelectOptions = (taskList: Array<TaskListType>):Array<SelectOptionType>  => {
+    if (taskList !== undefined && taskList.length > 0) {
+        return taskList.map((item: TaskListType) => {
+            return ({
+                name: item.name,
+                value: item.id
+            })
+        })
+    } else {
+        return []
+    }
+}
+
+
+
+
+
 
 const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
 
-    const getSelectOptions = (): Array<SelectOptionType> | null => {
-        if (props.taskList !== undefined && props.taskList.length > 0) {
-            return props.taskList.map((item) => {
-                return ({
-                    name: item.name,
-                    value: item.id
-                })
-            })
-        } else {
-            return null
-        }
-    }
-    
-    const initialValues: InitialValuesType = {
-        selectOptions: getSelectOptions(),
-        taskTypes: taskTreeTypes,
-        task_type: 1,
-        name: '',
-
-    }
     useEffect(() => {
+        const getTaskList = () => props.getTaskList
         if (props.taskList !== undefined && props.taskList.length === 0 && !props.isTaskListLoaded) {
-            props.getTaskList()
+            getTaskList()()
         }
         else if (props.taskList === undefined) {
-            props.getTaskList()
+            getTaskList()()
         }
         setVisible(false)
-        setInitialFormValues(initialValues)
-    }, [props.taskList])
+        setInitialFormValues(getInitialValues(props.taskList))
+    }, [props.taskList, props.getTaskList, props.isTaskListLoaded])
 
     const [visible, setVisible] = useState(false)
     const [drawerData, setDrawerData] = useState(initialDrewerData)
-    const [initialFormValues, setInitialFormValues] = useState(initialValues)
+    const [initialFormValues, setInitialFormValues] = useState(getInitialValues(props.taskList))
     const [runTaskVisible, setRunTaskVisible] = useState(false)
     const [runData, setRunData] = useState<TaskListType | null>(null)
 
@@ -104,15 +130,13 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         setRunTaskVisible(true)
         setRunData(
             props.taskList.filter( (item: TaskListType)=> {
-                if (item.id === values) {
-                    return item
-                }
+                    return (item.id === values)
             })[0]
         )
     }
     
     const onClose = () => {
-        // setInitialFormValues({ ...initialValues })
+        setInitialFormValues(getInitialValues(props.taskList))
         setVisible(false)
     }
 
@@ -208,7 +232,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                                 setDrawerData={setDrawerData}
                                 initialFormValues={initialFormValues}
                                 setInitialFormValues={setInitialFormValues}
-                                initialValues={initialValues}
+                                initialValues={getInitialValues(props.taskList)}
                                 onRunTask={onRunTask}
                             />)
                         }}

@@ -6,7 +6,7 @@ import './TasksTreeMobile.css'
 import { Formik } from 'formik'
 import { TaskTreeItemMobile } from './TaskTreeMobileItem'
 import { NewTimeByString } from '../../utils/Date/NewDeteByString'
-import { NewTaskListType } from '../../Types/types'
+import { NewTaskListType, TaskListType } from '../../Types/types'
 
 type InitialDrewerDataType = {
     header: string,
@@ -17,6 +17,79 @@ const initialDrewerData: InitialDrewerDataType = {
     header: 'Tasks Tree',
     taskId: false
 }
+
+
+
+
+
+
+
+
+
+
+
+type SelectOptionType = {
+    name: string,
+    value: number
+}
+
+type InitialValuesType = {
+    selectOptions: Array<SelectOptionType> | null,
+    taskTypes: typeof taskTreeTypes,
+    task_type: Array<number>,
+    name?: string,
+    descriptions?: string
+    // parent_id?: Array<number>
+    parent_id?: number
+    time_to_complete?: Date
+}
+
+const getInitialValues = ( taskList: Array<TaskListType> ):InitialValuesType => {
+
+    return (
+        {
+            selectOptions: getSelectOptions(taskList),
+            taskTypes: taskTreeTypes,
+            task_type: [1],
+            time_to_complete: initialTimeToComplete,
+        }
+    )
+}
+
+let initialTimeToComplete = NewTimeByString()
+
+const getSelectOptions = (taskList: Array<TaskListType>):Array<SelectOptionType>  => {
+    if (taskList !== undefined && taskList.length > 0) {
+        return taskList.map((item: TaskListType) => {
+            return ({
+                name: item.name,
+                value: item.id
+            })
+        })
+    } else {
+        return []
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     useEffect(() => {
@@ -29,50 +102,18 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         }
         setVisible(false)
         // setInitialFormValues(getInitialValues())
-        setInitialFormValues(initialValues)
-    }, [ props.taskList, props.getTaskList ])
+        setInitialFormValues( getInitialValues(props.taskList) )
+    }, [ props.taskList, props.getTaskList, props.isTaskListLoaded ])
 
-    const getSelectOptions = () => {
-        if (props.taskList !== undefined && props.taskList.length > 0) {
-            return props.taskList.map((item) => {
-                return ({
-                    name: item.name,
-                    value: item.id
-                })
-            })
-        } else {
-            return null
-        }
-    }
 
-    let initialTimeToComplete = NewTimeByString()
+    
 
-    type SelectOptionType = {
-        name: string,
-        value: number
-    }
+    
 
-    type InitialValuesType = {
-        selectOptions: Array<SelectOptionType> | null,
-        taskTypes: typeof taskTreeTypes,
-        task_type: Array<number>,
-        name?: string,
-        descriptions?: string
-        // parent_id?: Array<number>
-        parent_id?: number
-        time_to_complete?: Date
-    }
-
-    const initialValues: InitialValuesType = {
-        selectOptions: getSelectOptions(),
-        taskTypes: taskTreeTypes,
-        task_type: [1],
-        time_to_complete: initialTimeToComplete,
-        // name: 'empty'
-    }
+    
 
     const [visible, setVisible] = useState(false)
-    const [initialFormValues, setInitialFormValues] = useState(initialValues)
+    const [initialFormValues, setInitialFormValues] = useState(getInitialValues(props.taskList))
     const [drawerData, setDrawerData] = useState(initialDrewerData)
 
     const handleSubmit = (formProps: InitialValuesType) => {
@@ -95,9 +136,9 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     const onAdd = () => {
         if (props.selectedTasks.length !== 0) {
             setDrawerData({ ...drawerData, taskId: false })
-            setInitialFormValues({ ...initialValues, parent_id: Number(props.selectedTasks[props.selectedTasks.length - 1]) })
+            setInitialFormValues({ ...getInitialValues(props.taskList), parent_id: Number(props.selectedTasks[props.selectedTasks.length - 1]) })
         } else {
-            setInitialFormValues({...initialValues, parent_id: initialFormValues.parent_id })
+            setInitialFormValues({...getInitialValues(props.taskList), parent_id: initialFormValues.parent_id })
         }
 
         setVisible(!visible)
@@ -176,10 +217,11 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                 >
                     <List>
                         {props.taskList !== undefined ?
-                            props.taskList.map((item) => {
+                            props.taskList
+                            .map((item) => {
                                 let parentId: number
                                 if (props.selectedTasks.length !== 0) {
-                                    parentId = props.selectedTasks[props.selectedTasks.length - 1]
+                                    parentId = props.selectedTasks[props.selectedTasks.length - 1] // Добавляем последний выбранный id
                                     if (item.parent_id === parentId) {
                                         return (
                                             <TaskTreeItemMobile
@@ -192,6 +234,8 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                                                 updateTaskList={props.updateTaskList}
                                             />
                                         )
+                                    } else {
+                                        return null
                                     }
                                 } else {
                                     if (item.parent_id === null) {
@@ -206,6 +250,8 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                                                 updateTaskList={props.updateTaskList}
                                             />
                                         )
+                                    } else {
+                                        return null
                                     }
                                 }
 
