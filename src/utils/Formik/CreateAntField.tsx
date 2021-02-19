@@ -80,13 +80,6 @@ const CreateAntField = (AntComponent: any) => (
 
     const onBlur = () => form.setFieldTouched(field.name, true);
 
-    
-    if (label === 'Name') {
-        // console.log(label,': ',field.value)
-    }
-
-    // console.log(props)
-
     return (
         <FormItem
             label={!isMobile ? label : null}
@@ -152,7 +145,6 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     const [defaultValue, setValue] = useState(props.type === 'select' ? [props.value] : props.value)
 
     useEffect(() => {
-        // console.log(props.label,': ',props.value)
         if (props.type === 'select' && !Array.isArray(props.value) ) {
             setValue([props.value])
         } else {
@@ -212,10 +204,6 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     let onOkCheck
     if (props.AntComponent.onOk) {
         onOkCheck = onOk
-    }
-
-    if (props.type === 'textarea') {
-        console.log(autoHeight)
     }
     
     return (

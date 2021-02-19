@@ -56,11 +56,9 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
     const [initialFormValues, setInitialFormValues] = useState(initialValues)
 
     useEffect(() => {
-        console.log('name: ', initialFormValues.name)
     }, [initialFormValues])
 
     const onTaskEdit = (value: TaskType) => {
-        console.log('onTaskEdit')
         setDrawerData({
             header: 'Edite "' + value.name + '"',
             taskId: value.id
@@ -83,9 +81,6 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
     }
 
     const onClose = (): void => {
-        // console.log(a)
-        // console.log(b)
-
         setInitialFormValues(initialValues)
         setDrawerData({ ...initialDrewerData })
         setVisible(false)

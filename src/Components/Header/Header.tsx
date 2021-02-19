@@ -71,7 +71,6 @@ const menuData = (appLocation: string, userStatus: string | null): MenuDataType 
     ]
 
     if (userStatus === 'admin' || userStatus ==='superAdmin') {
-        console.log(userStatus)
         data.push(
             {
                 value: 'admin',

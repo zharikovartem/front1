@@ -18,14 +18,12 @@ export const authAPI = {
         if (sessionStorage.getItem('remember_token')) {
             remember_token = sessionStorage.getItem('remember_token')
         }
-        console.log(remember_token)
         return instance.get(`authMe/`+remember_token).then( (response) => {
             return response
         })
     },
 
     login(data: credsType) {
-        console.log(data)
         return instance.post('login', data)
         .then(response => {
             if (data.remember) {
@@ -47,12 +45,9 @@ export const authAPI = {
         })
         .catch(err => {
             if (err.response) {
-                //console.log(err.response)
                 return err.response
             } else if (err.request) {
-                //console.log('request', err.request)
             } else {
-                //console.log('anything else: ', err)
             }
             return null
         })
@@ -70,12 +65,9 @@ export const authAPI = {
         })
         .catch(err => {
             if (err.response) {
-                console.log(err.response)
                 return err.response
             } else if (err.request) {
-                //console.log('request', err.request)
             } else {
-                //console.log('anything else: ', err)
             }
             return null
         })

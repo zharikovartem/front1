@@ -25,7 +25,6 @@ const authReducer = (state = initialState, action: ActionsTypes): InitialStateTy
         case 'SN/AUTH/SET_AUTH_ERROR':
             return{...state, authError: action.error}
         case 'SN/AUTH/SET_SETTINGS_DATA':
-            console.log(state.viewSettings)
             let viewSettings = {...state.viewSettings}
             
             let timeStart: string = ''
@@ -48,7 +47,6 @@ const authReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 timeStart: timeStart,
                 timeEnd: timeEnd
             }
-            console.log(viewSettings)
             return {...state, viewSettings: viewSettings}
         case 'SN/AUTH/SET_USER_DATA':
             if (action.user !== null) {
@@ -82,6 +80,7 @@ export type UserType = {
     status: string
     updated_at: string,
     view_settings: string
+    toDoList?: Array<any> 
 }
 export const actions = {
     setAuthUserData: (user: UserType | null, remember_token: string | null) => ({ type: 'SN/AUTH/SET_USER_DATA', user, remember_token } as const),
@@ -98,7 +97,6 @@ export const getAuthUserData = (): ThunkType => {
             if (response.data.resultCode === 0) {
                 dispatch(actions.setAuthUserData(response.data.user, response.data.remember_token))
             } else {
-                //console.log(response.data.messages[0])
             }
         }
     }
@@ -117,7 +115,6 @@ export const login = (data: credsType): ThunkType => {
             if (response.status === 200) {
                 dispatch(actions.setAuthUserData(response.data.user, response.data.remember_token))
             } else {
-                console.log(response.data.message)
                 dispatch(actions.setAuthError(response.data.message))
             }
         }
@@ -127,7 +124,6 @@ export const login = (data: credsType): ThunkType => {
 export const register = (creds: RegisterFormType): ThunkType => {
     return async (dispatch, getState) => {
         const response = await authAPI.register(creds)
-        console.log('register', response)
         if (response.status === 200) {
             const credsToLogin: credsType = {
                 email: creds.email,
@@ -137,7 +133,6 @@ export const register = (creds: RegisterFormType): ThunkType => {
             dispatch(login(credsToLogin))
         } else {
             let message: string = ''
-            console.log(response.data)
             for (const key in response.data) {
                 if (Object.prototype.hasOwnProperty.call(response.data, key)) {
                     const element = response.data[key];

@@ -21,7 +21,6 @@ export type OwnTaskTreeBrowserItemType = {
 const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
 
     const onAddSubtask = (taskId: number) => {
-        console.log('onAddSubtask to: ', taskId)
         props.setInitialFormValues({...props.initialValues, parent_id: taskId})
         props.showDrawer()
     }
@@ -61,13 +60,11 @@ const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
     }
 
     const onStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('onStatusChange', Number.parseInt(e.target.id))
         const values = { isCompleted: e.target.checked }
         props.updateTaskList(values, Number.parseInt(e.target.id))
     }
 
     const deleteTask = (taskId: number) => {
-        console.log('deleteTask: ', taskId)
         props.deleteTaskList(taskId)
     }
 
@@ -100,9 +97,6 @@ type ChildItemType = {
 }
 
 const ChildItem: React.FC<ChildItemType> = (props) => {
-    console.log(props.childsTasklList)
-    // let vals = Array.from( props.childsTasklList.values() )
-    // console.log(vals)
     return (
         <>
             { props.childsTasklList.map((item: TaskListType) => {

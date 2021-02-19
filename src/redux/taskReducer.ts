@@ -58,7 +58,6 @@ const taskReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {...state, taskListIsFetching: action.isFetchingValue}
 
         case 'SN/TASK/SET_IS_INTERVAL':
-            //console.log('SET_IS_INTERVAL')
             const dateInterval = {
                 startDate: action.date.startDate,
                 endDate: action.date.endDate
@@ -113,10 +112,8 @@ export const getTaskList = (startDate: string, endDate:string): ThunkType => {
         let response = await taskAPI.getTaskList(values)
 
         if (response !== undefined && response !== null) {
-            //console.log(response)
             dispatch(actions.setTaskList(response.data))
         } else {
-            // add error message
         }
         dispatch(actions.setTaskListIsFetching(false))
     }
@@ -137,7 +134,6 @@ export const deleteTask = (taskid: number, startDate: string, endDate:string): T
 export const updateTask = (values: NewTaskDataType, taskId: number): ThunkType => {
     return async (dispatch, getState) => {
         let response = await taskAPI.updateTask(values, taskId)
-        //console.log(response)
         dispatch(actions.editTaskList(response.data[0]))
     }
 }

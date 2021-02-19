@@ -73,14 +73,3 @@ export const validatePhone = (value: string) => {
 
     return errors;
 }
-// export const validateUserExistense = (value: string) => {
-//     //console.log(value)
-//     return userAPI.checkUserForExistence(value).then( (result) => {
-//         //console.log(result.status)
-//         if (result.status !== 404) {
-//             return 'Name is bisy'
-//         } 
-//     })
-//     //console.log(test)
-
-// }

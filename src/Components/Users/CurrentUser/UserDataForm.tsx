@@ -30,13 +30,10 @@ const UserDataForm: React.FC<userData> = (props) => {
     }
 
     const handleSubmit = (values: any, actions: any) => {
-        console.log(values)
         delete values['created_at']
         delete values['updated_at']
         props.updateUser(values, props.userData.id)
     }
-
-    console.log(props.userData)
 
     return (
         <div>

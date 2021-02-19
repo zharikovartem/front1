@@ -3,7 +3,8 @@ import CurrentUser from './CurrentUser'
 import { AppStateType } from './../../../redux/store'
 // import { isMobile } from 'react-device-detect'
 import { getUsersList, updateUser } from './../../../redux/usersReducer'
-import { UserType } from '../../../api/usersAPI'
+import { UserType } from '../../../redux/authReducer'
+// import { UserType } from '../../../api/usersAPI'
 
 
 type OwnCurrentUserPropsType = {

@@ -4,6 +4,7 @@ import UsersMobile from './UsersMobile'
 import { AppStateType } from '../../redux/store'
 import { isMobile } from 'react-device-detect'
 import {getUsersList} from '../../redux/usersReducer'
+import {getUsersListSelector} from './../../redux/usersSelector'
 
 
 type OwnUsersPropsType = {}
@@ -18,7 +19,7 @@ export type UsersPropsType = MapPropsType & MapDispatchPropsType & OwnUsersProps
 
 let mapStateToProps = (state:AppStateType) => {
     return {
-        usersList: state.users.usersList
+        usersList: getUsersListSelector(state)
     }
 }
 

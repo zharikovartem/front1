@@ -47,7 +47,6 @@ export const getTaskList = (): ThunkType => {
         // dispatch(actions.setTaskListIsFetching(true))
 
         let response = await taskListAPI.getTaskList()
-        //console.log(response)
 
         if (response !== undefined && response !== null) {
             dispatch(actions.setTaskList(response.data.Tasks))

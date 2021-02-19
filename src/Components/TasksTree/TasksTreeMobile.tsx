@@ -152,8 +152,6 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         props.backSelectedTasks()
     }
 
-    console.log('TasksTreeMobile drawerData', drawerData)
-
     return (
         <WingBlank size="lg">
             <WhiteSpace size="lg" />

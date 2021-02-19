@@ -22,7 +22,6 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
     const [currentPage, setCurrentPage] = useState(1)
 
     const getTargetUser = (userId: number) => {
-        // console.log('usersList: ', props.usersList)
         return props.usersList.filter((item: any) => item.id.toString() === userId)[0]
     }
 
@@ -33,37 +32,26 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
     const onTaskEdit = () => { }
 
     const onPagination = (currentPage: number) => {
-        // console.log(currentPage, )
         setCurrentPage(currentPage)
     }
 
     const onShowSizeChange = (current: number, size: number) => {
-        // console.log(current)
         setDefaultPageSize(size)
     }
-
-    // console.log(user)
 
     const toDoPart = ():Array<TaskType> => {
         let toDoPart: Array<TaskType> = []
         if (user.toDoList) {
             const startIndex = (currentPage-1) * defaultPageSize
-            // console.log('currentPage', currentPage)
-            // console.log('currentPage-1', currentPage-1)
-            // console.log('defaultPageSize', defaultPageSize)
-            // console.log('startIndex', startIndex)
             const endIndex = startIndex + defaultPageSize
-            // console.log('endIndex', endIndex)
             for (let index = 0; index < user.toDoList.length; index++) {
                 const element = user.toDoList[index];
                 if (index >= startIndex && index < endIndex) {
-                    // toDoPart.push(<TodoItem item={element} />)
                     toDoPart.push(element)
                 }
                 
             }
         }
-        // console.log('toDoPart', toDoPart)
         return toDoPart
     }
     type DateIntervalType = {
@@ -81,34 +69,20 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
         let tasklist: Array<TaskType> = []
         if (user.toDoList) {
 
-            // console.log('start: ', moment(dateInterval.startDate.format('YYYY-MM-DD')) .add(-1,'day').format('YYYY-MM-DD') )
-            // console.log('end: ', moment(dateInterval.endDate.format('YYYY-MM-DD')) .add(1,'day').format('YYYY-MM-DD') )
-
             for (let index = 0; index < user.toDoList.length; index++) {
                 const toDo = user.toDoList[index];
-                // console.log(
-                //     moment(toDo.date).isBetween( 
-                //     moment(dateInterval.startDate.format('YYYY-MM-DD')).add(-1,'day'),
-                //     moment(dateInterval.endDate.format('YYYY-MM-DD')).add(1,'day'),
-                //     'day')
-                // )
                 if (moment(toDo.date).isBetween( 
-                        // {...dateInterval.startDate}.add(-1,'day'), 
                         moment(dateInterval.startDate.format('YYYY-MM-DD')).add(-1,'day'),
-                        // {...dateInterval.endDate}.add(1,'day'), 
                         moment(dateInterval.endDate.format('YYYY-MM-DD')).add(1,'day'),
                         'day')) {
                     tasklist.push(toDo)
                 } 
             }
         }
-        console.log('tasklist: ', tasklist)
         setTaskList(tasklist)
     }
 
     const setIsInterval = (isInterval: boolean, date: {startDate: moment.Moment, endDate: moment.Moment}) => {
-        console.log('startDate: ', date.startDate.format('YYYY-MM-DD') )
-        console.log('endDate: ', date.endDate.format('YYYY-MM-DD') )
         setDateInterval(date)
     }
 

@@ -16,11 +16,12 @@ export type APIResponseType<D = {}, RC = ResultCodesEnum> = {
     resultCode: RC
 }
 
-export const getToken = () => {
+export const getToken = (): string => {
     if (localStorage.getItem('remember_token')) {
         instance.defaults.headers.common['X-Auth-Token'] = localStorage.getItem('remember_token')
     }
     if (sessionStorage.getItem('remember_token')) {
         instance.defaults.headers.common['X-Auth-Token'] = sessionStorage.getItem('remember_token')
     }
+    return instance.defaults.headers.common['X-Auth-Token']
 }
