@@ -1,4 +1,4 @@
-import { Collapse, Spin, List, Pagination } from 'antd'
+import { Collapse, Spin, List, Pagination, Button } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { TaskType } from '../../../Types/types'
 import TimeScale from '../../TimeScale/TimeScale'
@@ -153,8 +153,16 @@ type TodoItemPropsType = {
     key: string
 }
 const TodoItem: React.FC<TodoItemPropsType> = (props) => {
+    const showDrawer = (item: TaskType) => [
+        console.log('showDrawer', item)
+    ]
     return (
-        <List.Item key={props.item.id}>{props.item.name}</List.Item>
+        <List.Item 
+            key={props.item.id}
+            actions={[<Button onClick={()=>{showDrawer(props.item)}} type="link" block>Show</Button>]}
+        >
+            {props.item.name}
+        </List.Item>
     )
 }
 

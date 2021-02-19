@@ -25,14 +25,14 @@ zeroTime.minutes(0)
 zeroTime.seconds(0)
 zeroTime.milliseconds(0)
 
-type InitialValuesType = {
+export type InitialValuesType = {
     name: string,
     time: moment.Moment,
     date: moment.Moment,
     descriptions: string | null
 }
 
-const initialValues: InitialValuesType = {
+export const initialValues: InitialValuesType = {
     name: '',
     time: zeroTime,
     date: moment(),

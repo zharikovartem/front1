@@ -1,10 +1,8 @@
-import Item from 'antd/lib/list/Item'
+
 import { Dispatch } from 'redux'
 import { usersAPI, } from '../api/usersAPI'
 import { UserType } from './authReducer'
-import { getToken } from '../api/api'
 import { BaseThunkType, InferActionsTypes } from './store'
-// import moment from 'moment'
 import { actions as authActions } from './authReducer'
 
 export type InitialStateType = {
