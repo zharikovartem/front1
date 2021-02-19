@@ -3,7 +3,7 @@ import { Button } from 'antd'
 import React, {useEffect} from 'react'
 import { ListGroup } from 'react-bootstrap'
 import {UsersPropsType} from './UsersContainer'
-import { PlusCircleOutlined , DeleteOutlined, EditOutlined, CaretRightOutlined } from '@ant-design/icons'
+import { CaretRightOutlined } from '@ant-design/icons'
 import { Link, useRouteMatch }from "react-router-dom";
 
 const Users: React.FC<UsersPropsType> = (props) => {
@@ -11,7 +11,7 @@ const Users: React.FC<UsersPropsType> = (props) => {
         if (props.usersList.length === 0) {
             props.getUsersList()
         }
-    }, [props.usersList] )
+    }, [props.usersList, props] )
 
     let { url } = useRouteMatch();
 

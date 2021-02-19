@@ -158,7 +158,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
         } else {
             setValue(props.value)
         }
-    }, [props.value])
+    }, [props.value, props.type])
 
     const onInputChange = (value: any) => {
         setValue(value)
@@ -204,7 +204,16 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     }
 
     const mode = props.type
+    
     const autoHeight = props.type === 'textarea' ? {autoHeight: true} : null
+
+    const onPickerChangeCheck = props.type === 'date' || 'time' ? onPickerChange : null
+
+    let onOkCheck
+    if (props.AntComponent.onOk) {
+        onOkCheck = onOk
+    }
+
     if (props.type === 'textarea') {
         console.log(autoHeight)
     }
@@ -229,8 +238,10 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
                 data={data}
                 cols={1}
                 
-                onOk={onOk}
-                onPickerChange={onPickerChange}
+                // onOk={onOk}
+                {...onOkCheck}
+                // onPickerChange={onPickerChange}
+                {...onPickerChangeCheck}
                 onChange={props.type ? onInputChange : props.onChange}
             >
                 <List.Item

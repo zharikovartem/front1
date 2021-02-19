@@ -67,7 +67,7 @@ const getTimeScaleArrey = (taskList: Array<TaskType>, isInterval:boolean, onEdit
 
     taskList.sort(sortTaskArrayByParams('time')).sort(sortTaskArrayByParams('date'))
 
-    const getHeadlineLabel = (task: TaskType) => {
+    const getHeadlineLabel = (task: TaskType):string => {
         return moment(task.date).format('D MMMM')
     }
 
@@ -77,7 +77,7 @@ const getTimeScaleArrey = (taskList: Array<TaskType>, isInterval:boolean, onEdit
         headlineDate = getHeadlineLabel(taskList[0])
         timeScaleArrey.push(
             <h5 
-                key={headlineDate + 'title'}
+                key={headlineDate}
                 className={isInterval ? "text-left" : ""}
             >
                 {headlineDate}:
@@ -95,7 +95,7 @@ const getTimeScaleArrey = (taskList: Array<TaskType>, isInterval:boolean, onEdit
                 )
             }
         } else {
-            timeScaleArrey.push(<h3 key="noTasks">no tasks</h3>)
+            timeScaleArrey.push(<h3 key={'noTasks'+index}>no tasks</h3>)
             break
         }
 
@@ -108,8 +108,8 @@ const getTimeScaleArrey = (taskList: Array<TaskType>, isInterval:boolean, onEdit
                     if (getHeadlineLabel(element) === headlineDate) {
                         timeScaleArrey.push(
                             <Tooltip key={index + '-' + element.id} placement="topLeft" title={element.descriptions}>
-                                <ListGroup as="ul">
-                                    <TaskItem element={element} onEdit={onEdit}/>
+                                <ListGroup as="ul" key={index}>
+                                    <TaskItem key={index} element={element} onEdit={onEdit}/>
                                 </ListGroup>
                             </Tooltip>
                         )

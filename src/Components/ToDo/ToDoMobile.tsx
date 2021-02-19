@@ -217,6 +217,7 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
 
     return (
         <SwipeAction
+            key={props.element.id}
             style={{ backgroundColor: 'gray' }}
             autoClose
             right={[
@@ -294,7 +295,8 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
                 if (item.date === date) {
                     let itemTime = item.time.split(':')[0]
                     if (moment().hours(hour).format('HH') === itemTime) {
-                        return <TaskItemMobile
+                        return (
+                        <TaskItemMobile
                             key={item.id.toString()}
                             element={item}
                             dateInterval={props.dateInterval}
@@ -304,6 +306,8 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
                             showDrawer={props.showDrawer}
                             onComplete={props.onComplete}
                         />
+                        // <div key={item.id}></div>
+                        )
                     }
                 }
             })
@@ -316,12 +320,12 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
         let hours: Array<JSX.Element | undefined> = []
         for (let index = 0; index < 24; index++) {
             hours.push(
-                <>
+                <div key={index+'div'}>
                     <Divider key={index + 'to' + headlineDate} orientation="left">
                         {index <= 9 ? '0' : null}{index}:00
                     </Divider>
                     {getTasksForHour(headlineDate, index)}
-                </>
+                </div>
             )
         }
         return hours
@@ -332,10 +336,10 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
             {
                 dateArrey.map((date: moment.Moment) => {
                     return (
-                        <>
+                        <div key={date.format('DD MMMM') + 'divBlock'}>
                             <h3 key={date.format('DD MMMM') + 'dateHeader'}>{date.format('DD MMMM')}</h3>
                             {getHours(date.format('YYYY-MM-DD'))}
-                        </>
+                        </div>
                     )
                 })
             }
@@ -355,6 +359,7 @@ const TasksOnly: React.FC<TimeScaleType> = (props) => {
         <>
             {dateArrey.map((date: moment.Moment) => {
                 return (
+                    // <div key={date.format('YYYY-MM-DD')}>
                     <>
                         <h3>{date.format('DD MMMM')}</h3>
                         {props.taskList?.map( (task: TaskType) => {
@@ -372,6 +377,7 @@ const TasksOnly: React.FC<TimeScaleType> = (props) => {
                             } else return null
                         })}
                     </>
+                    // </div>
                 )
             })}
         </>

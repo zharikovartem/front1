@@ -98,6 +98,7 @@ type ChildItemType = {
     onStatusChange: (e: any) => void,
     onRunTask: (values:TaskListType)=>void
 }
+
 const ChildItem: React.FC<ChildItemType> = (props) => {
     console.log(props.childsTasklList)
     // let vals = Array.from( props.childsTasklList.values() )

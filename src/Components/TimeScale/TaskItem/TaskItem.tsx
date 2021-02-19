@@ -67,7 +67,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                                 <EditOutlined className="ml-1" style={{ fontSize: '14px' }} />
                             </div>
                         }
-                    />
+                    ></Button>
 
                     {!deleteingInProgess ? 
                     <Button 

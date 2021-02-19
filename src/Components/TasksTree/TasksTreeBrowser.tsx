@@ -67,7 +67,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
         }
         setVisible(false)
         setInitialFormValues(initialValues)
-    }, [props.taskList, initialValues, props])
+    }, [props.taskList])
 
     const [visible, setVisible] = useState(false)
     const [drawerData, setDrawerData] = useState(initialDrewerData)

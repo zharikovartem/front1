@@ -1,10 +1,7 @@
-import { Input } from 'antd'
 import { Formik, FormikProps, Form, Field } from 'formik'
 import React, { ReactNode, useState } from 'react'
-import { UserType } from '../../../redux/authReducer'
-import usersReducer from '../../../redux/usersReducer'
 import { AntInput, AntSelect } from '../../../utils/Formik/CreateAntField'
-import { validateRequired, validateEmail, validatePhone } from '../../../utils/Formik/ValidateFields'
+import { validateRequired, validatePhone } from '../../../utils/Formik/ValidateFields'
 
 type userData = {
     userData: any,

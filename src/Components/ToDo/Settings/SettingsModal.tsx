@@ -54,7 +54,7 @@ const SettingsModal: React.FC<SettingsModalPropsType> = (props) => {
         props.handleOk()
     }
 
-    // console.log('settings: ', settings)
+    console.log('SettingsModal: ', props)
 
     return (
         <Modal

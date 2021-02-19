@@ -14,11 +14,7 @@ type OwnToDoHeaderPropsType = {
 type MapPropsType = ReturnType<typeof mapStateToProps>
 
 type MapDispatchPropsType = {
-    setIsInterval: (isInterval: boolean, date: {startDate: moment.Moment, endDate: moment.Moment}) => {
-        type: "SN/TASK/SET_IS_INTERVAL",
-        isInterval: boolean,
-        date: {startDate: moment.Moment, endDate: moment.Moment}
-    }
+    setIsInterval: (isInterval: boolean, date: {startDate: moment.Moment, endDate: moment.Moment}) => void
 }
 
 export type ToDoHeaderPropsType = MapPropsType & MapDispatchPropsType & OwnToDoHeaderPropsType
