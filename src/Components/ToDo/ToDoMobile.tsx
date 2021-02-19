@@ -43,8 +43,9 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
     }, [props])
 
     useEffect(() => {
-        props.getTaskList(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
-    }, [props.dateInterval])
+        const getTaskList = () => props.getTaskList
+        getTaskList()(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
+    }, [props.dateInterval, props.getTaskList])
 
     useEffect(() => {
         if (props.isInterval) {
@@ -80,8 +81,8 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
     }
 
     const handleSubmit = (values: InitialValuesType) => {
-        let formPropsCopy: NewTaskDataType = { 
-            ...values, 
+        let formPropsCopy: NewTaskDataType = {
+            ...values,
             time: moment(values.time).format('HH:mm:ss'),
             date: moment(values.date).format('YYYY-MM-DD'),
             user_id: props.userId,
@@ -181,11 +182,11 @@ type TaskItemMobileType = {
         startDate: moment.Moment;
         endDate: moment.Moment;
     },
-    deleteTask: (taskid: number, startDate: string, endDate:string)=>void,
+    deleteTask: (taskid: number, startDate: string, endDate: string) => void,
     setDrawerData: React.Dispatch<React.SetStateAction<InitialDrewerDataType>>,
     setInitialFormValues: React.Dispatch<React.SetStateAction<InitialValuesType>>,
-    showDrawer: ()=>void,
-    onComplete: (values: TaskType)=>void,
+    showDrawer: () => void,
+    onComplete: (values: TaskType) => void,
 }
 
 const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
@@ -272,11 +273,11 @@ type TimeScaleType = {
         startDate: moment.Moment,
         endDate: moment.Moment,
     },
-    deleteTask: (taskid: number, startDate: string, endDate: string)=>void,
+    deleteTask: (taskid: number, startDate: string, endDate: string) => void,
     setDrawerData: React.Dispatch<React.SetStateAction<InitialDrewerDataType>>,
     setInitialFormValues: React.Dispatch<React.SetStateAction<InitialValuesType>>,
-    showDrawer: ()=>void,
-    onComplete: (values: TaskType)=>void,
+    showDrawer: () => void,
+    onComplete: (values: TaskType) => void,
 }
 const TimeScale: React.FC<TimeScaleType> = (props) => {
     let startDate = moment(props.dateInterval.startDate)
@@ -291,11 +292,12 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
     const getTasksForHour = (date: string, hour: number) => {
         let tasksForHour: Array<JSX.Element | undefined> = []
         if (props.taskList !== null) {
-            tasksForHour = props.taskList.map( (item: TaskType) => {
-                if (item.date === date) {
-                    let itemTime = item.time.split(':')[0]
-                    if (moment().hours(hour).format('HH') === itemTime) {
-                        return (
+            tasksForHour = props.taskList
+                .filter((item: TaskType) => {
+                    return item.date === date && moment().hours(hour).format('HH') === item.time.split(':')[0]
+                })
+                .map((item: TaskType) => {
+                    return (
                         <TaskItemMobile
                             key={item.id.toString()}
                             element={item}
@@ -306,11 +308,8 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
                             showDrawer={props.showDrawer}
                             onComplete={props.onComplete}
                         />
-                        // <div key={item.id}></div>
-                        )
-                    }
-                }
-            })
+                    )
+                })
         }
         return tasksForHour
 
@@ -320,7 +319,7 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
         let hours: Array<JSX.Element | undefined> = []
         for (let index = 0; index < 24; index++) {
             hours.push(
-                <div key={index+'div'}>
+                <div key={index + 'div'}>
                     <Divider key={index + 'to' + headlineDate} orientation="left">
                         {index <= 9 ? '0' : null}{index}:00
                     </Divider>
@@ -359,10 +358,9 @@ const TasksOnly: React.FC<TimeScaleType> = (props) => {
         <>
             {dateArrey.map((date: moment.Moment) => {
                 return (
-                    // <div key={date.format('YYYY-MM-DD')}>
-                    <>
+                    <div key={date.format('DD MMMM')}>
                         <h3>{date.format('DD MMMM')}</h3>
-                        {props.taskList?.map( (task: TaskType) => {
+                        {props.taskList?.map((task: TaskType) => {
                             if (task.date === date.format('YYYY-MM-DD')) {
                                 return <TaskItemMobile
                                     key={task.id.toString()}
@@ -376,7 +374,7 @@ const TasksOnly: React.FC<TimeScaleType> = (props) => {
                                 />
                             } else return null
                         })}
-                    </>
+                    </div>
                     // </div>
                 )
             })}

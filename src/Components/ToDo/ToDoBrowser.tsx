@@ -42,10 +42,11 @@ const initialValues: InitialValuesType = {
 
 const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
     useEffect(() => {
+        const getTaskList = () => props.getTaskList
         if (props.taskList === null) {
-            props.getTaskList(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
+            getTaskList()(props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
         }
-    }, [props.taskList])
+    }, [props.taskList, props.getTaskList, props.dateInterval])
 
     
 

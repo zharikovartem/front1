@@ -15,20 +15,21 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
     const [selestedDates, setSelectedDates] = useState<SelestedDatesType>({ startDate: moment(null), endDate: moment() })
 
     useEffect(() => {
+        const getTaskList = () => props.getTaskList
         if (
             props.dateInterval.startDate.isSame(selestedDates.startDate.format('YYYY-MM-DD'), "day" ) &&
             props.dateInterval.endDate.isSame(selestedDates.endDate.format('YYYY-MM-DD'), "day" )
         ) { }
         else {
             if (props.dateInterval.startDate !== null) {
-                props.getTaskList(
+                getTaskList()(
                     props.dateInterval.startDate.format('YYYY-MM-DD'),
                     props.dateInterval.endDate.format('YYYY-MM-DD')
                 )
                 setSelectedDates(props.dateInterval)
             }
         }
-    }, [props.dateInterval])
+    }, [props.dateInterval, props.getTaskList, selestedDates])
 
     useEffect(() => {
         if (props.errorMessage !== null) {

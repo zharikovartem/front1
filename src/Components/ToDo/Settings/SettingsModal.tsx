@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode } from 'react'
 import { Modal } from 'antd'
 import { SettingsModalPropsType } from './SettingsModalContainer'
 import { Form, Field, FormikProps, Formik } from 'formik'
@@ -46,7 +46,7 @@ const getSettingsInstanseFromPros = (viewSettings: any) => {
 
 
 const SettingsModal: React.FC<SettingsModalPropsType> = (props) => {
-    const [settings, setSettings] = useState(props.viewSettings !== null ? getSettingsInstanseFromPros(props.viewSettings.ToDo) : settingasInstanse)
+    const settings = props.viewSettings !== null ? getSettingsInstanseFromPros(props.viewSettings.ToDo) : settingasInstanse
 
     const handleSubmit = (values: SettingasInstanseType) => {
         // console.log(values)

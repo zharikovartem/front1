@@ -12,9 +12,7 @@ const { Panel } = Collapse
 
 const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
     useEffect(() => {
-        const getUsersList = () => {
-            return props.getUsersList
-        }
+        const getUsersList = () => props.getUsersList
         if (props.usersList.length === 0) {
             getUsersList()()
         }

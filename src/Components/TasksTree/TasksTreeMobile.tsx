@@ -20,14 +20,17 @@ const initialDrewerData: InitialDrewerDataType = {
 
 const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     useEffect(() => {
+        const getTaskList = () => props.getTaskList
+        // const getInitialValues = () => initialValues
         if (props.taskList && props.taskList.length === 0 && !props.isTaskListLoaded) {
-            props.getTaskList()
+            getTaskList()()
         } else if (props.taskList === undefined) {
-            props.getTaskList()
+            getTaskList()()
         }
         setVisible(false)
+        // setInitialFormValues(getInitialValues())
         setInitialFormValues(initialValues)
-    }, [props.taskList])
+    }, [ props.taskList, props.getTaskList ])
 
     const getSelectOptions = () => {
         if (props.taskList !== undefined && props.taskList.length > 0) {
