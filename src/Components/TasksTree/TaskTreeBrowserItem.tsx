@@ -92,8 +92,8 @@ type ChildItemType = {
     onEdit: (task: TaskListType) => void,
     deleteTask: (task: number) => void,
     onAddSubtask: (taskId: number) => void,
-    onStatusChange: (e: any) => void,
-    onRunTask: (values:TaskListType)=>void
+    onStatusChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    onRunTask: (values:number)=>void
 }
 
 const ChildItem: React.FC<ChildItemType> = (props) => {
@@ -119,14 +119,14 @@ const ChildItem: React.FC<ChildItemType> = (props) => {
 }
 
 type CollapseItemType = {
-    key: any
-    item: any,
+    key: string
+    item: TaskListType,
     taskList: Array<TaskListType>,
     onEdit: (task: TaskListType) => void,
     deleteTask: (task: number) => void,
     onAddSubtask: (taskId: number) => void,
-    onStatusChange: (e: any) => void,
-    onRunTask: (values:any)=>void
+    onStatusChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    onRunTask: (values:number)=>void
 }
 const CollapseItem: React.FC<CollapseItemType> = (props) => {
     // const [isLast, setIsLast] = useState( getChildsList(props.taskList, props.item).length === 0 ? true : false )
@@ -174,8 +174,8 @@ type LastItemType = {
     onEdit: (task: TaskListType) => void,
     deleteTask: (task: number) => void,
     onAddSubtask: (taskId: number) => void,
-    onStatusChange: (e: any) => void,
-    onRunTask: (values:any)=>void
+    onStatusChange: (e: React.ChangeEvent<any>) => void,
+    onRunTask: (values:number)=>void
 }
 
 const LastItem: React.FC<LastItemType> = (props) => {
@@ -213,7 +213,7 @@ type ButtonsBlockType = {
     onEdit: (task: TaskListType)=>void,
     deleteTask: (task: number)=>void,
     onAddSubtask: (parentId: number)=>void,
-    onRunTask: (values:any)=>void
+    onRunTask: (values:number)=>void
 }
 
 const ButtonsBlock: React.FC<ButtonsBlockType> = (props) => {

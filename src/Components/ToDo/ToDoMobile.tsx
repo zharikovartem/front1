@@ -216,6 +216,8 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
         props.showDrawer()
     }
 
+    
+
     return (
         <SwipeAction
             key={props.element.id}
@@ -244,6 +246,13 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
                     style: { backgroundColor: 'green', color: 'white' },
                 },
             ]}
+
+            onOpen={() => {
+                // console.log('global onOpen')
+            }}
+            onClose={() => {
+                // console.log('global close') 
+            }}
         >
 
             <List.Item

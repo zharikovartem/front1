@@ -5,8 +5,7 @@ const UsersMobile: React.FC<UsersPropsType> = (props) => {
     return (
         <div>
             <h5>UsersMobile</h5>
-            <li>getUserList</li>
-            <li>show User List</li>
+            <p>This page is only available in the full version</p>
         </div>
     )
 }
