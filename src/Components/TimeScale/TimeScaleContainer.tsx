@@ -7,7 +7,7 @@ import { OwnTaskTimeScaleType } from './TimeScale'
 export type MapPropsType = ReturnType<typeof mapStateToProps>
 
 type DispatchPropsType = {
-    getTaskList: (startDate: string, endDate: string) => void
+    getTaskList: (startDate: string, endDate: string) => void,
 }
 
 export type TimeScalePropsType = MapPropsType & DispatchPropsType & OwnTaskTimeScaleType

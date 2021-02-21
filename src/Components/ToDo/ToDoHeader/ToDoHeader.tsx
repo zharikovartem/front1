@@ -52,6 +52,8 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
         }
     }
 
+    console.log(props)
+
     return (
         <div className="row w-100" >
             <div className="col-12 col-md-9 col-lg-9 col-xl-7 w-100">
@@ -78,9 +80,11 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
                     }
                 </div>
             </div>
+            
             <div className="col-12 col-md-3 col-lg-3 col-xl-2 m-2 m-md-0" >
                 <Checkbox className="ml-3" onChange={onDateTypeChange}>Date interval</Checkbox>
             </div>
+            { !props.isReadOnly ?
             <div className="col-12 col-md-12 col-lg-4 col-xl-3 mt-lg-2">
                 <Button
                     type="primary"
@@ -106,6 +110,8 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
                         </div>} 
                     />
             </div>
+            : null
+            }
         </div>
     )
 }

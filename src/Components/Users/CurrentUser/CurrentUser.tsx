@@ -1,12 +1,15 @@
-import { Collapse, Spin, List, Pagination, Button } from 'antd'
+import { Collapse, Spin, List, Pagination, Button, Drawer } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { TaskType } from '../../../Types/types'
 import TimeScale from '../../TimeScale/TimeScale'
-// import ToDoHeader from '../../ToDo/ToDoHeader/ToDoHeaderContainer'
 import ToDoHeader from '../../ToDo/ToDoHeader/ToDoHeader'
 import { CurrentUserPropsType } from './CurrentUserContainer'
 import UserDataForm from './UserDataForm'
 import moment from 'moment'
+import { Formik } from 'formik'
+import { initialValues, InitialValuesType } from './../../ToDo/ToDoBrowser'
+import ToDoForm from '../../ToDo/ToDoForm/ToDoForm'
+import { UserType } from '../../../redux/authReducer'
 
 const { Panel } = Collapse
 
@@ -16,13 +19,15 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
         if (props.usersList.length === 0) {
             getUsersList()()
         }
-    }, [ props.usersList, props.getUsersList ])
+    }, [props.usersList, props.getUsersList])
 
     const [defaultPageSize, setDefaultPageSize] = useState(10)
     const [currentPage, setCurrentPage] = useState(1)
+    const [toDoFormVisible, setToDoFormVisible]= useState(false)
+    const [initialFormValues, setInitialFormValues] = useState(initialValues)
 
-    const getTargetUser = (userId: number) => {
-        return props.usersList.filter((item: any) => item.id.toString() === userId)[0]
+    const getTargetUser = (userId: string) => {
+        return props.usersList.filter((item: UserType) => item.id.toString() === userId )[0]
     }
 
     const user = getTargetUser(props.match.params.userId)
@@ -39,17 +44,17 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
         setDefaultPageSize(size)
     }
 
-    const toDoPart = ():Array<TaskType> => {
+    const toDoPart = (): Array<TaskType> => {
         let toDoPart: Array<TaskType> = []
         if (user.toDoList) {
-            const startIndex = (currentPage-1) * defaultPageSize
+            const startIndex = (currentPage - 1) * defaultPageSize
             const endIndex = startIndex + defaultPageSize
             for (let index = 0; index < user.toDoList.length; index++) {
                 const element = user.toDoList[index];
                 if (index >= startIndex && index < endIndex) {
                     toDoPart.push(element)
                 }
-                
+
             }
         }
         return toDoPart
@@ -64,26 +69,36 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
     })
 
     const [taskList, setTaskList] = useState<Array<TaskType> | null>(null)
-    
+
     const getTaskList = (startDate: string, endDate: string) => {
         let tasklist: Array<TaskType> = []
         if (user.toDoList) {
 
             for (let index = 0; index < user.toDoList.length; index++) {
                 const toDo = user.toDoList[index];
-                if (moment(toDo.date).isBetween( 
-                        moment(dateInterval.startDate.format('YYYY-MM-DD')).add(-1,'day'),
-                        moment(dateInterval.endDate.format('YYYY-MM-DD')).add(1,'day'),
-                        'day')) {
+                if (moment(toDo.date).isBetween(
+                    moment(dateInterval.startDate.format('YYYY-MM-DD')).add(-1, 'day'),
+                    moment(dateInterval.endDate.format('YYYY-MM-DD')).add(1, 'day'),
+                    'day')) {
                     tasklist.push(toDo)
-                } 
+                }
             }
         }
         setTaskList(tasklist)
     }
 
-    const setIsInterval = (isInterval: boolean, date: {startDate: moment.Moment, endDate: moment.Moment}) => {
+    const setIsInterval = (isInterval: boolean, date: { startDate: moment.Moment, endDate: moment.Moment }) => {
         setDateInterval(date)
+    }
+
+    const onToDoFormClose = () => {
+        console.log('onToDoFormClose')
+        setInitialFormValues(initialValues)
+        setToDoFormVisible(false)
+    }
+
+    const handleSubmitToDoForm = () => {
+        console.log('handleSubmitToDoForm')
     }
 
     if (user) {
@@ -98,13 +113,17 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
                     </Panel>
                     <Panel header="ToDo List" key="2">
                         <List>
-                        {user.toDoList ? toDoPart().map((item: any) => {
-                            return <TodoItem key={item.id.toString()} item={item} />
-                        })
-                            :
-                            null
-                        }
-                        {/* {toDoPart()} */}
+                            {user.toDoList ? toDoPart().map((item: TaskType) => {
+                                return <TodoItem 
+                                    key={item.id.toString()} 
+                                    item={item} 
+                                    setToDoFormVisible={setToDoFormVisible}
+                                    setInitialFormValues={setInitialFormValues}
+                                    />
+                            })
+                                :
+                                null
+                            }
                         </List>
                         <Pagination
                             total={user.toDoList?.length}
@@ -122,9 +141,10 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
                             setIsInterval={setIsInterval}
                             showDrawer={() => { console.log('showDrawer') }}
                             showModal={() => { console.log('showModal') }}
+                            isReadOnly={true}
                         />
-                        <TimeScale 
-                            onEdit={onTaskEdit} 
+                        <TimeScale
+                            onEdit={onTaskEdit}
                             dateInterval={dateInterval}
                             errorMessage={props.errorMessage}
                             getTaskList={getTaskList}
@@ -133,33 +153,64 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
                             taskList={taskList}
                             taskListIsFetching={false}
                             taskSaveStatus={props.taskSaveStatus}
+                            isReadOnly={true}
                         />
                     </Panel>
                     <Panel header="Related users" key="4"></Panel>
                     <Panel header="Permissions" key="5"></Panel>
                 </Collapse>
 
-            </div>
+                <Drawer
+                    // title={drawerData.header}
+                    title={initialFormValues.name}
+                    placement="right"
+                    closable={true}
+                    onClose={onToDoFormClose}
+                    visible={toDoFormVisible}
+                    width="90%"
+                >
+                    <Formik
+                        initialValues={initialFormValues}
+                        onSubmit={handleSubmitToDoForm}
+                        render={ToDoForm as any}
+                        enableReinitialize={true}
+                        // test='123'
+                        initialStatus={'readOnly'}
+                    />
+                </Drawer>
+
+            </div >
         )
     } else {
-        return <Spin key="spin" size="large" />
-    }
+    return <Spin key="spin" size="large" />
+}
 }
 
 export default CurrentUser
 
 type TodoItemPropsType = {
     item: TaskType,
-    key: string
+    key: string,
+    setToDoFormVisible:  React.Dispatch<React.SetStateAction<boolean>>,
+    setInitialFormValues: React.Dispatch<React.SetStateAction<InitialValuesType>>
 }
 const TodoItem: React.FC<TodoItemPropsType> = (props) => {
-    const showDrawer = (item: TaskType) => [
+    const showDrawer = (item: TaskType) => {
         console.log('showDrawer', item)
-    ]
+        props.setToDoFormVisible(true)
+        const timeParts = item.time.split(':')
+        props.setInitialFormValues({
+            name: item.name,
+            // time: moment(item.time),
+            time: moment().hours(Number(timeParts[0])).minutes(Number(timeParts[1])).seconds(Number(timeParts[2])),
+            date: moment(item.date),
+            descriptions: item.descriptions ? item.descriptions : null
+        })
+    }
     return (
-        <List.Item 
+        <List.Item
             key={props.item.id}
-            actions={[<Button onClick={()=>{showDrawer(props.item)}} type="link" block>Show</Button>]}
+            actions={[<Button onClick={() => { showDrawer(props.item) }} type="link" block>Show</Button>]}
         >
             {props.item.name}
         </List.Item>

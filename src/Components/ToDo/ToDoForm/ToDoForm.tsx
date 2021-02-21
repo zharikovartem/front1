@@ -5,6 +5,10 @@ import { validateRequired } from '../../../utils/Formik/ValidateFields'
 
 
 const ToDoForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
+    console.log(props)
+
+    const disabled = props.initialStatus === 'readOnly' ? true : false
+    
     return (
         <Form
             className="form-container"
@@ -18,6 +22,7 @@ const ToDoForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 validate={validateRequired}
                 submitCount={props.submitCount}
                 hasFeedback
+                disabled= {disabled}
             />
 
             <Field
@@ -27,6 +32,7 @@ const ToDoForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 label="Task date"
                 validate={validateRequired}
                 submitCount={props.submitCount}
+                disabled= {disabled}
             />
 
             <Field
@@ -36,6 +42,7 @@ const ToDoForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 label="Task time"
                 validate={validateRequired}
                 submitCount={props.submitCount}
+                disabled= {disabled}
             />
 
             <Field
@@ -44,13 +51,19 @@ const ToDoForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 type="textarea"
                 label="Descriptions"
                 submitCount={props.submitCount}
+                disabled= {disabled}
             />
 
-            <div className="submit-container">
-                <button className="ant-btn ant-btn-primary" type="submit">
-                    Save
-                </button>
-            </div>
+            { !disabled ?
+                <div className="submit-container">
+                    <button className="ant-btn ant-btn-primary" type="submit">
+                        Save
+                    </button>
+                </div>
+                : 
+                null
+            }
+
 
         </Form>
     )

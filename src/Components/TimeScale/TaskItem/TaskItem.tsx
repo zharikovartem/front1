@@ -8,7 +8,8 @@ import { TaskItemPropsType } from './TaskItemContainer'
 
 export type OwnTaskItemPropsType = {
     element: TaskType,
-    onEdit: (value:any)=>void
+    onEdit: (value:any)=>void,
+    isReadOnly?: boolean
 }
 
 const TaskItem: React.FC<TaskItemPropsType> = (props) => {
@@ -55,6 +56,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                         </span>
                     </Tooltip>
                 </Col>
+                { !props.isReadOnly ? 
                 <Col className="mr-auto ml-0 mr-sm-2 ml-sm-auto">
                     <Button
                         type="primary"
@@ -87,6 +89,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                     <Spin key="spin" size="small" />
                     }
                 </Col>
+                : null }
             </Row>
 
         </ListGroup.Item>

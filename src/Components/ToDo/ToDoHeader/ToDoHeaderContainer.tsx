@@ -8,7 +8,8 @@ import ToDoHeaderMobile from './ToDoHeaderMobile'
 type OwnToDoHeaderPropsType = {
     showDrawer: () => void,
     showModal: () => void,
-    isOpen?: boolean
+    isOpen?: boolean,
+    isReadOnly?: boolean
 }
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
