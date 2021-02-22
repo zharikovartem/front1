@@ -20,8 +20,6 @@ const Users: React.FC<UsersPropsType> = (props) => {
     return (
         <div>
             <h5>Users</h5>
-            <li>getUserList</li>
-            <li>show User List</li>
             <ListGroup as="ul">
             {   props.usersList.map( (item: any) => {
                     return(
@@ -33,6 +31,7 @@ const Users: React.FC<UsersPropsType> = (props) => {
                                 <Col className="mx-2">
                                     <Link to={url+'/'+item.id}>{item.name}</Link>
                                 </Col>
+                                {props.UserStatus === 'superAdmin' ?
                                 <Col className="mr-auto ml-0 mr-sm-2 ml-sm-auto">
                                 <Button
                                     type="primary"
@@ -47,6 +46,9 @@ const Users: React.FC<UsersPropsType> = (props) => {
                                     }
                                 />
                                 </Col>
+                                    :
+                                    null
+                                }
                             </Row>
                         </ListGroup.Item>
                     )

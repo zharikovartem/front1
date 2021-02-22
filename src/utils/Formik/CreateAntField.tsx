@@ -80,6 +80,10 @@ const CreateAntField = (AntComponent: any) => (
 
     const onBlur = () => form.setFieldTouched(field.name, true);
 
+    // console.log(field)
+    // console.log(props)
+
+    
     return (
         <FormItem
             label={!isMobile ? label : null}
@@ -91,6 +95,7 @@ const CreateAntField = (AntComponent: any) => (
         >
             {isMobile ?
                 <MobileComponent
+                    {...props}
                     AntComponent={AntComponent}
                     onBlur={onBlur}
                     type={type}
@@ -138,7 +143,8 @@ type MobileComponentType = {
     onChange: (value: any) => void,
     label: string,
     value: any,
-    onOk: (val:any)=>void
+    onOk: (val:any)=>void,
+    disabled?: boolean,
 }
 
 const MobileComponent: React.FC<MobileComponentType> = (props) => {
@@ -198,14 +204,18 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
     const mode = props.type
     
     const autoHeight = props.type === 'textarea' ? {autoHeight: true} : null
-
     const onPickerChangeCheck = props.type === 'date' || 'time' ? onPickerChange : null
+    const disabled = props.disabled ? {disabled: true} : null
 
     let onOkCheck
     if (props.AntComponent.onOk) {
         onOkCheck = onOk
     }
-    
+
+    if (props.disabled) {
+
+    }   
+
     return (
         <List>
             <props.AntComponent
@@ -221,6 +231,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
                 title={props.label}
                 locale={enUs}
                 {...autoHeight}
+                {...disabled}
 
                 className={props.type === 'text' ? 'pl-0' : null}
                 data={data}

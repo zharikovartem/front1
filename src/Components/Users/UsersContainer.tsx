@@ -19,7 +19,8 @@ export type UsersPropsType = MapPropsType & MapDispatchPropsType & OwnUsersProps
 
 let mapStateToProps = (state:AppStateType) => {
     return {
-        usersList: getUsersListSelector(state)
+        usersList: getUsersListSelector(state),
+        UserStatus: state.auth.user?.status
     }
 }
 

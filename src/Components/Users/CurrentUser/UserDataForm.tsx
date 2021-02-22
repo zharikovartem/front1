@@ -67,6 +67,10 @@ const FormFielsd: ((props: FormikProps<{}>) => ReactNode) = (props) => {
             name: 'Admin',
             value: 'admin'
         },
+        {
+            name: 'Super Admin',
+            value: 'superAdmin'
+        },
 
     ]
 
@@ -148,7 +152,7 @@ const FormFielsd: ((props: FormikProps<{}>) => ReactNode) = (props) => {
             />
             { isChanged ?
                 <div className="submit-container">
-                    <button className="ant-btn ant-btn-primary" type="submit">
+                    <button className="ant-btn ant-btn-primary mb-4" type="submit">
                         Save
                     </button>
                 </div>

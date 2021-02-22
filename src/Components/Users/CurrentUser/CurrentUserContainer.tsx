@@ -1,9 +1,10 @@
 import {connect} from 'react-redux'
 import CurrentUser from './CurrentUser'
 import { AppStateType } from './../../../redux/store'
-// import { isMobile } from 'react-device-detect'
+import { isMobile } from 'react-device-detect'
 import { getUsersList, updateUser } from './../../../redux/usersReducer'
 import { UserType } from '../../../redux/authReducer'
+import CurrentUserMobile from './CurrentUserMobile'
 // import { UserType } from '../../../api/usersAPI'
 
 
@@ -37,6 +38,6 @@ let mapStateToProps = (state:AppStateType) => {
 
 export default connect<MapPropsType, MapDispatchPropsType, OwnCurrentUserPropsType, AppStateType>(mapStateToProps, 
     {getUsersList, updateUser}) 
-    (CurrentUser)
+    (isMobile ? CurrentUserMobile : CurrentUser)
     
 

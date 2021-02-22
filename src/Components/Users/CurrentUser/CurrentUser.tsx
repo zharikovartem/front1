@@ -13,6 +13,10 @@ import { UserType } from '../../../redux/authReducer'
 
 const { Panel } = Collapse
 
+export const getTargetUser = (usersList: Array<UserType> ,userId: string):UserType  => {
+    return usersList.filter((item: UserType) => item.id.toString() === userId )[0]
+}
+
 const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
     useEffect(() => {
         const getUsersList = () => props.getUsersList
@@ -26,11 +30,9 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
     const [toDoFormVisible, setToDoFormVisible]= useState(false)
     const [initialFormValues, setInitialFormValues] = useState(initialValues)
 
-    const getTargetUser = (userId: string) => {
-        return props.usersList.filter((item: UserType) => item.id.toString() === userId )[0]
-    }
+    
 
-    const user = getTargetUser(props.match.params.userId)
+    const user = getTargetUser(props.usersList, props.match.params.userId)
 
     const callback = () => { }
 
@@ -182,8 +184,8 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
             </div >
         )
     } else {
-    return <Spin key="spin" size="large" />
-}
+        return <Spin key="spin" size="large" />
+    }
 }
 
 export default CurrentUser
