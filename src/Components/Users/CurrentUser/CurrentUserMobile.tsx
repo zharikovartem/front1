@@ -11,7 +11,6 @@ import { useHistory } from 'react-router-dom'
 import ToDoHeaderMobile from '../../ToDo/ToDoHeader/ToDoHeaderMobile'
 import moment from 'moment'
 import ToDoMobile from './../../ToDo/ToDoMobile'
-import { OmitProps } from 'antd/lib/transfer/ListBody'
 
 const Item = List.Item
 
