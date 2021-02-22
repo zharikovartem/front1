@@ -2,11 +2,12 @@ import { Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { getTargetUser, toDoPart } from './CurrentUser'
 import { CurrentUserPropsType } from './CurrentUserContainer'
-import { Accordion, LocaleProvider, Pagination, List } from 'antd-mobile'
+import { Accordion, LocaleProvider, Pagination, List, NavBar, Icon } from 'antd-mobile'
 import UserDataForm from './UserDataForm'
 import enUS from 'antd-mobile/lib/locale-provider/en_US'
 import './Pagination.css'
 import { TaskType } from '../../../Types/types'
+import { useHistory } from 'react-router-dom'
 
 const Item = List.Item
 
@@ -24,6 +25,7 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     // const [initialFormValues, setInitialFormValues] = useState(initialValues)
     
     const user = getTargetUser(props.usersList, props.match.params.userId)
+    let history = useHistory()
 
     const onChange = () => {
 
@@ -36,8 +38,17 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     if (user) {
         return (
             <div>
-                <h5>Name: {user.name}</h5>
-                <p>User id: {user.id}</p>
+                <NavBar
+                     mode="light"
+                    //  mode="dark"
+                     icon={<Icon type="left" />}
+                     onLeftClick={() => history.replace('/users')}
+                     rightContent={[
+                    //    <Icon key="0" type="search" style={{ marginRight: '16px' }} />,
+                    //    <Icon key="1" type="ellipsis" />,
+                    <p>User id: {props.match.params.userId}</p>
+                     ]}
+                ><span className="text-dark">{user.name}</span></NavBar>
 
                 <Accordion defaultActiveKey="" className="my-accordion" onChange={onChange} >
                     <Accordion.Panel header="User data">
@@ -58,6 +69,7 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                                 <Item 
                                     key={item.id} 
                                     // extra={item.time+' '+item.date}
+                                    onClick={()=>{console.log('onClick')}}
                                 >
                                     {item.name}
                                 </Item>

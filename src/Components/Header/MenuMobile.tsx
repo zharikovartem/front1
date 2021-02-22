@@ -9,8 +9,8 @@ import MenuPopover from './MenuPopover'
 import { MenuDataItemType } from './Header'
 
 const MenuMobile: React.FC<MenuPropsType> = (props) => {
-    let history = useHistory();
-    const location = useLocation();
+    let history = useHistory()
+    const location = useLocation()
     const [showMenu, setShowMenu] = useState(false)
 
     const getSelectedMenuItem = (): ValueType => {

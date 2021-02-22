@@ -181,7 +181,6 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
                         onSubmit={handleSubmitToDoForm}
                         render={ToDoForm as any}
                         enableReinitialize={true}
-                        // test='123'
                         initialStatus={'readOnly'}
                     />
                 </Drawer>
