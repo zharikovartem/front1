@@ -6,8 +6,12 @@ import { Accordion, LocaleProvider, Pagination, List, NavBar, Icon } from 'antd-
 import UserDataForm from './UserDataForm'
 import enUS from 'antd-mobile/lib/locale-provider/en_US'
 import './Pagination.css'
-import { TaskType } from '../../../Types/types'
+import { NewTaskDataType, TaskType } from '../../../Types/types'
 import { useHistory } from 'react-router-dom'
+import ToDoHeaderMobile from '../../ToDo/ToDoHeader/ToDoHeaderMobile'
+import moment from 'moment'
+import ToDoMobile from './../../ToDo/ToDoMobile'
+import { OmitProps } from 'antd/lib/transfer/ListBody'
 
 const Item = List.Item
 
@@ -23,9 +27,23 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [toDoFormVisible, setToDoFormVisible]= useState(false)
     // const [initialFormValues, setInitialFormValues] = useState(initialValues)
+    const [taskList, setTaskList] = useState<Array<TaskType> | null>(null)
     
     const user = getTargetUser(props.usersList, props.match.params.userId)
     let history = useHistory()
+
+    type DateIntervalType = {
+        startDate: moment.Moment,
+        endDate: moment.Moment
+    }
+    const [dateInterval, setDateInterval] = useState<DateIntervalType>({
+        startDate: moment(),//.add(-1,'day'),
+        endDate: moment()//.add(1,'day')
+    })
+
+    const setIsInterval = (isInterval: boolean, date: { startDate: moment.Moment, endDate: moment.Moment }) => {
+        setDateInterval(date)
+    }
 
     const onChange = () => {
 
@@ -33,6 +51,10 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
 
     const onPagination = (currentPage: number) => {
         setCurrentPage(currentPage)
+    }
+
+    const getTaskList = (startDate: string, endDate: string) => {
+
     }
 
     if (user) {
@@ -58,14 +80,7 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
 
                         <List>
                             {user.toDoList ? toDoPart(user.toDoList, currentPage, defaultPageSize).map((item: TaskType) => {
-                            // {user.toDoList ? user.toDoList.map((item: TaskType) => {
                                 return (
-                                // <TodoItem
-                                //     key={item.id.toString()}
-                                //     item={item}
-                                //     setToDoFormVisible={setToDoFormVisible}
-                                //     setInitialFormValues={setInitialFormValues}
-                                // />
                                 <Item 
                                     key={item.id} 
                                     // extra={item.time+' '+item.date}
@@ -91,7 +106,26 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                             </div>
                         </LocaleProvider>
                     </Accordion.Panel>
-                    <Accordion.Panel header="Schedule"></Accordion.Panel>
+                    <Accordion.Panel header="Schedule">
+                        <ToDoHeaderMobile
+                            dateInterval={dateInterval}
+                            setIsInterval={setIsInterval}
+                            showDrawer={() => { console.log('showDrawer') }}
+                            showModal={() => { console.log('showModal') }}
+                            isReadOnly={true}
+                        />
+                        {/* <ToDoMobile 
+                            createNewTask={(values: NewTaskDataType, reload: boolean) => {}}
+                            dateInterval={dateInterval}
+                            deleteTask={(taskid: number, startDate: string, endDate: string)=>{} }
+                            getTaskList={getTaskList}
+                            isInterval
+                            taskList={taskList}
+                            updateTask={(values: NewTaskDataType, taskId: number) => {} }
+                            userId={user.id}
+                            viewSettings={{}}
+                        /> */}
+                    </Accordion.Panel>
                     <Accordion.Panel header="Related users"></Accordion.Panel>
                     <Accordion.Panel header="Permissions"></Accordion.Panel>
                 </Accordion>

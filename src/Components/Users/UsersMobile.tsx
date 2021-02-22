@@ -16,9 +16,7 @@ const UsersMobile: React.FC<UsersPropsType> = (props) => {
     let { url } = useRouteMatch();
     return (
         <div>
-            <h5>UsersMobile</h5>
-            <p>This page is only available in the full version</p>
-            <List renderHeader={() => 'Basic Style'} className="my-list">
+            <List renderHeader={() => 'Users:'} className="my-list">
                 {   props.usersList.map( (item: any) => {
                         return(
                             <Item 
