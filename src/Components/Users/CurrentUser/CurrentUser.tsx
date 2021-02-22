@@ -17,6 +17,26 @@ export const getTargetUser = (usersList: Array<UserType> ,userId: string):UserTy
     return usersList.filter((item: UserType) => item.id.toString() === userId )[0]
 }
 
+export const toDoPart = (
+    toDoList: Array<TaskType>,
+    currentPage: number,
+    defaultPageSize: number
+    ): Array<TaskType> => {
+    let toDoPart: Array<TaskType> = []
+    if (toDoList) {
+        const startIndex = (currentPage - 1) * defaultPageSize
+        const endIndex = startIndex + defaultPageSize
+        for (let index = 0; index < toDoList.length; index++) {
+            const element = toDoList[index];
+            if (index >= startIndex && index < endIndex) {
+                toDoPart.push(element)
+            }
+
+        }
+    }
+    return toDoPart
+}
+
 const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
     useEffect(() => {
         const getUsersList = () => props.getUsersList
@@ -46,21 +66,6 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
         setDefaultPageSize(size)
     }
 
-    const toDoPart = (): Array<TaskType> => {
-        let toDoPart: Array<TaskType> = []
-        if (user.toDoList) {
-            const startIndex = (currentPage - 1) * defaultPageSize
-            const endIndex = startIndex + defaultPageSize
-            for (let index = 0; index < user.toDoList.length; index++) {
-                const element = user.toDoList[index];
-                if (index >= startIndex && index < endIndex) {
-                    toDoPart.push(element)
-                }
-
-            }
-        }
-        return toDoPart
-    }
     type DateIntervalType = {
         startDate: moment.Moment,
         endDate: moment.Moment
@@ -115,7 +120,7 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
                     </Panel>
                     <Panel header="ToDo List" key="2">
                         <List>
-                            {user.toDoList ? toDoPart().map((item: TaskType) => {
+                            {user.toDoList ? toDoPart(user.toDoList, currentPage, defaultPageSize).map((item: TaskType) => {
                                 return <TodoItem 
                                     key={item.id.toString()} 
                                     item={item} 

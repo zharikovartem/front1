@@ -1,6 +1,6 @@
 import { Spin } from 'antd'
-import React, { useEffect } from 'react'
-import { getTargetUser } from './CurrentUser'
+import React, { useEffect, useState } from 'react'
+import { getTargetUser, toDoPart } from './CurrentUser'
 import { CurrentUserPropsType } from './CurrentUserContainer'
 import { Accordion, LocaleProvider, Pagination, List } from 'antd-mobile'
 import UserDataForm from './UserDataForm'
@@ -18,12 +18,19 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
         }
     }, [props.usersList, props.getUsersList])
 
-    console.log(props.match.params.userId)
+    const [defaultPageSize, setDefaultPageSize] = useState(10)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [toDoFormVisible, setToDoFormVisible]= useState(false)
+    // const [initialFormValues, setInitialFormValues] = useState(initialValues)
+    
     const user = getTargetUser(props.usersList, props.match.params.userId)
-    console.log(user)
 
     const onChange = () => {
 
+    }
+
+    const onPagination = (currentPage: number) => {
+        setCurrentPage(currentPage)
     }
 
     if (user) {
@@ -39,7 +46,8 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                     <Accordion.Panel header="ToDo List">
 
                         <List>
-                            {user.toDoList ? user.toDoList.map((item: TaskType) => {
+                            {user.toDoList ? toDoPart(user.toDoList, currentPage, defaultPageSize).map((item: TaskType) => {
+                            // {user.toDoList ? user.toDoList.map((item: TaskType) => {
                                 return (
                                 // <TodoItem
                                 //     key={item.id.toString()}
@@ -47,7 +55,12 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                                 //     setToDoFormVisible={setToDoFormVisible}
                                 //     setInitialFormValues={setInitialFormValues}
                                 // />
-                                <Item key={item.id} extra={'extra content'}>{item.name}</Item>
+                                <Item 
+                                    key={item.id} 
+                                    // extra={item.time+' '+item.date}
+                                >
+                                    {item.name}
+                                </Item>
                                 )
                             })
                                 :
@@ -56,11 +69,12 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                         </List>
 
                         <LocaleProvider locale={enUS}>
-                            <div className="pagination-container bg-light" >
+                            <div className="pagination-container" >
                                 <Pagination
-                                    className="mx-3 pb-3"
-                                    total={5}
-                                    current={1}
+                                    className="m-2"
+                                    total={user.toDoList ? Math.ceil(user.toDoList?.length / defaultPageSize) : 0}
+                                    current={currentPage}
+                                    onChange={onPagination}
                                 />
                             </div>
                         </LocaleProvider>
