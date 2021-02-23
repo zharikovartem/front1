@@ -64,11 +64,11 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
             getUsersList()()
         }
         if (user && taskList === null) {
-            // getTaskListCalback()(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
-            memoizedCallback()
+            getTaskList(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
+            // memoizedCallback()
         }
         
-    }, [props.usersList, props.getUsersList, dateInterval, user, taskList, memoizedCallback])
+    }, [props.usersList, props.getUsersList, dateInterval, user, taskList, memoizedCallback, getTaskList])
     
     let history = useHistory()
 
