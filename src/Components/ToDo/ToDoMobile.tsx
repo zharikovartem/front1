@@ -64,6 +64,7 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
     const showDrawer = (): void => {
         if (visible) {
             setInitialFormValues(initialValues)
+            setDrawerData(initialDrewerData)
         }
         setVisible(!visible)
     }
@@ -80,7 +81,7 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
         setIsModalVisible(false)
     }
 
-    const handleSubmit = (values: InitialValuesType) => {
+    const handleSubmit = (values: InitialValuesType, actions: any) => {
         let formPropsCopy: NewTaskDataType = {
             ...values,
             time: moment(values.time).format('HH:mm:ss'),
@@ -88,11 +89,14 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
             user_id: props.userId,
         }
 
+        console.log(formPropsCopy)
+
         if (!drawerData.taskId) {
             props.createNewTask(formPropsCopy, true)
         } else {
             props.updateTask(formPropsCopy, drawerData.taskId)
         }
+        actions.resetForm()
         showDrawer()
     }
 

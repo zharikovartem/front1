@@ -63,7 +63,7 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                      mode="light"
                     //  mode="dark"
                      icon={<Icon type="left" />}
-                     onLeftClick={() => history.replace('/users')}
+                     onLeftClick={() => history.replace(props.appLocation,'/users')}
                      rightContent={[
                     //    <Icon key="0" type="search" style={{ marginRight: '16px' }} />,
                     //    <Icon key="1" type="ellipsis" />,
