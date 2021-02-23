@@ -56,6 +56,8 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
 
     }
 
+    console.log('props.appLocation: ', props.appLocation)
+
     if (user) {
         return (
             <div>
@@ -63,7 +65,7 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                      mode="light"
                     //  mode="dark"
                      icon={<Icon type="left" />}
-                     onLeftClick={() => history.replace(props.appLocation,'/users')}
+                     onLeftClick={() => history.replace(props.appLocation+'users')}
                      rightContent={[
                     //    <Icon key="0" type="search" style={{ marginRight: '16px' }} />,
                     //    <Icon key="1" type="ellipsis" />,
