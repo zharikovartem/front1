@@ -2,7 +2,7 @@ import { Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { getTargetUser, toDoPart } from './CurrentUser'
 import { CurrentUserPropsType } from './CurrentUserContainer'
-import { Accordion, LocaleProvider, Pagination, List, NavBar, Icon } from 'antd-mobile'
+import { Accordion, LocaleProvider, Pagination, List, NavBar, Icon, Drawer, Button } from 'antd-mobile'
 import UserDataForm from './UserDataForm'
 import enUS from 'antd-mobile/lib/locale-provider/en_US'
 import './Pagination.css'
@@ -10,23 +10,49 @@ import { NewTaskDataType, TaskType } from '../../../Types/types'
 import { useHistory } from 'react-router-dom'
 import ToDoHeaderMobile from '../../ToDo/ToDoHeader/ToDoHeaderMobile'
 import moment from 'moment'
+// import ToDoMobile from './../../ToDo/ToDoContainer'
 import ToDoMobile from './../../ToDo/ToDoMobile'
+import { Formik } from 'formik'
+import { initialValues } from '../../ToDo/ToDoMobile'
+import ToDoForm from '../../ToDo/ToDoForm/ToDoForm'
+import { InitialValuesType } from '../../ToDo/ToDoMobile'
+import { NewTimeByString } from '../../../utils/Date/NewDeteByString'
+import {TasksOnly} from './../../ToDo/ToDoMobile'
 
 const Item = List.Item
 
 const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     useEffect(() => {
+        console.log('useEffect')
         const getUsersList = () => props.getUsersList
         if (props.usersList.length === 0) {
             getUsersList()()
         }
+        if (user && taskList === null) {
+            console.log('getTaskList')
+            getTaskList(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
+        }
+        // if (user) {
+        //     console.log('user')
+        //     if (taskList) {
+        //         console.log('taskList')
+        //     } else {
+        //         console.log(taskList)
+        //     }
+        // }
+        
     }, [props.usersList, props.getUsersList])
 
     const [defaultPageSize, setDefaultPageSize] = useState(10)
     const [currentPage, setCurrentPage] = useState(1)
     const [toDoFormVisible, setToDoFormVisible]= useState(false)
-    // const [initialFormValues, setInitialFormValues] = useState(initialValues)
+    const [initialFormValues, setInitialFormValues] = useState(initialValues)
     const [taskList, setTaskList] = useState<Array<TaskType> | null>(null)
+    const [dateInterval, setDateInterval] = useState<DateIntervalType>({
+        startDate: moment(),//.add(-1,'day'),
+        endDate: moment()//.add(1,'day')
+    })
+    const [drawerData, setDrawerData] = useState<any>(null)
     
     const user = getTargetUser(props.usersList, props.match.params.userId)
     let history = useHistory()
@@ -35,13 +61,12 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
         startDate: moment.Moment,
         endDate: moment.Moment
     }
-    const [dateInterval, setDateInterval] = useState<DateIntervalType>({
-        startDate: moment(),//.add(-1,'day'),
-        endDate: moment()//.add(1,'day')
-    })
+    
 
     const setIsInterval = (isInterval: boolean, date: { startDate: moment.Moment, endDate: moment.Moment }) => {
+        console.log('setIsInterval', date)
         setDateInterval(date)
+        getTaskList(date.startDate.format('YYYY-MM-DD'), date.endDate.format('YYYY-MM-DD'))
     }
 
     const onChange = () => {
@@ -52,15 +77,67 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
         setCurrentPage(currentPage)
     }
 
-    const getTaskList = (startDate: string, endDate: string) => {
+    const onTaskOpen = (task: TaskType) => {
+        console.log('onTaskOpen', task)
+        setToDoFormVisible(!toDoFormVisible)
+        // setInitialFormValues(task as InitialValuesType)
+        // console.log(toDoFormVisible)
+        let time = NewTimeByString(task.time)
+        // let date = NewTimeByString(value.date)
 
+        const splitDate = task.date.split(/-/)
+        let date = new Date()
+        date.setFullYear(parseInt(splitDate[0]))
+        date.setMonth(parseInt(splitDate[1])-1)
+        date.setDate(parseInt(splitDate[2]))
+
+        console.log(splitDate)
+        console.log(date)
+
+        setInitialFormValues({
+            name: task.name,
+            time: time,
+            date: date,
+            descriptions: task.descriptions ? task.descriptions : null
+        })
     }
 
-    console.log('props.appLocation: ', props.appLocation)
+    const onTaskClose = () => {
+        setToDoFormVisible(!toDoFormVisible)
+    }
+
+    const handleSubmit = () => {
+        
+    }
+
+    const getTaskList = (startDate: string, endDate: string) => {
+        console.log('startDate', startDate)
+        console.log('endDate', endDate)
+        console.log('getTaskList', user.toDoList)
+        let tasklist: Array<TaskType> = []
+        if (user.toDoList) {
+
+            for (let index = 0; index < user.toDoList.length; index++) {
+                const toDo = user.toDoList[index];
+                if (moment(toDo.date).isBetween(
+                    moment(startDate).add(-1, 'day'),
+                    moment(endDate).add(1, 'day'),
+                    'day')) {
+                    tasklist.push(toDo)
+                }
+            }
+        }
+        console.log(tasklist)
+        setTaskList(tasklist)
+    }
+
+    // getTaskList(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
+    console.log(taskList)
 
     if (user) {
         return (
             <div>
+                
                 <NavBar
                      mode="light"
                     //  mode="dark"
@@ -78,14 +155,45 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                         <UserDataForm userData={user} updateUser={props.updateUser} />
                     </Accordion.Panel>
                     <Accordion.Panel header="ToDo List">
+                    <Drawer
+                    className="my-drawer"
+                    style={{ minHeight: document.documentElement.clientHeight }}
+                    contentStyle={{ color: '#A6A6A6', textAlign: 'center', paddingTop: 0, width: "100%" }}
+                    sidebar={
+                        <>
+                        <Button
+                                inline
+                                size="small"
+                                className="ml-3 mt-3 mb-5"
+                                onClick={onTaskClose}
+                                type="primary"
+                            >
+                                Close
+                            </Button>
 
+                        <div className="mt-1">
+                            {/* <button onClick={onTaskClose}>Close</button> */}
+                            
+                            <Formik
+                                initialValues={initialFormValues}
+                                onSubmit={handleSubmit}
+                                render={ToDoForm as any}
+                                enableReinitialize={true}
+                                initialStatus={'readOnly'}
+                            />
+                        </div>
+                        </>
+                    }
+                    open={toDoFormVisible}
+                    // onOpenChange={toDoFormVisible}
+                >
                         <List>
                             {user.toDoList ? toDoPart(user.toDoList, currentPage, defaultPageSize).map((item: TaskType) => {
                                 return (
                                 <Item 
                                     key={item.id} 
                                     // extra={item.time+' '+item.date}
-                                    onClick={()=>{console.log('onClick')}}
+                                    onClick={()=>{onTaskOpen(item)}}
                                 >
                                     {item.name}
                                 </Item>
@@ -106,6 +214,7 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                                 />
                             </div>
                         </LocaleProvider>
+                        </Drawer>
                     </Accordion.Panel>
                     <Accordion.Panel header="Schedule">
                         <ToDoHeaderMobile
@@ -116,16 +225,30 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                             isReadOnly={true}
                         />
                         {/* <ToDoMobile 
-                            createNewTask={(values: NewTaskDataType, reload: boolean) => {}}
-                            dateInterval={dateInterval}
-                            deleteTask={(taskid: number, startDate: string, endDate: string)=>{} }
                             getTaskList={getTaskList}
+                                viewSettings={props.viewSettings}
+                            
+                                dateInterval={props.dateInterval}
                             isInterval
                             taskList={taskList}
-                            updateTask={(values: NewTaskDataType, taskId: number) => {} }
                             userId={user.id}
-                            viewSettings={{}}
+
+                                deleteTask={(taskid: number, startDate: string, endDate: string)=>{} }
+                                updateTask={(values: NewTaskDataType, taskId: number) => {} }
+                                createNewTask={(values: NewTaskDataType, reload: boolean) => {}}
                         /> */}
+
+                        <TasksOnly 
+                            dateInterval={dateInterval}
+                            taskList={taskList}
+                            deleteTask={(taskid: number, startDate: string, endDate: string)=>{} }
+    
+                            setDrawerData={setDrawerData}
+                            setInitialFormValues={setInitialFormValues}
+                            showDrawer={() => { console.log('showDrawer') }}
+                            onComplete={(values: TaskType) => {}}
+                        />
+
                     </Accordion.Panel>
                     <Accordion.Panel header="Related users"></Accordion.Panel>
                     <Accordion.Panel header="Permissions"></Accordion.Panel>

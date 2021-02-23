@@ -5,8 +5,6 @@ import { validateRequired } from '../../../utils/Formik/ValidateFields'
 
 
 const ToDoForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
-    console.log(props)
-
     const disabled = props.initialStatus === 'readOnly' ? true : false
     
     return (

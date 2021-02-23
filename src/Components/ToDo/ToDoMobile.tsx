@@ -21,14 +21,14 @@ const initialDrewerData: InitialDrewerDataType = {
 }
 const zeroTime = NewTimeByString()
 
-type InitialValuesType = {
+export type InitialValuesType = {
     name: string,
     time: Date,
     date: Date,
     descriptions: string | null
 }
 
-const initialValues: InitialValuesType = {
+export const initialValues: InitialValuesType = {
     name: '',
     time: zeroTime,
     date: new Date(),
@@ -89,8 +89,6 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
             user_id: props.userId,
         }
 
-        console.log(formPropsCopy)
-
         if (!drawerData.taskId) {
             props.createNewTask(formPropsCopy, true)
         } else {
@@ -107,6 +105,7 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
         }
         props.updateTask(updatedTask, task.id)
     }
+
 
     if (props.taskList !== null) {
         return (
@@ -207,7 +206,7 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
         const splitDate = value.date.split(/-/)
         let date = new Date()
         date.setFullYear(parseInt(splitDate[0]))
-        date.setMinutes(parseInt(splitDate[1]))
+        date.setMonth(parseInt(splitDate[1])-1)
         date.setDate(parseInt(splitDate[2]))
 
         props.setInitialFormValues({
@@ -359,7 +358,7 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
     )
 }
 
-const TasksOnly: React.FC<TimeScaleType> = (props) => {
+export const TasksOnly: React.FC<TimeScaleType> = (props) => {
     const startDate = moment(props.dateInterval.startDate)
     let dateArrey: Array<moment.Moment> = []
     while (moment(startDate.format('YYYY-MM-DD')).isSameOrBefore(moment(props.dateInterval.endDate.format('YYYY-MM-DD')))) {

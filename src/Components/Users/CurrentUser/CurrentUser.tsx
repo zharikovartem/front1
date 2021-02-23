@@ -49,7 +49,7 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [toDoFormVisible, setToDoFormVisible]= useState(false)
     const [initialFormValues, setInitialFormValues] = useState(initialValues)
-
+    const [taskList, setTaskList] = useState<Array<TaskType> | null>(null)
     
 
     const user = getTargetUser(props.usersList, props.match.params.userId)
@@ -75,7 +75,7 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
         endDate: moment()//.add(1,'day')
     })
 
-    const [taskList, setTaskList] = useState<Array<TaskType> | null>(null)
+    
 
     const getTaskList = (startDate: string, endDate: string) => {
         let tasklist: Array<TaskType> = []

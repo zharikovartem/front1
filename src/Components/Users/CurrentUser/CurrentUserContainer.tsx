@@ -32,6 +32,7 @@ let mapStateToProps = (state:AppStateType) => {
         taskSaveStatus: state.task.taskSaveStatus,
         settings:state.auth.viewSettings,
         appLocation: state.app.location,
+        viewSettings: state.auth.viewSettings,
     }
 }
 

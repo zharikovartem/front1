@@ -8,6 +8,7 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
     const [isInterval, setIsInterval] = useState(false)
 
     const onIntervalChange = (e: boolean) => {
+        console.log('onIntervalChange', e)
         if (e) {
             props.setIsInterval( !isInterval, {startDate: props.dateInterval.startDate, endDate: props.dateInterval.endDate })
         } else {
@@ -23,10 +24,10 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
         } else {
             props.setIsInterval(isInterval, {startDate: moment(value), endDate: props.dateInterval.endDate })
         }
-        
     }
 
     const onEndChange = (value: Date) => {
+        console.log('onEndChange', value)
         props.setIsInterval(isInterval, {startDate: props.dateInterval.startDate, endDate: moment(value) })
     }
 
@@ -66,7 +67,8 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
                 >
                 Date interval
             </List.Item>
-
+            { !props.isReadOnly ?
+            <>
             <Button
                 inline
                 size="small"
@@ -85,6 +87,8 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
             >
                 Settings
             </Button>
+            </>
+            : null}
         </div>
     )
 }
