@@ -190,6 +190,7 @@ type TaskItemMobileType = {
     setInitialFormValues: React.Dispatch<React.SetStateAction<InitialValuesType>>,
     showDrawer: () => void,
     onComplete: (values: TaskType) => void,
+    isReadOnly: boolean
 }
 
 const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
@@ -221,62 +222,85 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
 
     
 
-    return (
-        <SwipeAction
-            key={props.element.id}
-            style={{ backgroundColor: 'gray' }}
-            autoClose
-            right={[
-                {
-                    text: 'Delete',
-                    onPress: () => props.deleteTask(
-                        props.element.id,
-                        props.dateInterval.startDate.format('YYYY-MM-DD'),
-                        props.dateInterval.endDate.format('YYYY-MM-DD')
-                    ),
-                    style: { backgroundColor: '#F4333C', color: 'white' },
-                },
-            ]}
-            left={[
-                {
-                    text: 'Edit',
-                    onPress: () => { onEdit(props.element) },
-                    style: { backgroundColor: '#108ee9', color: 'white' },
-                },
-                {
-                    text: props.element.isCompleted ? 'Not Done' : 'Done',
-                    onPress: () => props.onComplete(props.element),
-                    style: { backgroundColor: 'green', color: 'white' },
-                },
-            ]}
-
-            onOpen={() => {
-                // console.log('global onOpen')
-            }}
-            onClose={() => {
-                // console.log('global close') 
-            }}
-        >
-
-            <List.Item
-                key={props.element.id.toString()}
-                wrap
+    if (!props.isReadOnly) {
+        return (
+            <SwipeAction
+                key={props.element.id}
+                style={{ backgroundColor: 'gray' }}
+                autoClose
+                right={[
+                    {
+                        text: 'Delete',
+                        onPress: () => props.deleteTask(
+                            props.element.id,
+                            props.dateInterval.startDate.format('YYYY-MM-DD'),
+                            props.dateInterval.endDate.format('YYYY-MM-DD')
+                        ),
+                        style: { backgroundColor: '#F4333C', color: 'white' },
+                    },
+                ]}
+                left={[
+                    {
+                        text: 'Edit',
+                        onPress: () => { onEdit(props.element) },
+                        style: { backgroundColor: '#108ee9', color: 'white' },
+                    },
+                    {
+                        text: props.element.isCompleted ? 'Not Done' : 'Done',
+                        onPress: () => props.onComplete(props.element),
+                        style: { backgroundColor: 'green', color: 'white' },
+                    },
+                ]}
+    
+                onOpen={() => {
+                    // console.log('global onOpen')
+                }}
+                onClose={() => {
+                    // console.log('global close') 
+                }}
             >
-                <div className="w-100 row " key={props.element.id.toString()}>
-                    <div className="col-2 ">
-                        <span className="ml-3">{props.element.time.split(/:/)[0] + ':' + props.element.time.split(/:/)[1]}</span>
+    
+                <List.Item
+                    key={props.element.id.toString()}
+                    wrap
+                >
+                    <div className="w-100 row " key={props.element.id.toString()}>
+                        <div className="col-2 ">
+                            <span className="ml-3">{props.element.time.split(/:/)[0] + ':' + props.element.time.split(/:/)[1]}</span>
+                        </div>
+                        <div className="col-10">
+                            {props.element.isCompleted ?
+                                <span className="text-black-50 text-break ml-3">{props.element.name}</span>
+                                :
+                                <span className="text-break ml-3">{props.element.name}</span>
+                            }
+                        </div>
                     </div>
-                    <div className="col-10">
-                        {props.element.isCompleted ?
-                            <span className="text-black-50 text-break ml-3">{props.element.name}</span>
-                            :
-                            <span className="text-break ml-3">{props.element.name}</span>
-                        }
+                </List.Item>
+            </SwipeAction>
+        )
+    } else {
+        return (
+            <List.Item
+                    key={props.element.id.toString()}
+                    wrap
+                >
+                    <div className="w-100 row " key={props.element.id.toString()}>
+                        <div className="col-2 ">
+                            <span className="ml-3">{props.element.time.split(/:/)[0] + ':' + props.element.time.split(/:/)[1]}</span>
+                        </div>
+                        <div className="col-10">
+                            {props.element.isCompleted ?
+                                <span className="text-black-50 text-break ml-3">{props.element.name}</span>
+                                :
+                                <span className="text-break ml-3">{props.element.name}</span>
+                            }
+                        </div>
                     </div>
-                </div>
-            </List.Item>
-        </SwipeAction>
-    )
+                </List.Item>
+        )
+    }
+    
 }
 
 type TimeScaleType = {
@@ -285,11 +309,12 @@ type TimeScaleType = {
         startDate: moment.Moment,
         endDate: moment.Moment,
     },
-    deleteTask: (taskid: number, startDate: string, endDate: string) => void,
-    setDrawerData: React.Dispatch<React.SetStateAction<InitialDrewerDataType>>,
-    setInitialFormValues: React.Dispatch<React.SetStateAction<InitialValuesType>>,
-    showDrawer: () => void,
-    onComplete: (values: TaskType) => void,
+    deleteTask?: (taskid: number, startDate: string, endDate: string) => void,
+    setDrawerData?: React.Dispatch<React.SetStateAction<InitialDrewerDataType>>,
+    setInitialFormValues?: React.Dispatch<React.SetStateAction<InitialValuesType>>,
+    showDrawer?: () => void,
+    onComplete?: (values: TaskType) => void,
+    isReadOnly?: boolean
 }
 const TimeScale: React.FC<TimeScaleType> = (props) => {
     let startDate = moment(props.dateInterval.startDate)
@@ -314,11 +339,12 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
                             key={item.id.toString()}
                             element={item}
                             dateInterval={props.dateInterval}
-                            deleteTask={props.deleteTask}
-                            setDrawerData={props.setDrawerData}
-                            setInitialFormValues={props.setInitialFormValues}
-                            showDrawer={props.showDrawer}
-                            onComplete={props.onComplete}
+                            deleteTask={props.deleteTask ? props.deleteTask : ()=>{} }
+                            setDrawerData={props.setDrawerData ? props.setDrawerData : ()=>{} }
+                            setInitialFormValues={props.setInitialFormValues ? props.setInitialFormValues : ()=>{} }
+                            showDrawer={props.showDrawer ? props.showDrawer : ()=>{} }
+                            onComplete={props.onComplete ? props.onComplete : ()=>{} }
+                            isReadOnly={props.isReadOnly ? props.isReadOnly : false}
                         />
                     )
                 })
@@ -378,11 +404,12 @@ export const TasksOnly: React.FC<TimeScaleType> = (props) => {
                                     key={task.id.toString()}
                                     element={task}
                                     dateInterval={props.dateInterval}
-                                    deleteTask={props.deleteTask}
-                                    setDrawerData={props.setDrawerData}
-                                    showDrawer={props.showDrawer}
-                                    setInitialFormValues={props.setInitialFormValues}
-                                    onComplete={props.onComplete}
+                                    deleteTask={props.deleteTask ? props.deleteTask : ()=>{} }
+                                    setDrawerData={props.setDrawerData ? props.setDrawerData : ()=>{} }
+                                    showDrawer={props.showDrawer ? props.showDrawer : ()=>{} }
+                                    setInitialFormValues={props.setInitialFormValues ? props.setInitialFormValues : ()=>{} }
+                                    onComplete={props.onComplete ? props.onComplete : ()=>{}}
+                                    isReadOnly={props.isReadOnly ? props.isReadOnly : false}
                                 />
                             } else return null
                         })}

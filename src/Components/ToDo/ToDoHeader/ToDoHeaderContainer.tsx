@@ -6,8 +6,8 @@ import { isMobile } from 'react-device-detect'
 import ToDoHeaderMobile from './ToDoHeaderMobile'
 
 type OwnToDoHeaderPropsType = {
-    showDrawer: () => void,
-    showModal: () => void,
+    showDrawer?: () => void,
+    showModal?: () => void,
     isOpen?: boolean,
     isReadOnly?: boolean
 }

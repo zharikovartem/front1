@@ -73,7 +73,7 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
                 inline
                 size="small"
                 className="ml-3"
-                onClick={()=>{props.showDrawer()}}
+                onClick={props.showDrawer ? props.showDrawer : ()=>{} }
                 type="primary"
             >
                 {!props.isOpen ? 'Add' : 'Close'}
@@ -82,7 +82,7 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
                 inline
                 size="small"
                 className="ml-3"
-                onClick={()=>{props.showModal()}}
+                onClick={ props.showModal ? props.showModal : ()=>{} }
                 type="primary"
             >
                 Settings

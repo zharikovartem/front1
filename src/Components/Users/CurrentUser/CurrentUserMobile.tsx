@@ -6,40 +6,28 @@ import { Accordion, LocaleProvider, Pagination, List, NavBar, Icon, Drawer, Butt
 import UserDataForm from './UserDataForm'
 import enUS from 'antd-mobile/lib/locale-provider/en_US'
 import './Pagination.css'
-import { NewTaskDataType, TaskType } from '../../../Types/types'
 import { useHistory } from 'react-router-dom'
 import ToDoHeaderMobile from '../../ToDo/ToDoHeader/ToDoHeaderMobile'
 import moment from 'moment'
-// import ToDoMobile from './../../ToDo/ToDoContainer'
-import ToDoMobile from './../../ToDo/ToDoMobile'
 import { Formik } from 'formik'
 import { initialValues } from '../../ToDo/ToDoMobile'
 import ToDoForm from '../../ToDo/ToDoForm/ToDoForm'
-import { InitialValuesType } from '../../ToDo/ToDoMobile'
 import { NewTimeByString } from '../../../utils/Date/NewDeteByString'
 import {TasksOnly} from './../../ToDo/ToDoMobile'
+import { TaskType } from '../../../Types/types'
+import { InitialDrewerDataType } from '../../TasksTree/TasksTreeBrowser'
 
 const Item = List.Item
 
 const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     useEffect(() => {
-        console.log('useEffect')
         const getUsersList = () => props.getUsersList
         if (props.usersList.length === 0) {
             getUsersList()()
         }
         if (user && taskList === null) {
-            console.log('getTaskList')
             getTaskList(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
         }
-        // if (user) {
-        //     console.log('user')
-        //     if (taskList) {
-        //         console.log('taskList')
-        //     } else {
-        //         console.log(taskList)
-        //     }
-        // }
         
     }, [props.usersList, props.getUsersList])
 
@@ -49,8 +37,8 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     const [initialFormValues, setInitialFormValues] = useState(initialValues)
     const [taskList, setTaskList] = useState<Array<TaskType> | null>(null)
     const [dateInterval, setDateInterval] = useState<DateIntervalType>({
-        startDate: moment(),//.add(-1,'day'),
-        endDate: moment()//.add(1,'day')
+        startDate: moment(),
+        endDate: moment()
     })
     const [drawerData, setDrawerData] = useState<any>(null)
     
@@ -64,7 +52,6 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     
 
     const setIsInterval = (isInterval: boolean, date: { startDate: moment.Moment, endDate: moment.Moment }) => {
-        console.log('setIsInterval', date)
         setDateInterval(date)
         getTaskList(date.startDate.format('YYYY-MM-DD'), date.endDate.format('YYYY-MM-DD'))
     }
@@ -78,21 +65,14 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     }
 
     const onTaskOpen = (task: TaskType) => {
-        console.log('onTaskOpen', task)
         setToDoFormVisible(!toDoFormVisible)
-        // setInitialFormValues(task as InitialValuesType)
-        // console.log(toDoFormVisible)
         let time = NewTimeByString(task.time)
-        // let date = NewTimeByString(value.date)
 
         const splitDate = task.date.split(/-/)
         let date = new Date()
         date.setFullYear(parseInt(splitDate[0]))
         date.setMonth(parseInt(splitDate[1])-1)
         date.setDate(parseInt(splitDate[2]))
-
-        console.log(splitDate)
-        console.log(date)
 
         setInitialFormValues({
             name: task.name,
@@ -111,9 +91,6 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     }
 
     const getTaskList = (startDate: string, endDate: string) => {
-        console.log('startDate', startDate)
-        console.log('endDate', endDate)
-        console.log('getTaskList', user.toDoList)
         let tasklist: Array<TaskType> = []
         if (user.toDoList) {
 
@@ -127,12 +104,8 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                 }
             }
         }
-        console.log(tasklist)
         setTaskList(tasklist)
     }
-
-    // getTaskList(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
-    console.log(taskList)
 
     if (user) {
         return (
@@ -144,9 +117,7 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                      icon={<Icon type="left" />}
                      onLeftClick={() => history.replace(props.appLocation+'users')}
                      rightContent={[
-                    //    <Icon key="0" type="search" style={{ marginRight: '16px' }} />,
-                    //    <Icon key="1" type="ellipsis" />,
-                    <p>User id: {props.match.params.userId}</p>
+                        <p>User id: {props.match.params.userId}</p>
                      ]}
                 ><span className="text-dark">{user.name}</span></NavBar>
 
@@ -220,33 +191,13 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                         <ToDoHeaderMobile
                             dateInterval={dateInterval}
                             setIsInterval={setIsInterval}
-                            showDrawer={() => { console.log('showDrawer') }}
-                            showModal={() => { console.log('showModal') }}
                             isReadOnly={true}
                         />
-                        {/* <ToDoMobile 
-                            getTaskList={getTaskList}
-                                viewSettings={props.viewSettings}
-                            
-                                dateInterval={props.dateInterval}
-                            isInterval
-                            taskList={taskList}
-                            userId={user.id}
-
-                                deleteTask={(taskid: number, startDate: string, endDate: string)=>{} }
-                                updateTask={(values: NewTaskDataType, taskId: number) => {} }
-                                createNewTask={(values: NewTaskDataType, reload: boolean) => {}}
-                        /> */}
-
+ 
                         <TasksOnly 
                             dateInterval={dateInterval}
                             taskList={taskList}
-                            deleteTask={(taskid: number, startDate: string, endDate: string)=>{} }
-    
-                            setDrawerData={setDrawerData}
-                            setInitialFormValues={setInitialFormValues}
-                            showDrawer={() => { console.log('showDrawer') }}
-                            onComplete={(values: TaskType) => {}}
+                            isReadOnly={true}
                         />
 
                     </Accordion.Panel>
