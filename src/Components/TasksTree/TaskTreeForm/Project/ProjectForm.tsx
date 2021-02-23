@@ -22,7 +22,6 @@ const ProjectForm: React.FC<any> = (props) => {
     ]
 
     const onSelect = (val: string) => {
-        console.log('onSelect: ',val)
         setIsNewType( Number(val) )
     }
 

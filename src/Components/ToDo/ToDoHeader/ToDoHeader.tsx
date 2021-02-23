@@ -52,8 +52,6 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
         }
     }
 
-    console.log(props)
-
     return (
         <div className="row w-100" >
             <div className="col-12 col-md-9 col-lg-9 col-xl-7 w-100">

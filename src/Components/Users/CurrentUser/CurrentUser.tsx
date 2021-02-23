@@ -99,13 +99,11 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
     }
 
     const onToDoFormClose = () => {
-        console.log('onToDoFormClose')
         setInitialFormValues(initialValues)
         setToDoFormVisible(false)
     }
 
     const handleSubmitToDoForm = () => {
-        console.log('handleSubmitToDoForm')
     }
 
     if (user) {
@@ -202,12 +200,10 @@ type TodoItemPropsType = {
 }
 const TodoItem: React.FC<TodoItemPropsType> = (props) => {
     const showDrawer = (item: TaskType) => {
-        console.log('showDrawer', item)
         props.setToDoFormVisible(true)
         const timeParts = item.time.split(':')
         props.setInitialFormValues({
             name: item.name,
-            // time: moment(item.time),
             time: moment().hours(Number(timeParts[0])).minutes(Number(timeParts[1])).seconds(Number(timeParts[2])),
             date: moment(item.date),
             descriptions: item.descriptions ? item.descriptions : null

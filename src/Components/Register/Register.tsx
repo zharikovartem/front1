@@ -31,7 +31,7 @@ const Register: React.FC<RegisterPropsType> = (props) => {
     }, [props.authError])
     
     const handleSubmit = (formProps: RegisterFormType) => {
-        props.register( {...formProps, status: 'guest'} )
+        props.register(formProps)
     }
 
     return (

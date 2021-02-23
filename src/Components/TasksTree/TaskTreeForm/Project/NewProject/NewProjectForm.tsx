@@ -9,12 +9,10 @@ const NewProjectForm: React.FC<any> = (props) => {
     const [backend, setBackend] = useState(false)
 
     const submitFrontEnd = (val: any) => {
-        console.log('submitFrontEnd')
         setFrontend(val.target.checked)
     }
 
     const submitBackEnd = (val: any) => {
-        console.log('submitBackEnd')
         setBackend(val.target.checked)
     }
 

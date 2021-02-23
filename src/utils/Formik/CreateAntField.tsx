@@ -79,10 +79,6 @@ const CreateAntField = (AntComponent: any) => (
     }
 
     const onBlur = () => form.setFieldTouched(field.name, true);
-
-    // console.log(field)
-    // console.log(props)
-
     
     return (
         <FormItem

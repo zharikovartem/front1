@@ -47,7 +47,6 @@ export const getUsersList = (): ThunkType => {
 }
 
 export const updateUser = (values: UserType, userId: number): ThunkType => {
-    console.log(userId)
     return async (dispatch, getState) => {
 
         let response = await usersAPI.updateUser(values, userId)

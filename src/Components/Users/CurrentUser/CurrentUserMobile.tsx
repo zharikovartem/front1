@@ -1,5 +1,5 @@
 import { Spin } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { getTargetUser, toDoPart } from './CurrentUser'
 import { CurrentUserPropsType } from './CurrentUserContainer'
 import { Accordion, LocaleProvider, Pagination, List, NavBar, Icon, Drawer, Button } from 'antd-mobile'
@@ -15,23 +15,10 @@ import ToDoForm from '../../ToDo/ToDoForm/ToDoForm'
 import { NewTimeByString } from '../../../utils/Date/NewDeteByString'
 import {TasksOnly} from './../../ToDo/ToDoMobile'
 import { TaskType } from '../../../Types/types'
-import { InitialDrewerDataType } from '../../TasksTree/TasksTreeBrowser'
 
 const Item = List.Item
 
 const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
-    useEffect(() => {
-        const getUsersList = () => props.getUsersList
-        if (props.usersList.length === 0) {
-            getUsersList()()
-        }
-        if (user && taskList === null) {
-            getTaskList(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
-        }
-        
-    }, [props.usersList, props.getUsersList])
-
-    const [defaultPageSize, setDefaultPageSize] = useState(10)
     const [currentPage, setCurrentPage] = useState(1)
     const [toDoFormVisible, setToDoFormVisible]= useState(false)
     const [initialFormValues, setInitialFormValues] = useState(initialValues)
@@ -40,9 +27,49 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
         startDate: moment(),
         endDate: moment()
     })
-    const [drawerData, setDrawerData] = useState<any>(null)
-    
     const user = getTargetUser(props.usersList, props.match.params.userId)
+
+    const getTaskList = (startDate: string, endDate: string) => {
+        let taskList: Array<TaskType> = []
+        if (user.toDoList) {
+
+            for (let index = 0; index < user.toDoList.length; index++) {
+                const toDo = user.toDoList[index];
+                if (moment(toDo.date).isBetween(
+                    moment(startDate).add(-1, 'day'),
+                    moment(endDate).add(1, 'day'),
+                    'day')) {
+                        taskList.push(toDo)
+                }
+            }
+        }
+        setTaskList(taskList)
+    }
+
+    const memoizedCallback = useCallback(
+        () => {
+            getTaskList(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
+        },
+        [
+            dateInterval, 
+            getTaskList
+        ],
+      )
+
+    useEffect(() => {
+        const getUsersList = () => props.getUsersList
+        // const getTaskListCalback = () => getTaskList
+
+        if (props.usersList.length === 0) {
+            getUsersList()()
+        }
+        if (user && taskList === null) {
+            // getTaskListCalback()(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
+            memoizedCallback()
+        }
+        
+    }, [props.usersList, props.getUsersList, dateInterval, user, taskList, memoizedCallback])
+    
     let history = useHistory()
 
     type DateIntervalType = {
@@ -88,23 +115,6 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
 
     const handleSubmit = () => {
         
-    }
-
-    const getTaskList = (startDate: string, endDate: string) => {
-        let tasklist: Array<TaskType> = []
-        if (user.toDoList) {
-
-            for (let index = 0; index < user.toDoList.length; index++) {
-                const toDo = user.toDoList[index];
-                if (moment(toDo.date).isBetween(
-                    moment(startDate).add(-1, 'day'),
-                    moment(endDate).add(1, 'day'),
-                    'day')) {
-                    tasklist.push(toDo)
-                }
-            }
-        }
-        setTaskList(tasklist)
     }
 
     if (user) {
@@ -159,7 +169,7 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                     // onOpenChange={toDoFormVisible}
                 >
                         <List>
-                            {user.toDoList ? toDoPart(user.toDoList, currentPage, defaultPageSize).map((item: TaskType) => {
+                            {user.toDoList ? toDoPart(user.toDoList, currentPage, 10).map((item: TaskType) => {
                                 return (
                                 <Item 
                                     key={item.id} 
@@ -179,7 +189,7 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                             <div className="pagination-container" >
                                 <Pagination
                                     className="m-2"
-                                    total={user.toDoList ? Math.ceil(user.toDoList?.length / defaultPageSize) : 0}
+                                    total={user.toDoList ? Math.ceil(user.toDoList?.length / 10) : 0}
                                     current={currentPage}
                                     onChange={onPagination}
                                 />

@@ -8,13 +8,11 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
     const [isInterval, setIsInterval] = useState(false)
 
     const onIntervalChange = (e: boolean) => {
-        console.log('onIntervalChange', e)
         if (e) {
             props.setIsInterval( !isInterval, {startDate: props.dateInterval.startDate, endDate: props.dateInterval.endDate })
         } else {
             props.setIsInterval( !isInterval, {startDate: props.dateInterval.startDate, endDate: props.dateInterval.startDate })
         }
-        
         setIsInterval(!isInterval)
     }
 
@@ -27,7 +25,6 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
     }
 
     const onEndChange = (value: Date) => {
-        console.log('onEndChange', value)
         props.setIsInterval(isInterval, {startDate: props.dateInterval.startDate, endDate: moment(value) })
     }
 

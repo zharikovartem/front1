@@ -37,8 +37,6 @@ const TimeScale: React.FC<TimeScalePropsType> = (props) => {
             message.success(props.errorMessage)
         }
     }, [props.errorMessage])
-    
-    // console.log('view settings: ',props.settings.ToDo)
 
     if (props.taskList !== undefined) {
         if (props.taskList !== null) {
@@ -69,8 +67,6 @@ const getTimeScaleArrey = (
     ):Array<React.ReactElement<string>> => {
     let timeScaleArrey: Array<React.ReactElement<string>> = []
     let tomorowTasks: Array<TaskType> = []
-
-    //console.log('isInterval: ', isInterval)
 
     taskList.sort(sortTaskArrayByParams('time')).sort(sortTaskArrayByParams('date'))
 

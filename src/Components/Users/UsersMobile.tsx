@@ -21,7 +21,6 @@ const UsersMobile: React.FC<UsersPropsType> = (props) => {
                         return(
                             <Item 
                                 key={item.id}
-                                // extra={'extra content'}
                                 onClick={() => {console.log('onClick')}}
                             >
                                 <Link to={url+'/'+item.id}>{item.name}</Link>
