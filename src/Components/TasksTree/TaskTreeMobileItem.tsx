@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { NewTaskListType, TaskListType } from '../../Types/types'
 import { NewTimeByString } from '../../utils/Date/NewDeteByString'
 import { actions } from '../../redux/TaskListReducer'
+import { InitialDrewerDataType, InitialValuesType } from './TasksTreeMobile'
 
 const Item = List.Item
 
@@ -14,9 +15,9 @@ export type OwnTaskTreeItemsType = {
     taskItem: TaskListType,
     deleteTaskList: (taskId: number) => void,
     showDrawer: () => void,
-    setDrawerData: (drawerData: any) => void,
-    initialFormValues: any,
-    setInitialFormValues: (initialFormValues: any) => void
+    setDrawerData: (drawerData: InitialDrewerDataType) => void,
+    initialFormValues: InitialValuesType,
+    setInitialFormValues: (initialFormValues: InitialValuesType) => void
     updateTaskList: (values: NewTaskListType, taskId: number) => void,
 }
 export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
@@ -34,7 +35,8 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             time_to_complete: time_to_complete,
             descriptions: '',
             parent_id: Number(props.taskItem.id),
-            task_type: 0
+            // task_type: 0
+            task_type: [0]
         })
         props.showDrawer()
     }
@@ -51,9 +53,10 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
             ...props.initialFormValues,
             name: task.name,
             time_to_complete: new_time_to_complete,
-            descriptions: task.descriptions,
-            parent_id: task.parent_id,
-            task_type:  Number(task.task_type) 
+            descriptions: task.descriptions ? task.descriptions : undefined,
+            parent_id: task.parent_id ? task.parent_id : undefined,
+            // task_type:  Number(task.task_type) 
+            task_type:  [Number(task.task_type)]
         })
 
         props.showDrawer()
@@ -62,7 +65,8 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
     const onItemOpen = () => {
         dispatch(actions.setSelectedTasks(props.taskItem.id));
         props.setDrawerData({
-            header: props.taskItem.name
+            header: props.taskItem.name,
+            taskId: props.taskItem.id
         })
     }
 

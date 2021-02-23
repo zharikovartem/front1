@@ -8,7 +8,7 @@ import { TaskTreeItemMobile } from './TaskTreeMobileItem'
 import { NewTimeByString } from '../../utils/Date/NewDeteByString'
 import { NewTaskListType, TaskListType } from '../../Types/types'
 
-type InitialDrewerDataType = {
+export type InitialDrewerDataType = {
     header: string,
     taskId: false | number
 }
@@ -33,7 +33,7 @@ type SelectOptionType = {
     value: number
 }
 
-type InitialValuesType = {
+export type InitialValuesType = {
     selectOptions: Array<SelectOptionType> | null,
     taskTypes: typeof taskTreeTypes,
     task_type: Array<number>,
@@ -105,13 +105,6 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
         setInitialFormValues( getInitialValues(props.taskList) )
     }, [ props.taskList, props.getTaskList, props.isTaskListLoaded ])
 
-
-    
-
-    
-
-    
-
     const [visible, setVisible] = useState(false)
     const [initialFormValues, setInitialFormValues] = useState(getInitialValues(props.taskList))
     const [drawerData, setDrawerData] = useState(initialDrewerData)
@@ -159,11 +152,11 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                 <Card.Header
                     // className="sticky-top bg-white"
                     title={
-                        <h4 className="w-100 text-center">Tasks Tree</h4>
-                        // drawerData.header === 'Tasks Tree' ?
-                        // <h4 className="w-100 text-center">{drawerData.header}</h4>
-                        // :
-                        // <div>{drawerData.header}</div>
+                        // <h4 className="w-100 text-center">Tasks Tree</h4>
+                        drawerData.header === 'Tasks Tree' ?
+                        <h4 className="w-100 text-center">{drawerData.header}</h4>
+                        :
+                        <div>{drawerData.header}</div>
                     }
                     extra={
                         <div className="d-flex flex-row">
@@ -216,13 +209,14 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                     <List>
                         {props.taskList !== undefined ?
                             props.taskList
-                            .map((item) => {
+                            .map((item: TaskListType) => {
                                 let parentId: number
                                 if (props.selectedTasks.length !== 0) {
                                     parentId = props.selectedTasks[props.selectedTasks.length - 1] // Добавляем последний выбранный id
                                     if (item.parent_id === parentId) {
                                         return (
                                             <TaskTreeItemMobile
+                                                key={item.id.toString()}
                                                 taskItem={item}
                                                 deleteTaskList={props.deleteTaskList}
                                                 showDrawer={showDrawer}
@@ -239,6 +233,7 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                                     if (item.parent_id === null) {
                                         return (
                                             <TaskTreeItemMobile
+                                                key={item.id.toString()}
                                                 taskItem={item}
                                                 deleteTaskList={props.deleteTaskList}
                                                 showDrawer={showDrawer}

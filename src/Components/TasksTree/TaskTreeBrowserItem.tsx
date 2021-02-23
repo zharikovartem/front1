@@ -170,7 +170,7 @@ const CollapseItem: React.FC<CollapseItemType> = (props) => {
 }
 
 type LastItemType = {
-    item: any,
+    item: TaskListType,
     onEdit: (task: TaskListType) => void,
     deleteTask: (task: number) => void,
     onAddSubtask: (taskId: number) => void,
@@ -183,7 +183,7 @@ const LastItem: React.FC<LastItemType> = (props) => {
     return (
         <List.Item className="py-0" draggable key={String(props.item.id)}>
         <>
-            <div className="py-2 pl-3"><Checkbox checked={props.item.isCompleted} id={props.item.id} onClick={props.onStatusChange} /></div>
+            <div className="py-2 pl-3"><Checkbox checked={props.item.isCompleted} id={props.item.id.toString()} onClick={props.onStatusChange} /></div>
             <div className="w-100 float-left" key={String(props.item.id)}>
                 <div className="ml-3 float-left">
 
@@ -191,7 +191,6 @@ const LastItem: React.FC<LastItemType> = (props) => {
                     props.item.isCompleted ? 
                         <span className="text-black-50">{props.item.name}</span> 
                     : 
-                        // <button className="btn btn-link" data-toggle="collapse" aria-controls={props.item.id + 'collapseExample'} >{props.item.name}</button >
                         <span data-toggle="collapse" aria-controls={props.item.id + 'collapseExample'} >{props.item.name}</span >
                     }
 
@@ -209,7 +208,7 @@ const LastItem: React.FC<LastItemType> = (props) => {
 }
 
 type ButtonsBlockType = {
-    item: any,
+    item: TaskListType,
     onEdit: (task: TaskListType)=>void,
     deleteTask: (task: number)=>void,
     onAddSubtask: (parentId: number)=>void,
@@ -219,7 +218,7 @@ type ButtonsBlockType = {
 const ButtonsBlock: React.FC<ButtonsBlockType> = (props) => {
     return(
         <div className="d-flex flex-row">
-            {props.item.task_type > 1 ?
+            {Number(props.item.task_type) > 1 ?
                 <Button className=""
                 type="primary"
                 shape="circle"
@@ -276,7 +275,7 @@ const ButtonsBlock: React.FC<ButtonsBlockType> = (props) => {
     )
 }
 
-const getChildsList = (taskList: any, item: any ) => {
+const getChildsList = (taskList: Array<TaskListType>, item: TaskListType ) => {
     let childs: Array<TaskListType> = []
     for (let index = 0; index < taskList.length; index++) {
         const elem = taskList[index]
