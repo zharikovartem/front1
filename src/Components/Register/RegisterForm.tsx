@@ -4,9 +4,9 @@ import { AntCheckbox, AntInput, AntInputPassword, AntSelect } from '../../utils/
 import { validateEmail, validateRequired } from '../../utils/Formik/ValidateFields'
 
 const RegisterForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
-    return(
+    return (
         <Form
-            className="form-container" 
+            className="form-container"
             onSubmit={props.handleSubmit}
         >
             <Field
@@ -53,28 +53,21 @@ const RegisterForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 label="Remember Me"
                 submitCount={props.submitCount}
             />
-            <div className="submit-container">
-                <button className="ant-btn ant-btn-primary" type="submit">
-                    Register
-                </button>
-            </div>
 
-            {/* <Field
-                component={AntCheckbox}
-                name="asAdmin"
-                label="As Admin"
-                submitCount={props.submitCount}
-            /> */}
             <Field
                 component={AntSelect}
                 selectOptions={statusOptions}
                 name="status"
                 type="select"
                 label="User Status"
-                // validate={validateRequired}
                 submitCount={props.submitCount}
-            // hasFeedback
             />
+
+            <div className="submit-container">
+                <button className="ant-btn ant-btn-primary" type="submit">
+                    Register
+                </button>
+            </div>
 
         </Form>
     )
@@ -86,7 +79,6 @@ type StatusOptionItemType = {
     name: string,
     value: string,
     isSubform: boolean,
-    // childTypes: []
 }
 
 type StatusOptionsType = Array<StatusOptionItemType>

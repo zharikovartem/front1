@@ -29,32 +29,42 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     })
     const user = getTargetUser(props.usersList, props.match.params.userId)
 
-    const getTaskList = (startDate: string, endDate: string) => {
-        let taskList: Array<TaskType> = []
-        if (user.toDoList) {
+    // const getTaskList = (startDate: string, endDate: string) => {
+    //     let taskList: Array<TaskType> = []
+    //     if (user.toDoList) {
 
-            for (let index = 0; index < user.toDoList.length; index++) {
-                const toDo = user.toDoList[index];
-                if (moment(toDo.date).isBetween(
-                    moment(startDate).add(-1, 'day'),
-                    moment(endDate).add(1, 'day'),
-                    'day')) {
-                        taskList.push(toDo)
+    //         for (let index = 0; index < user.toDoList.length; index++) {
+    //             const toDo = user.toDoList[index];
+    //             if (moment(toDo.date).isBetween(
+    //                 moment(startDate).add(-1, 'day'),
+    //                 moment(endDate).add(1, 'day'),
+    //                 'day')) {
+    //                     taskList.push(toDo)
+    //             }
+    //         }
+    //     }
+    //     setTaskList(taskList)
+    // }
+
+    const getTaskListCallback = useCallback(
+        (startDate: string, endDate: string) => {
+            let taskList: Array<TaskType> = []
+            if (user.toDoList) {
+
+                for (let index = 0; index < user.toDoList.length; index++) {
+                    const toDo = user.toDoList[index];
+                    if (moment(toDo.date).isBetween(
+                        moment(startDate).add(-1, 'day'),
+                        moment(endDate).add(1, 'day'),
+                        'day')) {
+                            taskList.push(toDo)
+                    }
                 }
             }
-        }
-        setTaskList(taskList)
-    }
-
-    const memoizedCallback = useCallback(
-        () => {
-            getTaskList(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
+            setTaskList(taskList)
         },
-        [
-            dateInterval, 
-            getTaskList
-        ],
-      )
+        [setTaskList, user.toDoList],
+    )
 
     useEffect(() => {
         const getUsersList = () => props.getUsersList
@@ -64,11 +74,10 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
             getUsersList()()
         }
         if (user && taskList === null) {
-            getTaskList(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
-            // memoizedCallback()
+            getTaskListCallback(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
         }
         
-    }, [props.usersList, props.getUsersList, dateInterval, user, taskList, memoizedCallback, getTaskList])
+    }, [props.usersList, props.getUsersList, dateInterval, user, taskList, getTaskListCallback])
     
     let history = useHistory()
 
@@ -80,7 +89,7 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
 
     const setIsInterval = (isInterval: boolean, date: { startDate: moment.Moment, endDate: moment.Moment }) => {
         setDateInterval(date)
-        getTaskList(date.startDate.format('YYYY-MM-DD'), date.endDate.format('YYYY-MM-DD'))
+        getTaskListCallback(date.startDate.format('YYYY-MM-DD'), date.endDate.format('YYYY-MM-DD'))
     }
 
     const onChange = () => {
