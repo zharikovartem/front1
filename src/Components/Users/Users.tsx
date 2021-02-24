@@ -14,8 +14,6 @@ const Users: React.FC<UsersPropsType> = (props) => {
     }, [props.usersList, props] )
 
     let { url } = useRouteMatch();
-
-    console.log(props)
     
     return (
         <div>
@@ -38,7 +36,9 @@ const Users: React.FC<UsersPropsType> = (props) => {
                                     shape="circle"
                                     size="small"
                                     style={{ marginLeft: 10 }}
-                                    onClick={()=>{console.log('onClick')}}
+                                    onClick={()=>{
+                                        // console.log('onClick')
+                                    }}
                                     icon={
                                         <div className="d-flex flex-wrap align-content-start">
                                             <CaretRightOutlined className="ml-1" style={{ fontSize: '14px' }} />

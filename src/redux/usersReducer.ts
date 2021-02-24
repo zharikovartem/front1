@@ -7,14 +7,19 @@ import { actions as authActions } from './authReducer'
 
 export type InitialStateType = {
     usersList: Array<UserType>,
+    isUsersDataChanged: boolean
 }
 
 let initialState: InitialStateType = {
-    usersList: []
+    usersList: [],
+    isUsersDataChanged: false
 }
 
 const usersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
+        case 'SN/USERS/SET_IS_USERS_DATA_CHANGED':
+            return { ...state, isUsersDataChanged: action.isUsersDataChanged }
+
         case 'SN/USERS/UPDATE_USERS_LIST':
             let statetCopy = { ...state }
             const newUserList = statetCopy.usersList.map((item: UserType) => {
@@ -36,7 +41,8 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
 
 export const actions = {
     setUsersList: (usersList: Array<UserType>) => ({ type: 'SN/USERS/SET_USERS_LIST', usersList } as const),
-    updateUserList: (changedUserData: UserType) => ({ type: 'SN/USERS/UPDATE_USERS_LIST', changedUserData } as const)
+    updateUserList: (changedUserData: UserType) => ({ type: 'SN/USERS/UPDATE_USERS_LIST', changedUserData } as const),
+    setUsersDataChanged: (isUsersDataChanged: boolean) => ({ type: 'SN/USERS/SET_IS_USERS_DATA_CHANGED', isUsersDataChanged } as const),
 }
 
 export const getUsersList = (): ThunkType => {
@@ -51,6 +57,7 @@ export const updateUser = (values: UserType, userId: number): ThunkType => {
 
         let response = await usersAPI.updateUser(values, userId)
         dispatch(actions.updateUserList(response.data.changedUserData))
+        dispatch( actions.setUsersDataChanged(true) )
         const state = getState()
         if (state.auth.user && state.auth.user.id === response.data.changedUserData.id) {
             const data: UserType = response.data.changedUserData

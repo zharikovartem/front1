@@ -27,38 +27,49 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
         startDate: moment(),
         endDate: moment()
     })
+    
     const user = getTargetUser(props.usersList, props.match.params.userId)
 
     const getTaskListCallback = useCallback(
         (startDate: string, endDate: string) => {
-            let taskList: Array<TaskType> = []
-            if (user.toDoList) {
-                for (let index = 0; index < user.toDoList.length; index++) {
-                    const toDo = user.toDoList[index];
-                    if (moment(toDo.date).isBetween(
-                        moment(startDate).add(-1, 'day'),
-                        moment(endDate).add(1, 'day'),
-                        'day')) {
-                            taskList.push(toDo)
+            if (user) {
+                let taskList: Array<TaskType> = []
+                if (user.toDoList) {
+                    for (let index = 0; index < user.toDoList.length; index++) {
+                        const toDo = user.toDoList[index];
+                        if (moment(toDo.date).isBetween(
+                            moment(startDate).add(-1, 'day'),
+                            moment(endDate).add(1, 'day'),
+                            'day')) {
+                                taskList.push(toDo)
+                        }
                     }
                 }
+                setTaskList(taskList)
+            } else {
+                setTaskList(null)
             }
-            setTaskList(taskList)
         },
-        [setTaskList, user.toDoList],
+        [setTaskList, user],
     )
 
     useEffect(() => {
         const getUsersList = () => props.getUsersList
+        const setUsersDataChanged = () => props.setUsersDataChanged
 
+        console.log(props.isUsersDataChanged)
         if (props.usersList.length === 0) {
             getUsersList()()
+        }
+        if (props.isUsersDataChanged) {
+            getUsersList()()
+            setUsersDataChanged()(false)
         }
         if (user && taskList === null) {
             getTaskListCallback(dateInterval.startDate.format('YYYY-MM-DD'), dateInterval.endDate.format('YYYY-MM-DD'))
         }
         
-    }, [props.usersList, props.getUsersList, dateInterval, user, taskList, getTaskListCallback])
+    }, [props.usersList, props.getUsersList, dateInterval, user, taskList, getTaskListCallback, props.isUsersDataChanged, props.setUsersDataChanged])
     
     let history = useHistory()
 
@@ -109,15 +120,16 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     if (user) {
         return (
             <div>
-                
                 <NavBar
-                     mode="light"
-                     icon={<Icon type="left" />}
-                     onLeftClick={() => history.replace(props.appLocation+'users')}
-                     rightContent={[
-                        <p>User id: {props.match.params.userId}</p>
-                     ]}
-                ><span className="text-dark">{user.name}</span></NavBar>
+                    mode="light"
+                    icon={<Icon type="left" />}
+                    onLeftClick={() => history.replace(props.appLocation+'users')}
+                    rightContent={[
+                       <span key="UserId" >User id: {props.match.params.userId}</span>
+                    ]}
+                >
+                    <span className="text-dark">{user.name}</span>
+                </NavBar>
 
                 <Accordion defaultActiveKey="" className="my-accordion" onChange={onChange} >
                     <Accordion.Panel header="User data">
@@ -158,7 +170,7 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                             {user.toDoList ? toDoPart(user.toDoList, currentPage, 10).map((item: TaskType) => {
                                 return (
                                 <Item 
-                                    key={item.id} 
+                                    key={item.id.toString()} 
                                     onClick={()=>{onTaskOpen(item)}}
                                 >
                                     {item.name}
@@ -188,13 +200,11 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                             setIsInterval={setIsInterval}
                             isReadOnly={true}
                         />
- 
                         <TasksOnly 
                             dateInterval={dateInterval}
                             taskList={taskList}
                             isReadOnly={true}
                         />
-
                     </Accordion.Panel>
                     <Accordion.Panel header="Related users"></Accordion.Panel>
                     <Accordion.Panel header="Permissions"></Accordion.Panel>

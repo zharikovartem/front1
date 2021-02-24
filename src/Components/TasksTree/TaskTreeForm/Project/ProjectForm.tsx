@@ -36,7 +36,9 @@ const ProjectForm: React.FC<any> = (props) => {
                 submitCount={props.submitCount}
                 validate={validateRequired}
                 onSelect = {onSelect}
-                onOk={ (val:any)=>{console.log('111', val)}}
+                onOk={ (val:any)=>{
+                    // console.log('111', val)
+                }}
             />
             {isNewType === 1 ? <div>old</div> : null}
             {isNewType === 2 ? <NewProjectForm {...props}/> : null}

@@ -40,16 +40,23 @@ export const toDoPart = (
 const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
     useEffect(() => {
         const getUsersList = () => props.getUsersList
+        const setUsersDataChanged = () => props.setUsersDataChanged
+
         if (props.usersList.length === 0) {
             getUsersList()()
         }
-    }, [props.usersList, props.getUsersList])
+        if (props.isUsersDataChanged) {
+            getUsersList()()
+            setUsersDataChanged()(false)
+        }
+    }, [props.usersList, props.getUsersList, props.isUsersDataChanged, props.setUsersDataChanged])
 
     const [defaultPageSize, setDefaultPageSize] = useState(10)
     const [currentPage, setCurrentPage] = useState(1)
     const [toDoFormVisible, setToDoFormVisible]= useState(false)
     const [initialFormValues, setInitialFormValues] = useState(initialValues)
     const [taskList, setTaskList] = useState<Array<TaskType> | null>(null)
+    const [isInterval, setIsInterval] = useState(false)
     
 
     const user = getTargetUser(props.usersList, props.match.params.userId)
@@ -94,7 +101,9 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
         setTaskList(tasklist)
     }
 
-    const setIsInterval = (isInterval: boolean, date: { startDate: moment.Moment, endDate: moment.Moment }) => {
+    const setIsIntervalValues = (isInterval: boolean, date: { startDate: moment.Moment, endDate: moment.Moment }) => {
+        console.log('setIsIntervalValues', isInterval)
+        setIsInterval(isInterval)
         setDateInterval(date)
     }
 
@@ -105,6 +114,7 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
 
     const handleSubmitToDoForm = () => {
     }
+
 
     if (user) {
         return (
@@ -143,23 +153,21 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
                         <h3>Schedule for {user.name}:</h3>
                         <ToDoHeader
                             dateInterval={dateInterval}
-                            setIsInterval={setIsInterval}
-                            showDrawer={() => { console.log('showDrawer') }}
-                            showModal={() => { console.log('showModal') }}
+                            setIsInterval={setIsIntervalValues}
                             isReadOnly={true}
                         />
-                        <TimeScale
-                            onEdit={onTaskEdit}
-                            dateInterval={dateInterval}
-                            errorMessage={props.errorMessage}
-                            getTaskList={getTaskList}
-                            isInterval={props.isInterval}
-                            settings={props.settings}
-                            taskList={taskList}
-                            taskListIsFetching={false}
-                            taskSaveStatus={props.taskSaveStatus}
-                            isReadOnly={true}
-                        />
+                            <TimeScale
+                                onEdit={onTaskEdit}
+                                dateInterval={dateInterval}
+                                errorMessage={props.errorMessage}
+                                getTaskList={getTaskList}
+                                isInterval={isInterval}
+                                settings={props.settings}
+                                taskList={taskList}
+                                taskListIsFetching={false}
+                                taskSaveStatus={props.taskSaveStatus}
+                                isReadOnly={true}
+                            />            
                     </Panel>
                     <Panel header="Related users" key="4"></Panel>
                     <Panel header="Permissions" key="5"></Panel>
@@ -218,4 +226,3 @@ const TodoItem: React.FC<TodoItemPropsType> = (props) => {
         </List.Item>
     )
 }
-

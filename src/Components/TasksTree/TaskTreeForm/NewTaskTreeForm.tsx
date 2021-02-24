@@ -18,9 +18,8 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
         setTaskType(taskTypes)
     }, [props.values])
 
-    const onSelectTaskType = (val: string) => {
-        console.log('onSelectTaskType', val)
-    }
+    const onSelectTaskType = (val: string) => {}
+    
     return (
         <Form
             className="form-container"

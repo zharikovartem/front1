@@ -1,6 +1,6 @@
 import { Button } from 'antd'
 import React from 'react'
-import { FileAddOutlined, SettingOutlined } from '@ant-design/icons'
+import { SettingOutlined } from '@ant-design/icons'
 
 type ownProps = {
     onClick?: ((event: React.MouseEvent<HTMLElement, MouseEvent>) => void) | undefined,

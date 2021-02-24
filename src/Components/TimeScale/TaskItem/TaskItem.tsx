@@ -17,6 +17,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
     const [deleteingInProgess, setDeleteingInProgess] = useState(false)
 
     const onisCompletedChange = (e: CheckboxChangeEvent) => {
+        console.log(props.isReadOnly)
         setChecked(!checked)
         const values = { isCompleted: e.target.checked }
         if (props.element.id) {}
@@ -32,6 +33,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
         props.deleteTask(taskid, props.dateInterval.startDate.format('YYYY-MM-DD'), props.dateInterval.endDate.format('YYYY-MM-DD'))
     }
 
+    const disabled = props.isReadOnly ? {disabled: true} : null
     return (
         <ListGroup.Item as="li" action className="" key={props.element.id}>
             <Row className="px-0 ml-0 ml-sm-5">
@@ -39,6 +41,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                     <Checkbox 
                         onChange={onisCompletedChange} 
                         checked={checked}
+                        {...disabled}
                         />
                 </Col>
                 <Col className="mx-2">

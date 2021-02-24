@@ -121,7 +121,6 @@ test('success createNewTask thunk with reload page', async () => {
         date: '2021-01-19'
     }
     const thunk = createNewTask(NewTask, true)
-    const taskList = { Tasks: [addTask(1), addTask(2), addTask(3)] }
     await thunk(dispatchMock, getStateMock, {})
 
     expect(dispatchMock).toBeCalledTimes(1)

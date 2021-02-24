@@ -31,6 +31,7 @@ const ToDoHeader: React.FC<ToDoHeaderPropsType> = (props) => {
             })
         }
         setIsInterval(e.target.checked)
+        props.setIsInterval(e.target.checked, props.dateInterval)
     }
 
     const onDateRangeChange = (values: RangeValue<moment.Moment>, formatString: [string, string]): void => {
