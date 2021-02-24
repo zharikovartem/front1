@@ -166,10 +166,11 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                             <Formik
                                 initialValues={initialFormValues}
                                 onSubmit={handleSubmit}
-                                render={ToDoForm as any}
                                 enableReinitialize={true}
                                 initialStatus={'readOnly'}
-                            />
+                            >
+                                {ToDoForm}
+                            </Formik>
                         </div>
                         </>
                     }

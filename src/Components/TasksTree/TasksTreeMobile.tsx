@@ -198,9 +198,10 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
                             <Formik
                                 initialValues={initialFormValues}
                                 onSubmit={handleSubmit}
-                                render={NewTaskTreeForm as any}
                                 enableReinitialize={true}
-                            />
+                            >
+                                {NewTaskTreeForm}
+                            </Formik>
                         </div>
                     }
                     open={visible}

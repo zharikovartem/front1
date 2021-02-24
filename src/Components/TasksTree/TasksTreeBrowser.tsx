@@ -236,9 +236,10 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                         <Formik
                             initialValues={initialFormValues}
                             onSubmit={handleSubmit}
-                            render={NewTaskTreeForm as any}
                             enableReinitialize={true}
-                        />
+                        >
+                            {NewTaskTreeForm}
+                        </Formik>
 
                     </Drawer>
 
@@ -256,9 +257,10 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                                 time: moment()
                             }}
                             onSubmit={runTaskSubmit}
-                            render={RunTaskFormCall as any}
                             enableReinitialize={true}
-                        />
+                        >
+                            {RunTaskFormCall}
+                        </Formik>
                     </Modal>
 
                 </Card>

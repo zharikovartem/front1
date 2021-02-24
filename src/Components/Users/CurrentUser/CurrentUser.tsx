@@ -177,10 +177,11 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
                     <Formik
                         initialValues={initialFormValues}
                         onSubmit={handleSubmitToDoForm}
-                        render={ToDoForm as any}
                         enableReinitialize={true}
                         initialStatus={'readOnly'}
-                    />
+                    >
+                        {ToDoForm}
+                    </Formik>
                 </Drawer>
 
             </div >

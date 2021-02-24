@@ -38,8 +38,9 @@ const Login: React.FC<LoginPropsType> = (props) => {
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
-                render={LoginForm as any}
-            />
+            >
+                {LoginForm}
+            </Formik>
             <div className="mt-3">
                 <Link to={props.location +"register"}><Button type="link" block>Register</Button></Link>
             </div>

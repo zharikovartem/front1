@@ -63,9 +63,10 @@ const SettingsModal: React.FC<SettingsModalPropsType> = (props) => {
                 // initialValues={settingasInstanse}
                 initialValues={settings}
                 onSubmit={handleSubmit}
-                render={SettingsForm as any}
                 enableReinitialize={true}
-            />
+            >
+                {SettingsForm}
+            </Formik>
         </Modal>
     )
 }

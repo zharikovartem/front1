@@ -41,9 +41,10 @@ const UserDataForm: React.FC<userData> = (props) => {
             <Formik
                 initialValues={initialFormValues}
                 onSubmit={handleSubmit}
-                render={FormFielsd as any}
                 enableReinitialize={true}
-            />
+            >
+                {FormFielsd}
+            </Formik>
         </div>
     )
 }

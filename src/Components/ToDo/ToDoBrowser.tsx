@@ -143,9 +143,10 @@ const ToDoBrowser: React.FC<ToDoListPropsType> = (props) => {
                 <Formik
                     initialValues={initialFormValues}
                     onSubmit={handleSubmit}
-                    render={ToDoForm as any}
                     enableReinitialize={true}
-                />
+                >
+                    {ToDoForm}
+                </Formik>
             </Drawer>
         </Card>
     )

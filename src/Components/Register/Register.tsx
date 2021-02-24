@@ -40,8 +40,9 @@ const Register: React.FC<RegisterPropsType> = (props) => {
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
-                render={RegisterForm as any}
-            />
+            >
+                {RegisterForm}
+            </Formik>
         </>
     )
 }
