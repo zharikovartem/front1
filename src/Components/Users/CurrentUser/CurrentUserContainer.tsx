@@ -5,8 +5,6 @@ import { isMobile } from 'react-device-detect'
 import { getUsersList, updateUser } from './../../../redux/usersReducer'
 import { UserType } from '../../../redux/authReducer'
 import CurrentUserMobile from './CurrentUserMobile'
-// import { UserType } from '../../../api/usersAPI'
-
 
 type OwnCurrentUserPropsType = {
     match: any

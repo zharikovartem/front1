@@ -45,9 +45,7 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 name="parent_id"
                 type="select"
                 label="Parent"
-                // validate={validateRequired}
                 submitCount={props.submitCount}
-            // hasFeedback
             />
 
             <Field
@@ -55,9 +53,7 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 name="descriptions"
                 type="textarea"
                 label="Descriptions"
-                // validate={validateRequired}
                 submitCount={props.submitCount}
-            // hasFeedback
             />
 
             {taskType !== 3 ?
@@ -66,9 +62,7 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                     name="time_to_complete"
                     type="time"
                     label="Time to complete"
-                    // validate={validateRequired}
                     submitCount={props.submitCount}
-                // hasFeedback
                 />
                 :
                 null

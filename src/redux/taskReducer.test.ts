@@ -32,7 +32,7 @@ userAPIMock.deleteTask.mockReturnValue(Promise.resolve(result));
 
 const status: "no" | "inProgress" | "success" | "error" = "no";
 let state: InitialStateType = {
-    taskList: null, //
+    taskList: null,
     taskListIsFetching: false,//
     taskSaveStatus: status,
     errorMessage: null,

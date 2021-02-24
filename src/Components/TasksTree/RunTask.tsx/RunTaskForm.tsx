@@ -16,7 +16,6 @@ const RunTaskFormCall: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 label="Select Date"
                 validate={validateRequired}
                 submitCount={props.submitCount}
-            // hasFeedback
             />
 
             <Field
@@ -26,7 +25,6 @@ const RunTaskFormCall: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 label="Select time"
                 validate={validateRequired}
                 submitCount={props.submitCount}
-            // hasFeedback
             />
             <button className="ant-btn ant-btn-primary ml-2">Add now</button>
             <button className="ant-btn ant-btn-primary ml-2">Auto add by context</button>

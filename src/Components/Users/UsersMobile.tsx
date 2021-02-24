@@ -4,7 +4,6 @@ import { List } from 'antd-mobile'
 import { Link, useRouteMatch } from 'react-router-dom'
 
 const Item = List.Item
-// const Brief = Item.Brief
 
 const UsersMobile: React.FC<UsersPropsType> = (props) => {
     useEffect( ()=> {
@@ -20,7 +19,7 @@ const UsersMobile: React.FC<UsersPropsType> = (props) => {
                 {   props.usersList.map( (item: any) => {
                         return(
                             <Item 
-                                key={item.id}
+                                key={item.id.toString()}
                                 onClick={() => {console.log('onClick')}}
                             >
                                 <Link to={url+'/'+item.id}>{item.name}</Link>

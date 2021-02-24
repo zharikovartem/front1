@@ -6,7 +6,7 @@ type UsersListType = Array<UserType>
 export const usersAPI = {
     getUsersList() {
         getToken()
-        return instance.get<UsersListType>(`account`) // users
+        return instance.get<UsersListType>(`account`)
         .then(response => {
             return response.status === 200 ? response : null
         })

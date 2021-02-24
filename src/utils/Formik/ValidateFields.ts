@@ -1,5 +1,3 @@
-// import { userAPI } from "../../api/userAPI";
-
 export const validateRequired = (value: string) => {
     let errors;
     if (!value) {
@@ -46,7 +44,6 @@ export const validatePhone = (value: string) => {
             errors = "Phone number is short"
         }
     } else if (value.length === 9) {
-        // 25 29 33 44 
         const prefix = value[0]+value[1]
         if (prefix !== '25' || '29' || '33' || '44') {
             errors = "Wrong prefix"

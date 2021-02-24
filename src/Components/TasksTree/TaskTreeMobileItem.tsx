@@ -103,18 +103,12 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
                     style: { backgroundColor: 'green', color: 'white' },
                 },
             ]}
-        // onOpen={() => //console.log('global open')}
-        // onClose={() => //console.log('global close')}
         >
             <Item
-                // className="my-3"
                 onClick={onItemOpen}
-                // arrow="horizontal"
                 key={props.taskItem.id}
                 wrap
             >
-                {/* {props.taskItem.isCompleted ? <span className="text-black-50">{props.taskItem.name}</span> : <span>{props.taskItem.name}</span>} */}
-
                 <div className="w-100 row " key={props.taskItem.id}>
                     <div className="col-10">
                         {props.taskItem.isCompleted ? 

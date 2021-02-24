@@ -43,7 +43,6 @@ const getSettingsInstanseFromPros = (viewSettings: any) => {
     }
 }
 
-
 const SettingsModal: React.FC<SettingsModalPropsType> = (props) => {
     const settings = props.viewSettings !== null ? getSettingsInstanseFromPros(props.viewSettings.ToDo) : settingasInstanse
 
@@ -60,7 +59,6 @@ const SettingsModal: React.FC<SettingsModalPropsType> = (props) => {
             onCancel={props.handleCancel}
         >
             <Formik
-                // initialValues={settingasInstanse}
                 initialValues={settings}
                 onSubmit={handleSubmit}
                 enableReinitialize={true}

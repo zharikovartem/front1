@@ -29,23 +29,6 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
     })
     const user = getTargetUser(props.usersList, props.match.params.userId)
 
-    // const getTaskList = (startDate: string, endDate: string) => {
-    //     let taskList: Array<TaskType> = []
-    //     if (user.toDoList) {
-
-    //         for (let index = 0; index < user.toDoList.length; index++) {
-    //             const toDo = user.toDoList[index];
-    //             if (moment(toDo.date).isBetween(
-    //                 moment(startDate).add(-1, 'day'),
-    //                 moment(endDate).add(1, 'day'),
-    //                 'day')) {
-    //                     taskList.push(toDo)
-    //             }
-    //         }
-    //     }
-    //     setTaskList(taskList)
-    // }
-
     const getTaskListCallback = useCallback(
         (startDate: string, endDate: string) => {
             let taskList: Array<TaskType> = []
@@ -67,7 +50,6 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
 
     useEffect(() => {
         const getUsersList = () => props.getUsersList
-        // const getTaskListCalback = () => getTaskList
 
         if (props.usersList.length === 0) {
             getUsersList()()
@@ -84,7 +66,6 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
         startDate: moment.Moment,
         endDate: moment.Moment
     }
-    
 
     const setIsInterval = (isInterval: boolean, date: { startDate: moment.Moment, endDate: moment.Moment }) => {
         setDateInterval(date)
@@ -131,7 +112,6 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                 
                 <NavBar
                      mode="light"
-                    //  mode="dark"
                      icon={<Icon type="left" />}
                      onLeftClick={() => history.replace(props.appLocation+'users')}
                      rightContent={[
@@ -161,8 +141,6 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                             </Button>
 
                         <div className="mt-1">
-                            {/* <button onClick={onTaskClose}>Close</button> */}
-                            
                             <Formik
                                 initialValues={initialFormValues}
                                 onSubmit={handleSubmit}
@@ -175,14 +153,12 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
                         </>
                     }
                     open={toDoFormVisible}
-                    // onOpenChange={toDoFormVisible}
                 >
                         <List>
                             {user.toDoList ? toDoPart(user.toDoList, currentPage, 10).map((item: TaskType) => {
                                 return (
                                 <Item 
                                     key={item.id} 
-                                    // extra={item.time+' '+item.date}
                                     onClick={()=>{onTaskOpen(item)}}
                                 >
                                     {item.name}

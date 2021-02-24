@@ -1,13 +1,10 @@
 import {connect} from 'react-redux'
 import Orders, { OwnOrdersPropsType } from './Orders'
-// import {getTaskList} from '../../redux/taskReducer'
 import { AppStateType } from '../../redux/store'
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 
-type MapDispatchPropsType = {
-    // getTaskList: (start_date: string, end_date:string)=>void
-}
+type MapDispatchPropsType = {}
 
 export type OrdersPropsType = MapPropsType & MapDispatchPropsType & OwnOrdersPropsType
 

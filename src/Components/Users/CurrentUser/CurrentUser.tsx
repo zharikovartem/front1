@@ -71,8 +71,8 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
         endDate: moment.Moment
     }
     const [dateInterval, setDateInterval] = useState<DateIntervalType>({
-        startDate: moment(),//.add(-1,'day'),
-        endDate: moment()//.add(1,'day')
+        startDate: moment(),
+        endDate: moment()
     })
 
     
@@ -166,7 +166,6 @@ const CurrentUser: React.FC<CurrentUserPropsType> = (props) => {
                 </Collapse>
 
                 <Drawer
-                    // title={drawerData.header}
                     title={initialFormValues.name}
                     placement="right"
                     closable={true}

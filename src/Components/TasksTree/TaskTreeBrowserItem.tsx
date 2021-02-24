@@ -30,7 +30,6 @@ const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
             header: 'Edit: "' + values.name + '"',
             taskId: values.id
         })
-
         let day = moment().zone('GMT')
         if (values.time_to_complete !== null) {
             const splitTime = values.time_to_complete.split(/:/)
@@ -38,7 +37,6 @@ const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
         } else {
             day.hours(0).minutes(0).seconds(0).milliseconds(0);
         }
-
         let newFormValues: InitialValuesType = {
             ...props.initialFormValues,
             name: values.name,
@@ -53,9 +51,7 @@ const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
                 ...JSON.parse(values.data)
             }
         }
-
         props.setInitialFormValues(newFormValues)
-
         props.showDrawer()
     }
 
@@ -130,7 +126,6 @@ type CollapseItemType = {
     onRunTask: (values: number) => void
 }
 const CollapseItem: React.FC<CollapseItemType> = (props) => {
-    // const [isLast, setIsLast] = useState( getChildsList(props.taskList, props.item).length === 0 ? true : false )
     const isLast = getChildsList(props.taskList, props.item).length === 0 ? true : false
 
     if (!isLast) {
@@ -138,12 +133,10 @@ const CollapseItem: React.FC<CollapseItemType> = (props) => {
             <List.Item className="py-0" draggable key={props.item.id}>
                 <Collapse key={String(props.item.id)} className="w-100" defaultActiveKey={[]} collapsible="header" ghost>
                     <Panel
-                        // header={props.item.name}
                         header={<span key={String(props.item.id)} className="float-left pl-2" >{props.item.name}</span>}
                         key={props.item.id + 'Panel'}
                         extra={<ButtonsBlock {...props} />}
                     >
-                        {/* <List> */}
                         <ChildItem
                             childsTasklList={getChildsList(props.taskList, props.item)}
                             taskList={props.taskList}
@@ -153,7 +146,6 @@ const CollapseItem: React.FC<CollapseItemType> = (props) => {
                             onStatusChange={props.onStatusChange}
                             onRunTask={props.onRunTask}
                         />
-                        {/* </List> */}
                     </Panel>
                 </Collapse>
             </List.Item>

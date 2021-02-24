@@ -19,23 +19,6 @@ const initialDrewerData: InitialDrewerDataType = {
     taskId: false
 } 
 
-// type SelectOptionType = {
-//     name: string,
-//     value: number
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
 type SelectOptionType = {
     name: string,
     value: number
@@ -75,11 +58,6 @@ const getSelectOptions = (taskList: Array<TaskListType>):Array<SelectOptionType>
         return []
     }
 }
-
-
-
-
-
 
 const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
 
@@ -146,7 +124,6 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
 
     const onAdd = () => {
         setDrawerData(initialDrewerData)
-        // setInitialFormValues(initialValues)
         showDrawer()
     }
 
@@ -195,7 +172,6 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                                 type="primary"
                                 shape="round"
                                 style={{ marginLeft: 10 }}
-                                // onClick={props.showModal}
                                 icon={
                                     <div className="d-flex flex-wrap align-content-start">
                                         <SettingOutlined style={{ fontSize: '18px' }} />
@@ -206,7 +182,6 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                     }
                     bordered={false}
                 >
-
                     <List
                         size="small"
                         bordered

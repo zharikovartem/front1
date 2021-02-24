@@ -86,7 +86,6 @@ const FormFielsd: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 type="text"
                 label="ID"
                 disabled
-                // submitCount={props.submitCount}
             />
 
             <Field
@@ -95,7 +94,6 @@ const FormFielsd: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 type="text"
                 label="Created at"
                 disabled
-                // submitCount={props.submitCount}
             />
 
             <Field
@@ -104,7 +102,6 @@ const FormFielsd: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 type="text"
                 label="Updated at"
                 disabled
-                // submitCount={props.submitCount}
             />
 
             <Field
@@ -113,10 +110,6 @@ const FormFielsd: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 type="text"
                 label="Email"
                 disabled
-                // validate={validateEmail}
-                // onChange={submitPosible}
-                // submitCount={props.submitCount}
-                // hasFeedback
             />
 
             <Field
@@ -149,7 +142,6 @@ const FormFielsd: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 validate={validateRequired}
                 onChange={submitPosible}
                 submitCount={props.submitCount}
-            // hasFeedback
             />
             { isChanged ?
                 <div className="submit-container">

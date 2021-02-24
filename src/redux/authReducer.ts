@@ -40,8 +40,6 @@ const authReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 timeEnd = action.settings.timeEnd.toTimeString().split(' ')[0]
             }
 
-
-            // viewSettings[action.settingType] = action.settings
             viewSettings[action.settingType] = {
                 ...action.settings,
                 timeStart: timeStart,

@@ -13,7 +13,6 @@ export type OwnTaskItemPropsType = {
 }
 
 const TaskItem: React.FC<TaskItemPropsType> = (props) => {
-    // type PropsElementType = typeof props.element.isCompleted
     const [checked, setChecked] = useState(props.element.isCompleted)
     const [deleteingInProgess, setDeleteingInProgess] = useState(false)
 
@@ -38,7 +37,6 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
             <Row className="px-0 ml-0 ml-sm-5">
                 <Col className="mx-2">
                     <Checkbox 
-                        // checked={props.element.isCompleted === 1 ? true : false} 
                         onChange={onisCompletedChange} 
                         checked={checked}
                         />
@@ -50,7 +48,6 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                     <Tooltip key={props.element.id} placement="topLeft" title={props.element.descriptions}>
                         <span
                             style={{ textDecoration: checked ? 'line-through' : '' }}
-                            // className="text-break"
                         >
                             {props.element.name}
                         </span>

@@ -260,7 +260,12 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
                         </div>
                         <div className="col-10">
                             {props.element.isCompleted ?
-                                <span className="text-black-50 text-break ml-3">{props.element.name}</span>
+                                <span
+                                    className="text-break ml-3"
+                                    style={{ textDecoration: props.element.isCompleted ? 'line-through' : '' }}
+                                >
+                                    {props.element.name}
+                                </span>
                                 :
                                 <span className="text-break ml-3">{props.element.name}</span>
                             }
@@ -281,7 +286,12 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
                     </div>
                     <div className="col-10">
                         {props.element.isCompleted ?
-                            <span className="text-black-50 text-break ml-3">{props.element.name}</span>
+                            <span
+                                className="text-break ml-3"
+                                style={{ textDecoration: props.element.isCompleted ? 'line-through' : '' }}
+                            >
+                                {props.element.name}
+                            </span>
                             :
                             <span className="text-break ml-3">{props.element.name}</span>
                         }
