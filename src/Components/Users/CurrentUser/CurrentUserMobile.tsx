@@ -50,7 +50,6 @@ const CurrentUserMobile: React.FC<CurrentUserPropsType> = (props) => {
         (startDate: string, endDate: string) => {
             let taskList: Array<TaskType> = []
             if (user.toDoList) {
-
                 for (let index = 0; index < user.toDoList.length; index++) {
                     const toDo = user.toDoList[index];
                     if (moment(toDo.date).isBetween(

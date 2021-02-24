@@ -62,7 +62,6 @@ const MenuBrowser: React.FC<MenuPropsType> = (props) => {
                             Logout
                     </Menu.Item>
                 </SubMenu >
-                
             }
         </Menu>
     )

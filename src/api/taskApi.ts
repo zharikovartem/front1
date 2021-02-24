@@ -1,15 +1,5 @@
 import { NewTaskDataType, TaskType } from '../Types/types'
-import {instance} from './api'
-
-const getToken = () => {
-    if (localStorage.getItem('remember_token')) {
-        instance.defaults.headers.common['X-Auth-Token'] = localStorage.getItem('remember_token')
-    }
-    if (sessionStorage.getItem('remember_token')) {
-        instance.defaults.headers.common['X-Auth-Token'] = sessionStorage.getItem('remember_token')
-    }
-}
-
+import {getToken, instance} from './api'
 
 export type TaskListType = {
     Tasks: Array<TaskType>

@@ -65,7 +65,7 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
                 Date interval
             </List.Item>
             { !props.isReadOnly ?
-            <>
+            <div className="mt-3">
             <Button
                 inline
                 size="small"
@@ -84,7 +84,7 @@ const ToDoHeaderMobile: React.FC<ToDoHeaderPropsType> = (props) => {
             >
                 Settings
             </Button>
-            </>
+            </div>
             : null}
         </div>
     )

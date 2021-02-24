@@ -1,23 +1,6 @@
 import { TaskListType } from '../Types/types'
-import {instance} from './api'
+import {getToken, instance} from './api'
 import {NewTaskListType} from './../Types/types'
-
-
-if (localStorage.getItem('remember_token')) {
-    instance.defaults.headers.common['X-Auth-Token'] = localStorage.getItem('remember_token')
-}
-if (sessionStorage.getItem('remember_token')) {
-    instance.defaults.headers.common['X-Auth-Token'] = sessionStorage.getItem('remember_token')
-}
-
-const getToken = () => {
-    if (localStorage.getItem('remember_token')) {
-        instance.defaults.headers.common['X-Auth-Token'] = localStorage.getItem('remember_token')
-    }
-    if (sessionStorage.getItem('remember_token')) {
-        instance.defaults.headers.common['X-Auth-Token'] = sessionStorage.getItem('remember_token')
-    }
-}
 
 export const taskListAPI = {
     getTaskList() {

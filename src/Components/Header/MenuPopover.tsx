@@ -12,8 +12,14 @@ const MenuPopover: React.FC<MenuPopoverType> = (props) => {
 
     const onSelect = (opt: JSX.Element, index?: number) => {
         setVisible(false)
-        if(opt.props.children === "Logout") {
-            props.onLogout()
+
+        switch (opt.props.children) {
+            case 'Logout':
+                props.onLogout()
+                break
+        
+            default:
+                break
         }
     }
 

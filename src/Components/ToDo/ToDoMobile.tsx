@@ -120,13 +120,11 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
                         />}
                     >
                     </Card.Header>
-
                     <SettingsModal
                         isModalVisible={isModalVisible}
                         handleOk={handleOk}
                         handleCancel={handleCancel}
                     />
-
                     <Drawer
                         className="my-drawer"
                         style={{ minHeight: document.documentElement.clientHeight }}
@@ -167,7 +165,6 @@ const ToDoMobile: React.FC<ToDoListPropsType> = (props) => {
                                     />
                             }
                         </List>
-
                     </Drawer>
                 </Card>
             </WingBlank>
@@ -202,12 +199,11 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
         })
 
         let time = NewTimeByString(value.time)
-        // let date = NewTimeByString(value.date)
 
         const splitDate = value.date.split(/-/)
         let date = new Date()
         date.setFullYear(parseInt(splitDate[0]))
-        date.setMonth(parseInt(splitDate[1])-1)
+        date.setMonth(parseInt(splitDate[1]) - 1)
         date.setDate(parseInt(splitDate[2]))
 
         props.setInitialFormValues({
@@ -219,8 +215,6 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
 
         props.showDrawer()
     }
-
-    
 
     if (!props.isReadOnly) {
         return (
@@ -251,15 +245,10 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
                         style: { backgroundColor: 'green', color: 'white' },
                     },
                 ]}
-    
-                onOpen={() => {
-                    // console.log('global onOpen')
-                }}
-                onClose={() => {
-                    // console.log('global close') 
-                }}
+                onOpen={() => { }}
+                onClose={() => { }}
             >
-    
+
                 <List.Item
                     key={props.element.id.toString()}
                     wrap
@@ -282,25 +271,25 @@ const TaskItemMobile: React.FC<TaskItemMobileType> = (props) => {
     } else {
         return (
             <List.Item
-                    key={props.element.id.toString()}
-                    wrap
-                >
-                    <div className="w-100 row " key={props.element.id.toString()}>
-                        <div className="col-2 ">
-                            <span className="ml-3">{props.element.time.split(/:/)[0] + ':' + props.element.time.split(/:/)[1]}</span>
-                        </div>
-                        <div className="col-10">
-                            {props.element.isCompleted ?
-                                <span className="text-black-50 text-break ml-3">{props.element.name}</span>
-                                :
-                                <span className="text-break ml-3">{props.element.name}</span>
-                            }
-                        </div>
+                key={props.element.id.toString()}
+                wrap
+            >
+                <div className="w-100 row " key={props.element.id.toString()}>
+                    <div className="col-2 ">
+                        <span className="ml-3">{props.element.time.split(/:/)[0] + ':' + props.element.time.split(/:/)[1]}</span>
                     </div>
-                </List.Item>
+                    <div className="col-10">
+                        {props.element.isCompleted ?
+                            <span className="text-black-50 text-break ml-3">{props.element.name}</span>
+                            :
+                            <span className="text-break ml-3">{props.element.name}</span>
+                        }
+                    </div>
+                </div>
+            </List.Item>
         )
     }
-    
+
 }
 
 type TimeScaleType = {
@@ -339,11 +328,11 @@ const TimeScale: React.FC<TimeScaleType> = (props) => {
                             key={item.id.toString()}
                             element={item}
                             dateInterval={props.dateInterval}
-                            deleteTask={props.deleteTask ? props.deleteTask : ()=>{} }
-                            setDrawerData={props.setDrawerData ? props.setDrawerData : ()=>{} }
-                            setInitialFormValues={props.setInitialFormValues ? props.setInitialFormValues : ()=>{} }
-                            showDrawer={props.showDrawer ? props.showDrawer : ()=>{} }
-                            onComplete={props.onComplete ? props.onComplete : ()=>{} }
+                            deleteTask={props.deleteTask ? props.deleteTask : () => { }}
+                            setDrawerData={props.setDrawerData ? props.setDrawerData : () => { }}
+                            setInitialFormValues={props.setInitialFormValues ? props.setInitialFormValues : () => { }}
+                            showDrawer={props.showDrawer ? props.showDrawer : () => { }}
+                            onComplete={props.onComplete ? props.onComplete : () => { }}
                             isReadOnly={props.isReadOnly ? props.isReadOnly : false}
                         />
                     )
@@ -404,17 +393,16 @@ export const TasksOnly: React.FC<TimeScaleType> = (props) => {
                                     key={task.id.toString()}
                                     element={task}
                                     dateInterval={props.dateInterval}
-                                    deleteTask={props.deleteTask ? props.deleteTask : ()=>{} }
-                                    setDrawerData={props.setDrawerData ? props.setDrawerData : ()=>{} }
-                                    showDrawer={props.showDrawer ? props.showDrawer : ()=>{} }
-                                    setInitialFormValues={props.setInitialFormValues ? props.setInitialFormValues : ()=>{} }
-                                    onComplete={props.onComplete ? props.onComplete : ()=>{}}
+                                    deleteTask={props.deleteTask ? props.deleteTask : () => { }}
+                                    setDrawerData={props.setDrawerData ? props.setDrawerData : () => { }}
+                                    showDrawer={props.showDrawer ? props.showDrawer : () => { }}
+                                    setInitialFormValues={props.setInitialFormValues ? props.setInitialFormValues : () => { }}
+                                    onComplete={props.onComplete ? props.onComplete : () => { }}
                                     isReadOnly={props.isReadOnly ? props.isReadOnly : false}
                                 />
                             } else return null
                         })}
                     </div>
-                    // </div>
                 )
             })}
         </>

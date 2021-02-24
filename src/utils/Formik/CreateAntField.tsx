@@ -130,9 +130,14 @@ export const AntTimePicker = !isMobile ? CreateAntField(TimePicker) : CreateAntF
 export const AntCheckbox = !isMobile ? CreateAntField(Checkbox) : CreateAntField(CheckboxItem)
 export const AntTextArea = !isMobile ? CreateAntField(TextArea) : CreateAntField(TextareaItem)
 
+type SelectOptionsType = {
+    name: string,
+    value: string
+}
+
 type MobileComponentType = {
     onInputChange: (value: any) => void,
-    selectOptions: Array<any>,
+    selectOptions: Array<SelectOptionsType>,
     AntComponent: any,
     onBlur: () => void,
     type: 'select' | 'date' | 'text' | 'number' | 'password' | 'time' | 'checkbox' | 'textarea',
@@ -184,7 +189,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
 
     let data: DataType
     if (props.selectOptions !== null && props.selectOptions !== undefined) {
-        data = props.selectOptions.map((item: any) => {
+        data = props.selectOptions.map((item: SelectOptionsType) => {
             return (
                 {
                     label: item.name,
@@ -233,9 +238,7 @@ const MobileComponent: React.FC<MobileComponentType> = (props) => {
                 data={data}
                 cols={1}
                 
-                // onOk={onOk}
                 {...onOkCheck}
-                // onPickerChange={onPickerChange}
                 {...onPickerChangeCheck}
                 onChange={props.type ? onInputChange : props.onChange}
             >

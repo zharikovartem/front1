@@ -210,19 +210,6 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                     <List
                         size="small"
                         bordered
-
-                        // dataSource={getTaskTreeItems(
-                        //     props.taskList,
-                        //     props.deleteTaskList,
-                        //     props.updateTaskList,
-                        //     showDrawer,
-                        //     setDrawerData,
-                        //     initialFormValues,
-                        //     setInitialFormValues,
-                        //     props.selectedTasks
-                        // )}
-                        // renderItem={item => <List.Item className="py-0" draggable>{item}</List.Item>}
-
                         dataSource={props.taskList}
                         renderItem={item => {
                             return (<TaskTreeBrowserItem
