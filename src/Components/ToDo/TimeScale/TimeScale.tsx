@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { TaskType } from '../../Types/types'
+// import { TaskType } from '../../Types/types'
+import { TaskType } from './../../../Types/types'
 import moment from 'moment'
 import { TimeScalePropsType } from './TimeScaleContainer'
 import { Divider, Spin, Tooltip, message } from 'antd'
 import TaskItem from './TaskItem/TaskItemContainer'
-import { sortTaskArrayByParams } from '../../utils/array-helpers'
+import { sortTaskArrayByParams } from '../../../utils/array-helpers'
 import { ListGroup } from 'react-bootstrap'
 
 export type OwnTaskTimeScaleType = {

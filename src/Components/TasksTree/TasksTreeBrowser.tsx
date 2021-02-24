@@ -8,6 +8,7 @@ import moment from "moment"
 import TaskTreeBrowserItem from './TaskTreeBrowserItemContainer'
 import RunTaskFormCall from './RunTask.tsx/RunTaskForm'
 import { NewTaskListType, TaskListType, NewTaskDataType } from '../../Types/types'
+import { checkActionsType } from './TaskListActions/TaskListActions'
 
 export type InitialDrewerDataType = {
     header: string,
@@ -91,8 +92,14 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                 description: data.phone_number,
                 date: values.date.format('YYYY-MM-DD'),
                 time: values.time.format('HH:mm:00'), 
-                user_id: props.userId
+                user_id: props.userId,
+                action: Number(runData.task_type),
+                action_data: {
+                    phone: data.phone_number,
+                    name: data.lead_name
+                }
             }
+            console.log(newToDo)
             props.createNewToDo(newToDo, true)
         }
     }
@@ -128,7 +135,9 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
     }
 
     const handleSubmit = (formProps: InitialValuesType) => {
-        const newTaskList: NewTaskListType = {
+        const data = checkActionsType(formProps)
+
+        let newTaskList: NewTaskListType = {
             name: formProps.name,
             task_type: formProps.task_type.toString(),
             user_id: props.userId,
@@ -136,6 +145,10 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
 
             descriptions: formProps.descriptions, 
             parent_id: formProps.parent_id ? formProps.parent_id : undefined,
+        }
+
+        if (data) {
+            newTaskList = {...newTaskList, data: data}
         }
 
         if (!drawerData.taskId) {
@@ -229,7 +242,8 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
                         <Formik
                             initialValues={{
                                 date: moment(),
-                                time: moment()
+                                time: moment(),
+                                action: 2
                             }}
                             onSubmit={runTaskSubmit}
                             enableReinitialize={true}

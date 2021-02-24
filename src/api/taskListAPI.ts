@@ -19,6 +19,7 @@ export const taskListAPI = {
         })
     },
     createNewTaskList(values: NewTaskListType) {
+        console.log(values)
         return instance.post<TaskListType>(`taskList`, values)
         .then(response => {
             return response.status === 200 ? response : null

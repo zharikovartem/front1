@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
 import TimeScale from './TimeScale'
-import {getTaskList} from './../../redux/taskReducer'
-import { AppStateType } from '../../redux/store'
+import {getTaskList} from './../../../redux/taskReducer'
+import { AppStateType } from '../../../redux/store'
 import { OwnTaskTimeScaleType } from './TimeScale'
 
 export type MapPropsType = ReturnType<typeof mapStateToProps>

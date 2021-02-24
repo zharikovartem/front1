@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
 import TaskItem, { OwnTaskItemPropsType } from './TaskItem'
-import {deleteTask, getTaskList, updateTask} from './../../../redux/taskReducer'
-import {AppStateType} from '../../../redux/store'
+import {deleteTask, getTaskList, updateTask} from './../../../../redux/taskReducer'
+import {AppStateType} from '../../../../redux/store'
 
 export type MapPropsType = ReturnType<typeof mapStateToProps>
 

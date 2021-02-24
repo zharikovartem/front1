@@ -1,7 +1,7 @@
 import { Card, Drawer } from 'antd'
 import React, { useEffect, useState } from 'react'
 import ToDoHeaderContainer from './ToDoHeader/ToDoHeaderContainer'
-import TimeScale from '../TimeScale/TimeScaleContainer'
+import TimeScale from './TimeScale/TimeScaleContainer'
 import { Formik } from 'formik'
 import ToDoForm from './ToDoForm/ToDoForm'
 import moment from "moment"

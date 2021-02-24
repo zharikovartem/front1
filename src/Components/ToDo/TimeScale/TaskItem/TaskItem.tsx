@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { Col, Row, Checkbox, Tooltip, Button, Spin } from 'antd'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import { ListGroup } from 'react-bootstrap'
-import { TaskType } from '../../../Types/types'
+import { TaskType } from '../../../../Types/types'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { TaskItemPropsType } from './TaskItemContainer'
+import ToDoActionsRouter from '../../ToDoActions/ToDoActionsRouter'
 
 export type OwnTaskItemPropsType = {
     element: TaskType,
@@ -58,6 +59,7 @@ const TaskItem: React.FC<TaskItemPropsType> = (props) => {
                 </Col>
                 { !props.isReadOnly ? 
                 <Col className="mr-auto ml-0 mr-sm-2 ml-sm-auto">
+                    <ToDoActionsRouter {...props.element}/>
                     <Button
                         type="primary"
                         shape="circle"

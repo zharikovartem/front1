@@ -26,8 +26,8 @@ const RunTaskFormCall: ((props: FormikProps<{}>) => ReactNode) = (props) => {
                 validate={validateRequired}
                 submitCount={props.submitCount}
             />
-            <button className="ant-btn ant-btn-primary ml-2">Add now</button>
-            <button className="ant-btn ant-btn-primary ml-2">Auto add by context</button>
+            <button type="button" className="ant-btn ant-btn-primary ml-2">Add now</button>
+            <button type="button" className="ant-btn ant-btn-primary ml-2">Auto add by context</button>
 
             <div className="submit-container">
                 <button className="ant-btn ant-btn-primary" type="submit">

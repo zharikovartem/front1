@@ -7,6 +7,7 @@ import { Formik } from 'formik'
 import { TaskTreeItemMobile } from './TaskTreeMobileItem'
 import { NewTimeByString } from '../../utils/Date/NewDeteByString'
 import { NewTaskListType, TaskListType } from '../../Types/types'
+import { checkActionsType } from './TaskListActions/TaskListActions'
 
 export type InitialDrewerDataType = {
     header: string,
@@ -76,13 +77,18 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     const [drawerData, setDrawerData] = useState(initialDrewerData)
 
     const handleSubmit = (formProps: InitialValuesType) => {
-        const newTaskList: NewTaskListType = {
+        const data = checkActionsType({...formProps, task_type: formProps.task_type[0]})
+        let newTaskList: NewTaskListType = {
             name: formProps.name,
             task_type: formProps.taskTypes[0].value?.toString(),
             descriptions: formProps.descriptions, 
             user_id: props.userId,
             parent_id: formProps.parent_id ? formProps.parent_id : undefined,
             time_to_complete: formProps.time_to_complete ? formProps.time_to_complete.toTimeString().split(' ')[0] : undefined,
+        }
+
+        if (data) {
+            newTaskList = {...newTaskList, data: data}
         }
 
         if (!drawerData.taskId) {

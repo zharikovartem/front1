@@ -1,7 +1,7 @@
 import { Collapse, Spin, List, Pagination, Button, Drawer } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { TaskType } from '../../../Types/types'
-import TimeScale from '../../TimeScale/TimeScale'
+import TimeScale from './../../ToDo/TimeScale/TimeScale'
 import ToDoHeader from '../../ToDo/ToDoHeader/ToDoHeader'
 import { CurrentUserPropsType } from './CurrentUserContainer'
 import UserDataForm from './UserDataForm'

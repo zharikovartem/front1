@@ -21,11 +21,14 @@ export type OwnTaskTreeBrowserItemType = {
 const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
 
     const onAddSubtask = (taskId: number) => {
+        console.log(taskId)
         props.setInitialFormValues({ ...props.initialValues, parent_id: taskId })
+        props.setDrawerData({header: 'add subtask', taskId: false})
         props.showDrawer()
     }
 
     const onEdit = (values: TaskListType) => {
+        console.log(values)
         props.setDrawerData({
             header: 'Edit: "' + values.name + '"',
             taskId: values.id
@@ -51,6 +54,7 @@ const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
                 ...JSON.parse(values.data)
             }
         }
+        console.log(newFormValues)
         props.setInitialFormValues(newFormValues)
         props.showDrawer()
     }
@@ -130,7 +134,7 @@ const CollapseItem: React.FC<CollapseItemType> = (props) => {
 
     if (!isLast) {
         return (
-            <List.Item className="py-0" draggable key={props.item.id}>
+            <List.Item className="p-0" draggable key={props.item.id}>
                 <Collapse key={String(props.item.id)} className="w-100" defaultActiveKey={[]} collapsible="header" ghost>
                     <Panel
                         header={<span key={String(props.item.id)} className="float-left pl-2" >{props.item.name}</span>}
