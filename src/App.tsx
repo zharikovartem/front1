@@ -92,7 +92,6 @@ const App = (props: MapPropsType & DispatchPropsType) => {
           <>
 
           <Route path={props.appLocation + 'users/:userId'} component={CurrentUser} />
-            {/* render={() => <CurrentUser />} /> */}
 
           <Route exact path={props.appLocation + 'users'}
             render={() => <Users />} />
