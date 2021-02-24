@@ -38,7 +38,12 @@ const menuData = (appLocation: string, userStatus: string | null): MenuDataType 
                 label: 'Analysis',
                 value: appLocation + 'analysis',
                 disabled: true,
-            }
+            },
+            {
+                label: 'Daily schedule',
+                value: appLocation + 'schedule',
+                disabled: false,
+            },
         ],
     }, {
         value: 'catalog',

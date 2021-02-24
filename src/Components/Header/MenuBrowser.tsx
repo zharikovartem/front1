@@ -13,8 +13,9 @@ const MenuBrowser: React.FC<MenuPropsType> = (props) => {
 
     const getMenuItem = (childs: Array<MenuDataItemType>):Array<JSX.Element | undefined> => {
         const menuItems = childs.map( (item: MenuDataItemType) => {
+            const disabled = item.disabled ? {disabled: true} : null
             return (
-                <Menu.Item key={item.value}>
+                <Menu.Item key={item.value} {...disabled}>
                     <Link to={item.value}>{item.label}</Link>
                 </Menu.Item>
             )
@@ -60,6 +61,12 @@ const MenuBrowser: React.FC<MenuPropsType> = (props) => {
                 >
                     <Menu.Item key="login" onClick={onLogout}>
                             Logout
+                    </Menu.Item>
+                    <Menu.Item key="info" onClick={()=>{}}>
+                            Info
+                    </Menu.Item>
+                    <Menu.Item key="help" onClick={()=>{}}>
+                            Help
                     </Menu.Item>
                 </SubMenu >
             }

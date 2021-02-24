@@ -7,7 +7,7 @@ import 'antd/dist/antd.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'antd-mobile/dist/antd-mobile.css'
 import store, { AppStateType } from './redux/store'
-import { Layout, Spin } from 'antd'
+import { Layout, Spin, Result, Button } from 'antd'
 import { compose } from 'redux'
 import { initializeApp, addLocation } from './redux/appReducer'
 import { credsType, login } from './redux/authReducer'
@@ -22,123 +22,126 @@ import CurrentUser from './Components/Users/CurrentUser/CurrentUserContainer'
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
-  initializeApp: () => void,
-  addLocation: (location: string) => void,
-  login: (data: credsType) => void,
+    initializeApp: () => void,
+    addLocation: (location: string) => void,
+    login: (data: credsType) => void,
 }
 
 const App = (props: MapPropsType & DispatchPropsType) => {
-  const [location, setLocation] = useState(useLocation().pathname)
+    const [location, setLocation] = useState(useLocation().pathname)
 
-  useEffect(() => {
+    useEffect(() => {
+        if (!props.initialized) {
+            let instanseCreds = parseQueryString()
+            if (instanseCreds.email && instanseCreds.password) {
+                instanseCreds.remember = true
+                props.login(instanseCreds)
+            }
+
+            if (location === '/front1/') {
+                props.addLocation(location)
+                setLocation(location)
+            }
+            props.initializeApp()
+        }
+    }, [props, location])
+
+
     if (!props.initialized) {
-      let instanseCreds = parseQueryString()
-      if (instanseCreds.email && instanseCreds.password) {
-        instanseCreds.remember = true
-        props.login(instanseCreds)
-      }
-
-      if (location === '/front1/') {
-        props.addLocation(location)
-        setLocation(location)
-      }
-      props.initializeApp()
+        return <Spin key="spin" size="large" />
     }
-  }, [props, location])
 
+    console.log(props.appLocation)
 
-  if (!props.initialized) {
-    return <Spin key="spin" size="large" />
-  }
+    return (
+        <Layout>
+            <Header />
+            <Switch>
+                {!props.isAuth ?
+                    <Route exact path={props.appLocation}
+                        render={() => <Redirect to={props.appLocation + 'login'} />} />
+                    :
+                    <Route exact path={props.appLocation}
+                        render={() => <Redirect to={props.appLocation + 'toDoList'} />} />
+                }
 
-  return (
-    <Layout>
-      <Header />
-      <Switch>
-        {!props.isAuth ?
-          <Route exact path={props.appLocation}
-            render={() => <Redirect to={props.appLocation + 'login'} />} />
-          :
-          <Route exact path={props.appLocation}
-            render={() => <Redirect to={props.appLocation + 'toDoList'} />} />
-        }
+                {props.isAuth ?
+                    <Route exact path={props.appLocation + 'login'}
+                        render={() => <Redirect to={props.appLocation + 'toDoList'} />}
+                    />
+                    :
+                    null
+                }
 
-        {props.isAuth ?
-          <Route exact path={props.appLocation + 'login'}
-            render={() => <Redirect to={props.appLocation + 'toDoList'} />}
-          />
-          :
-          null
-        }
+                <Route path={props.appLocation + 'login'}
+                    render={() => <Login />} />
 
-        <Route path={props.appLocation + 'login'}
-          render={() => <Login />} />
+                <Route path={props.appLocation + 'toDoList'}
+                    render={() => <ToDoList />} />
 
-        <Route path={props.appLocation + 'toDoList'}
-          render={() => <ToDoList />} />
+                <Route path={props.appLocation + 'tasksTree'}
+                    render={() => <TasksTree />} />
 
-        <Route path={props.appLocation + 'tasksTree'}
-          render={() => <TasksTree />} />
+                <Route path={props.appLocation + 'orders'}
+                    render={() => <Orders />} />
 
-        <Route path={props.appLocation + 'orders'}
-          render={() => <Orders />} />
+                <Route path={props.appLocation + 'register'}
+                    render={() => <Register />} />
 
-        <Route path={props.appLocation + 'register'}
-          render={() => <Register />} />
+                <Route path={props.appLocation + 'users/:userId'}
+                    component={props.userStatus === 'admin' || props.userStatus === 'superAdmin' ? CurrentUser : Page404} />
 
+                <Route exact path={props.appLocation + 'users'}
+                    component={props.userStatus === 'admin' || props.userStatus === 'superAdmin' ? Users : Page404} />
 
+                <Route path={props.appLocation + '*'} component={Page404} />
 
-        {props.userStatus === 'admin' || props.userStatus === 'superAdmin' ?
-          <>
-
-          <Route path={props.appLocation + 'users/:userId'} component={CurrentUser} />
-
-          <Route exact path={props.appLocation + 'users'}
-            render={() => <Users />} />
-
-          </>
-          :
-          null
-        }
-
-
-        <Route path={props.appLocation + '*'}
-          render={() => <div>404 NOT FOUND</div>} />
-      </Switch>
-    </Layout>
-  )
+            </Switch>
+        </Layout>
+    )
 }
 
 const mapStateToProps = (state: AppStateType) => ({
-  initialized: state.app.initialized,
-  appLocation: state.app.location,
-  isAuth: state.auth.isAuth,
-  userStatus: state.auth.user?.status
+    initialized: state.app.initialized,
+    appLocation: state.app.location,
+    isAuth: state.auth.isAuth,
+    userStatus: state.auth.user?.status
 })
 
 let AppContainer = compose<React.ComponentType>(
-  withRouter,
-  connect(mapStateToProps, { initializeApp, addLocation, login }))(App)
+    withRouter,
+    connect(mapStateToProps, { initializeApp, addLocation, login }))(App)
 
 const MainApp = () => {
-  return (
-    <BrowserRouter>
-      <Provider store={store}>
-        <div className={isMobile ? "" : "container"}>
-          <AppContainer />
-        </div>
-      </Provider>
-    </BrowserRouter>
-  )
+    return (
+        <BrowserRouter>
+            <Provider store={store}>
+                <div className={isMobile ? "" : "container"}>
+                    <AppContainer />
+                </div>
+            </Provider>
+        </BrowserRouter>
+    )
 }
 
 export default MainApp
 
 const parseQueryString = (): any => {
-  const params: any = {}
-  document.location.search.substr(1).split('&').forEach((pair) => {
-    const [key, value] = pair.split('=')
-    params[key] = value
-  })
-  return params;
+    const params: any = {}
+    document.location.search.substr(1).split('&').forEach((pair) => {
+        const [key, value] = pair.split('=')
+        params[key] = value
+    })
+    return params;
 };
+
+const Page404: React.FC<any> = (props) => {
+    return (
+        <Result
+            status="404"
+            title="404"
+            subTitle="Sorry, the page you visited does not exist."
+            extra={<Button type="primary">Back Home</Button>}
+        />
+    )
+}
