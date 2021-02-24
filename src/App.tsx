@@ -51,8 +51,6 @@ const App = (props: MapPropsType & DispatchPropsType) => {
         return <Spin key="spin" size="large" />
     }
 
-    console.log(props.appLocation)
-
     return (
         <Layout>
             <Header />

@@ -29,14 +29,13 @@ const CallAction: React.FC<any> = (props) => {
         setIsCallVisible(false)
     }
 
-    const handleSubmit = () => {
-
+    const handleSubmit = (formProps: any) => {
+        console.log(formProps)
     }
 
     const data = JSON.parse(props.action_data)
     let phone = 'tel:'
 
-    console.log(data)
     if (data) {
         phone = phone + data.phone
     }
@@ -96,7 +95,7 @@ const CallResultForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
             Call result:
             <Field
                 component={AntTextArea}
-                name="descriptions"
+                name="call_description"
                 type="textarea"
                 label=""
                 submitCount={props.submitCount}
