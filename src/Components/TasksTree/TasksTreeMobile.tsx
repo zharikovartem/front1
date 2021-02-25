@@ -77,10 +77,13 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
     const [drawerData, setDrawerData] = useState(initialDrewerData)
 
     const handleSubmit = (formProps: InitialValuesType) => {
-        const data = checkActionsType({...formProps, task_type: formProps.task_type[0]})
+        console.log(formProps)
+        const data = checkActionsType({...formProps, task_type: Number(formProps.task_type)})
+        console.log(data)
         let newTaskList: NewTaskListType = {
             name: formProps.name,
-            task_type: formProps.taskTypes[0].value?.toString(),
+            // task_type: formProps.taskTypes[0].value?.toString(),
+            task_type: formProps.task_type.toString(),
             descriptions: formProps.descriptions, 
             user_id: props.userId,
             parent_id: formProps.parent_id ? formProps.parent_id : undefined,
@@ -100,9 +103,20 @@ const TasksTreeMobile: React.FC<TasksTreePropsType> = (props) => {
 
     const onAdd = () => {
         if (props.selectedTasks.length !== 0) {
-            setDrawerData({ ...drawerData, taskId: false })
+            console.log(
+                props.taskList.filter( item=> item.id === Number(props.selectedTasks[props.selectedTasks.length - 1]))[0].name
+            )
+            setDrawerData({ 
+                header: props.taskList.filter( item=> item.id === Number(props.selectedTasks[props.selectedTasks.length - 1]))[0].name,
+                taskId: false 
+            })
             setInitialFormValues({ ...getInitialValues(props.taskList), parent_id: Number(props.selectedTasks[props.selectedTasks.length - 1]) })
         } else {
+            
+            setDrawerData({ 
+                header: 'Task Tree',
+                taskId: false 
+            })
             setInitialFormValues({...getInitialValues(props.taskList), parent_id: initialFormValues.parent_id })
         }
 

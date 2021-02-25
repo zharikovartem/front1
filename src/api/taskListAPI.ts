@@ -22,10 +22,12 @@ export const taskListAPI = {
         console.log(values)
         return instance.post<TaskListType>(`taskList`, values)
         .then(response => {
+            console.log(response)
             return response.status === 200 ? response : null
         })
         .catch(err => {
             if (err.response) {
+                console.log(err.response)
                 return err.response
             } else if (err.request) {
             } else {
@@ -47,8 +49,10 @@ export const taskListAPI = {
         })
     },
     updateTask(values: NewTaskListType, taskId: number) {
+        console.log(values)
         return instance.put<TaskListType>(`taskList/${taskId}`, values)
         .then(response => {
+            console.log(response)
             return response.status === 200 ? response : null
         })
         .catch(err => {

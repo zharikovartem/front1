@@ -4,6 +4,7 @@ export type FormPropsDataType = {
     phone_number?: string
 }
 export const checkActionsType = (formPropsData: FormPropsDataType):any => {
+    console.log(Number(formPropsData.task_type))
     switch ( Number(formPropsData.task_type) ) {
         case 2:
             return {

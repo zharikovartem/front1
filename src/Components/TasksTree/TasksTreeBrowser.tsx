@@ -136,7 +136,7 @@ const TasksTreeBrowser: React.FC<TasksTreePropsType> = (props) => {
 
     const handleSubmit = (formProps: InitialValuesType) => {
         const data = checkActionsType(formProps)
-
+        console.log(formProps)
         let newTaskList: NewTaskListType = {
             name: formProps.name,
             task_type: formProps.task_type.toString(),

@@ -15,10 +15,17 @@ const NewTaskTreeForm: ((props: FormikProps<{}>) => ReactNode) = (props) => {
     useEffect(() => {
         const values: any = props.values
         const taskTypes = values.task_type
-        setTaskType(taskTypes)
+        if (Array.isArray(taskTypes)) {
+            setTaskType(taskTypes[0])
+        } else {
+            setTaskType(taskTypes)
+        }
+        
     }, [props.values])
 
     const onSelectTaskType = (val: string) => {}
+
+    console.log(taskType)
     
     return (
         <Form

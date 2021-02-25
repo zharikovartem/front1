@@ -49,15 +49,35 @@ export const TaskTreeItemMobile: React.FC<OwnTaskTreeItemsType> = (props) => {
 
         const new_time_to_complete = NewTimeByString( task.time_to_complete )
 
-        props.setInitialFormValues({
+        let newFormValues = {
             ...props.initialFormValues,
             name: task.name,
             time_to_complete: new_time_to_complete,
             descriptions: task.descriptions ? task.descriptions : undefined,
             parent_id: task.parent_id ? task.parent_id : undefined,
-            // task_type:  Number(task.task_type) 
             task_type:  [Number(task.task_type)]
-        })
+        }
+
+        if (task.data) {
+            newFormValues = {
+                ...newFormValues,
+                ...JSON.parse(task.data)
+            }
+        }
+
+        console.log(newFormValues)
+
+        props.setInitialFormValues(newFormValues)
+
+        // props.setInitialFormValues({
+        //     ...props.initialFormValues,
+        //     name: task.name,
+        //     time_to_complete: new_time_to_complete,
+        //     descriptions: task.descriptions ? task.descriptions : undefined,
+        //     parent_id: task.parent_id ? task.parent_id : undefined,
+        //     // task_type:  Number(task.task_type) 
+        //     task_type:  [Number(task.task_type)]
+        // })
 
         props.showDrawer()
     }

@@ -40,6 +40,7 @@ const TaskTreeBrowserItem: React.FC<TaskTreeBrowserItemType> = (props) => {
         } else {
             day.hours(0).minutes(0).seconds(0).milliseconds(0);
         }
+        
         let newFormValues: InitialValuesType = {
             ...props.initialFormValues,
             name: values.name,
